@@ -1,6 +1,6 @@
 # Social Streets
 
-Social Streets is a website for business owners to submit their public serices and events to be published to magazines.
+Social Streets is a website for business owners to submit their public services and events to be published to magazines.
 
 #### [Preview Prototype](https://www.figma.com/proto/JH3pC82GzTuakT0GD7dJqQiR/Social-Streets?node-id=0%3A1&scaling=scale-down)
 
