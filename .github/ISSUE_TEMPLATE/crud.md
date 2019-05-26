@@ -9,8 +9,8 @@ assignees: ''
 
 ## title
 
-- criteria
+- acceptance criteria
 
 ---
 
-criteria descriped
+criteria description
