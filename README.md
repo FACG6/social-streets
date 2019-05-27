@@ -1,3 +1,14 @@
+[![Build Status](https://travis-ci.org/FACG6/social-streets.png?branch=master)](https://travis-ci.org/FACG6/social-streets)
+[![issues](https://badgen.net/github/issues/facg6/social-streets)](https://github.com/facg6/social-streets/issues)
+[![opened issues](https://badgen.net/github/open-issues/facg6/social-streets)](https://github.com/facg6/social-streets/issues)
+[![opened PRs](https://badgen.net/github/open-prs/facg6/social-streets)](https://github.com/facg6/social-streets/issues)
+![status](https://badgen.net/github/status/facg6/social-streets)
+[![code style](https://badgen.net/badge/code%20style/Airbnb/pink)](https://github.com/airbnb/javascript)
+![platform](https://badgen.net/badge/platform/web/black)
+![node version](https://badgen.net/badge/node/%3E=8.0.0/green)
+![npm version](https://badgen.net/badge/npm/v5.6.0/red)
+![react version](https://badgen.net/badge/react/%3E=16.8.6/blue)
+
 # Social Streets
 
 Social Streets is a website for business owners to submit their public services and events to be published to magazines.
