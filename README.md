@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/FACG6/social-streets.png?branch=master)](https://travis-ci.org/FACG6/social-streets)
-[![issues](https://badgen.net/github/issues/facg6/social-streets)](https://github.com/facg6/social-streets/issues)
 [![opened issues](https://badgen.net/github/open-issues/facg6/social-streets)](https://github.com/facg6/social-streets/issues)
 [![opened PRs](https://badgen.net/github/open-prs/facg6/social-streets)](https://github.com/facg6/social-streets/issues)
 ![status](https://badgen.net/github/status/facg6/social-streets)
