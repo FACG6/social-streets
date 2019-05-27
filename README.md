@@ -18,7 +18,8 @@ As a user I want to login into my account or create a new account, I want to vie
 
 ## Schema ##
 
-![download](https://user-images.githubusercontent.com/35868173/58380603-ae379180-7fbb-11e9-8b68-2be0b192f03c.png)
+![download (3)](https://user-images.githubusercontent.com/35868173/58382227-6bcc7f80-7fd0-11e9-85d7-deb240171ca8.png)
+
 
 ## Tech Stack
 
