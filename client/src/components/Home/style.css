@@ -20,6 +20,13 @@
 .home--button {
   margin-bottom: 1.3rem;
   border-radius: 3px;
-  background: #D65050;
+  background-color: #D65050;
   border: none;
+  color: #ffffff;
+  transition: background-color 2s ease;
+}
+
+.home--button:hover {
+  background-color: rgba(214, 80, 80, 0.9);
+  color: #ffffff;
 }
