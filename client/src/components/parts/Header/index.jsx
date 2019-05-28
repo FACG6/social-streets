@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import * as Logo from "./logo.png";
-import HamburgerButton from "../parts/HamburgerButton";
+import HamburgerButton from "../HamburgerButton";
 import "./style.css";
 
 function Menu({ show }) {
@@ -31,6 +31,30 @@ function Menu({ show }) {
   else return <Fragment />;
 }
 
+function Navbar() {
+  return (
+    <Router>
+      <div className="header__nav">
+        <Link to="/profile" className="header__nav-text">
+          Profile
+        </Link>
+        <Link to="/new-post" className="header__nav-text">
+          Create Post
+        </Link>
+        <Link to="/posts/live" className="header__nav-text">
+          Live Posts
+        </Link>
+        <Link to="/posts/draft" className="header__nav-text">
+          Draft
+        </Link>
+        <a href="/logout" className="header__nav-text">
+          Log out
+        </a>
+      </div>
+    </Router>
+  );
+}
+
 export default class Header extends Component {
   state = {
     showMenu: false
@@ -48,10 +72,14 @@ export default class Header extends Component {
       <header className="header">
         <img src={Logo} alt="Logo" className="header__logo" />
         {showHamburger ? (
-          <HamburgerButton
-            className="header__hamburger-button"
-            toggleMenu={this.toggleMenu}
-          />
+          window.innerWidth <= 500 ? (
+            <HamburgerButton
+              className="header__hamburger-button"
+              toggleMenu={this.toggleMenu}
+            />
+          ) : (
+            <Navbar />
+          )
         ) : (
           <Fragment />
         )}
