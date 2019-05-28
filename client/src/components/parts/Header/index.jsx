@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import * as Logo from "./logo.png";
-import HamburgerButton from "./../HamburgerButton";
+import HamburgerButton from "../parts/HamburgerButton";
 import "./style.css";
 
 function Menu({ show }) {
@@ -13,14 +13,14 @@ function Menu({ show }) {
           <Link to="/profile" className="header__menu-text">
             Profile
           </Link>
-          <Link to="/create-post" className="header__menu-text">
+          <Link to="/new-post" className="header__menu-text">
             Create Post
           </Link>
           <Link to="/posts/live" className="header__menu-text">
             Live Posts
           </Link>
-          <Link to="/posts/drafts" className="header__menu-text">
-            Drafts
+          <Link to="/posts/draft" className="header__menu-text">
+            Draft
           </Link>
           <a href="/logout" className="header__menu-text">
             Log out
