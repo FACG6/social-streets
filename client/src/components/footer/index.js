@@ -4,11 +4,12 @@ import { Icon } from "antd";
 
 export const Footer = () => {
   const socialLinks = {
-    FB: "https://www.facebook.com/socialstreetsco",
+    fb: "https://www.facebook.com/socialstreetsco",
     instagram: "https://www.instagram.com/socialstreetsco/",
     twitter: "https://twitter.com/socialstreetsco",
     linkedIn: "https://www.linkedin.com/company/10668755/"
   };
+  
   return (
     <footer className="footer">
       <a
