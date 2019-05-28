@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import * as Logo from "./logo.png";
-import HamburgerButton from "../parts/HamburgerButton";
+import HamburgerButton from "../HamburgerButton";
 import "./style.css";
 
 function Menu({ show }) {
