@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import * as Logo from "./logo.png";
@@ -28,7 +28,7 @@ function Menu({ show }) {
         </div>
       </Router>
     );
-  else return <></>;
+  else return <Fragment />;
 }
 
 export default class Header extends Component {
@@ -53,7 +53,7 @@ export default class Header extends Component {
             toggleMenu={this.toggleMenu}
           />
         ) : (
-          <></>
+          <Fragment />
         )}
         <Menu show={showMenu} />
       </header>

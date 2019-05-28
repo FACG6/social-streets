@@ -17,18 +17,16 @@ export default class HamburgerButton extends Component {
     const { toggled } = this.state;
     const { className } = this.props || "";
     return (
-      <>
-        <div
-          className={`hamburger-container ${className} ${
-            toggled ? "hamburger-container--change" : ""
-          }`}
-          onClick={this.toggleHamburger}
-        >
-          <div className="hamburger-container__bar1" />
-          <div className="hamburger-container__bar2" />
-          <div className="hamburger-container__bar3" />
-        </div>
-      </>
+      <div
+        className={`hamburger-container ${className} ${
+          toggled ? "hamburger-container--change" : ""
+        }`}
+        onClick={this.toggleHamburger}
+      >
+        <div className="hamburger-container__bar1" />
+        <div className="hamburger-container__bar2" />
+        <div className="hamburger-container__bar3" />
+      </div>
     );
   }
 }
