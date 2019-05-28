@@ -6,7 +6,8 @@ function Home() {
   return (
     <section className='home'>
       <h1 className='home--heading'>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+        Aenean commodo
       </h1>
       <div className='home--buttons-container'>
         <Button block className='home--button'>Login</Button>
