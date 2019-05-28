@@ -8,7 +8,7 @@
 }
 
 .header__logo {
-    width: calc(100% - 40px);
+    width: 300px;
 }
 
 .header__hamburger-button {
@@ -31,4 +31,16 @@
     text-transform: uppercase;
     font-family: 'Open Sans', sans-serif;
     margin-bottom: 30px;
+}
+
+.header__nav {
+    margin-top: 30px;
+}
+
+.header__nav-text {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0 20px;
+    font-size: 18px;
+    color: #231f20;
+    font-weight: lighter;
 }
