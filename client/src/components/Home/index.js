@@ -9,8 +9,8 @@ function Home() {
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
       </h1>
       <div className='home--buttons-container'>
-        <Button type='primary' block className='home--button'>Login</Button>
-        <Button type='primary' block className='home--button'>Create Profile</Button>
+        <Button block className='home--button'>Login</Button>
+        <Button block className='home--button'>Create Profile</Button>
       </div>
     </section>
   )
