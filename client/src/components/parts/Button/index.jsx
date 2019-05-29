@@ -2,9 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./style.css";
 
-export default function Button({ children, onClick, className }) {
+export default function Button({
+  children,
+  onClick = undefined,
+  className = ""
+}) {
   return (
-    <div className={`btn ${className}`} type="div" onClick={onClick}>
+    <div className={`btn ${className}`} onClick={onClick}>
       {children}
     </div>
   );
@@ -12,11 +16,6 @@ export default function Button({ children, onClick, className }) {
 
 Button.propTypes = {
   children: PropTypes.any.isRequired,
-  onClick: PropTypes.instanceOf(Function),
+  onClick: PropTypes.func,
   className: PropTypes.string
-};
-
-Button.defaultProps = {
-  onClick: undefined,
-  className: ""
 };
