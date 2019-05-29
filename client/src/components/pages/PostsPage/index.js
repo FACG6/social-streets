@@ -19,8 +19,8 @@ export default function Posts() {
           </Button>
         </Link>
         <div className='posts--post-types'>
-          <PostButton postType='Live Post' />
-          <PostButton postType='Draft Post' />
+          <PostButton path='/posts/live' postType='Live Post' />
+          <PostButton path='/posts/draft' postType='Draft Post' />
         </div>
       </section>
     </Router >
