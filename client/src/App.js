@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Personal from './component/contanier/Personal_Profile'
+import Personal from './components/pages/personalProfile'
 
 function App() {
   return (
