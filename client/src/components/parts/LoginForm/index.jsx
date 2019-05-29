@@ -9,9 +9,6 @@ import "antd/dist/antd.css";
 class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.emailInput = createRef();
-    this.passwordInput = createRef();
   }
 
   handleSubmit = e => {
@@ -19,35 +16,31 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
+        fetch("/login", { method: "POST", body: JSON.stringify(values) });
       }
     });
   };
-
-  handleSubmit() {
-    const user = JSON.stringify({
-      email: this.emailInput.current.value,
-      password: this.passwordInput.current.value
-    });
-    fetch("/login", { method: "POST", body: user });
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <Form.Item>
+        <Form.Item label="Email Address">
           {getFieldDecorator("username", {
-            rules: [{ required: true, message: "Please input your username!" }]
+            rules: [
+              { required: true, message: "Email address is required !" },
+              { type: "email", message: "Please enter a valid email address" }
+            ]
           })(
             <Input
               prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Username"
+              placeholder="example@example.com"
             />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator("password", {
-            rules: [{ required: true, message: "Please input your Password!" }]
+            rules: [{ required: true, message: "Please enter your Password !" }]
           })(
             <Input
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -59,24 +52,21 @@ class LoginForm extends Component {
         <Form.Item>
           {getFieldDecorator("remember", {
             valuePropName: "checked",
-            initialValue: true
+            initialValue: false
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-          {/* <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-          >
-            Log in
-          </Button> */}
-          <Button onClick={this.handleSubmit}>Log in</Button>
-          Or
-          <Router>
-            <Link to="/signup">register now!</Link>
-          </Router>
         </Form.Item>
+        <div>
+          <Button type="submit">Log in</Button>
+          <Router>
+            <span className="form--create-acc">
+              Don't have an account?{" "}
+              <Link to="/signup" className="sign-up">
+                Sign up
+              </Link>{" "}
+              now
+            </span>
+          </Router>
+        </div>
       </Form>
     );
   }
