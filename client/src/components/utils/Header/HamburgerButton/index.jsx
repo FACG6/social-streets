@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 import "./style.css";
 
 export default class HamburgerButton extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      toggled: false
-    };
-  }
+  state = {
+    toggled: false
+  };
 
   toggleHamburger = () => {
     const { toggled } = this.state;
-    const { toggleMenu } = this.props;
-    this.setState({ toggled: !toggled }, toggleMenu);
+    const { toggleMenuHandler } = this.props;
+    this.setState({ toggled: !toggled }, toggleMenuHandler);
   };
 
   render() {
@@ -26,9 +24,11 @@ export default class HamburgerButton extends Component {
         }`}
         onClick={this.toggleHamburger}
       >
-        <div className="hamburger-container--bar hamburger-container--bar1" />
-        <div className="hamburger-container--bar hamburger-container--bar2" />
-        <div className="hamburger-container--bar hamburger-container--bar3" />
+        {[1, 2, 3].map(value => (
+          <div
+            className={`hamburger-container--bar hamburger-container--bar${value}`}
+          />
+        ))}
       </div>
     );
   }

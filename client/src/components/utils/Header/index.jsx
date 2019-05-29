@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 import Menu from "./Menu";
-import * as Logo from "./logo.png";
+import * as Logo from "assets/logo.png";
 import HamburgerButton from "./HamburgerButton";
 import "./style.css";
 
 export default class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showMenu: false
-    };
-  }
+  state = {
+    showMenu: false
+  };
 
-  toggleMenu = () => {
+  toggleMenuHandler = () => {
     const { showMenu } = this.state;
     this.setState({ showMenu: !showMenu });
   };
@@ -27,7 +25,7 @@ export default class Header extends Component {
         {showHamburger ? (
           <HamburgerButton
             className="header--hamburger-button"
-            toggleMenu={this.toggleMenu}
+            toggleMenuHandler={this.toggleMenuHandler}
           />
         ) : null}
         <Menu show={showMenu} />
