@@ -2,6 +2,10 @@
   color: #e74c3c;
 }
 
-.main--postType>.ant-select-selection {
+.ant-upload, .ant-btn {
+  width: 100%
+}
+
+.ant-select-selection, .ant-input {
   background-color: #fafafa;
 }
