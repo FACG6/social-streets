@@ -1,6 +1,6 @@
 .posts {
-  padding: 5rem 1rem;
-  width: 90%;
+  padding-top: 5rem;
+  width: 85%;
   margin: 0 auto;
   flex-grow: 2;
 }
@@ -15,7 +15,7 @@
   outline: none;
 }
 
-.posts__buttons-container {
+.posts__post-types {
   display: flex;
   flex-direction: column;
 }

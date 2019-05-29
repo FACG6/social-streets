@@ -11,9 +11,9 @@ export default function Posts() {
           <button className='posts__button posts__button--pink'>
             <Icon className='posts__icon posts__plus-icon' type='plus' />
             New Post
-      </button>
+          </button>
         </Link>
-        <div className='posts__buttons-container'>
+        <div className='posts__post-types'>
           <Link to='/posts/live'>
             <button className='posts__button posts__button--white'>
               <Icon className='posts__icon posts__form-icon' type='form' />
