@@ -1,10 +1,11 @@
 import React from "react";
+import { Divider, Select } from "antd";
+import { eventTypeValues, eventTopicValues } from "./dumyData";
+import PropTypes from "prop-types";
+
 import EventFrom from "./Event";
 import SocialBusiness from "./SocialBusiness";
 import "./style.css";
-import { Divider } from "antd";
-import { Select } from "antd";
-import { eventTypeValues, eventTopicValues } from "./dumyData";
 
 const { Option } = Select;
 
@@ -50,5 +51,10 @@ class CreatPostPage extends React.Component {
     );
   }
 }
+
+EventFrom.propTypes = {
+  eventTopicValues: PropTypes.array.isRequired,
+  eventTypeValues: PropTypes.array.isRequired
+};
 
 export default CreatPostPage;

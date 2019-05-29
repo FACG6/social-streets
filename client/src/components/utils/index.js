@@ -1,2 +1,5 @@
 import Options from "components/utils/Option";
-export { Options };
+import Footer from "./footer";
+import Anchor from "./anchor";
+import Button from "./Button";
+export { Footer, Anchor, Options, Button };

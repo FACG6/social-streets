@@ -7,13 +7,16 @@ import {
   Tooltip,
   Icon,
   Select,
-  Button,
   DatePicker,
   AutoComplete,
   InputNumber,
-  Upload
+  Upload,
+  Divider,
+  Card,
+  Button
 } from "antd";
 
+import { Button as Btn } from "components/utils";
 const { TextArea } = Input;
 const AutoCompleteOption = AutoComplete.Option;
 
@@ -210,10 +213,52 @@ class RegistrationForm extends React.Component {
             </Upload>
           )}
         </Form.Item>
+        <Divider style={{ margin: "20px 0" }} />
+        <Form.Item label={<span>Focus Keyword</span>}>
+          {getFieldDecorator("title", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your keyword!",
+                whitespace: true
+              }
+            ]
+          })(<Input placeholder="Your main keyword" />)}
+        </Form.Item>
+        <Card
+          title="Event Title"
+          bordered={true}
+          style={{ width: "100%", marginBottom: "20px" }}
+        >
+          <Form.Item
+            label={<span style={{ fontSize: "15px" }}>Meta Description</span>}
+          >
+            {getFieldDecorator("metaDescription", {
+              rules: [
+                {
+                  required: true,
+                  message: "Please input your Meta Description!",
+                  whitespace: true
+                }
+              ]
+            })(
+              <>
+                <span style={{ color: "#277839" }}>
+                  www.socialstreets.co/events/festival
+                </span>
+                <TextArea
+                  placeholder="Your main Meta Description"
+                  autosize={{ minRows: 5, maxRows: false }}
+                />
+              </>
+            )}
+          </Form.Item>
+        </Card>
+
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Btn onClick={() => {}} type="primary" htmlType="submit">
             Register
-          </Button>
+          </Btn>
         </Form.Item>
       </Form>
     );
