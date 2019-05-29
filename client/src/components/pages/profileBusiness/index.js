@@ -1,28 +1,68 @@
 import React from 'react'
 import { Form, Input, AutoComplete, Cascader, Select } from 'antd'
 
-import Button from '../../utils/Button'
+// import Button from 'components/utils'
 import { residences, BusinesTypeValues } from './static'
-import Options from "../../utils/option";
+import Options from "components/utils/option"
 import 'antd/dist/antd.css'
-// import './style.css'
+import json from './country.json'
+
+console.log(Object.keys(json))
 
 const AutoCompleteOption = AutoComplete.Option;
 
 class BusinessForm extends React.Component {
 
   state = {
-    autoCompleteResult: []
+    autoCompleteResultWebsite: [],
+    autoCompleteResultCuntry: [],
+    autoCompleteResultCity: [],
+    country: ''
   };
 
   handleWebsiteChange = value => {
-    let autoCompleteResult;
+    let autoCompleteResultWebsite;
     if (!value) {
-      autoCompleteResult = [];
+      autoCompleteResultWebsite = [];
     } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
+      autoCompleteResultWebsite = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
     }
-    this.setState({ autoCompleteResult });
+    this.setState({ autoCompleteResultWebsite });
+  };
+
+  handleCuntryChange = value => {
+    let autoCompleteResultCuntry;
+    if (!value) {
+      autoCompleteResultCuntry = [];
+    } else {
+      const countries = Object.keys(json)
+      let data = countries.filter((country) => {
+        return country.toLowerCase().startsWith(value.toLowerCase())
+      })
+      autoCompleteResultCuntry = data.map(domain => `${domain}`);
+    }
+    this.setState(() => {
+      return {
+        autoCompleteResultCuntry,
+        country: value
+      }
+    });
+  };
+
+  handleCityChange = value => {
+    const { country } = this.state
+    let autoCompleteResultCity;
+    if (!value) {
+      autoCompleteResultCity = [];
+    } else {
+      let data = json[country].filter((city) => {
+        return city.toLowerCase().includes(value.toLowerCase());
+      })
+      autoCompleteResultCity = data.map(domain => `${domain}`);
+    }
+    this.setState(() => {
+      return { autoCompleteResultCity }
+    });
   };
 
   handleSubmit = e => {
@@ -36,7 +76,7 @@ class BusinessForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
+    const { autoCompleteResultWebsite, autoCompleteResultCuntry, autoCompleteResultCity } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -61,8 +101,16 @@ class BusinessForm extends React.Component {
       },
     };
 
-    const websiteOptions = autoCompleteResult.map(website => (
+    const websiteOptions = autoCompleteResultWebsite.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
+    ));
+
+    const CountryOptionss = autoCompleteResultCuntry.map(country => (
+      <AutoCompleteOption key={country}>{country}</AutoCompleteOption>
+    ));
+
+    const cityOptionsss = autoCompleteResultCity.map(city => (
+      <AutoCompleteOption key={city}>{city}</AutoCompleteOption>
     ));
 
     return (
@@ -120,13 +168,35 @@ class BusinessForm extends React.Component {
           )}
         </Form.Item>
 
-        <Form.Item label="Adress" className='form--item'>
-          {getFieldDecorator('residence', {
-            initialValue: ['Please', 'hangzhou', 'xihu'],
+        <Form.Item label="Country" className='form--item'>
+          {getFieldDecorator('country', {
             rules: [
-              { type: 'array', required: true, message: 'Please select your Adress!' },
+              {
+                type: 'string',
+                message: 'The Country Name should be string!',
+              },
+              {
+                whitespace: true,
+                message: 'Delete the spaces!'
+              },
+              {
+                min: 3,
+                message: 'Country Name must be 3 charcter at least!',
+              },
+              {
+                required: true,
+                message: 'Please inter your Country Name!',
+              },
             ],
-          })(<Cascader options={residences} />)}
+          })(
+            <AutoComplete
+              dataSource={CountryOptionss}
+              onChange={this.handleCuntryChange}
+              placeholder="Country"
+            >
+              <Input />
+            </AutoComplete>,
+          )}
         </Form.Item>
 
         <Form.Item label="City" className='form--item'>
@@ -149,39 +219,29 @@ class BusinessForm extends React.Component {
                 message: 'Please inter your City Name!',
               },
             ],
-          })(<Input placeholder='City Name' />)}
+          })(
+            <AutoComplete
+              dataSource={cityOptionsss}
+              onChange={this.handleCityChange}
+              placeholder="City"
+            >
+              <Input />
+            </AutoComplete>,
+          )}
         </Form.Item>
 
-        <Form.Item label="Country" className='form--item'>
-          {getFieldDecorator('Country', {
+        <Form.Item label="Adress" className='form--item'>
+          {getFieldDecorator('residence', {
+            initialValue: ['Please', 'hangzhou', 'xihu'],
             rules: [
-              {
-                type: 'string',
-                message: 'The Country Name should be string!',
-              },
-              {
-                whitespace: true,
-                message: 'Delete the spaces!'
-              },
-              {
-                min: 3,
-                message: 'Country Name must be 3 charcter at least!',
-              },
-              {
-                required: true,
-                message: 'Please inter your Country Name!',
-              },
+              { type: 'array', required: true, message: 'Please select your Adress!' },
             ],
-          })(<Input placeholder='Country Name' />)}
+          })(<Cascader options={residences} />)}
         </Form.Item>
 
         <Form.Item label="Postal Code" className='form--item'>
           {getFieldDecorator('postal', {
             rules: [
-              {
-                type: 'number',
-                message: 'The Postal Code should be number!',
-              },
               {
                 whitespace: true,
                 message: 'Delete the spaces!'
@@ -198,14 +258,14 @@ class BusinessForm extends React.Component {
           })(<Input placeholder='Postal Code' />)}
         </Form.Item>
 
-        <Form.Item {...tailFormItemLayout}>
+        {/* <Form.Item {...tailFormItemLayout}>
           <Button type="submit" className='form--btn-save' >
             Save
         </Button>
           <Button className='form--btn-cancel'>
             Cancel
         </Button>
-        </Form.Item>
+        </Form.Item> */}
 
       </Form>
     );
