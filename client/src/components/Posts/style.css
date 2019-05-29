@@ -11,6 +11,8 @@
 
 .posts--button {
   display: flex;
+  justify-content: center;
+  align-items: center;
   color: #848484;
   border: none;
   border-radius: 3px;
@@ -65,5 +67,21 @@
 @media screen and (min-width:600px) {
   .posts {
     width: 60%;
+  }
+  .posts--button {
+    font-size: 16px;
+    padding-right: 7px;
+  }
+  .posts--button-pink {
+    padding: 8px 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .posts--plus-icon {
+    font-size: 17px;
+  }
+  .posts--icon {
+    padding-right: 10px;
   }
 }
