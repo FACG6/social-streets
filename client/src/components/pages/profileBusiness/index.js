@@ -4,7 +4,6 @@ import { Form, Input, AutoComplete, Cascader, Select } from 'antd'
 import Button from 'components/utils/Button'
 import { residences, BusinesTypeValues } from './static'
 import Options from "components/utils/option"
-import 'antd/dist/antd.css'
 import json from './country.json'
 
 const AutoCompleteOption = AutoComplete.Option;
