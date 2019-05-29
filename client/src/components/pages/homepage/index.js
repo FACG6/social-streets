@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
+
+import Button from 'components/utils/Button'
 import 'antd/dist/antd.css';
 import './style.css';
 
@@ -13,10 +15,10 @@ function Home() {
       <div className='home--register'>
         <Router>
           <Link to='/login'>
-            <button className='home--button'>Login</button>
+            <Button onClick={() => undefined} className='home--button' children='Login' />
           </Link>
           <Link to='/signup'>
-            <button className='home--button'>Create Profile</button>
+            <Button onClick={() => undefined} className='home--button' children='Create Profile' />
           </Link>
         </Router>
       </div>
