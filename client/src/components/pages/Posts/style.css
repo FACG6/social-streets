@@ -14,7 +14,6 @@
   justify-content: center;
   align-items: center;
   color: #848484;
-  border: none;
   border-radius: 3px;
   font-size: 22px;
   cursor: pointer;
@@ -26,19 +25,11 @@
   flex-direction: column;
 }
 
-.posts--icon {
-  padding-right: 13px;
-  font-size: 30px;
-}
-
 .posts--plus-icon {
   color: #ffffff;
   font-size: 25px;
-}
-
-.posts--form-icon {
-  color: #D65050!important;
-  font-size: 28px;
+  padding-right: 13px;
+  font-size: 30px;
 }
 
 .posts--button-pink {
@@ -47,22 +38,11 @@
   color: #ffffff;
   transition: background-color 1s ease;
   padding: 10px 5px;
+  border:none;
 }
 
 .posts--button-pink:hover {
   background-color: rgba(214, 80, 80, .9);
-}
-
-.posts--button-white {
-  width: 100%;
-  background-color: #ffffff;
-  margin-bottom: 35px;
-  border: 1px solid rgba(144, 144, 144, .7);
-  padding: 20px 10px;
-}
-
-.posts--button-white:hover {
-  text-decoration: underline;
 }
 
 @media screen and (min-width:600px) {
