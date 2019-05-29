@@ -8,21 +8,21 @@ export default function Posts() {
     <Router>
       <section className='posts'>
         <Link to='/posts/new'>
-          <button className='posts__button posts__button--pink'>
-            <Icon className='posts__icon posts__plus-icon' type='plus' />
+          <button className='posts--button posts--button-pink'>
+            <Icon className='posts--icon posts--plus-icon' type='plus' />
             New Post
           </button>
         </Link>
-        <div className='posts__post-types'>
+        <div className='posts--post-types'>
           <Link to='/posts/live'>
-            <button className='posts__button posts__button--white'>
-              <Icon className='posts__icon posts__form-icon' type='form' />
+            <button className='posts--button posts--button-white'>
+              <Icon className='posts--icon posts--form-icon' type='form' />
               Live Posts
         </button>
           </Link>
           <Link to='/posts/draft'>
-            <button className='posts__button posts__button--white'>
-              <Icon className='posts__icon posts__form-icon' type='form' />
+            <button className='posts--button posts--button-white'>
+              <Icon className='posts--icon posts--form-icon' type='form' />
               Draft Posts
         </button>
           </Link>

@@ -2,10 +2,14 @@
   padding-top: 5rem;
   width: 85%;
   margin: 0 auto;
-  flex-grow: 2;
+  height: calc(100vh - (115px + 70px));
 }
 
-.posts__button {
+.app{
+  min-height: 100vh;
+}
+
+.posts--button {
   color: #848484;
   border: none;
   border-radius: 3px;
@@ -15,45 +19,45 @@
   outline: none;
 }
 
-.posts__post-types {
+.posts--post-types {
   display: flex;
   flex-direction: column;
 }
 
-.posts__icon {
+.posts--icon {
   padding-right: .8rem;
   font-size: 1.3rem;
 }
 
-.posts__plus-icon {
+.posts--plus-icon {
   color: #ffffff;
   font-size: 1.3rem;
 }
 
-.posts__form-icon {
+.posts--form-icon {
   color: #D65050!important;
   font-size: 1.4rem;
 }
 
-.posts__button--pink {
+.posts--button-pink {
   margin-bottom: 3rem;
   background-color: #D65050;
   color: #ffffff;
   transition: background-color 1s ease;
 }
 
-.posts__button--pink:hover {
+.posts--button-pink:hover {
   background-color: rgba(214, 80, 80, .9);
 }
 
-.posts__button--white {
+.posts--button-white {
   width: 100%;
   background-color: #ffffff;
   margin-bottom: 2rem;
   border: 1px solid rgba(144, 144, 144, .7)
 }
 
-.posts__button--white:hover {
+.posts--button-white:hover {
   text-decoration: underline;
 }
 
