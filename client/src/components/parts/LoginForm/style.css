@@ -1,7 +1,17 @@
-.sign-up {
-    color: #d65050;
+.login-form {
+    width: 350px;
+    margin-left: 50px;
 }
 
-.sign-up:hover {
+.login-form--submit-div {
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.login-form--signup-link, .login-form--signup-link:hover {
+    margin: 0 3px;
     color: #d65050;
 }
