@@ -1,6 +1,7 @@
 import React from 'react';
-import { Icon } from 'antd';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
+import { Icon } from 'antd';
+import Post from './post';
 import './style.css';
 
 export default function Posts() {
@@ -15,19 +16,13 @@ export default function Posts() {
         </Link>
         <div className='posts--post-types'>
           <Link to='/posts/live'>
-            <button className='posts--button posts--button-white'>
-              <Icon className='posts--icon posts--form-icon' type='form' />
-              Live Posts
-        </button>
+            <Post post='Live Post' />
           </Link>
-          <Link to='/posts/draft'>
-            <button className='posts--button posts--button-white'>
-              <Icon className='posts--icon posts--form-icon' type='form' />
-              Draft Posts
-        </button>
-          </Link>
+        <Link to='/posts/draft'>
+            <Post post='Draft Post' />
+        </Link>
         </div>
       </section>
-    </Router>
+    </Router >
   )
 }

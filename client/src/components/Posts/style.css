@@ -10,11 +10,11 @@
 }
 
 .posts--button {
+  display: flex;
   color: #848484;
   border: none;
   border-radius: 3px;
-  height: 76px;
-  width: 280px;
+  padding: 20px 10px;
   font-size: 27px;
   cursor: pointer;
   outline: none;
