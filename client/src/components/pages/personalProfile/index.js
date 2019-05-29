@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input } from 'antd'
-import Button from 'components/'
+import Button from '../../utils/Button'
 
 import 'antd/dist/antd.css'
 import './style.css'
