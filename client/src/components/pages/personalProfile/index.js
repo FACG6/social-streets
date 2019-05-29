@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input } from 'antd'
-import Button from '../../utils/Button'
+import Button from 'components/utils/Button'
 
 import 'antd/dist/antd.css'
 import './style.css'
@@ -91,7 +91,7 @@ class PersonalForm extends React.Component {
                 message: 'Please inter your First Name!',
               },
             ],
-          })(<Input placeholder='' />)}
+          })(<Input placeholder='Your Last Name' />)}
         </Form.Item>
 
         <Form.Item label="Last Name" className='form--item' >
@@ -114,10 +114,10 @@ class PersonalForm extends React.Component {
                 message: 'Please inter your Last Name!',
               },
             ],
-          })(<Input />)}
+          })(<Input  placeholder='Your Last Name' />)}
         </Form.Item>
 
-        <Form.Item label="E-mail" className='form--item' >
+        <Form.Item label="Email" className='form--item' >
           {getFieldDecorator('email', {
             rules: [
               {
@@ -129,7 +129,7 @@ class PersonalForm extends React.Component {
                 message: 'Please input your E-mail!',
               },
             ],
-          })(<Input />)}
+          })(<Input placeholder='Email' />)}
         </Form.Item>
 
         <Form.Item label="Password" hasFeedback className='form--item' >
@@ -151,7 +151,7 @@ class PersonalForm extends React.Component {
                 message: 'Password must be 8 charcter at least!',
               }
             ],
-          })(<Input.Password />)}
+          })(<Input.Password placeholder='Password' />)}
         </Form.Item>
 
         <Form.Item label="Confirm Password" hasFeedback className='form--item' >
@@ -165,17 +165,18 @@ class PersonalForm extends React.Component {
                 validator: this.compareToFirstPassword,
               },
             ],
-          })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+          })(<Input.Password onBlur={this.handleConfirmBlur} placeholder='Confirm Password' />)}
         </Form.Item>
-
-        <Form.Item {...tailFormItemLayout}>
-        <Button type="submit" className='form--btn-save' >
-          Save
-        </Button>
-        <Button className='form--btn-cancel'>
-          Cancel
-        </Button>
-        </Form.Item>
+          <div className='form-div'>
+            <Form.Item {...tailFormItemLayout}>
+            <Button type="submit" className='form--btn-save' >
+              Save
+            </Button>
+            <Button className='form--btn-cancel'>
+              Cancel
+            </Button>
+            </Form.Item>
+          </div>
 
       </Form>
     );
