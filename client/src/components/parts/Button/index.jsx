@@ -5,12 +5,13 @@ import "./style.css";
 export default function Button({
   children,
   onClick = undefined,
-  className = ""
+  className = "",
+  type = "button"
 }) {
   return (
-    <div className={`btn ${className}`} onClick={onClick}>
+    <button className={`btn ${className}`} type={type} onClick={onClick}>
       {children}
-    </div>
+    </button>
   );
 }
 
