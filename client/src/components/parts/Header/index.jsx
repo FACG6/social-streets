@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Menu from "./../Menu";
+import Menu from "./Menu";
 import * as Logo from "./logo.png";
-import HamburgerButton from "../HamburgerButton";
+import HamburgerButton from "./HamburgerButton";
 import "./style.css";
 
 export default class Header extends Component {
