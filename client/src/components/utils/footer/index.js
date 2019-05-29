@@ -14,5 +14,5 @@ export default () => {
     { link: "https://www.linkedin.com/company/10668755/", iconName: "linkedin" }
   ];
 
-  return <footer>{Anchor(socialLinks)}</footer>;
+  return <footer>{<Anchor socialLinks={socialLinks} />}</footer>;
 };

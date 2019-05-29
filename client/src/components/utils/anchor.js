@@ -1,8 +1,8 @@
 import React from "react";
 import { Icon } from "antd";
 
-export default hrefs =>
-  hrefs.map(href => (
+export default props =>
+  props.socialLinks.map(href => (
     <a
       key={href.iconName}
       className="footer--a"
