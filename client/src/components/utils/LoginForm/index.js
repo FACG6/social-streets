@@ -1,20 +1,17 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { Form, Icon, Input, Checkbox } from "antd";
+import PropTypes from "prop-types";
 
-import Button from "./../Button";
-import "antd/dist/antd.css";
+import Button from "../Button";
 import "./style.css";
 
 class LoginForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
+      if (!err)
         fetch("/login", { method: "POST", body: JSON.stringify(values) });
-      }
     });
   };
 
@@ -36,6 +33,7 @@ class LoginForm extends Component {
             />
           )}
         </Form.Item>
+
         <Form.Item label="Password">
           {getFieldDecorator("password", {
             rules: [{ required: true, message: "Please enter your Password!" }]
@@ -48,12 +46,14 @@ class LoginForm extends Component {
             />
           )}
         </Form.Item>
+
         <Form.Item>
-          {getFieldDecorator("remember", {
+          {getFieldDecorator("rememberMe", {
             valuePropName: "checked",
             initialValue: false
           })(<Checkbox>Remember me</Checkbox>)}
         </Form.Item>
+
         <div className="login-form--submit-div">
           <Button type="submit">Log in</Button>
           <Router>
@@ -70,5 +70,9 @@ class LoginForm extends Component {
     );
   }
 }
+
+LoginForm.propTypes = {
+  getFieldDecorator: PropTypes.object.isRequired
+};
 
 export default Form.create({ name: "Login_Form" })(LoginForm);
