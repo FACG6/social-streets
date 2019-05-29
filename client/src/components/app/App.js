@@ -1,9 +1,14 @@
 import React from "react";
 
 import "./App.css";
+import { Footer } from "components/utils";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <Footer />
+    </>
+  );
 }
 
 export default App;
