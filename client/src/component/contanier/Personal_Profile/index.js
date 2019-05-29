@@ -69,7 +69,7 @@ class RegistrationForm extends React.Component {
     };
 
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+      <Form {...formItemLayout} onSubmit={this.handleSubmit} className='form'>
 
         <Form.Item label="First Name" className='form--item'>
           {getFieldDecorator('first', {
