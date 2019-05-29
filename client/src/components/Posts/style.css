@@ -16,8 +16,7 @@
   color: #848484;
   border: none;
   border-radius: 3px;
-  padding: 20px 10px;
-  font-size: 27px;
+  font-size: 22px;
   cursor: pointer;
   outline: none;
 }
@@ -28,13 +27,13 @@
 }
 
 .posts--icon {
-  padding-right: 27px;
+  padding-right: 13px;
   font-size: 30px;
 }
 
 .posts--plus-icon {
   color: #ffffff;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .posts--form-icon {
@@ -47,6 +46,7 @@
   background-color: #D65050;
   color: #ffffff;
   transition: background-color 1s ease;
+  padding: 10px 5px;
 }
 
 .posts--button-pink:hover {
@@ -57,7 +57,8 @@
   width: 100%;
   background-color: #ffffff;
   margin-bottom: 35px;
-  border: 1px solid rgba(144, 144, 144, .7)
+  border: 1px solid rgba(144, 144, 144, .7);
+  padding: 20px 10px;
 }
 
 .posts--button-white:hover {
