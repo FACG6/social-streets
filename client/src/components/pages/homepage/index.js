@@ -14,10 +14,20 @@ function Home() {
       <div className='home--register'>
         <Router>
           <Link to='/login'>
-            <Button onClick={() => undefined} className='home--button' children='Login' />
+            <Button
+              onClick={() => undefined}
+              className='home--button'
+            >
+              Login
+            </Button>
           </Link>
           <Link to='/signup'>
-            <Button onClick={() => undefined} className='home--button' children='Create Profile' />
+            <Button
+              onClick={() => undefined}
+              className='home--button'
+            >
+              Create Profile
+            </Button>
           </Link>
         </Router>
       </div>
