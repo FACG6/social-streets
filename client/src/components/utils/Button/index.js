@@ -5,7 +5,7 @@ import "./style.css";
 
 export default function Button({
   children,
-  onClick = undefined,
+  onClick,
   className = "",
   type = "button"
 }) {
@@ -18,7 +18,7 @@ export default function Button({
 
 Button.propTypes = {
   children: PropTypes.any.isRequired,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   type: PropTypes.string
 };

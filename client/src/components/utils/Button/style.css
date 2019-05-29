@@ -1,6 +1,6 @@
 .btn {
     cursor: pointer;
-    height: 45px;
+    padding: 10px 0;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -11,5 +11,4 @@
     box-shadow: 2px 5px 5px -1px #afafaf;
     color: #fff;
     font-size: 20px;
-    font-family: 'Merriweather', serif;
 }
