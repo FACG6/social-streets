@@ -1,31 +1,49 @@
 import React from "react";
-import Event from "./Event";
+import EventFrom from "./Event";
 import SocialBusiness from "./SocialBusiness";
 import "./style.css";
-import { Select } from "antd";
-
-const { Option } = Select;
+import { Divider } from "antd";
+import { SelectMenu } from "./helper";
+import { postTypeValues, eventTypeValues, eventTopicValues } from "./dumyData";
 
 class CreatPostPage extends React.Component {
   state = {
-    postType: "Event"
+    postType: "Event",
+    eventTypeValues: "",
+    eventTopicValues: ""
   };
-  handlePostType = e => {
+  componentDidMount() {
+    this.setState({
+      eventTypeValues: eventTypeValues,
+      eventTopicValues: eventTopicValues
+    });
+  }
+  handlePostTypeChange = e => {
     this.setState({ postType: e });
   };
   render() {
-    const { postType } = this.state;
+    const { postType, eventTypeValues } = this.state;
     return (
       <section className="main">
-        <Select
+        <h1 style={{ margin: 0 }}>Publish New Post</h1>
+        <Divider style={{ margin: "0 0 30px 0" }} />
+        <h4>Post Type</h4>
+        <SelectMenu
           defaultValue="Event"
-          onChange={this.handlePostType}
-          style={{ width: "100%" }}
-        >
-          <Option value="Event">Event</Option>
-          <Option value="Social Business">Social Business</Option>
-        </Select>
-        {postType === "Event" ? <Event /> : <SocialBusiness />}
+          onChange={this.handlePostTypeChange}
+          className="main--postType"
+          options={postTypeValues}
+          value={postType}
+        />
+        <Divider style={{ margin: "20px 0" }} />
+        {eventTypeValues && eventTopicValues && postType === "Event" ? (
+          <EventFrom
+            eventTopicValues={eventTopicValues}
+            eventTypeValues={eventTypeValues}
+          />
+        ) : (
+          <SocialBusiness />
+        )}
       </section>
     );
   }

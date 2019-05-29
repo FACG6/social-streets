@@ -1,0 +1,7 @@
+.error {
+  color: #e74c3c;
+}
+
+.main--postType>.ant-select-selection {
+  background-color: #fafafa;
+}
