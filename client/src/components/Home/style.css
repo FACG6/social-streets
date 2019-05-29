@@ -1,32 +1,41 @@
 .home {
-  flex-grow: 2;
-  padding: 5rem 1rem 0 1rem;
+  padding: 30px 16px 0 16px;
+  min-height: calc(100vh - (115px + 70px));
 }
 
-.home__desc {
-  font-size: 1.02rem;
+#root{
+  min-height: 100vh;
+}
+
+.app{
+  min-height: 100vh;
+}
+
+.home--desc {
+  font-size: 18px;
   text-align: center;
 }
 
-.home__register {
-  padding: 1rem;
-  margin-top: 3rem;
+.home--register {
+  padding: 16px;
+  margin-top: 50px;
 }
 
-.home__button {
+.home--button {
   width: 100%;
-  height: 2rem;
-  margin-bottom: 1.3rem;
+  height: 45px;
+  margin-bottom: 26px;
   border-radius: 3px;
   background-color: #D65050;
   border: none;
   color: #ffffff;
   transition: background-color 2s ease;
   cursor: pointer;
-  outline:none;
+  outline: none;
+  font-size: 22px;
 }
 
-.home__button:hover {
+.home--button:hover {
   background-color: rgba(214, 80, 80, 0.9);
 }
 

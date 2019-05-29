@@ -6,17 +6,17 @@ import './style.css';
 function Home() {
   return (
     <section className='home'>
-      <p className='home__desc'>
+      <p className='home--desc'>
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
         Aenean commodo
       </p>
-      <div className='home__register'>
+      <div className='home--register'>
         <Router>
           <Link to='/login'>
-            <button className='home__button'>Login</button>
+            <button className='home--button'>Login</button>
           </Link>
           <Link to='/signup'>
-            <button className='home__button'>Create Profile</button>
+            <button className='home--button'>Create Profile</button>
           </Link>
         </Router>
       </div>
