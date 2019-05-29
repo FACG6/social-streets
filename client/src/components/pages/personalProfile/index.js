@@ -2,7 +2,6 @@ import React from 'react'
 import { Form, Input } from 'antd'
 import Button from 'components/utils/Button'
 
-import 'antd/dist/antd.css'
 import './style.css'
 
 class PersonalForm extends React.Component {
