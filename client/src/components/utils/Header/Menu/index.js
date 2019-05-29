@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import "./style.css";
 
 export default function Menu({ show = false }) {
@@ -15,8 +16,8 @@ export default function Menu({ show = false }) {
     return (
       <Router>
         <div className="header--menu">
-          {links.map(({ target, label }) => (
-            <Link to={target} className="header--menu-text">
+          {links.map(({ target, label }, i) => (
+            <Link key={`label_${i}`} to={target} className="header--menu-text">
               {label}
             </Link>
           ))}

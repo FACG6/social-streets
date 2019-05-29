@@ -13,7 +13,7 @@
 }
 
 .hamburger-container-change .hamburger-container--bar1 {
-    transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-5.5px, 6px);
 }
 
 .hamburger-container-change .hamburger-container--bar2 {
@@ -21,5 +21,5 @@
 }
 
 .hamburger-container-change .hamburger-container--bar3 {
-    transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -9px);
 }

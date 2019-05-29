@@ -1,15 +1,14 @@
 .btn {
     cursor: pointer;
-    height: 45px;
-    width: 300px;
+    padding: 10px 0;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #d65050;
-    border: 1px solid #d65050;
+    background: var(--primary-color, #d65050);
+    border: 1px solid var(--primary-color, #d65050);
     border-radius: 3px;
     box-shadow: 2px 5px 5px -1px #afafaf;
     color: #fff;
     font-size: 20px;
-    font-family: 'Merriweather', serif;
 }

@@ -1,19 +1,18 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import Menu from "./Menu";
-import * as Logo from "./logo.png";
+import * as Logo from "assets/logo.png";
 import HamburgerButton from "./HamburgerButton";
 import "./style.css";
 
 export default class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showMenu: false
-    };
-  }
+  state = {
+    showMenu: false
+  };
 
-  toggleMenu = () => {
+  toggleMenuHandler = () => {
     const { showMenu } = this.state;
     this.setState({ showMenu: !showMenu });
   };
@@ -23,11 +22,15 @@ export default class Header extends Component {
     const { showHamburger = true } = this.props;
     return (
       <header className="header">
-        <img src={Logo} alt="Logo" className="header--logo" />
+        <Router>
+          <Link to="/">
+            <img src={Logo} alt="Logo" className="header--logo" />
+          </Link>
+        </Router>
         {showHamburger ? (
           <HamburgerButton
             className="header--hamburger-button"
-            toggleMenu={this.toggleMenu}
+            toggleMenuHandler={this.toggleMenuHandler}
           />
         ) : null}
         <Menu show={showMenu} />
