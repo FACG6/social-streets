@@ -26,10 +26,7 @@ export default class HamburgerButton extends Component {
       >
         {[1, 2, 3].map(value => (
           <div
-<<<<<<< HEAD
-=======
             key={value}
->>>>>>> f6c2b9cdcdee37bcbcd07d823ef4d4b0d3a66e07
             className={`hamburger-container--bar hamburger-container--bar${value}`}
           />
         ))}
