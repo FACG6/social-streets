@@ -1,17 +1,24 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Link, BrowserRouter as Router } from 'react-router-dom';
+import 'antd/dist/antd.css';
 import './style.css';
 
 function Home() {
   return (
     <section className='home'>
-      <h1 className='home--heading'>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+      <p className='home__desc'>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
         Aenean commodo
-      </h1>
-      <div className='home--buttons-container'>
-        <Button block className='home--button'>Login</Button>
-        <Button block className='home--button'>Create Profile</Button>
+      </p>
+      <div className='home__register'>
+        <Router>
+          <Link to='/login'>
+            <button className='home__button'>Login</button>
+          </Link>
+          <Link to='/signup'>
+            <button className='home__button'>Create Profile</button>
+          </Link>
+        </Router>
       </div>
     </section>
   )
