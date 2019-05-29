@@ -36,6 +36,6 @@ export default class HamburgerButton extends Component {
 }
 
 HamburgerButton.propTypes = {
-  toggleMenu: PropTypes.func.isRequired,
+  toggleMenuHandler: PropTypes.func.isRequired,
   className: PropTypes.string
 };
