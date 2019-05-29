@@ -1,21 +1,15 @@
 import React from "react";
+import { Options } from "components/utils/Option";
 import "./style.css";
 import {
   Form,
   Input,
   Tooltip,
   Icon,
-  Cascader,
   Select,
-  Row,
-  Col,
-  Checkbox,
   Button,
   AutoComplete
 } from "antd";
-
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
 
 class RegistrationForm extends React.Component {
   state = {
@@ -31,25 +25,9 @@ class RegistrationForm extends React.Component {
     });
   };
 
-  handleConfirmBlur = e => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 }
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
-      }
-    };
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -62,16 +40,15 @@ class RegistrationForm extends React.Component {
         }
       }
     };
-
+    const { eventTypeValues, eventTopicValues } = this.props;
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         <Form.Item
           label={
             <span>
               Title&nbsp;
               <Tooltip title="What do you want others to call you?">
                 <Icon type="info-circle" />
-                &nbsp;:
               </Tooltip>
             </span>
           }
@@ -86,17 +63,40 @@ class RegistrationForm extends React.Component {
             ]
           })(<Input />)}
         </Form.Item>
-        <Form.Item label={<span>Title :</span>}>
-          {getFieldDecorator("nickname", {
+        <Form.Item label="Event’s Title">
+          {getFieldDecorator("eventTitle", {
             rules: [
-              {
-                required: true,
-                message: "Please input your nickname!",
-                whitespace: true
-              }
+              { required: true, message: "Please select your Event’s Title!" }
             ]
-          })(<Input />)}
+          })(
+            <Select
+              placeholder="Event’s Title"
+              onChange={this.handleSelectChange}
+            >
+              {<Options eventTypeValues={eventTypeValues} />}
+            </Select>
+          )}
         </Form.Item>
+        {/* <Form.Item label="Event Topic">
+          {getFieldDecorator("eventTopic", {
+            rules: [
+              { required: true, message: "Please select your Event Topic!" }
+            ]
+          })(
+            <Select
+              placeholder="Event Topic"
+              onChange={this.handleSelectChange}
+            >
+              <Option value="Family and Children">Family and Children</Option>
+              <Option value="Food and Drink">Food and Drink</Option>
+              <Option value="Exhibitions">Exhibitions</Option>
+              <Option value="Courses and workshops">
+                Courses and workshops
+              </Option>
+              <Option value="Walks and Talks">Walks and Talks</Option>
+            </Select>
+          )}
+        </Form.Item> */}
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Register

@@ -3,8 +3,10 @@ import EventFrom from "./Event";
 import SocialBusiness from "./SocialBusiness";
 import "./style.css";
 import { Divider } from "antd";
-import { SelectMenu } from "./helper";
-import { postTypeValues, eventTypeValues, eventTopicValues } from "./dumyData";
+import { Select } from "antd";
+import { eventTypeValues, eventTopicValues } from "./dumyData";
+
+const { Option } = Select;
 
 class CreatPostPage extends React.Component {
   state = {
@@ -28,13 +30,13 @@ class CreatPostPage extends React.Component {
         <h1 style={{ margin: 0 }}>Publish New Post</h1>
         <Divider style={{ margin: "0 0 30px 0" }} />
         <h4>Post Type</h4>
-        <SelectMenu
-          defaultValue="Event"
+        <Select
+          placeholder="Event’s Title"
           onChange={this.handlePostTypeChange}
-          className="main--postType"
-          options={postTypeValues}
-          value={postType}
-        />
+        >
+          <Option value="Event">Event</Option>
+          <Option value="Social Business">Social Business</Option>
+        </Select>
         <Divider style={{ margin: "20px 0" }} />
         {eventTypeValues && eventTopicValues && postType === "Event" ? (
           <EventFrom

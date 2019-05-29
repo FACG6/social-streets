@@ -1,5 +1,5 @@
 import React from "react";
-import CreatPostPage from "./components/CreatePostPage";
+import { CreatPostPage } from "components/pages/index";
 import "./App.css";
 import "antd/dist/antd.css";
 
