@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 import "./style.css";
 
 export default class HamburgerButton extends Component {
-  state = {
-    toggled: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      toggled: false
+    };
+  }
 
   toggleHamburger = () => {
     const { toggled } = this.state;
@@ -15,27 +18,23 @@ export default class HamburgerButton extends Component {
 
   render() {
     const { toggled } = this.state;
-    const { className } = this.props || "";
+    const { className = "" } = this.props;
     return (
       <div
         className={`hamburger-container ${className} ${
-          toggled ? "hamburger-container--change" : ""
+          toggled ? "hamburger-container-change" : ""
         }`}
         onClick={this.toggleHamburger}
       >
-        <div className="hamburger-container__bar1" />
-        <div className="hamburger-container__bar2" />
-        <div className="hamburger-container__bar3" />
+        <div className="hamburger-container--bar hamburger-container--bar1" />
+        <div className="hamburger-container--bar hamburger-container--bar2" />
+        <div className="hamburger-container--bar hamburger-container--bar3" />
       </div>
     );
   }
 }
 
 HamburgerButton.propTypes = {
-  toggleMenu: PropTypes.instanceOf(Function).isRequired,
+  toggleMenu: PropTypes.func.isRequired,
   className: PropTypes.string
-};
-
-HamburgerButton.defaultProps = {
-  className: ""
 };
