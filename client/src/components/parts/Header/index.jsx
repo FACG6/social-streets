@@ -1,40 +1,17 @@
-import React, { Component, Fragment } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Menu from "./Menu";
 import * as Logo from "./logo.png";
-import HamburgerButton from "../HamburgerButton";
+import HamburgerButton from "./HamburgerButton";
 import "./style.css";
 
-function Menu({ show }) {
-  if (show)
-    return (
-      <Router>
-        <div className="header__menu">
-          <Link to="/profile" className="header__menu-text">
-            Profile
-          </Link>
-          <Link to="/new-post" className="header__menu-text">
-            Create Post
-          </Link>
-          <Link to="/posts/live" className="header__menu-text">
-            Live Posts
-          </Link>
-          <Link to="/posts/draft" className="header__menu-text">
-            Draft
-          </Link>
-          <a href="/logout" className="header__menu-text">
-            Log out
-          </a>
-        </div>
-      </Router>
-    );
-  else return <Fragment />;
-}
-
 export default class Header extends Component {
-  state = {
-    showMenu: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMenu: false
+    };
+  }
 
   toggleMenu = () => {
     const { showMenu } = this.state;
@@ -43,32 +20,22 @@ export default class Header extends Component {
 
   render() {
     const { showMenu } = this.state;
-    const { showHamburger } = this.props;
+    const { showHamburger = true } = this.props;
     return (
       <header className="header">
-        <img src={Logo} alt="Logo" className="header__logo" />
+        <img src={Logo} alt="Logo" className="header--logo" />
         {showHamburger ? (
           <HamburgerButton
-            className="header__hamburger-button"
+            className="header--hamburger-button"
             toggleMenu={this.toggleMenu}
           />
-        ) : (
-          <Fragment />
-        )}
+        ) : null}
         <Menu show={showMenu} />
       </header>
     );
   }
 }
 
-Menu.propTypes = {
-  show: PropTypes.bool.isRequired
-};
-
 Header.propTypes = {
   showHamburger: PropTypes.bool
-};
-
-Header.defaultProps = {
-  showHamburger: true
 };
