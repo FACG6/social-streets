@@ -1,7 +1,8 @@
 import React from "react";
 import { Icon } from "antd";
-export default hrefs => {
-  const aTags = hrefs.map(href => (
+
+export default hrefs =>
+  hrefs.map(href => (
     <a
       key={href.iconName}
       className="footer--a"
@@ -12,5 +13,3 @@ export default hrefs => {
       <Icon type={href.iconName} />
     </a>
   ));
-  return aTags;
-};
