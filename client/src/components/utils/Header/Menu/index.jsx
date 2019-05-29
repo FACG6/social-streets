@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import "./style.css";
 
 export default function Menu({ show = false }) {
