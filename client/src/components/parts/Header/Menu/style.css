@@ -1,0 +1,17 @@
+.header--menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background: #231f20;
+    color: #fff;
+    padding-top: 30px;
+}
+
+.header--menu-text {
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 30px;
+}
