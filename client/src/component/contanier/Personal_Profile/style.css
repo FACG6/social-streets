@@ -1,0 +1,44 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-label {
+  width: 90%;
+  text-align: start;
+  padding: 10px;
+}
+
+.form-input {
+  width: 90%;
+}
+
+.form-error{
+  color: #D65050;
+  text-align: center;
+}
+
+.form-btn--save.ant-btn-primary {
+  background-color: #D65050;
+  border-color: #D65050;
+  width: 90%;
+  font-size: 18px;
+  margin: 10px 0 5px 0;
+}
+
+.form-btn--save.ant-btn-primary:hover {
+  background-color: rgb(185, 67, 67);
+}
+
+.form-btn--cancel.ant-btn-primary {
+  background-color: #505050;
+  border-color: #505050;
+  width: 90%;
+  font-size: 18px;
+  margin: 5px 0 0 0;
+}
+
+.form-btn--cancel.ant-btn-primary:hover {
+  background-color: #313131;
+}
