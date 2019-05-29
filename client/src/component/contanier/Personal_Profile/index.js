@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, Input, Button, } from 'antd';
+import { Form, Input } from 'antd'
+import Button from '../../../components/parts/Button'
 
 import 'antd/dist/antd.css'
 import './style.css'
@@ -168,9 +169,12 @@ class RegistrationForm extends React.Component {
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
+        <Button type="submit" className='form--btn-save' >
+          Save
+        </Button>
+        <Button className='form--btn-cancel'>
+          Cancel
+        </Button>
         </Form.Item>
 
       </Form>
