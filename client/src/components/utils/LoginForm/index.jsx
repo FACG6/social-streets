@@ -2,6 +2,7 @@ import React, { Component, createRef } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Form, Icon, Input, Checkbox } from "antd";
+
 import Button from "./../Button";
 import "antd/dist/antd.css";
 import "./style.css";
@@ -20,7 +21,7 @@ class LoginForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className={`login-form`}>
+      <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item label="Email Address">
           {getFieldDecorator("username", {
             rules: [
@@ -31,6 +32,7 @@ class LoginForm extends Component {
             <Input
               prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
               placeholder="example@example.com"
+              className="login-form--input"
             />
           )}
         </Form.Item>
@@ -42,6 +44,7 @@ class LoginForm extends Component {
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               type="password"
               placeholder="Password"
+              className="login-form--input"
             />
           )}
         </Form.Item>
