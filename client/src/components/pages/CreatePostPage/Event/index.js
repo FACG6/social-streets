@@ -1,15 +1,7 @@
 import React from "react";
-import { Options } from "components/utils/Option";
+import { Options } from "components/utils";
 import "./style.css";
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Select,
-  Button,
-  AutoComplete
-} from "antd";
+import { Form, Input, Tooltip, Icon, Select, Button } from "antd";
 
 class RegistrationForm extends React.Component {
   state = {
@@ -73,11 +65,11 @@ class RegistrationForm extends React.Component {
               placeholder="Event’s Title"
               onChange={this.handleSelectChange}
             >
-              {<Options eventTypeValues={eventTypeValues} />}
+              {Options(eventTypeValues)}
             </Select>
           )}
         </Form.Item>
-        {/* <Form.Item label="Event Topic">
+        <Form.Item label="Event Topic">
           {getFieldDecorator("eventTopic", {
             rules: [
               { required: true, message: "Please select your Event Topic!" }
@@ -87,16 +79,10 @@ class RegistrationForm extends React.Component {
               placeholder="Event Topic"
               onChange={this.handleSelectChange}
             >
-              <Option value="Family and Children">Family and Children</Option>
-              <Option value="Food and Drink">Food and Drink</Option>
-              <Option value="Exhibitions">Exhibitions</Option>
-              <Option value="Courses and workshops">
-                Courses and workshops
-              </Option>
-              <Option value="Walks and Talks">Walks and Talks</Option>
+              {Options(eventTopicValues)}
             </Select>
           )}
-        </Form.Item> */}
+        </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Register

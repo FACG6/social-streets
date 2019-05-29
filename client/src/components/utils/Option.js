@@ -3,8 +3,8 @@ import { Select } from "antd";
 
 const { Option } = Select;
 
-const Options = optionsForSelect => {
-  const selectOption = optionsForSelect.map(({ key, value, children }) => (
+const Options = eventTypeValues => {
+  const selectOption = eventTypeValues.map(({ key, value }) => (
     <Option children={value} key={key} value={value} />
   ));
 

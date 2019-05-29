@@ -1,2 +1,2 @@
-import Option from "components/utils/Option";
-export { Option };
+import Options from "components/utils/Option";
+export { Options };
