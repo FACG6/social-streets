@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 
 import Button from 'components/utils/Button'
-import 'antd/dist/antd.css';
 import './style.css';
 
 function Home() {
