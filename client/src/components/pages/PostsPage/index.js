@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { Icon } from 'antd';
-import Post from '../../utils/post';
+import Button from 'components/utils/Button'
+import PostButton from 'components/utils/PostButton';
 import './style.css';
 
 export default function Posts() {
@@ -9,18 +10,17 @@ export default function Posts() {
     <Router>
       <section className='posts'>
         <Link to='/posts/new'>
-          <button className='posts--button posts--button-pink'>
+          <Button
+            onClick={() => undefined}
+            className='posts--button-pink'
+          >
             <Icon className='posts--icon posts--plus-icon' type='plus' />
             New Post
-          </button>
+          </Button>
         </Link>
         <div className='posts--post-types'>
-          <Link to='/posts/live'>
-            <Post postType='Live Post' />
-          </Link>
-        <Link to='/posts/draft'>
-            <Post postType='Draft Post' />
-        </Link>
+          <PostButton postType='Live Post' />
+          <PostButton postType='Draft Post' />
         </div>
       </section>
     </Router >
