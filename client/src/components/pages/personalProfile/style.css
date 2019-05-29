@@ -16,8 +16,26 @@
   margin: 0 0 10px 0;
 }
 
-.form--btn-cancel{
+.form--btn-save { 
+  width: 90vw;
+}
+
+.btn.form--btn-cancel{
   background-color: #505050;
   border: #505050;
   margin: 10px 0 0 0;
+  width: 90vw;
+}
+
+.form-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.ant-col-sm-offset-8 {
+  margin: 0 ;
+}
+
+.ant-input {
+  background-color: #ececec;
 }
