@@ -1,116 +1,114 @@
 import React from "react";
-import { Button, Input, Form } from "antd";
-import { withFormik, Form as FormikForm, Field as FormikField } from "formik";
-import * as yup from "yup";
-import { SelectMenu } from "./../helper";
 import "./style.css";
+import {
+  Form,
+  Input,
+  Tooltip,
+  Icon,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete
+} from "antd";
 
-const FormItem = Form.Item;
+const { Option } = Select;
+const AutoCompleteOption = AutoComplete.Option;
 
-const InnerForm = ({
-  values,
-  errors,
-  touched,
-  setFieldTouched,
-  setFieldValue,
-  handleSubmit,
-  eventTypeValues,
-  eventTopicValues,
-}) => {
-  return (
-    <FormikForm onSubmit={handleSubmit}>
-      <FormItem>
-        <FormikField
-          name="title"
-          render={({ field }) => (
-            <>
-              <label htmlFor="title" style={{ display: "block" }}>
-                Title
-              </label>
-              <Input
-                id="title"
-                {...field}
-                placeholder="Event’s Title"
-                style={{ background: "#fafafa" }}
-              />
-              {errors.title && touched.title && (
-                <span className="error">{errors.title}</span>
-              )}
-            </>
-          )}
-        />
-        <FormikField
-          name="eventType"
-          render={({ field }) => {
-            console.log(field);
-            return (
-              <>
-                <SelectMenu
-                  {...field}
-                  className="main--postType"
-                  options={eventTypeValues}
-                  onChange={value => setFieldValue("eventType", value)}
-                  onBlur={() => setFieldTouched("eventType", true)}
-                  value={values.eventType}
-                  htmlFor="eventType"
-                  style={{ display: "block" }}
-                  labelchildren="Event Type"
-                />
-                {errors.eventType && touched.eventType && (
-                  <span className="error">{errors.eventType}</span>
-                )}
-              </>
-            );
-          }}
-        />
-        <FormikField
-          name="eventTopic"
-          render={({ field }) => (
-            <>
-              <SelectMenu
-                {...field}
-                className="main--postType"
-                options={eventTopicValues}
-                onChange={value => setFieldValue("eventTopic", value)}
-                onBlur={() => setFieldTouched("eventTopic", true)}
-                value={values.eventTopic}
-                htmlFor="eventTopic"
-                style={{ display: "block" }}
-                labelchildren="Event Topic"
-              />
-              {errors.eventTopic && touched.eventTopic && (
-                <span className="error">{errors.eventTopic}</span>
-              )}
-            </>
-          )}
-        />
-        <Button htmlType="submit" type="primary">
-          Submit
-        </Button>
-      </FormItem>
-    </FormikForm>
-  );
-};
+class RegistrationForm extends React.Component {
+  state = {
+    confirmDirty: false
+  };
 
-const EventFrom = withFormik({
-  mapPropsToValues({ title, eventType, eventTopic }) {
-    return {
-      title: title,
-      eventType: eventType,
-      eventTopic: eventTopic
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log("Received values of form: ", values);
+      }
+    });
+  };
+
+  handleConfirmBlur = e => {
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  };
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const { autoCompleteResult } = this.state;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 8 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 }
+      }
     };
-  },
-  validationSchema: yup.object().shape({
-    title: yup
-      .string()
-      .min(5)
-      .required("Title is required"),
-    eventType: yup.string().required("Event Type is required"),
-    eventTopic: yup.string().required("Event Topic is required")
-  }),
-  handleSubmit(values) {
-    console.log("Form values", values);
-  }
-})(InnerForm);
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0
+        },
+        sm: {
+          span: 16,
+          offset: 8
+        }
+      }
+    };
 
-export default EventFrom;
+    return (
+      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form.Item
+          label={
+            <span>
+              Title&nbsp;
+              <Tooltip title="What do you want others to call you?">
+                <Icon type="info-circle" />
+                &nbsp;:
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator("title", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your nickname!",
+                whitespace: true
+              }
+            ]
+          })(<Input />)}
+        </Form.Item>
+        <Form.Item label={<span>Title :</span>}>
+          {getFieldDecorator("nickname", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your nickname!",
+                whitespace: true
+              }
+            ]
+          })(<Input />)}
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    );
+  }
+}
+
+const WrappedRegistrationForm = Form.create({ name: "register" })(
+  RegistrationForm
+);
+
+export default WrappedRegistrationForm;
