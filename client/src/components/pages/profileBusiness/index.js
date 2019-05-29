@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, AutoComplete, Cascader, Select } from 'antd'
 
-// import Button from 'components/utils'
+import Button from 'components/utils'
 import { residences, BusinesTypeValues } from './static'
 import Options from "components/utils/option"
 import 'antd/dist/antd.css'
@@ -258,14 +258,14 @@ class BusinessForm extends React.Component {
           })(<Input placeholder='Postal Code' />)}
         </Form.Item>
 
-        {/* <Form.Item {...tailFormItemLayout}>
+        <Form.Item {...tailFormItemLayout}>
           <Button type="submit" className='form--btn-save' >
             Save
         </Button>
           <Button className='form--btn-cancel'>
             Cancel
         </Button>
-        </Form.Item> */}
+        </Form.Item>
 
       </Form>
     );
