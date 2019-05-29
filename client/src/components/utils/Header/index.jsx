@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Menu from "./Menu";
@@ -21,7 +22,11 @@ export default class Header extends Component {
     const { showHamburger = true } = this.props;
     return (
       <header className="header">
-        <img src={Logo} alt="Logo" className="header--logo" />
+        <Router>
+          <Link to="/">
+            <img src={Logo} alt="Logo" className="header--logo" />
+          </Link>
+        </Router>
         {showHamburger ? (
           <HamburgerButton
             className="header--hamburger-button"
