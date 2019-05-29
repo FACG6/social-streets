@@ -1,6 +1,7 @@
 .login-form {
     width: 350px;
     margin-left: 50px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .login-form--submit-div {
@@ -14,4 +15,8 @@
 .login-form--signup-link, .login-form--signup-link:hover {
     margin: 0 3px;
     color: #d65050;
+}
+
+.login-form--input {
+    height: 40px;
 }
