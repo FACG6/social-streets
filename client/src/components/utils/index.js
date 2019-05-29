@@ -1,2 +1,3 @@
 import Footer from "./footer";
-export { Footer };
+import Anchor from "./anchor";
+export { Footer, Anchor };
