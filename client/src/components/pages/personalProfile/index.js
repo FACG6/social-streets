@@ -178,7 +178,7 @@ class PersonalForm extends React.Component {
                 Save
                 </Button>
               <Link to='/'>
-                <Button className='form--btn-cancel' onClick={() => this.handleCancel}>
+                <Button className='form--btn-cancel' onClick={this.handleCancel}>
                   Cancel
                 </Button>
               </Link>
