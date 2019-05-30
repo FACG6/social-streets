@@ -46,15 +46,45 @@ const eventTopicValues = [
     value: "Community Development"
   }
 ];
-const postTypeValues = [
+const primaryTag = [
   {
     key: 1,
-    value: "Event"
+    value: "Consultations"
   },
   {
     key: 2,
-    value: "Social Business"
+    value: "Petitions"
+  },
+  {
+    key: 3,
+    value: "Surveys"
+  },
+  {
+    key: 4,
+    value: "Volunteering"
+  },
+  {
+    key: 5,
+    value: "Research"
+  }
+];
+const secondaryTag = [
+  {
+    key: 1,
+    value: "Health"
+  },
+  {
+    key: 2,
+    value: "Safety"
+  },
+  {
+    key: 3,
+    value: "Planning"
+  },
+  {
+    key: 4,
+    value: "Education"
   }
 ];
 
-export { eventTypeValues, eventTopicValues, postTypeValues };
+export { eventTypeValues, eventTopicValues, primaryTag, secondaryTag };
