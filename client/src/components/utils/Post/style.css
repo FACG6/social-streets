@@ -1,0 +1,42 @@
+.post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: .5px solid rgba(73, 73, 73, .5);
+  height: 65px;
+  margin-bottom: 35px;
+  background: #FAFAFA;
+  border-radius: 3px;
+}
+
+.post--title {
+  font-size: 24px;
+  padding: 10px;
+  color: #727272;
+}
+
+.post--title:hover {
+  color: rgba(218, 80, 80, .8);
+}
+
+.post--icon {
+  padding: 10px;
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.post--delete {
+  color: rgba(255, 0, 0, .7)
+}
+
+.post--delete:hover {
+  color: rgba(255, 0, 0, 1)
+}
+
+.post--edit {
+  color: rgba(73, 73, 73, .8)
+}
+
+.post--edit:hover {
+  color: rgba(73, 73, 73, 1)
+}
