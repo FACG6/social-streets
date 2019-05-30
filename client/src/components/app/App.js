@@ -3,15 +3,12 @@ import "antd/dist/antd.css";
 
 import "./App.css";
 import { Header, Footer } from "components/utils";
-import { Home } from "components/pages";
 
 function App() {
   return (
     <div>
       <Header />
-      <main className="container">
-        <Home />
-      </main>
+      <main className="container" />
       <Footer />
     </div>
   );
