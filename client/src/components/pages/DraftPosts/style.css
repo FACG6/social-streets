@@ -1,0 +1,15 @@
+.draft-posts {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+.post-type--bold {
+  font-weight: bold;
+}
+
+@media(min-width:550px) {
+  .draft-posts {
+    width: 50%;
+  }
+}
