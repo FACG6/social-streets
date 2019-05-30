@@ -1,7 +1,8 @@
 import React from 'react'
+import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { Form, Input } from 'antd'
-import Button from 'components/utils/Button'
 
+import Button from 'components/utils/Button'
 import './style.css'
 
 class PersonalForm extends React.Component {
@@ -10,7 +11,7 @@ class PersonalForm extends React.Component {
     confirmDirty: false,
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -18,6 +19,10 @@ class PersonalForm extends React.Component {
       }
     });
   };
+
+  handleCancel = (e) => {
+    e.preventDefault();
+  }
 
   handleConfirmBlur = e => {
     const value = e.target.value;
@@ -113,7 +118,7 @@ class PersonalForm extends React.Component {
                 message: 'Please inter your Last Name!',
               },
             ],
-          })(<Input  placeholder='Your Last Name' />)}
+          })(<Input placeholder='Your Last Name' />)}
         </Form.Item>
 
         <Form.Item label="Email" className='form--item' >
@@ -159,23 +164,27 @@ class PersonalForm extends React.Component {
               {
                 required: true,
                 message: 'Please confirm your password!',
-              },  
+              },
               {
                 validator: this.compareToFirstPassword,
               },
             ],
           })(<Input.Password onBlur={this.handleConfirmBlur} placeholder='Confirm Password' />)}
         </Form.Item>
-          <div className='form-div'>
+        <div className='form-div'>
+          <Router>
             <Form.Item {...tailFormItemLayout}>
-            <Button type="submit" className='form--btn-save' >
-              Save
-            </Button>
-            <Button className='form--btn-cancel'>
-              Cancel
-            </Button>
+              <Button type="submit" className='form--btn-save' onClick={() => undefined} >
+                Save
+                </Button>
+              <Link to='/'>
+                <Button className='form--btn-cancel' onClick={() => this.handleCancel}>
+                  Cancel
+                </Button>
+              </Link>
             </Form.Item>
-          </div>
+          </Router>
+        </div>
 
       </Form>
     );
