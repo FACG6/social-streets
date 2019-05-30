@@ -86,29 +86,6 @@ class BusinessForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResultWebsite, autoCompleteResultCuntry, autoCompleteResultCity } = this.state;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 0 },
-        sm: { span: 0 },
-      },
-      wrapperCol: {
-        xs: { span: 0 },
-        sm: { span: 24 },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-
     const websiteOptions = autoCompleteResultWebsite.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
@@ -122,7 +99,7 @@ class BusinessForm extends React.Component {
     ));
 
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit} className='form'>
+      <Form onSubmit={this.handleSubmit} className='form'>
 
 
 
@@ -282,7 +259,7 @@ class BusinessForm extends React.Component {
           })(<Input placeholder='Postal Code' />)}
         </Form.Item>
 
-        <Form.Item {...tailFormItemLayout}>
+        <Form.Item >
           <Button type="submit" className='form--btn-save' >
             Save
         </Button>

@@ -54,34 +54,10 @@ class PersonalForm extends React.Component {
   };
 
   render() {
-    // console.log(this.props.personal)
     const { getFieldDecorator } = this.props.form;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 0 },
-        sm: { span: 0 },
-      },
-      wrapperCol: {
-        xs: { span: 0 },
-        sm: { span: 24 },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit} className='form'>
+      <Form  onSubmit={this.handleSubmit} className='form'>
 
         <Form.Item label="First Name" className='form--item'>
           {getFieldDecorator('first', {
@@ -180,7 +156,7 @@ class PersonalForm extends React.Component {
           })(<Input.Password onBlur={this.handleConfirmBlur} placeholder='Confirm Password' />)}
         </Form.Item>
         <div className='form-div'>
-          <Form.Item {...tailFormItemLayout}>
+          <Form.Item >
             <Button type="submit" className='form--btn-save' onClick={() => undefined} >
               Next
           </Button>
