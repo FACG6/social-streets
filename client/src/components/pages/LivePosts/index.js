@@ -12,7 +12,7 @@ class LivePosts extends Component {
 
   componentDidMount() {
     //Mock Data for Testing the component//
-    const posts = [
+    const livePosts = [
       { title: 'post 1', id: 1 },
       { title: 'post 2', id: 2 },
       { title: 'post 3', id: 3 },
@@ -20,11 +20,11 @@ class LivePosts extends Component {
       { title: 'post 5', id: 5 },
       { title: 'post 6', id: 6 },
     ];
-    this.setState({ livePosts: posts });
+    this.setState({ livePosts });
 
     //fetch live posts
     axios.get('/api/v1/live-posts')
-      .then(posts => this.setState({ livePosts: posts }))
+      .then(({ posts }) => this.setState({ livePosts: posts }))
       .catch(error => {
         if (error.status === 401) this.props.history.push('/');
         if (error.status === 500) this.setState({ error: 'Oops, something went wrong' });
@@ -33,7 +33,7 @@ class LivePosts extends Component {
 
   handleDelete = (id) => {
     const { livePosts } = this.state;
-    //Testing Delete//
+    //Testing Delete with Mock Data//
     const deletedPost = livePosts.findIndex(post => post.id === Number(id));
     this.setState((prevState) => {
       prevState.livePosts.splice(deletedPost, 1);
@@ -81,7 +81,7 @@ class LivePosts extends Component {
       </section >
     )
   }
-
 }
 
 export default LivePosts;
+
