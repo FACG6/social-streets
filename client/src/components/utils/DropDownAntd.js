@@ -12,8 +12,7 @@ const DropDownAntd = (
   validationMsg,
   placeholder,
   handleSelectChange,
-  OoptionsMenu,
-  size
+  OoptionsMenu
 ) => (
   <Item label={label}>
     {getFieldDecorator(name, {
