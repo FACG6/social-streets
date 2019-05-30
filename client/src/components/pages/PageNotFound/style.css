@@ -1,0 +1,41 @@
+.not-found {
+    min-height: calc(100vh - calc(129px + 70px));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-found--msg {
+    display: block;
+    font-size: 26px;
+    font-family: 'Merriweather', serif;
+    color: #333;
+}
+
+.not-found--code {
+    font-size: 200px;
+    color: var(--primary-color, pink);
+}
+
+.not-found--back-home, .not-found--back-home:hover {
+    color: var(--primary-color, pink);
+}
+
+@media(max-width: 450px) {
+    .not-found--msg {
+        font-size: 20px;
+    }
+    .not-found--code {
+        font-size: 150px;
+    }
+}
+
+@media(max-width: 350px) {
+    .not-found--msg {
+        font-size: 16px;
+    }
+    .not-found--code {
+        font-size: 100px;
+    }
+}
