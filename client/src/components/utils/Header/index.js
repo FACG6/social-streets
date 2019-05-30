@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 
 import Menu from "./Menu";
