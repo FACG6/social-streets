@@ -1,5 +1,5 @@
 .not-found {
-    min-height: calc(100vh - calc(129px + 70px));
+    min-height: calc(100vh - calc(184px + 70px));
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,12 +14,15 @@
 }
 
 .not-found--code {
-    font-size: 200px;
+    font-size: 150px;
     color: var(--primary-color, pink);
 }
 
 .not-found--back-home, .not-found--back-home:hover {
-    color: var(--primary-color, pink);
+    background: #333;
+    padding: 7px;
+    color: #fff;
+    border-radius: 4px;
 }
 
 @media(max-width: 450px) {

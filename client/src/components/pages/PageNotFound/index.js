@@ -7,7 +7,7 @@ import "./style.css";
 
 export default () => (
   <>
-    <Header showHamburger={false} />
+    <Header showHamburger={true} />
     <section className="not-found">
       <span className="not-found--msg">Oops! That page can’t be found.</span>
       <span className="not-found--code">404</span>
