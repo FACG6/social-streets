@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { Form, Input } from 'antd'
 
 import Button from 'components/utils/Button'
@@ -20,8 +19,11 @@ class PersonalForm extends React.Component {
     });
   };
 
+  location = this.props.location.state ? this.props.location.state.from : '/posts'
+
   handleCancel = (e) => {
     e.preventDefault();
+    this.props.history.push(this.location)
   }
 
   handleConfirmBlur = e => {
@@ -172,18 +174,14 @@ class PersonalForm extends React.Component {
           })(<Input.Password onBlur={this.handleConfirmBlur} placeholder='Confirm Password' />)}
         </Form.Item>
         <div className='form-div'>
-          <Router>
-            <Form.Item {...tailFormItemLayout}>
-              <Button type="submit" className='form--btn-save' onClick={() => undefined} >
-                Save
-                </Button>
-              <Link to='/'>
-                <Button className='form--btn-cancel' onClick={this.handleCancel}>
-                  Cancel
-                </Button>
-              </Link>
-            </Form.Item>
-          </Router>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="submit" className='form--btn-save' onClick={() => undefined} >
+              Save
+          </Button>
+            <Button className='form--btn-cancel' onClick={this.handleCancel}>
+              Cancel
+          </Button>
+          </Form.Item>
         </div>
 
       </Form>
