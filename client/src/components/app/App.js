@@ -3,8 +3,14 @@ import "antd/dist/antd.css";
 
 import "./App.css";
 
+import Login from "components/pages/LoginPage/index";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Login />
+    </>
+  );
 }
 
 export default App;
