@@ -6,11 +6,12 @@
 
 .post-type--bold {
   font-weight: bold;
+  box-shadow: 1px 2px 2px -1px #afafaf;
 }
 
 @media(min-width:550px) {
   .live-posts {
-    width: 50%;
+    width: 45%;
+    padding-top: 40px;
   }
 }
-
