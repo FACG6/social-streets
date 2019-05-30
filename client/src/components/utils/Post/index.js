@@ -1,12 +1,32 @@
 import React from 'react';
 import { Icon } from 'antd';
-import './style.css';
+import { Link, BrowserRouter as Router } from 'react-router-dom';
+import './style.css'
 
-export default function Post({ postType, className }) {
+export default function Post({ onClick, postTitle, id, postType }) {
   return (
-    <button className={`${className} posts--button posts--button-white`}>
-      <Icon className='posts--icon posts--form-icon' type='form' />
-      {postType}
-    </button>
+    <Router>
+      <Link to={`/post/${id}`}>
+        <div className='post'>
+          <p className='post--title'>
+            {postTitle.length > 30 ? postTitle.substring(0, 31) : postTitle}
+          </p>
+          <div>
+            <Icon
+              id={id}
+              onClick={() => onClick(id)}
+              className='post--icon post--delete'
+              type="delete"
+            />
+            <Link to={`/posts/${postType}/${id}/edit`} >
+              <Icon
+                className='post--icon post--edit'
+                type="edit"
+              />
+            </Link>
+          </div>
+        </div>
+      </Link>
+    </Router>
   )
 }
