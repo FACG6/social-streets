@@ -1,12 +1,11 @@
 import React from "react";
-import { Options } from "components/utils";
+import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import "./style.css";
 import {
   Form,
   Input,
   Tooltip,
   Icon,
-  Select,
   DatePicker,
   AutoComplete,
   InputNumber,
@@ -17,10 +16,9 @@ import {
 } from "antd";
 
 import { Button as Btn } from "components/utils";
-const { TextArea } = Input;
 const AutoCompleteOption = AutoComplete.Option;
 
-class RegistrationForm extends React.Component {
+class EventForm extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: []
@@ -45,102 +43,57 @@ class RegistrationForm extends React.Component {
     }
     this.setState({ autoCompleteResult });
   };
-
   render() {
     const { autoCompleteResult } = this.state;
     const { getFieldDecorator } = this.props.form;
+    const { eventTypeValues, eventTopicValues } = this.props;
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
 
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 8
-        }
-      }
-    };
-    const { eventTypeValues, eventTopicValues } = this.props;
     return (
-      <Form className="main--form" onSubmit={this.handleSubmit}>
-        <Form.Item
-          label={
-            <span>
-              Title&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <Icon type="info-circle" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator("title", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your nickname!",
-                whitespace: true
-              }
-            ]
-          })(<Input placeholder="Event’s Type" />)}
-        </Form.Item>
-        <Form.Item label="Event’s Type">
-          {getFieldDecorator("eventType", {
-            rules: [
-              { required: true, message: "Please select your Event’s Type!" }
-            ]
-          })(
-            <Select
-              placeholder="Event’s Type"
-              onChange={this.handleSelectChange}
-            >
-              {Options(eventTypeValues)}
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item label="Event Topic">
-          {getFieldDecorator("eventTopic", {
-            rules: [
-              { required: true, message: "Please select your Event Topic!" }
-            ]
-          })(
-            <Select
-              placeholder="Event Topic"
-              onChange={this.handleSelectChange}
-            >
-              {Options(eventTopicValues)}
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Description&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <Icon type="info-circle" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator("description", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your description!",
-                whitespace: true
-              }
-            ]
-          })(
-            <TextArea
-              placeholder="Enter Description"
-              autosize={{ minRows: 10, maxRows: false }}
-            />
-          )}
-        </Form.Item>
+      <Form className="main--eventForm" onSubmit={this.handleSubmit}>
+        {InputAntd(
+          true,
+          "Title",
+          "What do you want others to call you?",
+          getFieldDecorator,
+          "title",
+          "Please input your Event’s Title!",
+          "Event’s Title"
+        )}
+        {DropDownAntd(
+          "Event’s Type",
+          getFieldDecorator,
+          "eventType",
+          true,
+          "Please select your Event’s Type!",
+          "Event’s Type",
+          this.handleSelectChange,
+          eventTypeValues
+        )}
+        {DropDownAntd(
+          "Event’s Topic",
+          getFieldDecorator,
+          "eventTopic",
+          true,
+          "Please select your Event Topic!",
+          "Event’s Topic",
+          this.handleSelectChange,
+          eventTopicValues
+        )}
+        {TextAreaAntd(
+          true,
+          {},
+          "Description",
+          "What do you want others to call you?",
+          getFieldDecorator,
+          "description",
+          "Please input your description!",
+          "Enter Event Description",
+          10,
+          false
+        )}
         <Form.Item label={<span>Date and Time&nbsp;</span>}>
           {getFieldDecorator("dateAndTime", {
             rules: [
@@ -203,7 +156,7 @@ class RegistrationForm extends React.Component {
           })(
             <Upload
               style={{ width: "100%" }}
-              name="logo"
+              name="eventImage"
               action="/upload.do"
               listType="picture"
             >
@@ -214,50 +167,60 @@ class RegistrationForm extends React.Component {
           )}
         </Form.Item>
         <Divider style={{ margin: "20px 0" }} />
-        <Form.Item label={<span>Focus Keyword</span>}>
-          {getFieldDecorator("title", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your keyword!",
-                whitespace: true
-              }
-            ]
-          })(<Input placeholder="Your main keyword" />)}
-        </Form.Item>
+        {InputAntd(
+          false,
+          "Focus Keyword",
+          "",
+          getFieldDecorator,
+          "focusKeyword",
+          "Please input your keyword!",
+          "Your main keyword"
+        )}
         <Card
-          title="Event Title"
+          title={
+            <>
+              Event Title
+              <br />
+              <span style={{ color: "#277839" }}>
+                www.socialstreets.co/events/festival
+              </span>
+            </>
+          }
           bordered={true}
           style={{ width: "100%", marginBottom: "20px" }}
         >
-          <Form.Item
-            label={<span style={{ fontSize: "15px" }}>Meta Description</span>}
-          >
-            {getFieldDecorator("metaDescription", {
-              rules: [
-                {
-                  required: true,
-                  message: "Please input your Meta Description!",
-                  whitespace: true
-                }
-              ]
-            })(
-              <>
-                <span style={{ color: "#277839" }}>
-                  www.socialstreets.co/events/festival
-                </span>
-                <TextArea
-                  placeholder="Your main Meta Description"
-                  autosize={{ minRows: 5, maxRows: false }}
-                />
-              </>
-            )}
-          </Form.Item>
+          {TextAreaAntd(
+            false,
+            { fontSize: "15px" },
+            "Meta Description",
+            "What do you want others to call you?",
+            getFieldDecorator,
+            "metaDescription",
+            "Please input your Meta Description!",
+            "Your main Meta Description",
+            5,
+            false
+          )}
         </Card>
-
-        <Form.Item {...tailFormItemLayout}>
+        <Form.Item>
           <Btn onClick={() => {}} type="primary" htmlType="submit">
-            Register
+            Publish
+          </Btn>
+          <Btn
+            className="main--form-btn-gradient main--form-btn"
+            onClick={() => {}}
+            type="primary"
+            htmlType="submit"
+          >
+            Preview
+          </Btn>
+          <Btn
+            className="main--form-btn-black main--form-btn"
+            onClick={() => {}}
+            type="primary"
+            htmlType="submit"
+          >
+            Cancel
           </Btn>
         </Form.Item>
       </Form>
@@ -265,8 +228,6 @@ class RegistrationForm extends React.Component {
   }
 }
 
-const WrappedRegistrationForm = Form.create({ name: "register" })(
-  RegistrationForm
-);
+const WrappedEventForm = Form.create({ name: "eventForm" })(EventForm);
 
-export default WrappedRegistrationForm;
+export default WrappedEventForm;
