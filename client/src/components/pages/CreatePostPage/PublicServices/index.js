@@ -19,16 +19,11 @@ import "./style.css";
 const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: []
-  };
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        // for fetch
       }
     });
   };
@@ -39,6 +34,7 @@ class PublicServicesForm extends React.Component {
       secondaryTag,
       form: { getFieldDecorator }
     } = this.props;
+
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
         <InputGroup size="large">
