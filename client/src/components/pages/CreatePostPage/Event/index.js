@@ -30,18 +30,6 @@ class EventForm extends React.Component {
     });
   };
 
-  handleWebsiteChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = [".com", ".org", ".net", ".co"].map(
-        domain => `${value}${domain}`
-      );
-    }
-    this.setState({ autoCompleteResult });
-  };
-
   render() {
     const {
       eventTypeValues,
@@ -55,7 +43,7 @@ class EventForm extends React.Component {
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
         <InputGroup size="large">
           <InputAntd
-            withTip={true}
+            withTip
             label="Title"
             tipInfo="Title for Event"
             getFieldDecorator={getFieldDecorator}
@@ -69,7 +57,7 @@ class EventForm extends React.Component {
           label="Event’s Type"
           getFieldDecorator={getFieldDecorator}
           name="eventType"
-          required={true}
+          required
           validationMsg="Please select your Event’s Type!"
           placeholder="Event’s Type"
           handleSelectChange={this.handleSelectChange}
@@ -80,14 +68,14 @@ class EventForm extends React.Component {
           label="Event’s Topic"
           getFieldDecorator={getFieldDecorator}
           name="eventTopic"
-          required={true}
+          required
           validationMsg="Please select your Event Topic!"
           placeholder="Event’s Topic"
           handleSelectChange={this.handleSelectChange}
           optionsMenu={eventTopicValues}
         />
         <TextAreaAntd
-          withTip={true}
+          withTip
           label="Description"
           getFieldDecorator={getFieldDecorator}
           name="description"
@@ -194,7 +182,7 @@ class EventForm extends React.Component {
               </span>
             </>
           }
-          bordered={true}
+          bordered
           style={{ width: "100%", marginBottom: "20px" }}
         >
           <TextAreaAntd

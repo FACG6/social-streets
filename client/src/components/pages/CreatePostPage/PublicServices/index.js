@@ -41,7 +41,7 @@ class PublicServicesForm extends React.Component {
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
         <InputGroup size="large">
           <InputAntd
-            withTip={true}
+            withTip
             label="Title"
             tipInfo="Title for Public Services"
             getFieldDecorator={getFieldDecorator}
@@ -55,7 +55,7 @@ class PublicServicesForm extends React.Component {
           label="Primary Tag"
           getFieldDecorator={getFieldDecorator}
           name="primaryTag"
-          required={true}
+          required
           validationMsg="Please select your Primary Tag!"
           placeholder="Primary Tag"
           handleSelectChange={this.handleSelectChange}
@@ -66,14 +66,14 @@ class PublicServicesForm extends React.Component {
           label="Secondary Tag"
           getFieldDecorator={getFieldDecorator}
           name="secondaryTag"
-          required={true}
+          required
           validationMsg="Please select your Secondary Tag!"
           placeholder="Secondary Tag"
           handleSelectChange={this.handleSelectChange}
           optionsMenu={secondaryTag}
         />
         <TextAreaAntd
-          withTip={true}
+          withTip
           label="Description"
           getFieldDecorator={getFieldDecorator}
           name="description"
@@ -134,7 +134,7 @@ class PublicServicesForm extends React.Component {
               </span>
             </>
           }
-          bordered={true}
+          bordered
           style={{ width: "100%", marginBottom: "20px" }}
         >
           <TextAreaAntd
