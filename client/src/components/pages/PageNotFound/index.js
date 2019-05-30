@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
-import Header from "components/utils/Header";
-import Footer from "components/utils/footer";
 import "./style.css";
 
 export default () => (
