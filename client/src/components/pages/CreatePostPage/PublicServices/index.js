@@ -113,6 +113,15 @@ class PublicServicesForm extends React.Component {
             </Upload>
           )}
         </Form.Item>
+        <InputAntd
+          withTip={false}
+          label="Alt-Text"
+          tipInfo=""
+          getFieldDecorator={getFieldDecorator}
+          name="altText"
+          validationMsg="Please input Alt Text For Image!"
+          placeholder="Your Alt Text For Image"
+        />
         <Divider style={{ margin: "20px 0" }} />
         <InputGroup size="large">
           <InputAntd
@@ -149,7 +158,6 @@ class PublicServicesForm extends React.Component {
             max={false}
           />
         </Card>
-
         <Form.Item>
           <Btn onClick={() => {}} type="primary" htmlType="submit">
             Publish

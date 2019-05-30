@@ -160,6 +160,17 @@ class EventForm extends React.Component {
             </Upload>
           )}
         </Form.Item>
+        <InputGroup size="large">
+          <InputAntd
+            withTip={false}
+            label="Alt-Text"
+            tipInfo=""
+            getFieldDecorator={getFieldDecorator}
+            name="altText"
+            validationMsg="Please input Alt Text For Image!"
+            placeholder="Your Alt Text For Image"
+          />
+        </InputGroup>
         <Divider style={{ margin: "20px 0" }} />
         <InputGroup size="large">
           <InputAntd
