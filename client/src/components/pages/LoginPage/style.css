@@ -1,0 +1,7 @@
+.login-page--main-section {
+    min-height: calc(100vh - calc(129px + 70px));
+    width: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
