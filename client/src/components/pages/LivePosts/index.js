@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import PostButton from 'components/utils/PostButton'
 import Post from 'components/utils/Post';
 import './style.css'
@@ -21,14 +20,6 @@ class LivePosts extends Component {
       { title: 'post 6', id: 6 },
     ];
     this.setState({ livePosts });
-
-    //fetch live posts
-    axios.get('/api/v1/live-posts')
-      .then(({ posts }) => this.setState({ livePosts: posts }))
-      .catch(error => {
-        if (error.status === 401) this.props.history.push('/');
-        if (error.status === 500) this.setState({ error: 'Oops, something went wrong' });
-      })
   }
 
   handleDelete = (id) => {
@@ -38,19 +29,7 @@ class LivePosts extends Component {
     this.setState((prevState) => {
       prevState.livePosts.splice(deletedPost, 1);
       return ({ livePosts: prevState.livePosts })
-    })
-
-    //Axios to delete post
-    axios.delete('/api/v1/live-posts')
-      .then(() => this.setState((prevState) => {
-        const deletedPost = livePosts.findIndex(post => post.id === Number(id));
-        prevState.livePosts.splice(deletedPost, 1);
-        return { livePosts: prevState.livePosts }
-      }))
-      .catch(error => {
-        if (error.status === 401) this.props.history.push('/');
-        if (error.status === 500) this.setState({ error: 'Oops, something went wrong' });
-      })
+    });
   }
 
   render() {
