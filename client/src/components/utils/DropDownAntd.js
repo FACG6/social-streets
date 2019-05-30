@@ -12,13 +12,15 @@ const DropDownAntd = ({
   validationMsg,
   placeholder,
   handleSelectChange,
-  optionsMenu
+  optionsMenu,
+  mode = null
 }) => (
   <Item label={label}>
     {getFieldDecorator(name, {
       rules: [{ required: required, message: validationMsg }]
     })(
       <Select
+        mode={mode}
         size="large"
         placeholder={placeholder}
         onChange={handleSelectChange}

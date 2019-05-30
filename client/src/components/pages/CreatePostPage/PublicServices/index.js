@@ -64,6 +64,7 @@ class PublicServicesForm extends React.Component {
           optionsMenu={primaryTag}
         />
         <DropDownAntd
+          mode="multiple"
           label="Secondary Tag"
           getFieldDecorator={getFieldDecorator}
           name="secondaryTag"

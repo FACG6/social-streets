@@ -21,11 +21,6 @@ import "./style.css";
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: []
-  };
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -79,6 +74,7 @@ class EventForm extends React.Component {
           optionsMenu={eventTypeValues}
         />
         <DropDownAntd
+          mode="multiple"
           label="Event’s Topic"
           getFieldDecorator={getFieldDecorator}
           name="eventTopic"
