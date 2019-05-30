@@ -52,11 +52,12 @@ class BusinessForm extends React.Component {
 
   handleCityChange = value => {
     const { country } = this.state
+    const countryName = json[country] || []
     let autoCompleteResultCity;
     if (!value) {
       autoCompleteResultCity = [];
     } else {
-      let data = json[country].filter((city) => {
+      let data = countryName.filter((city) => {
         return city.toLowerCase().includes(value.toLowerCase());
       })
       autoCompleteResultCity = data.map(domain => `${domain}`);
@@ -100,8 +101,6 @@ class BusinessForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit} className='form'>
-
-
 
         <Form.Item label="Orgnisation Name" className='form--item'>
           {getFieldDecorator('orgnisation', {
