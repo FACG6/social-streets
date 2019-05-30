@@ -83,7 +83,7 @@ class PublicServicesForm extends React.Component {
           label={
             <span>
               Image&nbsp;
-              <Tooltip title="What do you want others to call you?">
+              <Tooltip title="Image for Public Services">
                 <Icon type="info-circle" />
               </Tooltip>
             </span>
