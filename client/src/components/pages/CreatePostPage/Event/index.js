@@ -7,7 +7,6 @@ import {
   Tooltip,
   Icon,
   DatePicker,
-  AutoComplete,
   InputNumber,
   Upload,
   Divider,
@@ -19,7 +18,6 @@ import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
 import "./style.css";
 
-const AutoCompleteOption = AutoComplete.Option;
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
@@ -50,17 +48,11 @@ class EventForm extends React.Component {
   };
 
   render() {
-    const { autoCompleteResult } = this.state;
-
     const {
       eventTypeValues,
       eventTopicValues,
       form: { getFieldDecorator }
     } = this.props;
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
 
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
@@ -124,26 +116,22 @@ class EventForm extends React.Component {
             />
           )}
         </Form.Item>
-        <Form.Item label="Website">
-          {getFieldDecorator("website", {
-            rules: [
-              {
-                required: true,
-                message: "Please input website!",
-                pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
-              }
-            ]
-          })(
-            <AutoComplete
-              dataSource={websiteOptions}
-              onChange={this.handleWebsiteChange}
-              placeholder="website"
-              size="large"
-            >
-              <Input />
-            </AutoComplete>
-          )}
-        </Form.Item>
+        <InputGroup size="large">
+          <InputAntd
+            withTip={false}
+            label="Website"
+            tipInfo=""
+            getFieldDecorator={getFieldDecorator}
+            name="website"
+            validationMsg="Please input website!"
+            placeholder="Enter website"
+            validation={{
+              max: 60,
+              pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              message: "Please input website!"
+            }}
+          />
+        </InputGroup>
         <Form.Item label="Cost">
           {getFieldDecorator("cost", {
             rules: [{ required: true, message: "Please input cost!" }]
