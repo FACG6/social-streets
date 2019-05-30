@@ -142,7 +142,7 @@ class BusinessForm extends React.Component {
 
         <Form.Item label="Website" className='form--item'>
           {getFieldDecorator('website', {
-            rules: [{ required: true, message: 'Please input website!' }],
+            rules: [{ required: true, message: 'Please input website!' }, {pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/, message: 'Please input a valied website'}],
           })(
             <AutoComplete
               dataSource={websiteOptions}

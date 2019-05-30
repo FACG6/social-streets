@@ -1,23 +1,31 @@
 const BusinesTypeValues = [
   {
     key: 1,
-    value: "idfghkn"
+    value: "Business"
   },
   {
     key: 2,
-    value: "kfdgnknf"
+    value: "Charity"
   },
   {
     key: 3,
-    value: "kdfngkn"
+    value: "Community"
   },
   {
     key: 4,
-    value: "fkgmjfg pkerpke"
+    value: "organisation"
   },
   {
     key: 5,
-    value: "dkfngjkfm"
+    value: "Education"
+  },
+  {
+    key: 6,
+    value: "Faith group"
+  },
+  {
+    key: 7,
+    value: "Public service"
   }
 ];
 
