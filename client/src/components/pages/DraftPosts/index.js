@@ -12,7 +12,7 @@ class DraftPosts extends Component {
 
   componentDidMount() {
     //Mock Data for Testing the component//
-    const posts = [
+    const draftPosts = [
       { title: 'draft 1', id: 1 },
       { title: 'draft 2', id: 2 },
       { title: 'draft 3', id: 3 },
@@ -20,15 +20,7 @@ class DraftPosts extends Component {
       { title: 'draft 5', id: 5 },
       { title: 'draft 6', id: 6 },
     ];
-    this.setState({ draftPosts: posts });
-
-    //fetch draft posts
-    axios.get('/api/v1/draft-posts')
-      .then(posts => this.setState({ draftPosts: posts }))
-      .catch(error => {
-        if (error.status === 401) this.props.history.push('/');
-        if (error.status === 500) this.setState({ error: 'Oops, something went wrong' });
-      })
+    this.setState({ draftPosts });
   }
 
   handleDelete = (id) => {
@@ -38,19 +30,7 @@ class DraftPosts extends Component {
     this.setState((prevState) => {
       prevState.draftPosts.splice(deletedPost, 1);
       return ({ draftPosts: prevState.draftPosts })
-    })
-
-    //Axios to delete post
-    axios.delete('/api/v1/draft-posts')
-      .then(() => this.setState((prevState) => {
-        const deletedPost = draftPosts.findIndex(post => post.id === Number(id));
-        prevState.draftPosts.splice(deletedPost, 1);
-        return { draftPosts: prevState.draftPosts }
-      }))
-      .catch(error => {
-        if (error.status === 401) this.props.history.push('/');
-        if (error.status === 500) this.setState({ error: 'Oops, something went wrong' });
-      })
+    });
   }
 
   render() {
@@ -81,7 +61,6 @@ class DraftPosts extends Component {
       </section >
     )
   }
-
 }
 
 export default DraftPosts;
