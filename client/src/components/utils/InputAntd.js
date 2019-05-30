@@ -10,7 +10,8 @@ const InputAntd = (
   getFieldDecorator,
   name,
   validationMsg,
-  placeholder
+  placeholder,
+  validation = {}
 ) => (
   <Item
     label={
@@ -29,8 +30,9 @@ const InputAntd = (
         {
           required: true,
           message: validationMsg,
-          whitespace: true
-        }
+          whitespace: true,
+        },
+        validation
       ]
     })(<Input placeholder={placeholder} />)}
   </Item>

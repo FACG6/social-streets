@@ -1,6 +1,6 @@
 import React from "react";
-import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
-import "./style.css";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import {
   Form,
   Tooltip,
@@ -12,7 +12,9 @@ import {
   Input
 } from "antd";
 
+import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
+import "./style.css";
 
 const InputGroup = Input.Group;
 
@@ -32,8 +34,11 @@ class PublicServicesForm extends React.Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { primaryTag, secondaryTag } = this.props;
+    const {
+      primaryTag,
+      secondaryTag,
+      form: { getFieldDecorator }
+    } = this.props;
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
         <InputGroup size="large">
@@ -44,7 +49,8 @@ class PublicServicesForm extends React.Component {
             getFieldDecorator,
             "title",
             "Please input your Event’s Title!",
-            "Event’s Title"
+            "Event’s Title",
+            { max: 60 }
           )}
         </InputGroup>
         {DropDownAntd(
@@ -155,7 +161,7 @@ class PublicServicesForm extends React.Component {
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
-            onClick={() => {}}
+            onClick={() => <Redirect for="/home" />}
             type="primary"
             htmlType="submit"
           >
@@ -177,5 +183,10 @@ class PublicServicesForm extends React.Component {
 const WrappedPublicServices = Form.create({ name: "publicServicesForm" })(
   PublicServicesForm
 );
+
+WrappedPublicServices.propTypes = {
+  primaryTag: PropTypes.array.isRequired,
+  secondaryTag: PropTypes.array.isRequired
+};
 
 export default WrappedPublicServices;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Select } from "antd";
 
-import { Options } from "components/utils";
+const { Option } = Select;
 const { Item } = Form;
 
 const DropDownAntd = (
@@ -23,7 +23,11 @@ const DropDownAntd = (
         placeholder={placeholder}
         onChange={handleSelectChange}
       >
-        {Options(OoptionsMenu)}
+        {OoptionsMenu.map(({ key, value }) => (
+          <Option key={key} value={value}>
+            {value}
+          </Option>
+        ))}
       </Select>
     )}
   </Item>

@@ -1,6 +1,6 @@
 import React from "react";
-import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
-import "./style.css";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import {
   Form,
   Input,
@@ -15,7 +15,9 @@ import {
   Button
 } from "antd";
 
+import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
+import "./style.css";
 
 const InputGroup = Input.Group;
 const AutoCompleteOption = AutoComplete.Option;
@@ -34,6 +36,7 @@ class EventForm extends React.Component {
       }
     });
   };
+
   handleWebsiteChange = value => {
     let autoCompleteResult;
     if (!value) {
@@ -45,10 +48,14 @@ class EventForm extends React.Component {
     }
     this.setState({ autoCompleteResult });
   };
+
   render() {
     const { autoCompleteResult } = this.state;
-    const { getFieldDecorator } = this.props.form;
-    const { eventTypeValues, eventTopicValues } = this.props;
+    const {
+      eventTypeValues,
+      eventTopicValues,
+      form: { getFieldDecorator }
+    } = this.props;
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
@@ -63,7 +70,8 @@ class EventForm extends React.Component {
             getFieldDecorator,
             "title",
             "Please input your Event’s Title!",
-            "Event’s Title"
+            "Event’s Title",
+            { max: 60 }
           )}
         </InputGroup>
         {DropDownAntd(
@@ -223,7 +231,7 @@ class EventForm extends React.Component {
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
-            onClick={() => {}}
+            onClick={() => <Redirect for="/home" />}
             type="primary"
             htmlType="submit"
           >
@@ -244,5 +252,8 @@ class EventForm extends React.Component {
 }
 
 const WrappedEventForm = Form.create({ name: "eventForm" })(EventForm);
-
+WrappedEventForm.propTypes = {
+  eventTopicValues: PropTypes.array.isRequired,
+  eventTypeValues: PropTypes.array.isRequired
+};
 export default WrappedEventForm;

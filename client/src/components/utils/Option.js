@@ -3,12 +3,11 @@ import { Select } from "antd";
 
 const { Option } = Select;
 
-const Options = eventTypeValues => {
-  const selectOption = eventTypeValues.map(({ key, value }) => (
-    <Option children={value} key={key} value={value} />
+const Options = eventTypeValues =>
+  eventTypeValues.map(({ key, value }) => (
+    <Option key={key} value={value}>
+      {value}
+    </Option>
   ));
-
-  return selectOption;
-};
 
 export default Options;

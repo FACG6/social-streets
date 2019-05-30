@@ -1,8 +1,6 @@
 import React from "react";
 import { Divider, Select } from "antd";
-import PropTypes from "prop-types";
 
-import { Options } from "components/utils";
 import WrappedEventForm from "components/pages/CreatePostPage/Event";
 import WrappedPublicServices from "components/pages/CreatePostPage/PublicServices";
 import {
@@ -12,6 +10,8 @@ import {
   secondaryTag
 } from "./dumyData";
 import "./style.css";
+
+const { Option } = Select;
 
 class CreatPostPage extends React.Component {
   state = {
@@ -34,14 +34,8 @@ class CreatPostPage extends React.Component {
   };
   render() {
     const postTypes = [
-      {
-        key: 1,
-        value: "Event"
-      },
-      {
-        key: 2,
-        value: "Social Business"
-      }
+      { key: 1, value: "Event" },
+      { key: 2, value: "Social Business" }
     ];
     const {
       postType,
@@ -60,7 +54,11 @@ class CreatPostPage extends React.Component {
           onChange={this.handlePostTypeChange}
           size="large"
         >
-          {Options(postTypes)}
+          {postTypes.map(({ key, value }) => (
+            <Option key={key} value={value}>
+              {value}
+            </Option>
+          ))}
         </Select>
         <Divider style={{ margin: "20px 0" }} />
         {postType === "Event" ? (
@@ -78,15 +76,5 @@ class CreatPostPage extends React.Component {
     );
   }
 }
-
-WrappedEventForm.propTypes = {
-  eventTopicValues: PropTypes.array.isRequired,
-  eventTypeValues: PropTypes.array.isRequired
-};
-
-WrappedPublicServices.propTypes = {
-  primaryTag: PropTypes.array.isRequired,
-  secondaryTag: PropTypes.array.isRequired
-};
 
 export default CreatPostPage;
