@@ -10,21 +10,26 @@ class PersonalForm extends React.Component {
     confirmDirty: false,
   };
 
+  componentDidMount = () => {
+    this.props.form.setFieldsValue(this.props.personal)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        this.props.handlePersonalInfo(values, e)
         console.log('Received values of form: ', values);
       }
     });
   };
 
-  location = this.props.location.state ? this.props.location.state.from : '/posts'
+  // location = this.props.location.state ? this.props.location.state.from : '/posts'
 
-  handleCancel = (e) => {
-    e.preventDefault();
-    this.props.history.push(this.location)
-  }
+  // handleCancel = (e) => {
+  //   e.preventDefault();
+  //   this.props.history.push(this.location)
+  // }
 
   handleConfirmBlur = e => {
     const value = e.target.value;
@@ -49,6 +54,7 @@ class PersonalForm extends React.Component {
   };
 
   render() {
+    // console.log(this.props.personal)
     const { getFieldDecorator } = this.props.form;
 
     const formItemLayout = {
@@ -176,7 +182,7 @@ class PersonalForm extends React.Component {
         <div className='form-div'>
           <Form.Item {...tailFormItemLayout}>
             <Button type="submit" className='form--btn-save' onClick={() => undefined} >
-              Save
+              Next
           </Button>
             <Button className='form--btn-cancel' onClick={this.handleCancel}>
               Cancel
