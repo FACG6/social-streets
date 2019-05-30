@@ -90,7 +90,7 @@ class PersonalForm extends React.Component {
                 message: 'Please inter your First Name!',
               },
             ],
-          })(<Input placeholder='Your Last Name' />)}
+          })(<Input placeholder='Your First Name' />)}
         </Form.Item>
 
         <Form.Item label="Last Name" className='form--item' >
