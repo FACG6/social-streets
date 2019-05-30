@@ -1,60 +1,91 @@
 import React from "react";
 import { Divider, Select } from "antd";
-import { eventTypeValues, eventTopicValues } from "./dumyData";
 import PropTypes from "prop-types";
 
-import EventFrom from "./Event";
-import SocialBusiness from "./SocialBusiness";
+import { Options } from "components/utils";
+import WrappedEventForm from "components/pages/CreatePostPage/Event";
+import WrappedPublicServices from "components/pages/CreatePostPage/PublicServices";
+import {
+  eventTypeValues,
+  eventTopicValues,
+  primaryTag,
+  secondaryTag
+} from "./dumyData";
 import "./style.css";
-
-const { Option } = Select;
 
 class CreatPostPage extends React.Component {
   state = {
     postType: "Event",
-    eventTypeValues: "",
-    eventTopicValues: ""
+    eventTypeValues: [],
+    eventTopicValues: [],
+    primaryTag: [],
+    secondaryTag: []
   };
   componentDidMount() {
     this.setState({
       eventTypeValues: eventTypeValues,
-      eventTopicValues: eventTopicValues
+      eventTopicValues: eventTopicValues,
+      primaryTag: primaryTag,
+      secondaryTag: secondaryTag
     });
   }
   handlePostTypeChange = e => {
     this.setState({ postType: e });
   };
   render() {
-    const { postType, eventTypeValues } = this.state;
+    const postTypes = [
+      {
+        key: 1,
+        value: "Event"
+      },
+      {
+        key: 2,
+        value: "Social Business"
+      }
+    ];
+    const {
+      postType,
+      eventTypeValues,
+      eventTopicValues,
+      primaryTag
+    } = this.state;
     return (
       <section className="main">
         <h1 style={{ margin: 0 }}>Publish New Post</h1>
         <Divider style={{ margin: "0 0 30px 0" }} />
         <h4>Post Type</h4>
         <Select
+          defaultValue="Event"
           placeholder="Event’s Title"
           onChange={this.handlePostTypeChange}
         >
-          <Option value="Event">Event</Option>
-          <Option value="Social Business">Social Business</Option>
+          {Options(postTypes)}
         </Select>
         <Divider style={{ margin: "20px 0" }} />
-        {eventTypeValues && eventTopicValues && postType === "Event" ? (
-          <EventFrom
+        {postType === "Event" ? (
+          <WrappedEventForm
             eventTopicValues={eventTopicValues}
             eventTypeValues={eventTypeValues}
           />
         ) : (
-          <SocialBusiness />
+          <WrappedPublicServices
+            primaryTag={primaryTag}
+            secondaryTag={secondaryTag}
+          />
         )}
       </section>
     );
   }
 }
 
-EventFrom.propTypes = {
+WrappedEventForm.propTypes = {
   eventTopicValues: PropTypes.array.isRequired,
   eventTypeValues: PropTypes.array.isRequired
+};
+
+WrappedPublicServices.propTypes = {
+  primaryTag: PropTypes.array.isRequired,
+  secondaryTag: PropTypes.array.isRequired
 };
 
 export default CreatPostPage;
