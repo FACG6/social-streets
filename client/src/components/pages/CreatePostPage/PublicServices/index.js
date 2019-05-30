@@ -42,49 +42,48 @@ class PublicServicesForm extends React.Component {
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
         <InputGroup size="large">
-          {InputAntd(
-            true,
-            "Title",
-            "Title for Public Services",
-            getFieldDecorator,
-            "title",
-            "Please input your Event’s Title!",
-            "Event’s Title",
-            { max: 60 }
-          )}
+          <InputAntd
+            withTip={true}
+            label="Title"
+            tipInfo="Title for Public Services"
+            getFieldDecorator={getFieldDecorator}
+            name="title"
+            validationMsg="Please input your Public Services"
+            placeholder="Public Services"
+            validation={{ max: 60 }}
+          />
         </InputGroup>
-        {DropDownAntd(
-          "Primary Tag",
-          getFieldDecorator,
-          "primaryTag",
-          true,
-          "Please select your Primary Tag!",
-          "Primary Tag",
-          this.handleSelectChange,
-          primaryTag
-        )}
-        {DropDownAntd(
-          "Secondary Tag",
-          getFieldDecorator,
-          "secondaryTag",
-          true,
-          "Please select your Secondary Tag!",
-          "Secondary Tag",
-          this.handleSelectChange,
-          secondaryTag
-        )}
-        {TextAreaAntd(
-          true,
-          {},
-          "Description",
-          "Description for Public Services",
-          getFieldDecorator,
-          "description",
-          "Please input your description!",
-          "Enter Event Description",
-          10,
-          false
-        )}
+        <DropDownAntd
+          label="Primary Tag"
+          getFieldDecorator={getFieldDecorator}
+          name="primaryTag"
+          required={true}
+          validationMsg="Please select your Primary Tag!"
+          placeholder="Primary Tag"
+          handleSelectChange={this.handleSelectChange}
+          optionsMenu={primaryTag}
+        />
+        <DropDownAntd
+          label="Secondary Tag"
+          getFieldDecorator={getFieldDecorator}
+          name="secondaryTag"
+          required={true}
+          validationMsg="Please select your Secondary Tag!"
+          placeholder="Secondary Tag"
+          handleSelectChange={this.handleSelectChange}
+          optionsMenu={secondaryTag}
+        />
+        <TextAreaAntd
+          withTip={true}
+          style={{}}
+          label="Description"
+          getFieldDecorator={getFieldDecorator}
+          name="description"
+          validationMsg="Please input your description!"
+          placeholder="Enter Event Description"
+          min={10}
+          max={false}
+        />
         <Form.Item
           label={
             <span>
@@ -118,15 +117,15 @@ class PublicServicesForm extends React.Component {
         </Form.Item>
         <Divider style={{ margin: "20px 0" }} />
         <InputGroup size="large">
-          {InputAntd(
-            false,
-            "Focus Keyword",
-            "",
-            getFieldDecorator,
-            "focusKeyword",
-            "Please input your keyword!",
-            "Your main keyword"
-          )}
+          <InputAntd
+            withTip={false}
+            label="Focus Keyword"
+            tipInfo=""
+            getFieldDecorator={getFieldDecorator}
+            name="focusKeyword"
+            validationMsg="Please input your keyword!"
+            placeholder="Your main keyword"
+          />
         </InputGroup>
         <Card
           title={
@@ -141,18 +140,17 @@ class PublicServicesForm extends React.Component {
           bordered={true}
           style={{ width: "100%", marginBottom: "20px" }}
         >
-          {TextAreaAntd(
-            false,
-            { fontSize: "15px" },
-            "Meta Description",
-            "What do you want others to call you?",
-            getFieldDecorator,
-            "metaDescription",
-            "Please input your Meta Description!",
-            "Your main Meta Description",
-            5,
-            false
-          )}
+          <TextAreaAntd
+            withTip={false}
+            style={{ fontSize: "15px" }}
+            label="Meta Description"
+            getFieldDecorator={getFieldDecorator}
+            name="metaDescription"
+            validationMsg="Please input your Meta Description!"
+            placeholder="Your main Meta Description"
+            min={5}
+            max={false}
+          />
         </Card>
 
         <Form.Item>

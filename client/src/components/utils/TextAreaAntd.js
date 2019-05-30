@@ -4,7 +4,7 @@ import { Form, Input, Tooltip, Icon } from "antd";
 const { Item } = Form;
 const { TextArea } = Input;
 
-const TextAreaAntd = (
+const TextAreaAntd = ({
   withTip,
   style,
   label,
@@ -15,7 +15,7 @@ const TextAreaAntd = (
   placeholder,
   min,
   max
-) => (
+}) => (
   <Item
     label={
       <span style={style}>

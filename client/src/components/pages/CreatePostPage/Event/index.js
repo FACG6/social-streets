@@ -19,8 +19,8 @@ import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
 import "./style.css";
 
-const InputGroup = Input.Group;
 const AutoCompleteOption = AutoComplete.Option;
+const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   state = {
@@ -42,7 +42,7 @@ class EventForm extends React.Component {
     if (!value) {
       autoCompleteResult = [];
     } else {
-      autoCompleteResult = [".com", ".org", ".net"].map(
+      autoCompleteResult = [".com", ".org", ".net", ".co"].map(
         domain => `${value}${domain}`
       );
     }
@@ -51,11 +51,13 @@ class EventForm extends React.Component {
 
   render() {
     const { autoCompleteResult } = this.state;
+
     const {
       eventTypeValues,
       eventTopicValues,
       form: { getFieldDecorator }
     } = this.props;
+
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
@@ -63,49 +65,48 @@ class EventForm extends React.Component {
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
         <InputGroup size="large">
-          {InputAntd(
-            true,
-            "Title",
-            "Title for Event",
-            getFieldDecorator,
-            "title",
-            "Please input your Event’s Title!",
-            "Event’s Title",
-            { max: 60 }
-          )}
+          <InputAntd
+            withTip={true}
+            label="Title"
+            tipInfo="Title for Event"
+            getFieldDecorator={getFieldDecorator}
+            name="title"
+            validationMsg="Please input your Event’s Title!"
+            placeholder="Event’s Title"
+            validation={{ max: 60 }}
+          />
         </InputGroup>
-        {DropDownAntd(
-          "Event’s Type",
-          getFieldDecorator,
-          "eventType",
-          true,
-          "Please select your Event’s Type!",
-          "Event’s Type",
-          this.handleSelectChange,
-          eventTypeValues
-        )}
-        {DropDownAntd(
-          "Event’s Topic",
-          getFieldDecorator,
-          "eventTopic",
-          true,
-          "Please select your Event Topic!",
-          "Event’s Topic",
-          this.handleSelectChange,
-          eventTopicValues
-        )}
-        {TextAreaAntd(
-          true,
-          {},
-          "Description",
-          "Description for Event",
-          getFieldDecorator,
-          "description",
-          "Please input your description!",
-          "Enter Event Description",
-          10,
-          false
-        )}
+        <DropDownAntd
+          label="Event’s Type"
+          getFieldDecorator={getFieldDecorator}
+          name="eventType"
+          required={true}
+          validationMsg="Please select your Event’s Type!"
+          placeholder="Event’s Type"
+          handleSelectChange={this.handleSelectChange}
+          optionsMenu={eventTypeValues}
+        />
+        <DropDownAntd
+          label="Event’s Topic"
+          getFieldDecorator={getFieldDecorator}
+          name="eventTopic"
+          required={true}
+          validationMsg="Please select your Event Topic!"
+          placeholder="Event’s Topic"
+          handleSelectChange={this.handleSelectChange}
+          optionsMenu={eventTopicValues}
+        />
+        <TextAreaAntd
+          withTip={true}
+          style={{}}
+          label="Description"
+          getFieldDecorator={getFieldDecorator}
+          name="description"
+          validationMsg="Please input your description!"
+          placeholder="Enter Event Description"
+          min={10}
+          max={false}
+        />
         <Form.Item label={<span>Date and Time&nbsp;</span>}>
           {getFieldDecorator("dateAndTime", {
             rules: [
@@ -189,15 +190,15 @@ class EventForm extends React.Component {
         </Form.Item>
         <Divider style={{ margin: "20px 0" }} />
         <InputGroup size="large">
-          {InputAntd(
-            false,
-            "Focus Keyword",
-            "",
-            getFieldDecorator,
-            "focusKeyword",
-            "Please input your keyword!",
-            "Your main keyword"
-          )}
+          <InputAntd
+            withTip={false}
+            label="Focus Keyword"
+            tipInfo=""
+            getFieldDecorator={getFieldDecorator}
+            name="focusKeyword"
+            validationMsg="Please input your keyword!"
+            placeholder="Your main keyword"
+          />
         </InputGroup>
         <Card
           title={
@@ -212,18 +213,17 @@ class EventForm extends React.Component {
           bordered={true}
           style={{ width: "100%", marginBottom: "20px" }}
         >
-          {TextAreaAntd(
-            false,
-            { fontSize: "15px" },
-            "Meta Description",
-            "What do you want others to call you?",
-            getFieldDecorator,
-            "metaDescription",
-            "Please input your Meta Description!",
-            "Your main Meta Description",
-            5,
-            false
-          )}
+          <TextAreaAntd
+            withTip={false}
+            style={{ fontSize: "15px" }}
+            label="Meta Description"
+            getFieldDecorator={getFieldDecorator}
+            name="metaDescription"
+            validationMsg="Please input your Meta Description!"
+            placeholder="Your main Meta Description"
+            min={5}
+            max={false}
+          />
         </Card>
         <Form.Item>
           <Btn onClick={() => {}} type="primary" htmlType="submit">
@@ -252,6 +252,7 @@ class EventForm extends React.Component {
 }
 
 const WrappedEventForm = Form.create({ name: "eventForm" })(EventForm);
+
 WrappedEventForm.propTypes = {
   eventTopicValues: PropTypes.array.isRequired,
   eventTypeValues: PropTypes.array.isRequired

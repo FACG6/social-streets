@@ -21,6 +21,7 @@ class CreatPostPage extends React.Component {
     primaryTag: [],
     secondaryTag: []
   };
+
   componentDidMount() {
     this.setState({
       eventTypeValues: eventTypeValues,
@@ -29,22 +30,24 @@ class CreatPostPage extends React.Component {
       secondaryTag: secondaryTag
     });
   }
-  handlePostTypeChange = e => {
-    this.setState({ postType: e });
-  };
+
+  handlePostTypeChange = e => this.setState({ postType: e });
+
   render() {
     const postTypes = [
       { key: 1, value: "Event" },
-      { key: 2, value: "Social Business" }
+      { key: 2, value: "Public Services" }
     ];
+
     const {
       postType,
       eventTypeValues,
       eventTopicValues,
       primaryTag
     } = this.state;
+
     return (
-      <section className="main">
+      <section className="create-post-page-main">
         <h1 style={{ margin: 0 }}>Publish New Post</h1>
         <Divider style={{ margin: "0 0 30px 0" }} />
         <h4>Post Type</h4>

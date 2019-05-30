@@ -4,7 +4,7 @@ import { Form, Select } from "antd";
 const { Option } = Select;
 const { Item } = Form;
 
-const DropDownAntd = (
+const DropDownAntd = ({
   label,
   getFieldDecorator,
   name,
@@ -12,8 +12,8 @@ const DropDownAntd = (
   validationMsg,
   placeholder,
   handleSelectChange,
-  OoptionsMenu
-) => (
+  optionsMenu
+}) => (
   <Item label={label}>
     {getFieldDecorator(name, {
       rules: [{ required: required, message: validationMsg }]
@@ -23,7 +23,7 @@ const DropDownAntd = (
         placeholder={placeholder}
         onChange={handleSelectChange}
       >
-        {OoptionsMenu.map(({ key, value }) => (
+        {optionsMenu.map(({ key, value }) => (
           <Option key={key} value={value}>
             {value}
           </Option>

@@ -3,7 +3,7 @@ import { Form, Input, Tooltip, Icon } from "antd";
 
 const { Item } = Form;
 
-const InputAntd = (
+const InputAntd = ({
   withTip,
   label,
   tipInfo,
@@ -12,7 +12,7 @@ const InputAntd = (
   validationMsg,
   placeholder,
   validation = {}
-) => (
+}) => (
   <Item
     label={
       <span>
@@ -30,7 +30,7 @@ const InputAntd = (
         {
           required: true,
           message: validationMsg,
-          whitespace: true,
+          whitespace: true
         },
         validation
       ]
