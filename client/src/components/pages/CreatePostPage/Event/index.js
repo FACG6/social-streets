@@ -46,8 +46,10 @@ class EventForm extends React.Component {
     const {
       eventTypeValues,
       eventTopicValues,
-      form: { getFieldDecorator }
+      form: { getFieldDecorator, getFieldValue }
     } = this.props;
+
+    const urlType = getFieldValue("eventType");
 
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
@@ -86,7 +88,6 @@ class EventForm extends React.Component {
         />
         <TextAreaAntd
           withTip={true}
-          style={{}}
           label="Description"
           getFieldDecorator={getFieldDecorator}
           name="description"
@@ -116,7 +117,6 @@ class EventForm extends React.Component {
           <InputAntd
             withTip={false}
             label="Website"
-            tipInfo=""
             getFieldDecorator={getFieldDecorator}
             name="website"
             validationMsg="Please input website!"
@@ -190,7 +190,7 @@ class EventForm extends React.Component {
               Event Title
               <br />
               <span style={{ color: "#277839" }}>
-                www.socialstreets.co/events/festival
+                www.socialstreets.co/events/{urlType && urlType}
               </span>
             </>
           }
@@ -215,7 +215,7 @@ class EventForm extends React.Component {
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
-            onClick={() => <Redirect for="/home" />}
+            onClick={() => {}}
             type="primary"
             htmlType="submit"
           >
@@ -223,7 +223,7 @@ class EventForm extends React.Component {
           </Btn>
           <Btn
             className="main--form-btn-black main--form-btn"
-            onClick={() => {}}
+            onClick={() => <Redirect to="/home" />}
             type="primary"
             htmlType="submit"
           >

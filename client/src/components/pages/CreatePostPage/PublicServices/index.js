@@ -32,8 +32,10 @@ class PublicServicesForm extends React.Component {
     const {
       primaryTag,
       secondaryTag,
-      form: { getFieldDecorator }
+      form: { getFieldDecorator, getFieldValue }
     } = this.props;
+
+    const urlType = getFieldValue("primaryTag");
 
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
@@ -72,7 +74,6 @@ class PublicServicesForm extends React.Component {
         />
         <TextAreaAntd
           withTip={true}
-          style={{}}
           label="Description"
           getFieldDecorator={getFieldDecorator}
           name="description"
@@ -117,7 +118,6 @@ class PublicServicesForm extends React.Component {
           <InputAntd
             withTip={false}
             label="Focus Keyword"
-            tipInfo=""
             getFieldDecorator={getFieldDecorator}
             name="focusKeyword"
             validationMsg="Please input your keyword!"
@@ -130,7 +130,7 @@ class PublicServicesForm extends React.Component {
               Event Title
               <br />
               <span style={{ color: "#277839" }}>
-                www.socialstreets.co/events/festival
+                www.socialstreets.co/events/{urlType && urlType}
               </span>
             </>
           }
@@ -156,7 +156,7 @@ class PublicServicesForm extends React.Component {
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
-            onClick={() => <Redirect for="/home" />}
+            onClick={() => {}}
             type="primary"
             htmlType="submit"
           >
@@ -164,7 +164,7 @@ class PublicServicesForm extends React.Component {
           </Btn>
           <Btn
             className="main--form-btn-black main--form-btn"
-            onClick={() => {}}
+            onClick={() => <Redirect to="/home" />}
             type="primary"
             htmlType="submit"
           >
