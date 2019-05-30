@@ -9,6 +9,7 @@
     padding-top: 30px;
     position: fixed;
     top: 190px;
+    z-index: 5;
 }
 
 .header--menu-text {
