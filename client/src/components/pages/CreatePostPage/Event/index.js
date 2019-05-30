@@ -16,6 +16,8 @@ import {
 } from "antd";
 
 import { Button as Btn } from "components/utils";
+
+const InputGroup = Input.Group;
 const AutoCompleteOption = AutoComplete.Option;
 
 class EventForm extends React.Component {
@@ -53,15 +55,17 @@ class EventForm extends React.Component {
 
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
-        {InputAntd(
-          true,
-          "Title",
-          "What do you want others to call you?",
-          getFieldDecorator,
-          "title",
-          "Please input your Event’s Title!",
-          "Event’s Title"
-        )}
+        <InputGroup size="large">
+          {InputAntd(
+            true,
+            "Title",
+            "What do you want others to call you?",
+            getFieldDecorator,
+            "title",
+            "Please input your Event’s Title!",
+            "Event’s Title"
+          )}
+        </InputGroup>
         {DropDownAntd(
           "Event’s Type",
           getFieldDecorator,
@@ -107,6 +111,7 @@ class EventForm extends React.Component {
               style={{ width: "100%" }}
               showTime
               format="YYYY-MM-DD HH:mm:ss"
+              size="large"
             />
           )}
         </Form.Item>
@@ -118,6 +123,7 @@ class EventForm extends React.Component {
               dataSource={websiteOptions}
               onChange={this.handleWebsiteChange}
               placeholder="website"
+              size="large"
             >
               <Input />
             </AutoComplete>
@@ -132,6 +138,7 @@ class EventForm extends React.Component {
               formatter={value =>
                 `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
+              size="large"
             />
           )}
         </Form.Item>
@@ -160,22 +167,24 @@ class EventForm extends React.Component {
               action="/upload.do"
               listType="picture"
             >
-              <Button>
+              <Button size="large">
                 <Icon type="upload" /> Click to upload
               </Button>
             </Upload>
           )}
         </Form.Item>
         <Divider style={{ margin: "20px 0" }} />
-        {InputAntd(
-          false,
-          "Focus Keyword",
-          "",
-          getFieldDecorator,
-          "focusKeyword",
-          "Please input your keyword!",
-          "Your main keyword"
-        )}
+        <InputGroup size="large">
+          {InputAntd(
+            false,
+            "Focus Keyword",
+            "",
+            getFieldDecorator,
+            "focusKeyword",
+            "Please input your keyword!",
+            "Your main keyword"
+          )}
+        </InputGroup>
         <Card
           title={
             <>

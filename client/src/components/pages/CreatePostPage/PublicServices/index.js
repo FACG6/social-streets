@@ -1,9 +1,20 @@
 import React from "react";
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import "./style.css";
-import { Form, Tooltip, Icon, Upload, Divider, Card, Button } from "antd";
+import {
+  Form,
+  Tooltip,
+  Icon,
+  Upload,
+  Divider,
+  Card,
+  Button,
+  Input
+} from "antd";
 
 import { Button as Btn } from "components/utils";
+
+const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
   state = {
@@ -25,15 +36,17 @@ class PublicServicesForm extends React.Component {
     const { primaryTag, secondaryTag } = this.props;
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
-        {InputAntd(
-          true,
-          "Title",
-          "What do you want others to call you?",
-          getFieldDecorator,
-          "title",
-          "Please input your Event’s Title!",
-          "Event’s Title"
-        )}
+        <InputGroup size="large">
+          {InputAntd(
+            true,
+            "Title",
+            "What do you want others to call you?",
+            getFieldDecorator,
+            "title",
+            "Please input your Event’s Title!",
+            "Event’s Title"
+          )}
+        </InputGroup>
         {DropDownAntd(
           "Primary Tag",
           getFieldDecorator,
@@ -91,22 +104,24 @@ class PublicServicesForm extends React.Component {
               action="/upload.do"
               listType="picture"
             >
-              <Button>
+              <Button size="large">
                 <Icon type="upload" /> Click to upload
               </Button>
             </Upload>
           )}
         </Form.Item>
         <Divider style={{ margin: "20px 0" }} />
-        {InputAntd(
-          false,
-          "Focus Keyword",
-          "",
-          getFieldDecorator,
-          "focusKeyword",
-          "Please input your keyword!",
-          "Your main keyword"
-        )}
+        <InputGroup size="large">
+          {InputAntd(
+            false,
+            "Focus Keyword",
+            "",
+            getFieldDecorator,
+            "focusKeyword",
+            "Please input your keyword!",
+            "Your main keyword"
+          )}
+        </InputGroup>
         <Card
           title={
             <>

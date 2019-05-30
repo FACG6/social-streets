@@ -58,6 +58,7 @@ class CreatPostPage extends React.Component {
           defaultValue="Event"
           placeholder="Event’s Title"
           onChange={this.handlePostTypeChange}
+          size="large"
         >
           {Options(postTypes)}
         </Select>
