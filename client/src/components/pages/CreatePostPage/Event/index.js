@@ -117,7 +117,13 @@ class EventForm extends React.Component {
         </Form.Item>
         <Form.Item label="Website">
           {getFieldDecorator("website", {
-            rules: [{ required: true, message: "Please input website!" }]
+            rules: [
+              {
+                required: true,
+                message: "Please input website!",
+                pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+              }
+            ]
           })(
             <AutoComplete
               dataSource={websiteOptions}
