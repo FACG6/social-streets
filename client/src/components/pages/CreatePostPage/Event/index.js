@@ -59,7 +59,7 @@ class EventForm extends React.Component {
           {InputAntd(
             true,
             "Title",
-            "What do you want others to call you?",
+            "Titel for Event",
             getFieldDecorator,
             "title",
             "Please input your Event’s Title!",
@@ -90,7 +90,7 @@ class EventForm extends React.Component {
           true,
           {},
           "Description",
-          "What do you want others to call you?",
+          "Description for Event",
           getFieldDecorator,
           "description",
           "Please input your description!",

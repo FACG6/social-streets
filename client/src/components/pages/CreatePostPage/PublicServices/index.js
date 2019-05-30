@@ -40,7 +40,7 @@ class PublicServicesForm extends React.Component {
           {InputAntd(
             true,
             "Title",
-            "What do you want others to call you?",
+            "Title for Public Services",
             getFieldDecorator,
             "title",
             "Please input your Event’s Title!",
@@ -71,7 +71,7 @@ class PublicServicesForm extends React.Component {
           true,
           {},
           "Description",
-          "What do you want others to call you?",
+          "Description for Public Services",
           getFieldDecorator,
           "description",
           "Please input your description!",
