@@ -18,7 +18,7 @@
 .btn.form--btn-cancel {
   background-color: #505050;
   border: #505050;
-  margin: 10px 0 0 0;
+  margin-top: 10px;
   width: 90vw;
 }
 
@@ -26,10 +26,6 @@
   margin: 0;
 }
 
-.ant-input {
-  background-color: #fafafa;
-}
-
-.ant-select-selection--single {
+.ant-input, .ant-select-selection--single {
   background-color: #fafafa;
 }
