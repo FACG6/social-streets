@@ -1,0 +1,35 @@
+.form {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.form--item {
+  width: 100%;
+}
+
+.form--btn-cancel {
+  margin-bottom: 10px;
+}
+
+.form--btn-save {
+  width: 90vw;
+}
+
+.btn.form--btn-cancel {
+  background-color: #505050;
+  border: #505050;
+  margin: 10px 0 0 0;
+  width: 90vw;
+}
+
+.ant-col-sm-offset-8 {
+  margin: 0;
+}
+
+.ant-input {
+  background-color: #fafafa;
+}
+
+.ant-select-selection--single {
+  background-color: #fafafa;
+}
