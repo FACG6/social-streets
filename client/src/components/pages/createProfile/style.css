@@ -1,4 +1,4 @@
-.create-profile--header { 
+.create-profile--header {
   width: 70%;
   text-align: center;
   margin: 0 auto;
@@ -7,34 +7,16 @@
 .ant-steps-item-process .ant-steps-item-icon {
   background: var(--primary-color, pink);
   border-color: var(--primary-color, pink);
-
 }
 
-.ant-steps-item-finish .ant-steps-item-icon{
+.ant-steps-item-finish .ant-steps-item-icon {
   border-color: #333;
-
-}
-.anticon svg{
-  color: #333;
 }
 
-.ant-steps-item-tail {
-  color: #333;
-}
-
-.ant-steps-item ant-steps-item-finish {
-  color: #333;
-
-}
-
-.ant-steps ant-steps-horizontal ant-steps-small ant-steps-label-vertical {
-  color: #333;
-}
-
-.ant-steps-item-finish > .ant-steps-item-tail::after{
+.ant-steps-item-finish>.ant-steps-item-tail::after {
   background: var(--primary-color, pink)
 }
 
-.stepOne {
-  cursor: pointer;
+.ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon {
+  color: #333;
 }
