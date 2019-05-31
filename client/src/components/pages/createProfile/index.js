@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Steps } from 'antd';
 
-import PersonalProfile from 'components/pages/personalProfile'
-import BusinessProfile from 'components/pages/profileBusiness'
+import PersonalProfile from 'components/utils/personalForm'
+import BusinessProfile from 'components/utils/businessForm'
 import './style.css'
 
 const { Step } = Steps;
@@ -28,7 +28,6 @@ export default class Profile extends Component {
 
   handleGoBack = (data, e) => {
     e.preventDefault()
-    console.log('when go back from step 2',data)
     this.setState({ current: 0, business: data })
   }
 
