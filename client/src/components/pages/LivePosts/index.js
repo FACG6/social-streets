@@ -37,7 +37,6 @@ class LivePosts extends Component {
         <span className='live-posts-error'>{error}</span>
         <PostButton className='post-type--bold' postType='Live Posts' />
         {
-          livePosts.length ?
           <div className='live-posts--container'>
             {
               livePosts.map(post => <PostRow
@@ -50,7 +49,7 @@ class LivePosts extends Component {
                 category={post.category}
               />
               )}
-          </div>: ''
+          </div>
         }
       </section >
     )
