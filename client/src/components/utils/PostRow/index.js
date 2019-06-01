@@ -17,7 +17,7 @@ export default function Post({ onClick, postTitle, id, type, category }) {
             {postTitle}
           </p>
         </Link>
-        <div>
+        <div className='post-icons'>
           <Icon
             id={id}
             onClick={handleClick}

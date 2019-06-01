@@ -16,8 +16,18 @@
   margin-bottom: 0;
 }
 
+.post--title a {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .post--title:hover {
   color: rgba(218, 80, 80, .8);
+}
+
+.post-icons {
+  display: flex;
 }
 
 .post--icon {
