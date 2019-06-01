@@ -11,7 +11,7 @@ export default function Post({ onClick, postTitle, id, postType }) {
 
   return (
     <Router>
-      <Link to={`/post/${id}`}>
+      <Link to={`/post/${postType}/${id}`}>
         <div className='post'>
           <p className='post--title'>
             {postTitle.length > 30 ? postTitle.substring(0, 31) : postTitle}
