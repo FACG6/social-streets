@@ -26,6 +26,12 @@
   margin: 0;
 }
 
-.ant-input, .ant-select-selection--single {
+.ant-input,
+.ant-select-selection--single {
   background-color: #fafafa;
+}
+
+.has-success.has-feedback .ant-form-item-children-icon,
+.has-error.has-feedback .ant-form-item-children-icon {
+  top: 20px;
 }
