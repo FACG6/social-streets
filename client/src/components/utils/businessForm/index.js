@@ -130,7 +130,6 @@ class BusinessForm extends React.Component {
             <Select
               placeholder="Type of busines"
               onChange={this.handleSelectChange}
-              style={{'background-color': '#fafafa'}}
             >
             { BusinesTypeValues.map(({ key, value }) => (<Option key={key} value={value}>{value}</Option>))}
             </Select>
