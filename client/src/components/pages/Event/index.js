@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { Icon } from 'antd'
 
 import 'antd/dist/antd.css'
@@ -65,3 +66,18 @@ export default function Event(props) {
     </div>
   )
 }
+
+Event.propTypes = {
+  title: String.isRequired(),
+  type: String.isRequired(),
+  topic: String.isRequired(),
+  description: String.isRequired(),
+  dateTime: String.dateTime.isRequired(),
+  venue: String.isRequired(),
+  organiserWebsite: String.link.isRequired(),
+  cost: Number.isRequired(),
+  image: String.file.isRequired(),
+  publishDate: String.date.isRequired(),
+  publisher: String.isRequired(),
+};
+
