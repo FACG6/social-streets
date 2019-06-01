@@ -37,7 +37,10 @@ export default class Profile extends Component {
       <div>
         <div className='create-profile--header'>
           <h1>Create New Profile</h1>
-          {current === 0 ? <p>Complete this step to provide us with some personal information</p> : <p>Complete this step to provide us with some information about your organization</p>}
+          {current === 0
+            ? <p>Complete this step to provide us with some personal information</p>
+            : <p>Complete this step to provide us with some information about your organization</p>
+          }
         </div>
         <Steps size="small" current={current} labelPlacement='vertical'>
           <Step />
