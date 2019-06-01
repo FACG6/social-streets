@@ -1,0 +1,22 @@
+.socialimg {
+  width: 39px;
+  height: 40px;
+}
+
+.socialinput {
+  display: flex;
+}
+
+.ant-select-auto-complete.ant-select {
+  background-color: #fafafa;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.ant-select-auto-complete.ant-select .ant-select-selection__rendered {
+  height: 40px;
+}
+
+.ant-select-auto-complete.ant-select .ant-select-selection__placeholder {
+  height: 40px;
+}
