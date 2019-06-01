@@ -1,21 +1,22 @@
 import React from "react";
 import { Divider, Select } from "antd";
 
-import WrappedEventForm from "components/pages/CreatePostPage/Event";
-import WrappedPublicServices from "components/pages/CreatePostPage/PublicServices";
+import WrappedEventForm from "components/pages/PostForm/Event";
+import WrappedPublicServices from "components/pages/PostForm/PublicServices";
 import {
   eventTypeValues,
   eventTopicValues,
   primaryTag,
   secondaryTag
 } from "./dumyData";
+
 import "./style.css";
 
 const { Option } = Select;
 
 class CreatPostPage extends React.Component {
   state = {
-    postType: "Event",
+    postType: this.props.postFormType || "Event",
     eventTypeValues: [],
     eventTopicValues: [],
     primaryTag: [],
@@ -46,16 +47,19 @@ class CreatPostPage extends React.Component {
       primaryTag
     } = this.state;
 
+    const { id } = this.props;
+
     return (
       <section className="create-post-page-main">
         <h1 style={{ margin: 0 }}>Publish New Post</h1>
         <Divider style={{ margin: "0 0 30px 0" }} />
         <h4>Post Type</h4>
         <Select
-          defaultValue="Event"
-          placeholder="Event’s Title"
+          defaultValue={postType}
+          placeholder="Post Type"
           onChange={this.handlePostTypeChange}
           size="large"
+          disabled={id ? true : false}
         >
           {postTypes.map(({ key, value }) => (
             <Option key={key} value={value}>
@@ -66,11 +70,15 @@ class CreatPostPage extends React.Component {
         <Divider style={{ margin: "20px 0" }} />
         {postType === "Event" ? (
           <WrappedEventForm
+            id={id}
+            postType={postType}
             eventTopicValues={eventTopicValues}
             eventTypeValues={eventTypeValues}
           />
         ) : (
           <WrappedPublicServices
+            id={id}
+            postType={postType}
             primaryTag={primaryTag}
             secondaryTag={secondaryTag}
           />

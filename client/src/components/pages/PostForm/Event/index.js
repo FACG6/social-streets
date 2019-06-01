@@ -16,11 +16,27 @@ import {
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
+import { event } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
+  componentDidMount() {
+    // id and postType need for fetch and take post info
+    // const { id, postType } = this.props;
+    // use id, postType for fetch and take post info from DB
+    // by use setFieldsValue will put the reponse of post in inputs
+    const {
+      form: { setFieldsValue },
+      id
+    } = this.props;
+
+    if (id) {
+      setFieldsValue(event);
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -32,6 +48,7 @@ class EventForm extends React.Component {
 
   render() {
     const {
+      id,
       eventTypeValues,
       eventTopicValues,
       form: { getFieldDecorator, getFieldValue }
@@ -142,7 +159,7 @@ class EventForm extends React.Component {
           {getFieldDecorator("image", {
             rules: [
               {
-                required: true,
+                required: false,
                 message: "Please input your image!",
                 whitespace: true
               }
@@ -210,7 +227,7 @@ class EventForm extends React.Component {
         </Card>
         <Form.Item>
           <Btn onClick={() => {}} type="primary" htmlType="submit">
-            Publish
+            {id ? "Save" : "Publish"}
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
@@ -238,6 +255,7 @@ const WrappedEventForm = Form.create({ name: "eventForm" })(EventForm);
 
 WrappedEventForm.propTypes = {
   eventTopicValues: PropTypes.array.isRequired,
-  eventTypeValues: PropTypes.array.isRequired
+  eventTypeValues: PropTypes.array.isRequired,
+  event: PropTypes.object
 };
 export default WrappedEventForm;

@@ -14,11 +14,26 @@ import {
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
+import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
+  componentDidMount() {
+    // id and postType need for fetch and take post info
+    // const { id, postType } = this.props;
+    // use id, postType for fetch and take post info from DB
+    // by use setFieldsValue will put the reponse of post in inputs
+    const {
+      form: { setFieldsValue },
+      id
+    } = this.props;
+
+    if (id) {
+      setFieldsValue(publicService);
+    }
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -30,6 +45,7 @@ class PublicServicesForm extends React.Component {
 
   render() {
     const {
+      id,
       primaryTag,
       secondaryTag,
       form: { getFieldDecorator, getFieldValue }
@@ -47,7 +63,7 @@ class PublicServicesForm extends React.Component {
             getFieldDecorator={getFieldDecorator}
             name="title"
             validationMsg="Please input your Public Services"
-            placeholder="Public Services"
+            placeholder="Public Services Title"
             validation={{ max: 60 }}
           />
         </InputGroup>
@@ -160,7 +176,7 @@ class PublicServicesForm extends React.Component {
         </Card>
         <Form.Item>
           <Btn onClick={() => {}} type="primary" htmlType="submit">
-            Publish
+            {id ? "Save" : "Publish"}
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
