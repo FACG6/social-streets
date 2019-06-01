@@ -9,10 +9,6 @@
   box-shadow: 1px 2px 2px -1px #afafaf;
 }
 
-.live-posts-error:empty {
-  display: none;
-}
-
 @media(min-width:550px) {
   .live-posts {
     width: 45%;

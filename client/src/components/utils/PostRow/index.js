@@ -3,7 +3,7 @@ import { Icon } from 'antd';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import './style.css'
 
-export default function Post({ onClick, postTitle, id, postType }) {
+export default function Post({ onClick, postTitle, id, type, category }) {
 
   function handleClick() {
     onClick(id);
@@ -11,7 +11,7 @@ export default function Post({ onClick, postTitle, id, postType }) {
 
   return (
     <Router>
-      <Link to={`/post/${postType}/${id}`}>
+      <Link to={`/${type}/${category}${id}`}>
         <div className='post'>
           <p className='post--title'>
             {postTitle.length > 30 ? postTitle.substring(0, 31) : postTitle}
@@ -23,7 +23,7 @@ export default function Post({ onClick, postTitle, id, postType }) {
               className='post--icon post--delete'
               type="delete"
             />
-            <Link to={`/posts/${postType}/${id}/edit`} >
+            <Link to={`/posts/${id}/edit`} >
               <Icon
                 className='post--icon post--edit'
                 type="edit"
