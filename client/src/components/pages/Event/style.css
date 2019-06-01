@@ -1,0 +1,25 @@
+.event-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.event-img {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+hr {
+  width: 20%;
+  background-color: #333;
+  margin: 15px 0;
+}
+
+.event-flex {
+  display: flex;
+  justify-content: space-between
+}
+
+.event-flex--div {
+  display: flex;
+  flex-direction: column;
+}
