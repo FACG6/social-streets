@@ -16,17 +16,17 @@
   font-size: 36px;
 }
 
-.entry-meta-container {
+.post-header {
   display: flex;
   flex-wrap: wrap;
 }
 
-.entry-meta-container--item {
+.post-header--item {
   padding-right: 10px;
   font-size: 16px;
 }
 
-.entry-meta-container--icon {
+.post-header--icon {
   color: #888888;
   padding-right: 5px;
   font-size: 14px;
