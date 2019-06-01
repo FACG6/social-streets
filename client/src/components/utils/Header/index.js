@@ -20,6 +20,7 @@ export default class Header extends Component {
   render() {
     const { showMenu } = this.state;
     const { showHamburger = true } = this.props;
+
     return (
       <header className="header">
         <Router>
@@ -27,12 +28,12 @@ export default class Header extends Component {
             <img src={Logo} alt="Logo" className="header--logo" />
           </Link>
         </Router>
-        {showHamburger ? (
+        {showHamburger && (
           <HamburgerButton
             className="header--hamburger-button"
             toggleMenuHandler={this.toggleMenuHandler}
           />
-        ) : null}
+        )}
         <Menu show={showMenu} />
       </header>
     );
