@@ -4,6 +4,11 @@ import { Link, BrowserRouter as Router } from 'react-router-dom';
 import './style.css'
 
 export default function Post({ onClick, postTitle, id, postType }) {
+
+  function handleClick() {
+    onClick(id);
+  }
+
   return (
     <Router>
       <Link to={`/post/${id}`}>
@@ -14,7 +19,7 @@ export default function Post({ onClick, postTitle, id, postType }) {
           <div>
             <Icon
               id={id}
-              onClick={() => onClick(id)}
+              onClick={handleClick}
               className='post--icon post--delete'
               type="delete"
             />

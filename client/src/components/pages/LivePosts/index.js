@@ -25,10 +25,8 @@ class LivePosts extends Component {
   handleDelete = (id) => {
     const { livePosts } = this.state;
     //Testing Delete with Mock Data//
-    const deletedPost = livePosts.findIndex(post => post.id === Number(id));
-    this.setState((prevState) => {
-      prevState.livePosts.splice(deletedPost, 1);
-      return ({ livePosts: prevState.livePosts })
+    this.setState({
+      livePosts: livePosts.filter(post => post.id !== Number(id))
     });
   }
 
@@ -36,26 +34,21 @@ class LivePosts extends Component {
     const { error, livePosts } = this.state;
     return (
       <section className='live-posts'>
-        {
-          error ?
-            <span className='live-posts-error'>{error}</span>
-            : ''
-        }
+        <span className='live-posts-error'>{error}</span>
         <PostButton className='post-type--bold' postType='Live Posts' />
         {
-          livePosts.length ?
-            <div className='live-posts--container'>
-              {
-                livePosts.map(post => <Post
-                  onClick={this.handleDelete}
-                  postTitle={post.title}
-                  key={post.id}
-                  id={post.id}
-                  postType='live'
-                />
-                )}
-            </div>
-            : ''
+          livePosts.length &&
+          <div className='live-posts--container'>
+            {
+              livePosts.map(post => <Post
+                onClick={this.handleDelete}
+                postTitle={post.title}
+                key={post.id}
+                id={post.id}
+                postType='live'
+              />
+              )}
+          </div>
         }
       </section >
     )
