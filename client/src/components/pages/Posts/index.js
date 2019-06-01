@@ -8,7 +8,7 @@ import './style.css';
 export default function Posts() {
   return (
     <Router>
-      <section className='posts'>
+      <section className='posts-page-main'>
         <Link to='/posts/new'>
           <Button
             onClick={() => undefined}

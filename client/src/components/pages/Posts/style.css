@@ -1,6 +1,6 @@
-.posts {
+.posts-page-main {
   padding-top: 80px;
-  width: 85%;
+  width: 90%;
   margin: 0 auto;
   height: calc(100vh - (184px + 70px));
 }
@@ -27,7 +27,7 @@
 }
 
 @media screen and (min-width:600px) {
-  .posts {
+  .posts-page-main {
     width: 60%;
   }
   .posts--button-pink {
