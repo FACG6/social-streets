@@ -16,13 +16,13 @@
   font-size: 27px;
 }
 
-.posts--button-pink {
+.posts--button {
   margin-bottom: 70px;
   transition: background-color 1s ease;
   width: 50%;
 }
 
-.posts--button-pink:hover {
+.posts--button:hover {
   background-color: rgba(214, 80, 80, .9);
 }
 
@@ -30,7 +30,7 @@
   .posts-page-main {
     width: 60%;
   }
-  .posts--button-pink {
+  .posts--button {
     width: 20%;
     padding: 8px 6px;
     display: flex;

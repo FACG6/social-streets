@@ -12,7 +12,7 @@ export default function Posts() {
         <Link to='/posts/new'>
           <Button
             onClick={() => undefined}
-            className='posts--button-pink'
+            className='posts--button'
           >
             <Icon className='posts--icon posts--plus-icon' type='plus' />
             New Post
