@@ -4,7 +4,24 @@ import PostButton from 'components/utils/PostButton';
 import PostRow from 'components/utils/PostRow';
 import './style.css';
 
+//Mock Data//
+const live = [
+  { title: 'post 1', id: 1, type: 'event', category: 'Nightlife' },
+  { title: 'post 2', id: 2, type: 'event', category: 'Walks and Talks' },
+  { title: 'post 3', id: 3, type: 'event', category: 'Events and Festivals' },
+  { title: 'post 4', id: 4, type: 'event', category: 'Events and Festivals' },
+  { title: 'post 5', id: 5, type: 'public-service', category: 'Research' },
+  { title: 'post 6', id: 6, type: 'public-service', category: 'Survery' },
+];
 
+const draft = [
+  { title: 'draft 1', id: 1, type: 'event', category: 'Nightlife' },
+  { title: 'draft 2', id: 2, type: 'event', category: 'Walks and Talks' },
+  { title: 'draft 3', id: 3, type: 'event', category: 'Events and Festivals' },
+  { title: 'draft 4', id: 4, type: 'event', category: 'Events and Festivals' },
+  { title: 'draft 5', id: 5, type: 'public-service', category: 'Research' },
+  { title: 'draft 6', id: 6, type: 'public-service', category: 'Survery' },
+];
 export default class Post extends Component {
   state = {
     posts: [],
@@ -13,35 +30,17 @@ export default class Post extends Component {
 
   componentDidMount() {
     const { postType } = this.props;
-    if (postType === 'live') {
-      const livePosts = [
-        { title: 'post 1', id: 1, type: 'event', category: 'Nightlife' },
-        { title: 'post 2', id: 2, type: 'event', category: 'Walks and Talks' },
-        { title: 'post 3', id: 3, type: 'event', category: 'Events and Festivals' },
-        { title: 'post 4', id: 4, type: 'event', category: 'Events and Festivals' },
-        { title: 'post 5', id: 5, type: 'public-service', category: 'Research' },
-        { title: 'post 6', id: 6, type: 'public-service', category: 'Survery' },
-      ];
-      const posts = livePosts.map(post => {
-        post.category = post.category.toLowerCase().replace(' and ', '-');
-        return post;
-      });
-      this.setState({ posts })
+    let allPosts;
+    if(postType === 'draft'){
+      allPosts = draft;
     } else {
-      const draftPosts = [
-        { title: 'draft 1', id: 1, type: 'event', category: 'Nightlife' },
-        { title: 'draft 2', id: 2, type: 'event', category: 'Walks and Talks' },
-        { title: 'draft 3', id: 3, type: 'event', category: 'Events and Festivals' },
-        { title: 'draft 4', id: 4, type: 'event', category: 'Events and Festivals' },
-        { title: 'draft 5', id: 5, type: 'public-service', category: 'Research' },
-        { title: 'draft 6', id: 6, type: 'public-service', category: 'Survery' },
-      ];
-      const posts = draftPosts.map(post => {
-        post.category = post.category.toLowerCase().replace(' and ', '-');
-        return post;
-      });
-      this.setState({ posts })
+      allPosts = live;
     }
+    const posts = allPosts.map(post => {
+      post.category = post.category.toLowerCase().replace(' and ', '-');
+      return post;
+    });
+    this.setState({ posts })
   }
 
   handleDelete = (id) => {
@@ -57,7 +56,7 @@ export default class Post extends Component {
     const { posts, error } = this.state;
     return (
       <section className='post-page--main'>
-      <span className='post-page--error'>{error}</span>
+        <span className='post-page--error'>{error}</span>
         <PostButton postType={`${postType} Posts`} />
         {posts.map(({ title, type, category, id }) => {
           return <PostRow
@@ -65,9 +64,9 @@ export default class Post extends Component {
             type={type}
             category={category}
             key={id}
-            id={id} 
+            id={id}
             onClick={this.handleDelete}
-            />
+          />
         })}
       </section>
     )
