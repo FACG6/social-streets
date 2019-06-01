@@ -45,7 +45,7 @@ export default class Profile extends Component {
         </Steps>
         {
           current
-            ? <BusinessProfile handleSubmit={this.handleSubmit} business={business} handleGoBack= {this.handleGoBack} />
+            ? <BusinessProfile handleSubmit={this.handleSubmit} business={business} handleGoBack={this.handleGoBack} />
             : <PersonalProfile handlePersonalInfo={this.handlePersonalInfo} personal={personal} />
         }
       </div>
