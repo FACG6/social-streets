@@ -45,7 +45,7 @@ class PersonalForm extends React.Component {
   };
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
+    const { form } = this.props;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
@@ -56,13 +56,13 @@ class PersonalForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
 
     return (
-      <Form onSubmit={this.handleSubmit} className='form'>
+      <Form onSubmit={this.handleSubmit} className='create-profile-form'>
 
         <InputGroup size="large">
 
           <Form.Item
             label="First Name"
-            className='form--item'
+            className='create-profile-form--item'
           >
             {getFieldDecorator('first_name', {
               rules: [
@@ -91,7 +91,7 @@ class PersonalForm extends React.Component {
 
           <Form.Item
             label="Last Name"
-            className='form--item'
+            className='create-profile-form--item'
           >
             {getFieldDecorator('last_name', {
               rules: [
@@ -120,7 +120,7 @@ class PersonalForm extends React.Component {
 
           <Form.Item
             label="Email"
-            className='form--item'
+            className='create-profile-form--item'
           >
             {getFieldDecorator('email', {
               rules: [
@@ -142,7 +142,7 @@ class PersonalForm extends React.Component {
           <Form.Item
             label="Password"
             hasFeedback
-            className='form--item'
+            className='create-profile-form--item'
           >
             {getFieldDecorator('password', {
               rules: [
@@ -171,7 +171,7 @@ class PersonalForm extends React.Component {
           <Form.Item
             label="Confirm Password"
             hasFeedback
-            className='form--item'
+            className='create-profile-form--item'
           >
             {getFieldDecorator('confirm_password', {
               rules: [
