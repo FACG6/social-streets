@@ -2,8 +2,8 @@ import React from 'react'
 import { Form, Input, AutoComplete, Select } from 'antd'
 
 import Button from 'components/utils/Button'
-import { BusinesTypeValues } from './static'
-import json from './country.json'
+import { BusinessTypeValues } from './business-type'
+import countries from './country.json'
 import './style.css'
 
 const { Option } = Select
@@ -14,7 +14,7 @@ const AutoCompleteOption = AutoComplete.Option;
 class BusinessForm extends React.Component {
 
   state = {
-    autoCompleteResultCuntry: [],
+    autoCompleteResultCountry: [],
     autoCompleteResultCity: [],
     country: ''
   };
@@ -24,19 +24,19 @@ class BusinessForm extends React.Component {
   }
 
   handleCuntryChange = value => {
-    let autoCompleteResultCuntry;
+    let autoCompleteResultCountry;
     if (!value) {
-      autoCompleteResultCuntry = [];
+      autoCompleteResultCountry = [];
     } else {
-      const countries = Object.keys(json)
-      let data = countries.filter((country) => {
+      const countriesName = Object.keys(countries)
+      let data = countriesName.filter((country) => {
         return country.toLowerCase().startsWith(value.toLowerCase())
       })
-      autoCompleteResultCuntry = data.map(domain => `${domain}`);
+      autoCompleteResultCountry = data.map(domain => `${domain}`);
     }
     this.setState(() => {
       return {
-        autoCompleteResultCuntry,
+        autoCompleteResultCountry,
         country: value
       }
     });
@@ -44,7 +44,7 @@ class BusinessForm extends React.Component {
 
   handleCityChange = value => {
     const { country } = this.state
-    const countryName = json[country] || []
+    const countryName = countries[country] || []
     let autoCompleteResultCity;
     if (!value) {
       autoCompleteResultCity = [];
@@ -77,9 +77,9 @@ class BusinessForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResultCuntry, autoCompleteResultCity } = this.state;
+    const { autoCompleteResultCountry, autoCompleteResultCity } = this.state;
 
-    const CountryOptions = autoCompleteResultCuntry.map(country => (
+    const CountryOptions = autoCompleteResultCountry.map(country => (
       <AutoCompleteOption key={country}>{country}</AutoCompleteOption>
     ));
 
@@ -88,11 +88,11 @@ class BusinessForm extends React.Component {
     ));
 
     return (
-      <Form onSubmit={this.handleSubmit} className='form'>
+      <Form onSubmit={this.handleSubmit} className='create-profile-form'>
       
         <InputGroup size="large" >
 
-          <Form.Item label="Orgnisation Name" className='form--item'>
+          <Form.Item label="Orgnisation Name" className='create-profile-form--item'>
             {getFieldDecorator('orgnisation', {
               rules: [
                 {
@@ -115,7 +115,7 @@ class BusinessForm extends React.Component {
             })(<Input placeholder='Orgnisation Name' />)}
           </Form.Item>
 
-          <Form.Item label="Type of busines" className='form--item'>
+          <Form.Item label="Type of busines" className='create-profile-form--item'>
             {getFieldDecorator("businestype", {
               rules: [
                 { required: true, message: "Please select your Type of busines!" }
@@ -126,12 +126,12 @@ class BusinessForm extends React.Component {
                 onChange={this.handleSelectChange}
                 style={{ 'width': '100%', 'fontSize': '16px' }}
               >
-                {BusinesTypeValues.map(({ key, value }) => (<Option key={key} value={value}>{value}</Option>))}
+                {BusinessTypeValues.map(({ key, value }) => (<Option key={key} value={value}>{value}</Option>))}
               </Select>
             )}
           </Form.Item>
 
-          <Form.Item label="Website" className='form--item'>
+          <Form.Item label="Website" className='create-profile-form--item'>
             {getFieldDecorator('website', {
               rules: [{ required: true, message: 'Please input website!' }, { pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/, message: 'Please input a valied website' }],
             })(
@@ -139,7 +139,7 @@ class BusinessForm extends React.Component {
             )}
           </Form.Item>
 
-          <Form.Item label="Country" className='form--item'>
+          <Form.Item label="Country" className='create-profile-form--item'>
             {getFieldDecorator('country', {
               rules: [
                 {
@@ -171,7 +171,7 @@ class BusinessForm extends React.Component {
             )}
           </Form.Item>
 
-          <Form.Item label="City" className='form--item'>
+          <Form.Item label="City" className='create-profile-form--item'>
             {getFieldDecorator('city', {
               rules: [
                 {
@@ -205,7 +205,7 @@ class BusinessForm extends React.Component {
             )}
           </Form.Item>
 
-          <Form.Item label="Address" className='form--item'>
+          <Form.Item label="Address" className='create-profile-form--item'>
             {getFieldDecorator('address', {
               rules: [
                 {
@@ -228,7 +228,7 @@ class BusinessForm extends React.Component {
             })(<Input placeholder='Address' />)}
           </Form.Item>
 
-          <Form.Item label="Zip/Postal Code" className='form--item'>
+          <Form.Item label="Zip/Postal Code" className='create-profile-form--item'>
             {getFieldDecorator('postal', {
               rules: [
                 {
@@ -247,7 +247,7 @@ class BusinessForm extends React.Component {
             })(<Input placeholder='Postal Code' />)}
           </Form.Item>
 
-          <Form.Item label="Social Media" className='form--item'>
+          <Form.Item label="Social Media" className='create-profile-form--item'>
             {getFieldDecorator('facebook', {
               rules: [
                 {
@@ -260,13 +260,13 @@ class BusinessForm extends React.Component {
                 },
               ],
             })(
-              <div className='socialinput' >
-                <img src='https://image.flaticon.com/icons/svg/174/174848.svg' alt="facebook logo" className='socialimg' />
+              <div className='social-input' >
+                <img src='https://image.flaticon.com/icons/svg/174/174848.svg' alt="facebook logo" className='social-img' />
                 <Input placeholder='Facebook page link...' />
               </div>)}
           </Form.Item>
 
-          <Form.Item className='form--item'>
+          <Form.Item className='create-profile-form--item'>
             {getFieldDecorator('instagram', {
               rules: [
                 {
@@ -279,13 +279,13 @@ class BusinessForm extends React.Component {
                 },
               ],
             })(
-              <div className='socialinput'>
-                <img src='https://image.flaticon.com/icons/svg/1409/1409946.svg' alt="instagram logo" className='socialimg' />
+              <div className='social-input'>
+                <img src='https://image.flaticon.com/icons/svg/1409/1409946.svg' alt="instagram logo" className='social-img' />
                 <Input placeholder='Instagram page link...' />
               </div>)}
           </Form.Item>
 
-          <Form.Item className='form--item'>
+          <Form.Item className='create-profile-form--item'>
 
             {getFieldDecorator('twitter', {
               rules: [
@@ -299,8 +299,8 @@ class BusinessForm extends React.Component {
                 },
               ],
             })(
-              <div className='socialinput' >
-                <img src='https://image.flaticon.com/icons/svg/124/124021.svg' alt="titter logo" className='socialimg' />
+              <div className='social-input' >
+                <img src='https://image.flaticon.com/icons/svg/124/124021.svg' alt="titter logo" className='social-img' />
                 <Input placeholder='Twitter page link...' />
               </div>)}
           </Form.Item>
