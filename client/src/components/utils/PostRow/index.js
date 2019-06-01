@@ -11,27 +11,27 @@ export default function Post({ onClick, postTitle, id, type, category }) {
 
   return (
     <Router>
-      <Link to={`/${type}/${category}${id}`}>
-        <div className='post'>
+      <div className='post'>
+        <Link to={`/${type}/${category}/${id}`}>
           <p className='post--title'>
-            {postTitle.length > 30 ? postTitle.substring(0, 31) : postTitle}
+            {postTitle}
           </p>
-          <div>
+        </Link>
+        <div>
+          <Icon
+            id={id}
+            onClick={handleClick}
+            className='post--icon post--delete'
+            type="delete"
+          />
+          <Link to={`/posts/${id}/edit`} >
             <Icon
-              id={id}
-              onClick={handleClick}
-              className='post--icon post--delete'
-              type="delete"
+              className='post--icon post--edit'
+              type="edit"
             />
-            <Link to={`/posts/${id}/edit`} >
-              <Icon
-                className='post--icon post--edit'
-                type="edit"
-              />
-            </Link>
-          </div>
+          </Link>
         </div>
-      </Link>
+      </div>
     </Router>
   )
 }

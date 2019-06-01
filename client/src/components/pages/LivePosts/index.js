@@ -12,14 +12,19 @@ class LivePosts extends Component {
   componentDidMount() {
     //Mock Data for Testing the component//
     const livePosts = [
-      { title: 'post 1', id: 1, type: 'event', category: 'Events and Festivals' },
-      { title: 'post 2', id: 2, type: 'event', category: 'Events and Festivals'},
-      { title: 'post 3', id: 3, type: 'event', category: 'Events and Festivals'},
+      { title: 'post 1', id: 1, type: 'event', category: 'Nightlife' },
+      { title: 'post 2', id: 2, type: 'event', category: 'Walks and Talks' },
+      { title: 'post 3', id: 3, type: 'event', category: 'Events and Festivals' },
       { title: 'post 4', id: 4, type: 'event', category: 'Events and Festivals' },
       { title: 'post 5', id: 5, type: 'public-service', category: 'Research' },
       { title: 'post 6', id: 6, type: 'public-service', category: 'Survery' },
     ];
-    this.setState({ livePosts });
+
+    const posts = livePosts.map(post => {
+      post.category = post.category.toLowerCase().replace(' and ', '-');
+      return post;
+    });
+    this.setState({ livePosts: posts });
   }
 
   handleDelete = (id) => {
