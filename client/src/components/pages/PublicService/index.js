@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Icon } from 'antd';
+import PropTypes from 'prop-types';
 
 import publicService from './dummyData'
 import './style.css';
@@ -18,7 +19,7 @@ export default class PublicService extends Component {
   }
 
   render() {
-    let post = this.props.publicService;
+    let post = this.props;
     if (this.props.postStatus === 'published') {
       post = this.state.publicService;
     }
@@ -88,7 +89,7 @@ export default class PublicService extends Component {
               <h3 className='public-service--label public-service--label--link'>Link</h3>
               <div className='public-service--link-preview'>
                 <img className='link-preview--image' src={linkImg} alt='link Title'></img>
-                <h1 className='link-preview--title'>{linkTitle}</h1>
+                <h2 className='link-preview--title'>{linkTitle}</h2>
                 <a href={link} className='link-preview--link'>{link}</a>
                 <p className='link-preview--description'>{linkDescription}</p>
               </div>
@@ -98,4 +99,21 @@ export default class PublicService extends Component {
       </section>
     )
   }
+}
+
+PublicService.propTypes = {
+  postStatus: PropTypes.string.isRequired,
+  image: PropTypes.string,
+  title: PropTypes.string,
+  publishDate: PropTypes.string,
+  publisher: PropTypes.string,
+  primaryTag: PropTypes.string,
+  contentType: PropTypes.string,
+  description: PropTypes.string,
+  organizerWebsite: PropTypes.string,
+  linkTitle: PropTypes.string,
+  linkDescription: PropTypes.string,
+  link: PropTypes.string,
+  linkImg: PropTypes.string,
+  secondaryTags: PropTypes.arrayOf(PropTypes.string),
 }
