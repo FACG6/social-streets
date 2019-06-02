@@ -12,25 +12,29 @@ class Event extends Component {
   }
 
   componentDidMount() {
-    const { postStatus } = this.props
+    const { postStatus, ...event } = this.props
     if (postStatus === 'published') {
       // fetch
-      this.setState({ event: eventInfo })
-    }
-    this.setState({ event: this.props })
+      this.setState({ event })
+    } else
+      this.setState({ event })
   }
 
   render() {
-    const { postStatus } = this.props;
-    let eventData
 
-    if (postStatus === 'published') {
-      eventData = this.state.event
-    } else {
-      eventData = this.props
-    }
-
-    const { image, title, publishDate, publisher, type, topic, description, dateTime, venue, organiserWebsite, cost } = eventData
+    const { 
+      image,
+      title,
+      publishDate,
+      publisher,
+      type,
+      topic,
+      description,
+      dateTime,
+      venue,
+      organiserWebsite,
+      cost 
+    } = this.state.event
     const pargraphs = description ? description.split('\n') : null;
 
     return (
@@ -78,7 +82,7 @@ class Event extends Component {
                 <span><a href={organiserWebsite} style={{ color: '#e85f5f' }} >{organiserWebsite}</a></span>
                 <Divider />
                 <h3 className='event--lable'>Cost</h3>
-                <span style={{paddingBottom: '1rem'}} ><Icon type="euro" style={{ paddingRight: '5px' }} />{cost}</span>
+                <span style={{ paddingBottom: '1rem' }} ><Icon type="euro" style={{ paddingRight: '5px' }} />{cost}</span>
               </div>
             </section>
           )}
