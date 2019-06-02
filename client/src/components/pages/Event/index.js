@@ -1,28 +1,30 @@
 import React, { Component } from 'react'
 import { Icon, Divider } from 'antd'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import eventInfo from './staticData'
+import Button from 'components/utils/Button'
 import './style.css'
 
 class Event extends Component {
 
-  state = {
-    event: {},
+  state = {}
+
+  handleBack = (e) => {
+    e.preventDefault()
   }
 
   componentDidMount() {
     const { postStatus, ...event } = this.props
     if (postStatus === 'published') {
       // fetch
-      this.setState({ event })
+      this.setState({ ...event })
     } else
-      this.setState({ event })
+      this.setState({ ...event })
   }
 
   render() {
 
-    const { 
+    const {
       image,
       title,
       publishDate,
@@ -33,8 +35,9 @@ class Event extends Component {
       dateTime,
       venue,
       organiserWebsite,
-      cost 
-    } = this.state.event
+      cost,
+      postStatus
+    } = this.state
     const pargraphs = description ? description.split('\n') : null;
 
     return (
@@ -84,6 +87,9 @@ class Event extends Component {
                 <h3 className='event--lable'>Cost</h3>
                 <span style={{ paddingBottom: '1rem' }} ><Icon type="euro" style={{ paddingRight: '5px' }} />{cost}</span>
               </div>
+              !{postStatus
+                ? (<Button onClick={this.handleBack} className='event-btn--back' >Back</Button>)
+                : (null)}
             </section>
           )}
       </>
