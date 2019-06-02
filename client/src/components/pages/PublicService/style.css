@@ -6,30 +6,36 @@
 .public-service--thumbnail-img {
   max-width: 100%;
   height: auto;
-  vertical-align: top;
   padding-top: 50px;
 }
 
 .public-service--title {
   padding-top: 10px;
-  font-family: 'Merriweather';
   font-size: 36px;
+  color: #333333;
 }
 
-.post-header {
+.post-header--container{
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.post-header--column{
+  display: flex;
+  flex-direction: column;
 }
 
 .post-header--item {
+  display: flex;
   padding-right: 10px;
   font-size: 16px;
+  align-items: center;
 }
 
 .post-header--icon {
   color: #888888;
   padding-right: 5px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .public-service--content {
@@ -61,6 +67,7 @@
 
 .public-service--tags {
   padding-top: 10px;
+  text-transform: capitalize;
 }
 
 .public-service--tag {
@@ -71,7 +78,7 @@
 }
 
 .public-service--link-preview-container {
-  padding-top: 10px;
+  padding-top: 20px;
   margin-bottom: 90px;
 }
 
