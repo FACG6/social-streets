@@ -31,15 +31,15 @@ class ProfilePersonal extends Component {
 
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("Password must match!");
+    if (value && value !== form.getFieldValue("new password")) {
+      callback("Passwords must match!");
     } else {
       callback();
     }
   };
 
   validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
+    const { form } = this.props;
     if (value && this.state.confirmDirty) {
       form.validateFields(["confirm"], { force: true });
     }
@@ -47,7 +47,9 @@ class ProfilePersonal extends Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {
+      form: { getFieldDecorator }
+    } = this.props;
 
     const formItemLayout = {
       labelCol: {
@@ -187,14 +189,10 @@ class ProfilePersonal extends Component {
           hasFeedback
           className="profile-page--form-item"
         >
-          {getFieldDecorator("confirm", {
+          {getFieldDecorator("new password", {
             rules: [
               {
-                required: true,
-                message: "Please confirm your password!"
-              },
-              {
-                validator: this.compareToFirstPassword
+                required: false
               }
             ]
           })(
@@ -211,11 +209,10 @@ class ProfilePersonal extends Component {
           hasFeedback
           className="profile-page--form-item"
         >
-          {getFieldDecorator("confirm", {
+          {getFieldDecorator("confirm new", {
             rules: [
               {
-                required: true,
-                message: "Please confirm your password!"
+                required: false
               },
               {
                 validator: this.compareToFirstPassword
@@ -251,10 +248,7 @@ class ProfilePersonal extends Component {
 }
 
 ProfilePersonal.propTypes = {
-  firstname: PropTypes.string.isRequired,
-  lastname: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
+  personal: PropTypes.object.isRequired
 };
 
 export default Form.create({ name: "Profile_Personal" })(ProfilePersonal);
