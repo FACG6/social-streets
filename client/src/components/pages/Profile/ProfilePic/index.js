@@ -13,7 +13,11 @@ export default function ProfilePic({ className = "", imgSrc = "" }) {
 
   return (
     <div className={`profile-pic ${className}`}>
-      <img src={imgSrc || DefaultPic} alt="" className="profile-pic--img" />
+      <img
+        src={imgSrc || DefaultPic}
+        alt="Profile Avatar"
+        className="profile-pic--img"
+      />
       <span
         className="profile-pic--edit-label"
         onClick={() => fileInput.current.click()}
