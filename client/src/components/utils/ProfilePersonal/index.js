@@ -31,7 +31,7 @@ class ProfilePersonal extends Component {
 
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
-    if (value && value !== form.getFieldValue("new password")) {
+    if (value && value !== form.getFieldValue("newPassword")) {
       callback("Passwords must match!");
     } else {
       callback();
@@ -86,7 +86,7 @@ class ProfilePersonal extends Component {
           required={false}
           className="profile-page--form-item"
         >
-          {getFieldDecorator("first", {
+          {getFieldDecorator("firstName", {
             rules: [
               {
                 type: "string",
@@ -113,7 +113,7 @@ class ProfilePersonal extends Component {
           required={false}
           className="profile-page--form-item"
         >
-          {getFieldDecorator("last", {
+          {getFieldDecorator("lastName", {
             rules: [
               {
                 type: "string",
@@ -160,7 +160,7 @@ class ProfilePersonal extends Component {
           hasFeedback
           className="profile-page--form-item"
         >
-          {getFieldDecorator("password", {
+          {getFieldDecorator("oldPassword", {
             rules: [
               {
                 required: true,
@@ -189,10 +189,14 @@ class ProfilePersonal extends Component {
           hasFeedback
           className="profile-page--form-item"
         >
-          {getFieldDecorator("new password", {
+          {getFieldDecorator("newPassword", {
             rules: [
               {
                 required: false
+              },
+              {
+                min: 8,
+                message: "Password must be 8 charcter at least!"
               }
             ]
           })(
@@ -209,13 +213,17 @@ class ProfilePersonal extends Component {
           hasFeedback
           className="profile-page--form-item"
         >
-          {getFieldDecorator("confirm new", {
+          {getFieldDecorator("confirmNewPassword", {
             rules: [
               {
                 required: false
               },
               {
                 validator: this.compareToFirstPassword
+              },
+              {
+                min: 8,
+                message: "Password must be 8 charcter at least!"
               }
             ]
           })(
