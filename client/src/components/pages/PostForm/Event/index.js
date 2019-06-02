@@ -226,13 +226,8 @@ class EventForm extends React.Component {
           />
         </Card>
         <Form.Item>
-<<<<<<< HEAD:client/src/components/pages/PostForm/Event/index.js
-          <Btn onClick={() => {}} type="primary" htmlType="submit">
-            {id ? "Save" : "Publish"}
-=======
           <Btn type="primary" htmlType="submit">
             Publish
->>>>>>> 5786873a341205341c5ac450b10c2520714840d4:client/src/components/pages/CreatePostPage/Event/index.js
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
