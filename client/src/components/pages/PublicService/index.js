@@ -45,7 +45,7 @@ export default class PublicService extends Component {
             <img className='public-service--thumbnail-img' src={image} alt={title}></img>
             <h1 className='public-service--title'>{title}</h1>
             <div className='post-header'>
-              <div className='mpost-header--item'>
+              <div className='post-header--item'>
                 <Icon type='calendar' className='post-header--icon' />
                 <span className='post-header--meta'>{publishDate}</span>
               </div>
