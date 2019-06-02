@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Icon } from 'antd';
 import PropTypes from 'prop-types';
 
