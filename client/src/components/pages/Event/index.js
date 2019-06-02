@@ -85,9 +85,9 @@ class Event extends Component {
                 <span><a href={organiserWebsite} style={{ color: '#e85f5f' }} >{organiserWebsite}</a></span>
                 <Divider />
                 <h3 className='event--lable'>Cost</h3>
-                <span style={{ paddingBottom: '1rem' }} ><Icon type="euro" style={{ paddingRight: '5px' }} />{cost}</span>
+                <span style={{ paddingBottom: '1rem' }} ><Icon type="euro" />{cost}</span>
               </div>
-              !{postStatus
+              {!postStatus
                 ? (<Button onClick={this.handleBack} className='event-btn--back' >Back</Button>)
                 : (null)}
             </section>
