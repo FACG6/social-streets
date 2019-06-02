@@ -209,12 +209,11 @@ class EventForm extends React.Component {
           />
         </Card>
         <Form.Item>
-          <Btn onClick={() => {}} type="primary" htmlType="submit">
+          <Btn type="primary" htmlType="submit">
             Publish
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
-            onClick={() => {}}
             type="primary"
             htmlType="submit"
           >
