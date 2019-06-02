@@ -78,13 +78,13 @@ export default class PublicService extends Component {
                 {secondaryTags.map((tag, index) => <span key={index} className='public-service--tag'>{tag}</span>)}
               </div>
             </div>
-            <div className='public-service--thumbnail-container'>
+            <div className='public-service--link-preview-container'>
               <span className='public-service--label public-service--label--link'>Link</span>
-              <div className='public-service--thumbnail-link'>
-                <img className='thumbnail-link--image' src={linkImg} alt='link Title'></img>
-                <h1 className='thumbnail-link--title'>{linkTitle}</h1>
-                <a href={link} className='thumbnail-link--link'>{link}</a>
-                <p className='thumbnail-link--description'>{linkDescription}</p>
+              <div className='public-service--link-preview'>
+                <img className='link-preview--image' src={linkImg} alt='link Title'></img>
+                <h1 className='link-preview--title'>{linkTitle}</h1>
+                <a href={link} className='link-preview--link'>{link}</a>
+                <p className='link-preview--description'>{linkDescription}</p>
               </div>
             </div>
           </> : <span>...Loading</span>
