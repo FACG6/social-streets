@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { Tabs, Icon } from "antd";
-import PropTypes, { func } from "prop-types";
+import PropTypes from "prop-types";
 
 import PersonalInfoForm from "components/utils/ProfilePersonal";
 import BusinessForm from "components/utils/businessForm";
@@ -8,9 +8,9 @@ import "./style.css";
 
 const { TabPane } = Tabs;
 
-export default function ProfilePage({ personal, business }) {
+export default function ProfilePage({ personal, business, className = "" }) {
   return (
-    <Tabs defaultActiveKey="1" animated={true}>
+    <Tabs defaultActiveKey="1" animated={true} className={className}>
       <TabPane
         tab={
           <span>
@@ -39,5 +39,6 @@ export default function ProfilePage({ personal, business }) {
 
 ProfilePage.propTypes = {
   personal: PropTypes.object.isRequired,
-  business: PropTypes.object.isRequired
+  business: PropTypes.object.isRequired,
+  className: PropTypes.string
 };
