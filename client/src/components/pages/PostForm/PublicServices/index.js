@@ -3,24 +3,37 @@ import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import {
   Form,
-  Input,
   Tooltip,
   Icon,
-  DatePicker,
-  InputNumber,
   Upload,
   Divider,
   Card,
-  Button
+  Button,
+  Input
 } from "antd";
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
+import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
-class EventForm extends React.Component {
+class PublicServicesForm extends React.Component {
+  componentDidMount() {
+    // id and postType need for fetch and take post info
+    // const { id, postType } = this.props;
+    // use id, postType for fetch and take post info from DB
+    // by use setFieldsValue will put the reponse of post in inputs
+    const {
+      form: { setFieldsValue },
+      id
+    } = this.props;
+
+    if (id) {
+      setFieldsValue(publicService);
+    }
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -32,12 +45,13 @@ class EventForm extends React.Component {
 
   render() {
     const {
-      eventTypeValues,
-      eventTopicValues,
+      id,
+      primaryTag,
+      secondaryTag,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
-    const urlType = getFieldValue("eventType");
+    const urlType = getFieldValue("primaryTag");
 
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
@@ -45,34 +59,34 @@ class EventForm extends React.Component {
           <InputAntd
             withTip
             label="Title"
-            tipInfo="Title for Event"
+            tipInfo="Title for Public Services"
             getFieldDecorator={getFieldDecorator}
             name="title"
-            validationMsg="Please input your Event’s Title!"
-            placeholder="Event’s Title"
+            validationMsg="Please input your Public Services"
+            placeholder="Public Services Title"
             validation={{ max: 60 }}
           />
         </InputGroup>
         <DropDownAntd
-          label="Event’s Type"
+          label="Primary Tag"
           getFieldDecorator={getFieldDecorator}
-          name="eventType"
+          name="primaryTag"
           required
-          validationMsg="Please select your Event’s Type!"
-          placeholder="Event’s Type"
+          validationMsg="Please select your Primary Tag!"
+          placeholder="Primary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={eventTypeValues}
+          optionsMenu={primaryTag}
         />
         <DropDownAntd
           mode="multiple"
-          label="Event’s Topic"
+          label="Secondary Tag"
           getFieldDecorator={getFieldDecorator}
-          name="eventTopic"
+          name="secondaryTag"
           required
-          validationMsg="Please select your Event Topic!"
-          placeholder="Event’s Topic"
+          validationMsg="Please select your Secondary Tag!"
+          placeholder="Secondary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={eventTopicValues}
+          optionsMenu={secondaryTag}
         />
         <TextAreaAntd
           withTip
@@ -84,56 +98,11 @@ class EventForm extends React.Component {
           min={10}
           max={false}
         />
-        <Form.Item label={<span>Date and Time&nbsp;</span>}>
-          {getFieldDecorator("dateAndTime", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your Date and Time!"
-              }
-            ]
-          })(
-            <DatePicker
-              style={{ width: "100%" }}
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
-              size="large"
-            />
-          )}
-        </Form.Item>
-        <InputGroup size="large">
-          <InputAntd
-            withTip={false}
-            label="Website"
-            getFieldDecorator={getFieldDecorator}
-            name="website"
-            validationMsg="Please input website!"
-            placeholder="Enter website"
-            validation={{
-              max: 60,
-              pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-              message: "Please input website!"
-            }}
-          />
-        </InputGroup>
-        <Form.Item label="Cost">
-          {getFieldDecorator("cost", {
-            rules: [{ required: true, message: "Please input cost!" }]
-          })(
-            <InputNumber
-              style={{ width: "100%" }}
-              formatter={value =>
-                `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              size="large"
-            />
-          )}
-        </Form.Item>
         <Form.Item
           label={
             <span>
               Image&nbsp;
-              <Tooltip title="Image for event">
+              <Tooltip title="Image for Public Services">
                 <Icon type="info-circle" />
               </Tooltip>
             </span>
@@ -160,23 +129,20 @@ class EventForm extends React.Component {
             </Upload>
           )}
         </Form.Item>
-        <InputGroup size="large">
-          <InputAntd
-            withTip={false}
-            label="Alt-Text"
-            tipInfo=""
-            getFieldDecorator={getFieldDecorator}
-            name="altText"
-            validationMsg="Please input Alt Text For Image!"
-            placeholder="Your Alt Text For Image"
-          />
-        </InputGroup>
+        <InputAntd
+          withTip={false}
+          label="Alt-Text"
+          tipInfo=""
+          getFieldDecorator={getFieldDecorator}
+          name="altText"
+          validationMsg="Please input Alt Text For Image!"
+          placeholder="Your Alt Text For Image"
+        />
         <Divider style={{ margin: "20px 0" }} />
         <InputGroup size="large">
           <InputAntd
             withTip={false}
             label="Focus Keyword"
-            tipInfo=""
             getFieldDecorator={getFieldDecorator}
             name="focusKeyword"
             validationMsg="Please input your keyword!"
@@ -209,12 +175,11 @@ class EventForm extends React.Component {
           />
         </Card>
         <Form.Item>
-          <Btn onClick={() => {}} type="primary" htmlType="submit">
+          <Btn type="primary" htmlType="submit">
             Publish
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
-            onClick={() => {}}
             type="primary"
             htmlType="submit"
           >
@@ -233,11 +198,13 @@ class EventForm extends React.Component {
     );
   }
 }
+const WrappedPublicServices = Form.create({ name: "publicServicesForm" })(
+  PublicServicesForm
+);
 
-const WrappedEventForm = Form.create({ name: "eventForm" })(EventForm);
-
-WrappedEventForm.propTypes = {
-  eventTopicValues: PropTypes.array.isRequired,
-  eventTypeValues: PropTypes.array.isRequired
+WrappedPublicServices.propTypes = {
+  primaryTag: PropTypes.array.isRequired,
+  secondaryTag: PropTypes.array.isRequired
 };
-export default WrappedEventForm;
+
+export default WrappedPublicServices;
