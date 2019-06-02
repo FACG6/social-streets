@@ -10,6 +10,9 @@
   outline: none;
   color: #848484;
   letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 1px 2px 2px -1px #afafaf;
+  text-transform: capitalize;
 }
 
 .posts--button-white:hover {

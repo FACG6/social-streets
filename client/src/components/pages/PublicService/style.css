@@ -1,0 +1,115 @@
+.public-service-page--main {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.public-service--thumbnail-img {
+  max-width: 100%;
+  height: auto;
+  padding-top: 50px;
+}
+
+.public-service--title {
+  padding-top: 10px;
+  font-size: 36px;
+  color: #333333;
+}
+
+.post-header--container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.post-header--column {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-header--item {
+  display: flex;
+  padding-right: 10px;
+  font-size: 16px;
+  align-items: center;
+  color: #888888;
+  text-transform: capitalize;
+}
+
+.post-header--icon {
+  color: #888888;
+  padding-right: 5px;
+  font-size: 12px;
+}
+
+.public-service--content {
+  padding: 20px 0px 20px 0;
+  line-height: 1.6;
+  font-family: 'Open Sans', serif;
+  font-size: 15px;
+  color: #333333;
+}
+
+.public-service--organizer, .public-service--tags-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.public-service--label {
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: .4px;
+}
+
+.public-service--website {
+  padding-top: 10px;
+  text-decoration: none;
+  color: rgb(232, 95, 95);
+  font-size: 15px;
+}
+
+.public-service--tags {
+  padding-top: 10px;
+  text-transform: capitalize;
+}
+
+.public-service--tag {
+  padding-right: 10px;
+  color: rgb(232, 95, 95);
+  text-transform: capitalize;
+  font-size: 15px;
+}
+
+.public-service--link-preview-container {
+  padding-top: 20px;
+  margin-bottom: 30px;
+}
+
+.public-service--link-preview {
+  padding-top: 20px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.link-preview--description {
+  padding-top: 10px;
+  font-size: 15px;
+}
+
+.link-preview--image {
+  width: 100%;
+}
+
+.public-service-btn--back{
+  margin: 30px 0;
+}
+
+.link-preview--link {
+  font-size: 12px;
+  color: blue;
+}
+
+.public-service-btn--back {
+  margin: 30px 0;
+}
