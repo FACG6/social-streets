@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Icon } from 'antd';
 import PropTypes from 'prop-types';
 
-import publicService from './dummyData'
+import post from './dummyData'
 import './style.css';
-
 
 export default class PublicService extends Component {
   state = {
@@ -12,17 +11,16 @@ export default class PublicService extends Component {
   }
 
   componentDidMount() {
-    if (this.props.postStatus === 'published') {
+    const { postStatus, ...publicService } = this.props;
+    if (postStatus === 'published') {
       //fetch the public-service post//
-      this.setState({ publicService });
+      this.setState({ publicService: post });
+    } else {
+      this.setState({ ...publicService })
     }
   }
 
   render() {
-    let post = this.props;
-    if (this.props.postStatus === 'published') {
-      post = this.state.publicService;
-    }
     const {
       image,
       title,
@@ -37,13 +35,13 @@ export default class PublicService extends Component {
       link,
       linkImg,
       secondaryTags,
-    } = post;
+    } = this.state;
 
     const pargraphs = description ? description.split('\n') : null;
 
     return (
       <section className='public-service-page--main'>
-        {post.title ?
+        {title ?
           <>
             <img className='public-service--thumbnail-img' src={image} alt={title}></img>
             <h1 className='public-service--title'>{title}</h1>
