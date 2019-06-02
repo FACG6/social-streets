@@ -1,4 +1,4 @@
-const publicService = {
+export default  {
   image: 'https://romanroadlondon.com/wp-content/uploads/2019/05/barge-east-restaurant-review-1-800x445.jpg',
   title: 'Barge East restaurant review – luxury yacht dishes at student prices',
   publishDate: 'May 9, 2019',
@@ -18,5 +18,4 @@ const publicService = {
   primaryTag: 'worshop'
 }
 
-export default publicService;
 

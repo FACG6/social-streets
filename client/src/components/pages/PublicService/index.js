@@ -8,14 +8,13 @@ import './style.css';
 
 export default class PublicService extends Component {
   state = {
-    publicService: {},
   }
 
   componentDidMount() {
     const { postStatus, ...publicService } = this.props;
     if (postStatus === 'published') {
       //fetch the public-service post//
-      this.setState({ publicService: post });
+      this.setState({ ...post });
     } else {
       this.setState({ ...publicService })
     }
@@ -97,8 +96,7 @@ export default class PublicService extends Component {
               </div>
             </div>
             {this.props.postStatus === 'preview'
-              ? (<Button onClick={this.handleBack} className='public-service-btn--back' >Back</Button>)
-              : null}
+              && (<Button onClick={this.handleBack} className='public-service-btn--back' >Back</Button>)}
           </> : <span>Loading...</span>
         }
       </section>
