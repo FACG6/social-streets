@@ -1,0 +1,9 @@
+.profile-page--form-personal {
+    width: 90%;
+}
+
+.profile-page--form-btns {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
