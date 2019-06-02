@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import { Icon, Divider } from 'antd'
 import PropTypes from 'prop-types';
 
-
-import 'antd/dist/antd.css'
-
 import eventInfo from './staticData'
 import './style.css'
 
