@@ -9,7 +9,11 @@ import "./style.css";
 
 const { TabPane } = Tabs;
 
-export default function ProfilePage({ personal, business, className = "" }) {
+export default function ProfilePage({
+  personal = undefined,
+  business = undefined,
+  className = ""
+}) {
   return (
     <div className={className}>
       <ProfilePic className="profile-page--pic" />
