@@ -1,16 +1,21 @@
-import CreatPost from "components/pages/CreatePost";
+import Profile from "components/pages/createProfile";
+import Event from "components/pages/Event";
 import Home from "components/pages/Home";
-import Header from "components/utils/Header";
-import PageNotFound from "components/pages/PageNotFound";
 import Login from "components/pages/Login";
-import createProfile from "components/pages/createProfile";
+import PageNotFound from "components/pages/PageNotFound";
+import Post from "components/pages/Post";
 import PostForm from "components/pages/PostForm";
+import Posts from "components/pages/Posts";
+import PublicService from "components/pages/PublicService";
+
 export {
-  CreatPost,
+  Profile,
+  Event,
   Home,
-  PageNotFound,
   Login,
-  createProfile,
-  Header,
-  PostForm
+  PageNotFound,
+  Post,
+  PostForm,
+  Posts,
+  PublicService
 };
