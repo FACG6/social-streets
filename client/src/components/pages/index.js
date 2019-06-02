@@ -4,4 +4,13 @@ import Header from "components/utils/Header";
 import PageNotFound from "components/pages/PageNotFound";
 import Login from "components/pages/Login";
 import createProfile from "components/pages/createProfile";
-export { CreatPost, Home, PageNotFound, Login, createProfile, Header };
+import PostForm from "components/pages/PostForm";
+export {
+  CreatPost,
+  Home,
+  PageNotFound,
+  Login,
+  createProfile,
+  Header,
+  PostForm
+};

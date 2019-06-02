@@ -19,4 +19,3 @@ export default function Post({ postType }) {
 Post.propTypes = {
   postType: PropTypes.string.isRequired,
 }
-
