@@ -35,10 +35,10 @@ class Event extends Component {
       dateTime,
       venue,
       organiserWebsite,
-      cost,
-      postStatus
+      cost
     } = this.state
-    const pargraphs = description ? description.split('\n') : null;
+    const { postStatus } = this.state
+    const pargraphs = description ? description.split('\n') : null
 
     return (
       <>
