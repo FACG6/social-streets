@@ -9,3 +9,11 @@
 .ant-tabs-ink-bar {
     background-color: var(--primary-color, pink);
 }
+
+.profile-page--pic {
+    margin: 25px auto;
+}
+
+.profile-page-tabs {
+    width: 100%;
+}
