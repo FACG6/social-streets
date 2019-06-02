@@ -8,18 +8,20 @@
   margin-bottom: 20px;
 }
 
-hr {
-  width: 20%;
-  background-color: #333;
-  margin: 15px 0;
+.event-title {
+  padding-top: 10px;
+  font-size: 36px;
+  text-transform: capitalize;
+  color: #333333;
+  font-family: Merriweather;
 }
 
-.event-flex {
+.event-icon {
   display: flex;
   justify-content: space-between
 }
 
-.event-flex--div {
+.event-flex--col {
   display: flex;
   flex-direction: column;
 }
