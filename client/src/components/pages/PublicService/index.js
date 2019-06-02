@@ -3,6 +3,7 @@ import { Icon } from 'antd';
 import PropTypes from 'prop-types';
 
 import post from './dummyData'
+import Button from 'components/utils/Button'
 import './style.css';
 
 export default class PublicService extends Component {
@@ -18,6 +19,9 @@ export default class PublicService extends Component {
     } else {
       this.setState({ ...publicService })
     }
+  }
+  handleBack = (event) => {
+    event.preventDefault();
   }
 
   render() {
@@ -92,7 +96,10 @@ export default class PublicService extends Component {
                 <p className='link-preview--description'>{linkDescription}</p>
               </div>
             </div>
-          </> : <span>...Loading</span>
+            {this.props.postStatus === 'preview'
+              ? (<Button onClick={this.handleBack} className='public-service-btn--back' >Back</Button>)
+              : null}
+          </> : <span>Loading...</span>
         }
       </section>
     )

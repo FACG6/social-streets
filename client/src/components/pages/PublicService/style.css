@@ -83,7 +83,6 @@
 
 .public-service--link-preview-container {
   padding-top: 20px;
-  margin-bottom: 90px;
 }
 
 .public-service--link-preview {
@@ -104,4 +103,8 @@
 .link-preview--link {
   font-size: 12px;
   color: blue;
+}
+
+.public-service-btn--back {
+  margin: 50px 0;
 }
