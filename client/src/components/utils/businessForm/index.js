@@ -89,7 +89,7 @@ class BusinessForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit} className='create-profile-form'>
-      
+
         <InputGroup size="large" >
 
           <Form.Item label="Orgnisation Name" className='create-profile-form--item'>
@@ -247,63 +247,54 @@ class BusinessForm extends React.Component {
             })(<Input placeholder='Postal Code' />)}
           </Form.Item>
 
-          <Form.Item label="Social Media" className='create-profile-form--item'>
-            {getFieldDecorator('facebook', {
-              rules: [
-                {
-                  whitespace: true,
-                  message: 'Delete the spaces!'
-                },
-                {
-                  required: true,
-                  message: 'Please enter your Social Media!',
-                },
-              ],
-            })(
-              <div className='social-input' >
-                <img src='https://image.flaticon.com/icons/svg/174/174848.svg' alt="facebook logo" className='social-img' />
+            <h3>Social Media</h3>
+          <div className='social-input' >
+            <img src='https://image.flaticon.com/icons/svg/174/174848.svg' alt="facebook logo" className='social-img' />
+            <Form.Item className='create-profile-form--item'>
+              {getFieldDecorator('facebook', {
+                rules: [
+                  {
+                    whitespace: true,
+                    message: 'Delete the spaces!'
+                  }
+                ],
+              })(
                 <Input placeholder='Facebook page link...' />
-              </div>)}
-          </Form.Item>
+              )}
+            </Form.Item>
+          </div>
 
-          <Form.Item className='create-profile-form--item'>
-            {getFieldDecorator('instagram', {
-              rules: [
-                {
-                  whitespace: true,
-                  message: 'Delete the spaces!'
-                },
-                {
-                  required: true,
-                  message: 'Please enter your Social Media!',
-                },
-              ],
-            })(
-              <div className='social-input'>
-                <img src='https://image.flaticon.com/icons/svg/1409/1409946.svg' alt="instagram logo" className='social-img' />
+          <div className='social-input'>
+            <img src='https://image.flaticon.com/icons/svg/1409/1409946.svg' alt="instagram logo" className='social-img' />
+            <Form.Item className='create-profile-form--item'>
+              {getFieldDecorator('instagram', {
+                rules: [
+                  {
+                    whitespace: true,
+                    message: 'Delete the spaces!'
+                  }
+                ],
+              })(
                 <Input placeholder='Instagram page link...' />
-              </div>)}
-          </Form.Item>
+              )}
+            </Form.Item>
+          </div>
 
-          <Form.Item className='create-profile-form--item'>
-
-            {getFieldDecorator('twitter', {
-              rules: [
-                {
-                  whitespace: true,
-                  message: 'Delete the spaces!'
-                },
-                {
-                  required: true,
-                  message: 'Please enter your Social Media!',
-                },
-              ],
-            })(
-              <div className='social-input' >
-                <img src='https://image.flaticon.com/icons/svg/124/124021.svg' alt="titter logo" className='social-img' />
+          <div className='social-input' >
+            <img src='https://image.flaticon.com/icons/svg/124/124021.svg' alt="titter logo" className='social-img' />
+            <Form.Item className='create-profile-form--item'>
+              {getFieldDecorator('twitter', {
+                rules: [
+                  {
+                    whitespace: true,
+                    message: 'Delete the spaces!'
+                  }
+                ],
+              })(
                 <Input placeholder='Twitter page link...' />
-              </div>)}
-          </Form.Item>
+              )}
+            </Form.Item>
+          </div>
 
         </InputGroup>
 
@@ -316,7 +307,7 @@ class BusinessForm extends React.Component {
         </Button>
         </Form.Item>
 
-      </Form>
+      </Form >
     );
   }
 }
