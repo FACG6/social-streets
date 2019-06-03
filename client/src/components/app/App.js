@@ -19,8 +19,8 @@ import "./App.css";
 function App() {
   return (
     <>
-      {/* <Header /> */}
       <Router>
+        <Header />
         <Switch>
           <Route
             exact
@@ -74,12 +74,12 @@ function App() {
           />
           <Route
             path='/logout'
-            component={<h1>Logout</h1>}
+            render={() => <h1>Logout</h1>}
           />
           <Route component={PageNotFound} />
         </Switch>
+        <Footer />
       </Router>
-      <Footer />
     </>
   )
 }

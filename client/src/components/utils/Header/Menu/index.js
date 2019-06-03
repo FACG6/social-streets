@@ -14,15 +14,13 @@ export default function Menu({ show = false }) {
   ];
   if (show)
     return (
-      <Router>
-        <div className="header--menu">
-          {links.map(({ target, label }, i) => (
-            <Link key={`label_${i}`} to={target} className="header--menu-text">
-              {label}
-            </Link>
-          ))}
-        </div>
-      </Router>
+      <div className="header--menu">
+        {links.map(({ target, label }, i) => (
+          <Link key={`label_${i}`} to={target} className="header--menu-text">
+            {label}
+          </Link>
+        ))}
+      </div>
     );
   else return null;
 }

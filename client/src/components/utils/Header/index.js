@@ -19,7 +19,6 @@ class Header extends Component {
   };
 
   render() {
-    console.log(this.props, 11111111111111)
     const { showMenu } = this.state;
     const { showHamburger = true } = this.props;
 
@@ -30,11 +29,12 @@ class Header extends Component {
         </Link>
         {showHamburger && (
           <HamburgerButton
+          {...this.props}
             className="header--hamburger-button"
             toggleMenuHandler={this.toggleMenuHandler}
           />
         )}
-        <Menu show={showMenu} />
+        <Menu  {...this.props} show={showMenu} />
       </header>
     );
   }
