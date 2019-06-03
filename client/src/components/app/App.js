@@ -81,6 +81,11 @@ function App() {
           path='/post/public-service/:category/:id/preview'
           render={() => <PublicService postStatus='published' />}
         />
+        <Route
+          exact
+          path='/logout'
+          component={<h1>Logout</h1>}
+        />
         <Route compoennt={PageNotFound} />
 
       </Switch>
