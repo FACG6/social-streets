@@ -11,7 +11,7 @@ export default function Post({ onClick, title, id, type, link }) {
 
   return (
     <div className='post-row-container'>
-      <Link className='post-row-container--link' to={`/${type}/${link}/${id}`}>
+      <Link className='post-row-container--link' to={`/post/${type}/${link}/${id}`}>
         <p className='post-row-container--title'>
           {title}
         </p>

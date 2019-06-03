@@ -1,4 +1,4 @@
-import Footer from "./footer";
+import Footer from "./Footer";
 import Anchor from "./anchor";
 import Button from "./Button";
 import InputAntd from "./InputAntd";
