@@ -13,9 +13,7 @@ import {
   PageNotFound,
   Event,
 } from 'components/pages/index';
-import Header from 'components/utils/Header';
-import Footer from 'components/utils/footer';
-
+import { Header, Footer } from 'components/utils/index'
 import "./App.css";
 
 function App() {
@@ -84,7 +82,7 @@ function App() {
           render={() => <PublicService postStatus='published' />}
         />
         <Route compoennt={PageNotFound} />
-        
+
       </Switch>
     </Router>
 
