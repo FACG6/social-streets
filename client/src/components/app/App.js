@@ -36,17 +36,17 @@ function App() {
             component={Login}
           />
           {/* <Route
-          exact
-          path='/profile/:id'
-          component={Profile}
-        /> */}
+            exact
+            path='/profile/:id'
+            component={Profile}
+          /> */}
           <Route
             path='/posts/live'
-            render={() => <Post postType='live' />}
+            render={(props) => <Post {...props} postType='live' />}
           />
           <Route
             path='/posts/draft'
-            render={() => <Post postType='draft' />}
+            render={(props) => <Post {...props} postType='draft' />}
           />
           <Route
             path='/posts/new'
@@ -60,9 +60,7 @@ function App() {
           <Route
             exact
             path='/post/event/:id/edit'
-            postFormType='event'
-            component={PostForm}
-          // render={(props) => <PostForm postFormType='event' {...props} />}
+            render={(props) => <PostForm postFormType='event' {...props} />}
           />
           <Route
             path='/post/event/:category/:id'
