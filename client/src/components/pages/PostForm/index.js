@@ -47,7 +47,7 @@ class CreatPostPage extends React.Component {
       primaryTag
     } = this.state;
 
-    const { id } = this.props;
+    const { id } = this.props.match;
 
     return (
       <section className="create-post-page-main">
@@ -76,13 +76,13 @@ class CreatPostPage extends React.Component {
             eventTypeValues={eventTypeValues}
           />
         ) : (
-          <WrappedPublicServices
-            id={id}
-            postType={postType}
-            primaryTag={primaryTag}
-            secondaryTag={secondaryTag}
-          />
-        )}
+            <WrappedPublicServices
+              id={id}
+              postType={postType}
+              primaryTag={primaryTag}
+              secondaryTag={secondaryTag}
+            />
+          )}
       </section>
     );
   }

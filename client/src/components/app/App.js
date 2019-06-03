@@ -53,20 +53,32 @@ function App() {
             component={PostForm}
           />
           <Route
+            exact
+            path='/post/public-service/:id/edit'
+            render={(props) => <PostForm postFormType='public service' {...props} />}
+          />
+          <Route
+            exact
+            path='/post/event/:id/edit'
+            postFormType='event'
+            component={PostForm}
+          // render={(props) => <PostForm postFormType='event' {...props} />}
+          />
+          <Route
             path='/post/event/:category/:id'
-            render={() => <Event postStatus='published' />}
+            render={(props) => <Event {...props} postStatus='published' />}
           />
           <Route
             path='/post/public-service/:category/:id'
-            render={() => <PublicService postStatus='published' />}
+            render={(props) => <PublicService {...props} postStatus='published' />}
           />
           <Route
             path='/post/event/:category/:id/preview'
-            render={() => <Event postStatus='published' />}
+            render={(props) => <Event {...props} postStatus='published' />}
           />
           <Route
             path='/post/public-service/:category/:id/preview'
-            render={() => <PublicService postStatus='published' />}
+            render={(props) => <PublicService {...props} postStatus='published' />}
           />
           <Route
             path='/posts'
