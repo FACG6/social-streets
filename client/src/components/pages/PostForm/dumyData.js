@@ -1,3 +1,4 @@
+import moment from "moment";
 const eventTypeValues = [
   {
     key: 1,
@@ -87,4 +88,38 @@ const secondaryTag = [
   }
 ];
 
-export { eventTypeValues, eventTopicValues, primaryTag, secondaryTag };
+const event = {
+  title: "Event Title",
+  eventType: "Events and Festivals",
+  eventTopic: ["Food and Drink", "Arts"],
+  description: "Description",
+  dateAndTime: moment(
+    new Date("Sat Jun 01 2019 15:34:31 GMT+0300 (Eastern European Summer Time)")
+  ),
+  cost: 120,
+  image: undefined,
+  altText: "Event Title",
+  website: "socialstreets.com",
+  focusKeyword: "Focus Keyword",
+  metaDescription: "Meta Description"
+};
+
+const publicService = {
+  title: "Public Services Title",
+  primaryTag: "Petitions",
+  secondaryTag: ["Safety", "Health"],
+  description: "Description",
+  image: undefined,
+  altText: "Event Title",
+  focusKeyword: "Focus Keyword",
+  metaDescription: "Meta Description"
+};
+
+export {
+  eventTypeValues,
+  eventTopicValues,
+  primaryTag,
+  secondaryTag,
+  event,
+  publicService
+};

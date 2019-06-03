@@ -4,4 +4,6 @@ import Button from "./Button";
 import InputAntd from "./InputAntd";
 import TextAreaAntd from "./TextAreaAntd";
 import DropDownAntd from "./DropDownAntd";
-export { Footer, Anchor, Button, InputAntd, TextAreaAntd, DropDownAntd };
+import Header from './Header';
+
+export { Footer, Anchor, Button, InputAntd, TextAreaAntd, DropDownAntd, Header };
