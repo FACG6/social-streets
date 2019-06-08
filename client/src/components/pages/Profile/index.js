@@ -10,8 +10,8 @@ import "./style.css";
 const { TabPane } = Tabs;
 
 export default function ProfilePage({
-  personal = undefined,
-  business = undefined,
+  personal = {},
+  business = {},
   className = ""
 }) {
   return (

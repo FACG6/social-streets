@@ -1,19 +1,20 @@
 .ant-tabs-nav .ant-tabs-tab-active {
-    color: var(--primary-color, pink);
+  color: var(--primary-color, pink);
 }
 
 .ant-tabs-nav .ant-tabs-tab:hover {
-    color: var(--primary-color, pink);
+  color: var(--primary-color, pink);
 }
 
 .ant-tabs-ink-bar {
-    background-color: var(--primary-color, pink);
+  background-color: var(--primary-color, pink);
 }
 
 .profile-page--pic {
-    margin: 25px auto;
+  margin: 25px auto;
 }
 
 .profile-page-tabs {
-    width: 100%;
+  width: 100%;
+  margin: 0 auto;
 }

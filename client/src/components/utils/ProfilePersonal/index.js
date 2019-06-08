@@ -104,7 +104,7 @@ class ProfilePersonal extends Component {
               },
               {
                 required: true,
-                message: "Please inter your Last Name!"
+                message: "Please Enter your Last Name!"
               }
             ]
           })(<Input placeholder="Your Last Name" />)}
@@ -130,7 +130,7 @@ class ProfilePersonal extends Component {
         </Form.Item>
 
         <Form.Item
-          label="Old Password"
+          label="Password"
           required={false}
           hasFeedback
           className="profile-page--form-item"
@@ -157,7 +157,6 @@ class ProfilePersonal extends Component {
             <Input.Password placeholder="Password" visibilityToggle={false} />
           )}
         </Form.Item>
-
         <Form.Item
           label="New Password"
           required={false}
