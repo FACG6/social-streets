@@ -3,14 +3,15 @@ const { join } = require("path");
 
 const dbConnection = require("./db_connection");
 
-function dbBuild() {
-  const sql = readFileSync(join(__dirname, "build.sql")).toString();
-  return dbConnection.query(sql);
-}
+const buildDb = () => {
+  const buildSql = readFileSync(join(__dirname, "build.sql")).toString();
+  const staticSql = readFileSync(join(__dirname, "staticData.sql")).toString();
+  return dbConnection.query(buildSql + staticSql);
+};
 
-function dbFakeData() {
-  const sql = readFileSync(join(__dirname, "fakeData.sql")).toString();
+const buildFakeData = () => {
+  const sql = readFileSync(join(__dirname, "fakeData.test.sql")).toString();
   return dbConnection.query(sql);
-}
+};
 
-module.exports = { dbBuild, dbFakeData };
+module.exports = { buildDb, buildFakeData };
