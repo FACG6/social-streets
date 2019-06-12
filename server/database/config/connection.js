@@ -18,7 +18,7 @@ const config = {
   password,
   database: path.split("/")[1],
   host,
-  port: port,
+  port,
   ssl: !(host === "localhost")
 };
 
