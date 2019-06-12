@@ -27,10 +27,7 @@ A web-app that allows it's users to submit their news/public-services or/and eve
 As a user I want to login into my account or create a new account, I want to view all my drafts and posts and be able to edit/delete them, I want to create a new public service/event and submit them, and I want to view my profile and be able to update my personal informations includin my profile picture.
 
 ## Schema ##
-
-![download (3)](![download (2)](https://user-images.githubusercontent.com/35868173/58464161-dcdd7580-813d-11e9-8878-6b42e88e297a.png)
-)
-
+![schema](https://user-images.githubusercontent.com/35868173/59343171-e9ec8e00-8d13-11e9-80aa-8df1a61deb66.png)
 
 ## Tech Stack
 
