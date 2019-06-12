@@ -6,7 +6,7 @@ const dbConnection = require("./db_connection");
 const buildDb = () => {
   const buildSql = readFileSync(join(__dirname, "build.sql")).toString();
   const staticSql = readFileSync(join(__dirname, "staticData.sql")).toString();
-  return dbConnection.query(buildSql + staticSql);
+  return dbConnection.query(buildSql).then(() => dbConnection.query(staticSql));
 };
 
 const buildFakeData = () => {
