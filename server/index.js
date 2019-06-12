@@ -1,7 +1,7 @@
 const app = require('./app');
 
-const port = app.get('port');
+const PORT = app.get('port');
 
-app.listen(port, () => {
-  console.log(`server in http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`server in http://localhost:${PORT}`);
 });
