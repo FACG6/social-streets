@@ -3,7 +3,7 @@ node_js:
  - "node"
 before_script: 
   - "psql -c \"CREATE DATABASE db_travis;\" -U postgres"
-  - "psql -c \"CREATE USER social-streets WITH PASSWORD '123';\" -U postgres"
+  - "psql -c \"CREATE USER social_streets WITH PASSWORD '123';\" -U postgres"
 env: 
   global: 
   - PGPORT=5432
@@ -11,4 +11,4 @@ services:
   - postgresql
 test: 
   adapter: postgresql
-  database: social-streets
+  database: social_streets
