@@ -14,7 +14,9 @@ app.use(cookieParser());
 
 app.set('port', process.env.PORT || 5000);
 app.use('/api/v1', router);
-
+app.use((err, req, res, next) => {
+  res.status(500).send('Internal Server Error');
+});
 app.use(express.static(join(__dirname, '..', 'client', 'build')));
 
 app.get('*', (_req, res) => {
