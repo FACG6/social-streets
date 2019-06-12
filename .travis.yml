@@ -4,6 +4,7 @@ node_js:
 before_script: 
   - "psql -c \"CREATE DATABASE db_travis;\" -U postgres"
   - "psql -c \"CREATE USER social_streets WITH PASSWORD '123';\" -U postgres"
+  - "cd server && npm test"
 env: 
   global: 
   - PGPORT=5432
