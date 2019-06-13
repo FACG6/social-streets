@@ -20,10 +20,9 @@ module.exports = (req, res) => {
             bcrypt.compare(password, user.password).then((passIsValid) => {
               if (!passIsValid) res.status(400).send({ error: 'Wrong password', statusCode: 400 });
               else {
-                const userToRes = user;
-                delete userToRes.password;
+                const { password: pass, ...userResult } = user;
                 res.cookie('jwt', genCookie(user));
-                res.status(200).send({ data: userToRes, statusCode: 200 });
+                res.status(200).send({ data: userResult, statusCode: 200 });
               }
             });
           }
