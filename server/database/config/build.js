@@ -18,6 +18,4 @@ const buildFakeData = () => {
   return dbConnection.query(fakeSql);
 };
 
-buildFakeData();
-
 module.exports = { buildDb, buildFakeData, buildStaticData };
