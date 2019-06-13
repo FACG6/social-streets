@@ -8,7 +8,7 @@ BEGIN;
     INSERT INTO public_service (primary_tag, description, image, focus_key, alt_text, meta, publisher_id, publish_datetime, title, is_draft)
         VALUES (2, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 'https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress& cs=tinysrgb&dpr=1&w=500', 'Lorem', 'ALT TEXT', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 3, '11/6/ 2019 - 04.30 p.m', 'News Title', false);
 
-    INSERT INTO public_service_tag (secondary_tag, public_services_id)
+    INSERT INTO public_service_tag (secondary_tag, public_service_id)
         VALUES (1, 1), 
                (2, 1), 
                (3, 1); 
