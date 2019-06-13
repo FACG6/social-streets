@@ -19,6 +19,7 @@ test('testing getUser route', (t) => {
         .expect(200)
         .end((error, response) => {
           const user = response.body.data;
+          console.log(user);
           t.equal(typeof user, 'object', 'should be object');
           t.equal(Object.keys(user).length >= 11, true, 'should be equal to or more than 11 keys');
           t.equal(Object.keys(user).includes('first_name'), true, 'should be true');
