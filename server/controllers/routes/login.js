@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-const genCookie = require('../utils/genCookie');
+const { genCookie } = require('../utils/helper.js');
 const getUser = require('../../database/queries/getUser');
 const schema = require('../utils/loginSchema');
 
