@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const login = require('./routes/login');
+const { login } = require('./routes');
 
 router.post('/login', login);
 

@@ -2,12 +2,12 @@ const bcrypt = require('bcryptjs');
 
 const { genCookie } = require('../utils/helper.js');
 const getUser = require('../../database/queries/getUser');
-const schema = require('../utils/loginSchema');
+const loginSchema = require('../utils/validationSchemes');
 
 module.exports = (req, res) => {
   const { email, password } = req.body;
 
-  schema
+  loginSchema
     .isValid({ email, password })
     .then(() => {
       getUser(email)
@@ -22,7 +22,7 @@ module.exports = (req, res) => {
               else {
                 const { password: pass, ...userResult } = user;
                 res.cookie('jwt', genCookie(user));
-                res.status(200).send({ data: userResult, statusCode: 200 });
+                res.send({ data: userResult, statusCode: 200 });
               }
             });
           }
