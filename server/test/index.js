@@ -1,8 +1,10 @@
-const tape = require('tape');
+const {
+  buildDb,
+  buildFakeData,
+  buildStaticData,
+} = require('../database/config/build');
 
-tape('test', (e) => {
-  e.equal(1, 1, 'pass');
-  e.end();
-});
-
-require('./queries/selectUsers');
+buildDb()
+  .then(buildStaticData)
+  .then(buildFakeData)
+  .then(require('./queries/selectUsers'));
