@@ -1,6 +1,6 @@
 BEGIN;
 
-    INSERT INTO "user" (first_name, last_name, email, password, avatar, business_type, website, organisation_name, address, city, country, postal_code, facebook, instagram, twitter)
+    INSERT INTO "user" (first_name, last_name, email, password, avatar, business_type, website, organisation_name, address, city, country, zip_code, facebook, instagram, twitter)
         VALUES ('Ahmed', 'Abdellatif', 'ahmedisam9922@gmail.com', '$2y$12$0tqIpfxzTSFIKFECzjS1XOKhhxAlPsexglTCOKhysSXVt.R4KTBAW', NULL, 'Charity', 'https://www.google.com', 'Ahmed Co.', 'Omar Al-Mukhtar St.', 'Gaza', 'Palestine', '79702', 'https://www.facebook.com', 'https://www.instagram.com', 'https://www.twitter.com'), 
                ('Amin', 'Al-Akhsam', 'aminking@gmail.com', '$2y$12$0tqIpfxzTSFIKFECzjS1XOKhhxAlPsexglTCOKhysSXVt.R4KTBAW', NULL, 'Community organisation', 'https://www.google.com', 'Amin Co.', 'Omar Al-Mukhtar St.', 'Gaza', 'Palestine', '79702', 'https://www.facebook.com', 'https://www.instagram.com', 'https://www.twitter.com'),
                ('Abdallah', 'Ammar', 'abdallah@gmail.com', '$2y$12$0tqIpfxzTSFIKFECzjS1XOKhhxAlPsexglTCOKhysSXVt.R4KTBAW', NULL, 'Education', 'https://www.google.com', 'Abd Co.', 'Omar Al-Mukhtar St.', 'Gaza', 'Palestine', '79702', 'https://www.facebook.com', 'https://www.instagram.com', 'https://www.twitter.com');
