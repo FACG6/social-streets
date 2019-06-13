@@ -1,6 +1,6 @@
 BEGIN;
 
-    DROP TABLE IF EXISTS "user", event, news_tag, topic, event_topic, event_category,
+    DROP TABLE IF EXISTS "user", event, public_services_tag, topic, event_topic, event_category,
     primary_tag, secondary_tag, public_services CASCADE;
 
     CREATE TABLE "user" (
@@ -51,9 +51,9 @@ BEGIN;
         is_draft BOOLEAN NOT NULL
     );
     
-    CREATE TABLE news_tag (
+    CREATE TABLE public_services_tag (
         secondary_tag INTEGER REFERENCES secondary_tag(id),
-        news_id INTEGER REFERENCES public_services(id)
+        public_services_id INTEGER REFERENCES public_services(id)
     );
     
 
@@ -85,8 +85,5 @@ BEGIN;
         event_id INTEGER REFERENCES event(id),
         topic_id INTEGER REFERENCES topic(id)
     );
-
-
-
 
 COMMIT;
