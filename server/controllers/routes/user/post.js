@@ -28,4 +28,3 @@ exports.post = (req, res, next) => {
     })
     .catch(next);
 };
-insertUser(userInfo);
