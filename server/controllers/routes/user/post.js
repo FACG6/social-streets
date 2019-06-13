@@ -9,7 +9,7 @@ exports.post = (req, res, next) => {
   userPostSchema
     .validate(userInfo)
     .then((valid) => {
-      if (valid) return hashPassword(userInfo.password, 10);
+      if (valid) return hashPassword(userInfo.password);
       return res.status(400).send({
         error: 'bad request',
         statusCode: 400,
