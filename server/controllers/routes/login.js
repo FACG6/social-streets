@@ -20,20 +20,23 @@ module.exports = (req, res) => {
     .then(() => {
       getUser(email)
         .then((user) => {
-          if (!user) res.status(400).send(`User with email '${email}' does not exist`);
-          else {
+          if (!user) {
+            res
+              .status(400)
+              .send({ error: `User with email '${email}' does not exist`, statusCode: 400 });
+          } else {
             bcrypt.compare(password, user.password).then((passIsValid) => {
-              if (!passIsValid) res.status(400).send('Wrong password');
+              if (!passIsValid) res.status(400).send({ error: 'Wrong password', statusCode: 400 });
               else {
                 const userToRes = user;
                 delete userToRes.password;
                 res.cookie('jwt', genCookie(user));
-                res.status(200).send(userToRes);
+                res.status(200).send({ data: userToRes, statusCode: 200 });
               }
             });
           }
         })
-        .catch(() => res.status(500).send('Internal Server Error'));
+        .catch(() => res.status(500).send({ error: 'Internal Server Error', statusCode: 500 }));
     })
-    .catch(() => res.status(400).send('Bad Request'));
+    .catch(() => res.status(400).send({ error: 'Bad Request', statusCode: 400 }));
 };
