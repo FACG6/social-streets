@@ -1,19 +1,11 @@
 const bcrypt = require('bcryptjs');
-const yup = require('yup');
 
 const genCookie = require('../utils/genCookie');
 const getUser = require('../../database/queries/getUser');
+const schema = require('../utils/loginSchema');
 
 module.exports = (req, res) => {
   const { email, password } = req.body;
-
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .email()
-      .required(),
-    password: yup.string().required(),
-  });
 
   schema
     .isValid({ email, password })
