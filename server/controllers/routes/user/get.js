@@ -5,9 +5,9 @@ exports.getUser = (req, res, next) => {
   getUser(userId)
     .then((response) => {
       if (!response.rowCount) {
-        res.status(400).send('Bad Request');
+        res.status(400).send({ error: 'Bad Request', statusCode: 400 });
       } else {
-        res.send({ data: response.rows[0] });
+        res.send({ data: response.rows[0], statusCode: 200 });
       }
     })
     .catch(error => next(error));
