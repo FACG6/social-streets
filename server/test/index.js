@@ -5,6 +5,6 @@ const {
 } = require('../database/config/build');
 
 buildDb()
-  .then(buildStaticData)
-  .then(buildFakeData)
-  .then(require('./queries/selectUsers'));
+  .then(() => buildStaticData())
+  .then(() => buildFakeData())
+  .then(() => require('./queries/selectUsers'));
