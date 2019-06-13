@@ -9,7 +9,7 @@ exports.post = (req, res, next) => {
   userPostSchema
     .validate(userInfo)
     .then((valid) => {
-      if (valid) return insertUser(Object.values(userInfo));
+      if (valid) return insertUser(userInfo);
       return res.status(400).send({
         error: 'bad request',
         statusCode: 400,
