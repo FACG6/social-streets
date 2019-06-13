@@ -1,12 +1,21 @@
 const test = require('tape');
 
 const connection = require('../../database/config/connection');
+const {
+  buildDb,
+  buildFakeData,
+  buildStaticData,
+} = require('../../database/config/build');
+
 const selectUser = require('../../database/queries/selectUser');
 
 const selectId = () => connection.query('SELECT id from "user" limit 1');
 
 test('testing selectUser Query', (t) => {
-  selectId()
+  buildDb()
+    .then(() => buildStaticData())
+    .then(() => buildFakeData())
+    .then(() => selectId())
     .then(response => response.rows[0].id)
     .then(id => selectUser(id))
     .then((response) => {
