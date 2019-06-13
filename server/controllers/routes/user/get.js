@@ -1,7 +1,6 @@
 const getUser = require('database/queries/selectUser');
 
 exports.getUser = (req, res, next) => {
-  //after checking the cookie, the id will be added in the token object in the request
   const userId = req.user.id;
   getUser(userId)
     .then((response) => {
