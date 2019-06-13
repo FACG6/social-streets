@@ -3,7 +3,7 @@ const test = require('tape');
 const { buildDb, buildStaticData, buildFakeData } = require('../../database/config/build');
 const getUser = require('../../database/queries/getUser');
 
-test('testing selectUser Query', (t) => {
+test('Testing getUser Query', (t) => {
   buildDb()
     .then(() => buildStaticData())
     .then(() => buildFakeData())
