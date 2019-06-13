@@ -12,9 +12,12 @@ const buildStaticData = () => {
   const staticSql = readFileSync(join(__dirname, 'staticData.sql')).toString();
   return dbConnection.query(staticSql);
 };
+
 const buildFakeData = () => {
   const fakeSql = readFileSync(join(__dirname, 'fakeData.test.sql')).toString();
   return dbConnection.query(fakeSql);
 };
+
+buildDb();
 
 module.exports = { buildDb, buildFakeData, buildStaticData };
