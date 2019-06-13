@@ -1,15 +1,15 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const { join } = require('path');
-const uploadeMiddleware = require('multer');
+// const uploadeMiddleware = require('multer');
 
 require('dotenv').config();
-const router = require('./controllers');
+const router = require('./controllers/routes');
 
 const app = express();
 
 app.set('port', process.env.PORT || 5000);
-app.use(uploadeMiddleware());
+// app.iuse(uploadeMiddleware());
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/v1', router);
