@@ -9,6 +9,7 @@ module.exports = (req, res, next) => {
         req.clearCookie(jwt);
         res.status(401).send('unauthorized');
       } else {
+        console.log(unlockedCookie, 'encoded')
         req.user = unlockedCookie;
         next();
       }
