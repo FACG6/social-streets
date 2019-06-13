@@ -9,17 +9,17 @@ BEGIN;
         last_name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        avatar TEXT,
         business_type TEXT NOT NULL,
         website TEXT NOT NULL,
         organisation_name TEXT NOT NULL,
         address TEXT NOT NULL,
         city TEXT NOT NULL,
         country TEXT NOT NULL,
-        postal_code TEXT NOT NULL,
+        zip_code TEXT NOT NULL,
         facebook TEXT,
         instagram TEXT,
-        twitter TEXT
+        twitter TEXT,
+        avatar TEXT
     );
 
     CREATE TABLE event_category (
@@ -37,7 +37,7 @@ BEGIN;
         tag TEXT NOT NULL
     );
 
-    CREATE TABLE public_services (
+    CREATE TABLE public_service (
         id SERIAL PRIMARY KEY,
         primary_tag INTEGER REFERENCES primary_tag(id),
         description TEXT NOT NULL,
