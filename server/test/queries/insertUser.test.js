@@ -1,5 +1,6 @@
 const tape = require('tape');
-const insertUser = require('database/queries/insertUser');
+const { insertUser } = require('./../../database/queries/insertUser');
+const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build.js');
 
 tape('insert user query test', (t) => {
   const userInfo = {
@@ -7,29 +8,55 @@ tape('insert user query test', (t) => {
     lastName: 'alakhsham',
     email: 'amin@gmail.com',
     password: 'aminamin',
-    orgName: 'social-street',
     typeOfBusiness: 'Business',
-    website: 'www.socialstreets.com',
+    website: 'https://www.socialstreets.com',
+    orgName: 'social-street',
     address: 'gaza',
     city: 'gaza',
     country: 'palestine',
     zipCode: '45214',
-    facebook: 'fb.com/aminalakhsham',
-    twitter: 'twitter.com/aminalakhsham',
-    instagram: 'instagram.com/aminalakhsham',
+    facebook: 'https://fb.com/aminalakhsham',
+    twitter: 'https://twitter.com/aminalakhsham',
+    instagram: 'https://www.instagram.com/aminalakhsham',
+    avatar: 'avatar.png',
   };
-
-  insertUser(userInfo)
-    .then((res) => {
-      if (res.rowCount === 1) {
-        t.equal(res.rows[0].avatar, 'avatar.png', 'add user successfully');
-        t.end();
-      } else {
-        t.error();
-      }
-    })
-    .catch((err) => {
-      t.error(err);
+  buildDb()
+    .then(() => buildStaticData())
+    .then(() => buildFakeData())
+    .then(() => {
+      insertUser(userInfo)
+        .then((res) => {
+          if (res.rowCount === 1) {
+            t.deepEqual(
+              Object.keys(res.rows[0]),
+              [
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'password',
+                'business_type',
+                'website',
+                'organisation_name',
+                'address',
+                'city',
+                'country',
+                'zip_code',
+                'facebook',
+                'instagram',
+                'twitter',
+                'avatar',
+              ],
+              'add user in database sucssfully',
+            );
+            t.end();
+          } else {
+            t.error();
+          }
+        })
+        .catch((err) => {
+          t.error(err);
+        });
     });
 });
 

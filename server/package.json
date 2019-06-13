@@ -7,8 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "start": "node index.js",
-    "test": "node ./test/routes/userPost.test.js | tap-spec"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=testing node ./test/index.js | tap-spec"
   },
   "author": "",
   "license": "ISC",

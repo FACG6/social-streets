@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 const yup = require('yup');
-const insertUser = require('database/queries/insertUser');
+const { insertUser } = require('./../../../database/queries/insertUser');
 
 exports.post = (req, res, next) => {
   const schema = yup.object().shape({
@@ -48,27 +49,27 @@ exports.post = (req, res, next) => {
   userInfoClone.avatar = 'avatar.png';
 
   schema
-    .isValid(userInfoClone)
+    .validate(userInfoClone)
     .then((valid) => {
-      if (valid) return insertUser(userInfo);
-      res.status(400).send({
+      if (valid) return insertUser(Object.values(userInfoClone));
+      return res.status(400).send({
         error: 'bad request',
         statusCode: 400,
       });
     })
     .then((result) => {
       const {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
         password,
-        orgName,
-        typeOfBusiness,
+        organisation_name,
+        business_type,
         website,
         address,
         city,
         country,
-        postalCode,
+        zip_code,
         facebook,
         twitter,
         instagram,
@@ -77,17 +78,17 @@ exports.post = (req, res, next) => {
 
       res.status(201).send({
         data: {
-          firstName,
-          lastName,
+          first_name,
+          last_name,
           email,
           password,
-          orgName,
-          typeOfBusiness,
+          organisation_name,
+          business_type,
           website,
           address,
           city,
           country,
-          postalCode,
+          zip_code,
           facebook,
           twitter,
           instagram,
@@ -96,5 +97,8 @@ exports.post = (req, res, next) => {
         statusCode: 201,
       });
     })
-    .catch(err => next(err));
+    .catch((err) => {
+      console.log(err);
+      next(err);
+    });
 };
