@@ -1,16 +1,15 @@
 /* eslint-disable camelcase */
 const { insertUser } = require('./../../../database/queries/insertUser');
-const { userPostSchema } = require('./../../utils/validationShcem');
+const { userPostSchema } = require('./../../utils/validationSchemes');
 
 exports.post = (req, res, next) => {
-  const userInfo = req.body.user;
-  const userInfoClone = { ...userInfo };
-  userInfoClone.avatar = 'avatar.png';
+  const userInfo = { ...req.body.user };
+  userInfo.avatar = 'avatar.png';
 
   userPostSchema
-    .validate(userInfoClone)
+    .validate(userInfo)
     .then((valid) => {
-      if (valid) return insertUser(Object.values(userInfoClone));
+      if (valid) return insertUser(Object.values(userInfo));
       return res.status(400).send({
         error: 'bad request',
         statusCode: 400,
