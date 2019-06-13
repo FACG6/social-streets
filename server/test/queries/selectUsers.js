@@ -6,7 +6,6 @@ const {
   buildFakeData,
   buildStaticData,
 } = require('../../database/config/build');
-
 const selectUser = require('../../database/queries/selectUser');
 
 const selectId = () => connection.query('SELECT id from "user" limit 1');
