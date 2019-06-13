@@ -12,7 +12,7 @@ test('testing getUser route', (t) => {
   buildDb()
     .then(() => buildStaticData())
     .then(() => buildFakeData())
-    .then((result) => {
+    .then(() => {
       request(app)
         .get('/api/v1/user')
         .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
