@@ -16,42 +16,8 @@ exports.post = (req, res, next) => {
       });
     })
     .then((result) => {
-      const {
-        first_name,
-        last_name,
-        email,
-        password,
-        organisation_name,
-        business_type,
-        website,
-        address,
-        city,
-        country,
-        zip_code,
-        facebook,
-        twitter,
-        instagram,
-        avatar,
-      } = result.rows[0];
-
       res.status(201).send({
-        data: {
-          first_name,
-          last_name,
-          email,
-          password,
-          organisation_name,
-          business_type,
-          website,
-          address,
-          city,
-          country,
-          zip_code,
-          facebook,
-          twitter,
-          instagram,
-          avatar,
-        },
+        data: { ...result.rows[0] },
         statusCode: 201,
       });
     })
