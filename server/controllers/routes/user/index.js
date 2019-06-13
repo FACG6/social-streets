@@ -4,3 +4,5 @@ const { getUser } = require('./get');
 
 router.route('/')
   .get(getUser);
+
+module.exports = router;
