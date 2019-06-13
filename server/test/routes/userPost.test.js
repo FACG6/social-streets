@@ -9,7 +9,7 @@ test('post in /api/v1/user (with valid data)', (t) => {
     .then(() => buildFakeData())
     .then(() => {
       request(app)
-        .post('/api/v1/user/')
+        .post('/api/v1/user')
         .send({
           user: {
             firstName: 'amin',

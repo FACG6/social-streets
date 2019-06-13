@@ -97,8 +97,5 @@ exports.post = (req, res, next) => {
         statusCode: 201,
       });
     })
-    .catch((err) => {
-      console.log(err);
-      next(err);
-    });
+    .catch(next);
 };
