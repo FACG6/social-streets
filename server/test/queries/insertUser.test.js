@@ -49,6 +49,7 @@ tape('insert user query test', (t) => {
               ],
               'add user in database sucssfully',
             );
+            t.equal(res.rows[0].id, 4, 'id is one');
             t.end();
           } else {
             t.error();

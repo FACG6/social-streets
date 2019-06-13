@@ -57,6 +57,7 @@ test('post in /api/v1/user (with valid data)', (t) => {
               ],
               'update project and it users sucssfully',
             );
+            t.equal(res.body.data.id, 4, 'id is one');
             t.end();
           }
         });
