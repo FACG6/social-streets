@@ -4,7 +4,7 @@ const { join } = require('path');
 // const uploadeMiddleware = require('multer');
 
 require('dotenv').config();
-const router = require('./controllers/routes');
+const router = require('./controllers');
 
 const app = express();
 

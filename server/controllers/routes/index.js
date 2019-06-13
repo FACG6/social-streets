@@ -1,9 +1,3 @@
-const router = require('express').Router();
+const post = require('./post')
 
-const post = require('./posts/addPost');
-console.log(post('qq'))
-
-router
-  .use('/post', post);
-
-module.exports = router;
+module.exports = { post }

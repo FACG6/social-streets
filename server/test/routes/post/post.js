@@ -1,7 +1,7 @@
 const test = require('tape');
 const request = require('supertest');
 const app = require('../../../app');
-const dbBuild = require('../../database/config/db_build');
+const dbBuild = require('../../../database/config/build');
 
 test('Add new post at /api/v1/post/', (t) => {
   dbBuild()
