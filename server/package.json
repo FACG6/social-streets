@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "node ./test/index.js | tap-spec"
+    "test": "node ./test/routes/userPost.test.js | tap-spec"
   },
   "author": "",
   "license": "ISC",
