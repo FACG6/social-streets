@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const yup = require('yup');
 
-const getUser = require('database/queries/getUser');
-const genCookie = require('controllers/utils/genCookie');
+const genCookie = require('../utils/genCookie');
+const getUser = require('../../database/queries/getUser');
 
 module.exports = (req, res) => {
   const { email, password } = req.body;
