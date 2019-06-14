@@ -51,7 +51,6 @@ addTopic = (event_id, topic_id) => connection.query(`
 	]
 );
 
-
 addPublicServices = ({
 	primary_tag,
 	description,
@@ -82,9 +81,6 @@ addPublicServices = ({
 		is_draft
 	]
 );
-
-
-
 
 addSecondaryTag = (public_services_id, secondary_tag) => connection.query(`
 	INSERT INTO public_services_tag
