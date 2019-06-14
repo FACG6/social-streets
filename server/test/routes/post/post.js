@@ -1,11 +1,12 @@
 const test = require('tape');
 const request = require('supertest');
-const app = require('../app');
+const app = require('../../../app');
+
 const {
   buildDb,
   buildFakeData,
   buildStaticData
-} = require('../database/config/build');
+} = require('../../../database/config/build');
 
 test('Add new post at /api/v1/post/', (t) => {
   buildDb()
