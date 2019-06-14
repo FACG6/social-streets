@@ -1,0 +1,41 @@
+const tape = require('tape');
+
+const {
+  buildDb,
+  buildFakeData,
+  buildStaticData
+} = require('./../../database/config/build.js');
+const {
+  addSecondaryTag
+} = require('../../database/queries/postEvent')
+
+tape('insert topic for post (Event) ', (t) => {
+
+  const public_services_id = 1;
+  const secondary_tag= 2
+
+  buildDb()
+  .then(() => buildStaticData())
+  .then(() => buildFakeData())
+  .then(() => {
+    addSecondaryTag(public_services_id, secondary_tag)
+      .then((res) => {
+        if (res.rowCount === 1) {
+          t.deepEqual(
+            Object.keys(res.rows[0]),
+            [ 'secondary_tag', 'public_services_id' ],
+            'New secondary_tag for (Public Serves) added sucssfully'
+          );
+          t.equal(res.rows[0].public_services_id, 1, 'Same id for the Public Serves to add secondary_tag');
+          t.end();
+        } else {
+          t.error();
+        }
+      })
+      .catch((err) => {
+        t.error(err);
+      });
+  });
+});
+
+tape.onFinish(() => process.exit(0));
