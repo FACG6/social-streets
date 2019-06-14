@@ -37,7 +37,7 @@ BEGIN;
         tag TEXT NOT NULL
     );
 
-    CREATE TABLE public_service (
+    CREATE TABLE public_services (
         id SERIAL PRIMARY KEY,
         primary_tag INTEGER REFERENCES primary_tag(id),
         description TEXT NOT NULL,
