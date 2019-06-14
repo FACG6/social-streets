@@ -30,7 +30,7 @@ test('Add new post at /api/v1/post/', (t) => {
         .field('meta', 'this is metaDescription')
         .field('publish_datetime', '11/4/2019')
         .field('eventTopic', [1, 2])
-        .attach('eventImg', 'test/fackImg/amideasblue.png')
+        .attach('eventImg', 'test/fakeImg/amideasblue.png')
         .expect(201)
         .expect('Content-Type', /json/)
         .end((err, res) => {
@@ -64,7 +64,7 @@ test('Add new post at /api/v1/post/', (t) => {
         .field('title', 'Title public_services')
         .field('is_draft', false)
         .field('secondary_tag', [1, 2, 3])
-        .attach('publicImg', 'test/fackImg/amideasblue.png')
+        .attach('publicImg', 'test/fakeImg/amideasblue.png')
         .expect(201)
         .expect('Content-Type', /json/)
         .end((err, res) => {
