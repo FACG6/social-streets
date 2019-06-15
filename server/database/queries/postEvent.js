@@ -63,7 +63,7 @@ addPublicServices = ({
 	title,
 	is_draft
 }) => connection.query(`
-  INSERT INTO public_services
+  INSERT INTO public_service
     (primary_tag, description, image, focus_key, alt_text, meta, publisher_id, publish_datetime, title, is_draft)
   VALUES 
 		($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
