@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const { user } = require('./routes');
+const { post } = require('./post');
 
-router.use('/user', user);
+router.route('*').post(post);
 
 module.exports = router;
