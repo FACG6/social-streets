@@ -89,7 +89,7 @@ addSecondaryTag = (public_service_id, secondary_tag) => connection.query(`
 		($1, $2) 
 	RETURNING *`,
 	[
-		public_services_id,
+		public_service_id,
 		secondary_tag
 	]
 );
