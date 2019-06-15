@@ -10,7 +10,7 @@ getDraftEvents = (publisher_id) => connection.query(`
 
 getDraftPublicServices = (publisher_id) => connection.query(`
   SELECT id, primary_tag
-  from public_services
+  from public_service
   WHERE  is_draft = true and publisher_id = $1
 `,
   [publisher_id]
