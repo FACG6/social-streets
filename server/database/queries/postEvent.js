@@ -83,7 +83,7 @@ addPublicServices = ({
 );
 
 addSecondaryTag = (public_services_id, secondary_tag) => connection.query(`
-	INSERT INTO public_services_tag
+	INSERT INTO public_service_tag
 		(public_services_id, secondary_tag)
 	VALUES
 		($1, $2) 
