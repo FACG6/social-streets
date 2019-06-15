@@ -7,9 +7,11 @@ const eventSchema = yup.object().shape({
     .required(),
   title: yup
     .string()
+    .max(60)
     .required(),
   description: yup
     .string()
+    .min(10)
     .required(),
   category: yup
     .number()
@@ -26,7 +28,7 @@ const eventSchema = yup.object().shape({
   alt_text: yup
     .string()
     .required(),
-  alt_text: yup
+    website: yup
     .string()
     .required(),
   is_draft: yup
@@ -37,6 +39,7 @@ const eventSchema = yup.object().shape({
     .required(),
   meta: yup
     .string()
+    .min(5)
     .required(),
   publish_datetime: yup
     .string()
@@ -58,6 +61,7 @@ const publicServicesSchema = yup.object().shape({
     .required(),
   description: yup
     .string()
+    .min(10)
     .required(),
   focus_key: yup
     .string()
@@ -67,12 +71,14 @@ const publicServicesSchema = yup.object().shape({
     .required(),
   meta: yup
     .string()
+    .min(5)
     .required(),
   publish_datetime: yup
     .string()
     .required(),
   title: yup
     .string()
+    .max(60)
     .required(),
   is_draft: yup
     .boolean()
