@@ -9,7 +9,7 @@ const {
   addSecondaryTag
 } = require('../../database/queries/postEvent')
 
-tape('insert topic for post (Event) ', async (t) => {
+tape('insert secondary_tag for post (public services) ', async (t) => {
 
   const public_services_id = 1;
   const secondary_tag= 2
@@ -21,10 +21,10 @@ tape('insert topic for post (Event) ', async (t) => {
     if (res.rowCount === 1) {
       t.deepEqual(
         Object.keys(res.rows[0]),
-        [ 'secondary_tag', 'public_services_id' ],
+        [ 'secondary_tag', 'public_service_id' ],
         'New secondary_tag for (Public Serves) added sucssfully'
       );
-      t.equal(res.rows[0].public_services_id, 1, 'Same id for the Public Serves to add secondary_tag');
+      t.equal(res.rows[0].public_service_id, 1, 'Same id for the Public Serves to add secondary_tag');
       t.end();
     } else {
       t.error();
