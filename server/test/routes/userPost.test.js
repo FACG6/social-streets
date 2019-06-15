@@ -1,5 +1,6 @@
 const test = require('tape');
 const request = require('supertest');
+
 const app = require('../../../server/app');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build.js');
 
@@ -57,7 +58,7 @@ test('post in /api/v1/user (with valid data)', (t) => {
               ],
               'update project and it users sucssfully',
             );
-            t.equal(res.body.data.id, 4, 'id is one');
+            t.equal(res.body.data.id, 4, 'id is four');
             t.end();
           }
         });

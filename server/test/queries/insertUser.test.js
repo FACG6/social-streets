@@ -1,4 +1,5 @@
 const tape = require('tape');
+
 const { insertUser } = require('./../../database/queries/insertUser');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build.js');
 
@@ -49,7 +50,7 @@ tape('insert user query test', (t) => {
               ],
               'add user in database sucssfully',
             );
-            t.equal(res.rows[0].id, 4, 'id is one');
+            t.equal(res.rows[0].id, 4, 'id is four');
             t.end();
           } else {
             t.error();
@@ -58,7 +59,8 @@ tape('insert user query test', (t) => {
         .catch((err) => {
           t.error(err);
         });
-    });
+    })
+    .catch(err => console.log(err));
 });
 
 tape.onFinish(() => process.exit(0));
