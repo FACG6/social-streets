@@ -1,7 +1,7 @@
 BEGIN;
 
     DROP TABLE IF EXISTS "user", event, public_service_tag, topic, event_topic, event_category,
-    primary_tag, secondary_tag, public_service CASCADE;
+    primary_tag, secondary_tag, public_services CASCADE;
 
     CREATE TABLE "user" (
         id SERIAL PRIMARY KEY,
@@ -53,7 +53,7 @@ BEGIN;
     
     CREATE TABLE public_service_tag (
         secondary_tag INTEGER REFERENCES secondary_tag(id),
-        public_service_id INTEGER REFERENCES public_service(id)
+        public_service_id INTEGER REFERENCES public_services(id)
     );
     
 
