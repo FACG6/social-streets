@@ -28,7 +28,7 @@ const eventSchema = yup.object().shape({
   alt_text: yup
     .string()
     .required(),
-    website: yup
+  website: yup
     .string()
     .required(),
   is_draft: yup
