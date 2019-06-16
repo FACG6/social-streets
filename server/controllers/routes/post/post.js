@@ -83,7 +83,6 @@ const post = async (req, res, next) => {
       } else throw new Error();
     } else throw new Error();
   } catch (err) {
-    console.log(6666666666666, err)
     res.status(400).send({
       error: 'Bad Request',
       statusCode: 400
