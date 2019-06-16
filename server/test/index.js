@@ -1,6 +1,6 @@
-const tape = require('tape');
-
-tape('test', (e) => {
-  e.equal(1, 1, 'pass');
-  e.end();
-});
+require('./queries/getEvent.test');
+require('./queries/getPublicService.test');
+require('./queries/getAuthPost.test');
+require('./queries/insertUser.test');
+require('./routes/userPost.test');
+require('./routes/fetchPost.test');
