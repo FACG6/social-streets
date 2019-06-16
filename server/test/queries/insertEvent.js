@@ -33,7 +33,6 @@ tape('insert new post (Event) ', async (t) => {
     await buildStaticData()
     await buildFakeData()
     const res = await addEvent(eventData)
-    console.log(res)
     if (res.rowCount === 1) {
       t.deepEqual(
         Object.keys(res.rows[0]),
