@@ -1,10 +1,6 @@
 const yup = require('yup');
 
 const eventSchema = yup.object().shape({
-  type: yup
-    .string()
-    .min(5)
-    .required(),
   title: yup
     .string()
     .max(60)
@@ -52,10 +48,6 @@ const eventSchema = yup.object().shape({
 })
 
 const publicServicesSchema = yup.object().shape({
-  type: yup
-    .string()
-    .min(5)
-    .required(),
   primary_tag: yup
     .number()
     .required(),
