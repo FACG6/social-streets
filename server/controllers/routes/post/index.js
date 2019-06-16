@@ -1,11 +1,11 @@
 const router = require('express').Router();
 
-const addPost = require('./addPost');
 const draftPosts = require('./getDraftPosts')
+const post = require('./post');
 
 router
   .route('/')
   .get(draftPosts)
-  .post(addPost);
+  .post(post);
 
 module.exports = router;

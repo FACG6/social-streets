@@ -1,10 +1,6 @@
 const yup = require('yup');
 
 const eventSchema = yup.object().shape({
-  type: yup
-    .string()
-    .min(5)
-    .required(),
   title: yup
     .string()
     .max(60)
@@ -20,9 +16,6 @@ const eventSchema = yup.object().shape({
     .string()
     .required(),
   venue: yup
-    .string()
-    .required(),
-  event_datetime: yup
     .string()
     .required(),
   alt_text: yup
@@ -47,15 +40,9 @@ const eventSchema = yup.object().shape({
   eventTopic: yup
     .array()
     .required(),
-  eventImg: yup
-    .string()
 })
 
-const publicServicesSchema = yup.object().shape({
-  type: yup
-    .string()
-    .min(5)
-    .required(),
+const publicServiceSchema = yup.object().shape({
   primary_tag: yup
     .number()
     .required(),
@@ -86,10 +73,9 @@ const publicServicesSchema = yup.object().shape({
   secondary_tag: yup
     .array()
     .required(),
-
 })
 
 module.exports = {
   eventSchema,
-  publicServicesSchema
+  publicServiceSchema
 };

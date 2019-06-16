@@ -10,7 +10,7 @@ const {
 } = require('../../database/queries/postEvent')
 
 tape('insert new post (Event) ', async (t) => {
-
+  
   const eventData = {
     title: 'the main event',
     description: 'any desc',
@@ -19,7 +19,7 @@ tape('insert new post (Event) ', async (t) => {
     venue: 'any street',
     website: 'www.gaza.com',
     cost: 12,
-    image: 'images.pexels.com/photos/617278/pexels-photo',
+    imageName: 'images.pexels.com/photos/617278/pexels-photo',
     focus_key: 'any key',
     meta: 'this is meta',
     alt_text: 'alt for the image',
