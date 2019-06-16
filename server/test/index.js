@@ -6,5 +6,11 @@ tape('test', (e) => {
 });
 
 require('./queries/getPassword.test');
+require('./queries/insertEvent');
+require('./queries/insertPublicServices');
+require('./queries/insertSecondaryTag');
+require('./queries/insertTopic');
+require('./queries/insertUser.test');
 require('./queries/updatePassword.test');
 require('./routes/passwordPut.test');
+require('./routes/post/post');
