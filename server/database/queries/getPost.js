@@ -1,7 +1,8 @@
-const connect = require('./../config/connection');
+const connect = require("./../config/connection");
 
-exports.getEvent = eventId => connect.query(
-  `SELECT
+exports.getEvent = (eventId, userId) =>
+  connect.query(
+    `SELECT
    *,topic.topic
   FROM
    event 
@@ -18,28 +19,33 @@ exports.getEvent = eventId => connect.query(
   ON
    topic.id = event_topic.topic_id
   WHERE
-   event.id=$1`,
-  [eventId],
-);
+   event.id=$1
+  AND
+   publisher_id=$2`,
+    [eventId, userId]
+  );
 
-exports.getPublicService = publicServiceId => connect.query(
-  `SELECT
-   *,secondary_tag.tag
-  FROM
-    public_service
-  INNER JOIN
-    primary_tag
-  ON
-    primary_tag.id = public_service.primary_tag
-  INNER JOIN
-   public_service_tag
-  ON
-    public_service_tag.public_service_id = public_service.id
-  INNER JOIN
-    secondary_tag
-  ON
-    secondary_tag.id = public_service_tag.secondary_tag
-  WHERE
-    public_service.id=$1`,
-  [publicServiceId],
-);
+exports.getPublicService = (publicServiceId, userId) =>
+  connect.query(
+    `SELECT
+        *,secondary_tag.tag
+      FROM
+        public_service
+      INNER JOIN
+        primary_tag
+      ON
+        primary_tag.id = public_service.primary_tag
+      INNER JOIN
+        public_service_tag
+      ON
+        public_service_tag.public_service_id = public_service.id
+      INNER JOIN
+        secondary_tag
+      ON
+        secondary_tag.id = public_service_tag.secondary_tag
+      WHERE
+        public_service.id=$1
+      AND
+        publisher_id=$2`,
+    [publicServiceId, userId]
+  );

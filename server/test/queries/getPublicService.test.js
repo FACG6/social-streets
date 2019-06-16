@@ -1,43 +1,47 @@
-const tape = require('tape');
+const tape = require("tape");
 
-const { getPublicService } = require('./../../database/queries/getPost');
-const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build.js');
+const { getPublicService } = require("./../../database/queries/getPost");
+const {
+  buildDb,
+  buildFakeData,
+  buildStaticData
+} = require("./../../database/config/build.js");
 
-tape('get Public Service post query test', (t) => {
+tape("get Public Service post query test", t => {
   buildDb()
-    .then(() => buildStaticData())
-    .then(() => buildFakeData())
+    .then(buildStaticData)
+    .then(buildFakeData)
     .then(() => {
-      getPublicService(1)
-        .then((res) => {
+      getPublicService(1, 3)
+        .then(res => {
           if (res.rowCount === 3) {
             t.deepEqual(
               Object.keys(res.rows[0]),
               [
-                'id',
-                'primary_tag',
-                'description',
-                'image',
-                'focus_key',
-                'alt_text',
-                'meta',
-                'publisher_id',
-                'publish_datetime',
-                'title',
-                'is_draft',
-                'tag',
-                'secondary_tag',
-                'public_service_id',
+                "id",
+                "primary_tag",
+                "description",
+                "image",
+                "focus_key",
+                "alt_text",
+                "meta",
+                "publisher_id",
+                "publish_datetime",
+                "title",
+                "is_draft",
+                "tag",
+                "secondary_tag",
+                "public_service_id"
               ],
-              'get public service from database sucssfully',
+              "get public service from database sucssfully"
             );
-            t.equal(res.rows[0].id, 1, 'id is one');
+            t.equal(res.rows[0].id, 1, "id is one");
             t.end();
           } else {
             t.error();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           t.error(err);
         });
     })
