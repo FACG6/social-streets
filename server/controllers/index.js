@@ -4,10 +4,10 @@ const { post, user } = require('./routes');
 const unlockCookie = require('./middlewares/unlockCookie');
 
 router
-  .use(unlockCookie)
+  .use(unlockCookie);
 
 router
-  .use('/post', post)
+  .use('/post', post);
 
 router
   .use('/user', user);
