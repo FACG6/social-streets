@@ -10,7 +10,7 @@ const {
 } = require('../../../database/queries/postEvent');
 const {
   eventSchema,
-  publicServicesSchema
+  publicServiceSchema
 } = require('../../utils/postSchema');
 
 const post = async (req, res, next) => {
@@ -57,7 +57,7 @@ const post = async (req, res, next) => {
         throw new Error();
       }
     } else if (type === 'public_services') {
-      const valid = await publicServicesSchema
+      const valid = await publicServiceSchema
         .validate(req.body)
       if (valid) {
         const imageName = Date.now() + image.name;
