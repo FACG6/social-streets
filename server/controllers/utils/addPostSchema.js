@@ -18,9 +18,6 @@ const eventSchema = yup.object().shape({
   venue: yup
     .string()
     .required(),
-  event_datetime: yup
-    .string()
-    .required(),
   alt_text: yup
     .string()
     .required(),
