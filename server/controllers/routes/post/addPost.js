@@ -11,7 +11,7 @@ post = async (req, res, next) => {
 
     if (!image) throw new Error();
     
-    if (type === 'event' ) {
+    if (type === 'event') {
      const valid = await eventSchema
         .validate(req.body)
         if(valid) {
@@ -52,14 +52,9 @@ post = async (req, res, next) => {
             })
           }
         })
-      } else {
-        throw new Error();
-      }
-    } else {
-      throw new Error();
-    }
-  } catch (err) {
-    console.log(6666666666666666666, err)
+      } else throw new Error();
+    } else throw new Error();
+  } catch {
     res.status(400).send({
       error: 'Bad Request',
       statusCode: 400
