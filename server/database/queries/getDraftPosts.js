@@ -1,6 +1,6 @@
 const connection = require('../config/connection');
 
-getDraftEvents = (publisherId, isDraft) => connection.query(`
+getDraftEvents = (isDraft, publisherId) => connection.query(`
   SELECT id, category
   from event
   WHERE  is_draft = $1 and publisher_id = $2
@@ -8,7 +8,7 @@ getDraftEvents = (publisherId, isDraft) => connection.query(`
   [isDraft, publisherId]
 );
 
-getDraftPublicServices = (publisherId, isDraft) => connection.query(`
+getDraftPublicServices = (isDraft, publisherId) => connection.query(`
   SELECT id, primary_tag
   from public_service
   WHERE  is_draft = $1 and publisher_id = $2

@@ -3,8 +3,8 @@ const { getDraftEvents, getDraftPublicServices } = require('../../../database/qu
 draftPosts = async (req, res) => {
   try {
     const { id: publisher_id } = req.user;
-    const resEvent = await getDraftEvents(publisher_id, true)
-    const resPublic = await getDraftPublicServices(publisher_id, true)
+    const resEvent = await getDraftEvents(true, publisher_id)
+    const resPublic = await getDraftPublicServices(true, publisher_id)
      
     res.status(200).send({
       data: [ ...resEvent.rows ,  ...resPublic.rows ],
@@ -12,7 +12,6 @@ draftPosts = async (req, res) => {
     })
 
   } catch (err) {
-    console.log(err)
     res.status(400).send({
       error: 'Bad Request',
       statusCode: 400

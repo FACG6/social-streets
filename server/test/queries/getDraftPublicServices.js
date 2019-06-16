@@ -9,7 +9,7 @@ tape('Get draft Events', async (t) => {
     await buildStaticData()
     await buildFakeData()
     const publisherId = 1;
-    const res = await getDraftPublicServices(publisherId, true)
+    const res = await getDraftPublicServices(true, publisherId)
     if (res.rowCount !== 0) {
       t.deepEqual(
         Object.keys(res.rows[0]),
