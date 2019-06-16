@@ -1,6 +1,5 @@
-const tape = require('tape');
-
-tape('test', (e) => {
-  e.equal(1, 1, 'pass');
-  e.end();
-});
+require('./routes/post/post');
+require('./queries/insertEvent');
+require('./queries/insertPublicServices');
+require('./queries/insertTopic');
+require('./queries/insertSecondaryTag');
