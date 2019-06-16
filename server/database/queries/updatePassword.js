@@ -1,3 +1,7 @@
-const connection = require('./../config/connection');
+const connection = require("./../config/connection");
 
-exports.updatePasswordQuery = (userEmail, newPassword) => connection.query(`UPDATE "user" SET password = ${newPassword} WHERE email = '${userEmail}' RETURNING ${true}`);
+exports.updatePasswordQuery = (newPassword, userId) =>
+  connection.query('UPDATE "user" SET password = $1 WHERE id = $2', [
+    newPassword,
+    userId
+  ]);
