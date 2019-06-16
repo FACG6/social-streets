@@ -26,6 +26,6 @@ exports.get = (req, res, next) => {
       }
       return res.status(401).send({ error: 'unauthorized' });
     })
-    .then(result => res.send({ data: { ...result.rows }, statusCode: 200 }))
+    .then(result => res.send({ data: result.rows, statusCode: 200 }))
     .catch(err => next(err));
 };
