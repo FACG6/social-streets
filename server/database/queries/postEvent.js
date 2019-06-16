@@ -39,20 +39,18 @@ const addEvent = ({
   ]
 );
 
-const addTopic = (eventId, topicId) => {
-  console.log(topicId, eventId, 'topic, id')
-  return connection.query(`
+const addTopic = (eventId, topicId) => connection.query(`
 	INSERT INTO event_topic
   	(event_id, topic_id)
 	VALUES 
 		($1, $2)
 	RETURNING *`,
-    [
-      eventId,
-      topicId
-    ]
-  );
-}
+  [
+    eventId,
+    topicId
+  ]
+);
+
 const addPublicServices = ({
   primaryTag,
   description,

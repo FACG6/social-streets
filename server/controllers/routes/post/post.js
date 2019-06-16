@@ -26,8 +26,6 @@ const post = async (req, res, next) => {
       image
     } = req.files;
     const publisherId = Number(req.user.id)
-    console.log(publisherId, 11111111);
-
     if (type === 'event') {
       if (!image) throw new Error();
       const valid = await eventSchema
@@ -39,9 +37,11 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-        await eventTopic.forEach(async (topicId) => {
-          await addTopic(Number(addedEvent.rows[0].id), Number(topicId))
-        });
+
+        await Promise.all(eventTopic.map(async (topicId) => {
+          return addTopic(Number(addedEvent.rows[0].id), Number(topicId))
+        }));
+
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -67,10 +67,10 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-        console.log(secondaryTag)
-        await secondaryTag.forEach(async (secondaryTagId) => {
-          await addSecondaryTag(Number(addedPublicServices.rows[0].id), Number(secondaryTagId))
-        });
+        await Promise.all(secondaryTag.map(async (secondaryTagId) => {
+          return addSecondaryTag(Number(addedPublicServices.rows[0].id), Number(secondaryTagId))
+        }));
+
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -85,7 +85,7 @@ const post = async (req, res, next) => {
         })
       } else throw new Error();
     } else throw new Error();
-  } catch (err) {
+  } catch (error) {
     res.status(400).send({
       error: 'Bad Request',
       statusCode: 400

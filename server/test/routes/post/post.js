@@ -43,7 +43,6 @@ test('Add new post at /api/v1/post/', async (t) => {
         }
       });
   } catch (err) {
-    console.log(err)
     t.error(err)
   }
 });

@@ -1,8 +1,9 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
 const { deleteEvent, deletePublicService } = require('./delete');
 const draftPosts = require('./getDraftPosts')
 const post = require('./post');
+const { get } = require("./get");
 
 router
   .route('/')
@@ -17,5 +18,6 @@ router.route('/event/:postId')
 router.route('/public-service/:postId')
   .delete(deletePublicService);
 
+router.get("/:postId", get);
 
 module.exports = router;
