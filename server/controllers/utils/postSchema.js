@@ -12,29 +12,29 @@ const eventSchema = yup.object().shape({
   category: yup
     .number()
     .required(),
-  event_datetime: yup
+  eventDatetime: yup
     .string()
     .required(),
   venue: yup
     .string()
     .required(),
-  alt_text: yup
+  altText: yup
     .string()
     .required(),
   website: yup
     .string()
     .required(),
-  is_draft: yup
+  isDraft: yup
     .boolean()
     .required(),
-  focus_key: yup
+  focusKey: yup
     .string()
     .required(),
   meta: yup
     .string()
     .min(5)
     .required(),
-  publish_datetime: yup
+  publishDatetime: yup
     .string()
     .required(),
   eventTopic: yup
@@ -43,34 +43,34 @@ const eventSchema = yup.object().shape({
 })
 
 const publicServiceSchema = yup.object().shape({
-  primary_tag: yup
+  primaryTag: yup
     .number()
     .required(),
   description: yup
     .string()
     .min(10)
     .required(),
-  focus_key: yup
+  focusKey: yup
     .string()
     .required(),
-  alt_text: yup
+  altText: yup
     .string()
     .required(),
   meta: yup
     .string()
     .min(5)
     .required(),
-  publish_datetime: yup
+  publishDatetime: yup
     .string()
     .required(),
   title: yup
     .string()
     .max(60)
     .required(),
-  is_draft: yup
+  isDraft: yup
     .boolean()
     .required(),
-  secondary_tag: yup
+  secondaryTag: yup
     .array()
     .required(),
 })

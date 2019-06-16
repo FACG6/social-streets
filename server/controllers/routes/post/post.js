@@ -18,14 +18,13 @@ const post = async (req, res, next) => {
     const {
       type,
       eventTopic,
-      secondary_tag
+      secondaryTag
     } = req.body;
-    const {
-      id: publisher_id
-    } = req.user.id;
+
     const {
       image
     } = req.files;
+    const publisherId = Number(req.user.id)
 
     if (type === 'event') {
       if (!image) throw new Error();
@@ -35,11 +34,11 @@ const post = async (req, res, next) => {
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
           ...req.body,
-          publisher_id,
+          publisherId,
           imageName
         })
-        await eventTopic.forEach(async (topic_id) => {
-          await addTopic(addedEvent.rows[0].id, topic_id)
+        await eventTopic.forEach(async (topicId) => {
+          await addTopic(addedEvent.rows[0].id, topicId)
         });
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
@@ -63,11 +62,11 @@ const post = async (req, res, next) => {
         const imageName = Date.now() + image.name;
         const addedPublicServices = await addPublicServices({
           ...req.body,
-          publisher_id,
+          publisherId,
           imageName
         })
-        await secondary_tag.forEach(async (secondaryTag_id) => {
-          await addSecondaryTag(addedPublicServices.rows[0].id, secondaryTag_id)
+        await secondaryTag.forEach(async (secondaryTagId) => {
+          await addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)
         });
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
@@ -83,7 +82,8 @@ const post = async (req, res, next) => {
         })
       } else throw new Error();
     } else throw new Error();
-  } catch {
+  } catch (err) {
+    console.log(6666666666666, err)
     res.status(400).send({
       error: 'Bad Request',
       statusCode: 400
