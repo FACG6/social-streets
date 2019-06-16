@@ -24,7 +24,7 @@ const eventSchema = yup.object().shape({
   eventTopic: yup.array().required(),
 });
 
-const publicServicesSchema = yup.object().shape({
+const publicServiceSchema = yup.object().shape({
   primary_tag: yup.number().required(),
   description: yup
     .string()
@@ -47,5 +47,5 @@ const publicServicesSchema = yup.object().shape({
 
 module.exports = {
   eventSchema,
-  publicServicesSchema,
+  publicServiceSchema,
 };
