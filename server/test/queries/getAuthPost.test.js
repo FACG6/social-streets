@@ -1,6 +1,6 @@
 const tape = require('tape');
 
-const { getAuthPost } = require('../../database/queries/getAuthPosts');
+const { getAuthPost } = require('../../database/queries/getAuthPost');
 const { buildDb, buildFakeData, buildStaticData } = require('../../database/config/build.js');
 
 tape('get event post query test', (t) => {
