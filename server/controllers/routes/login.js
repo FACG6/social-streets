@@ -9,25 +9,25 @@ module.exports = (req, res) => {
 
   loginSchema
     .isValid({ email, password })
-    .then(() => {
-      getUser(email)
-        .then((user) => {
-          if (!user) {
-            res
-              .status(400)
-              .send({ error: `User with email '${email}' does not exist`, statusCode: 400 });
-          } else {
-            bcrypt.compare(password, user.password).then((passIsValid) => {
-              if (!passIsValid) res.status(400).send({ error: 'Wrong password', statusCode: 400 });
-              else {
-                const { password: pass, ...userResult } = user;
-                res.cookie('jwt', genCookie(user));
-                res.send({ data: userResult, statusCode: 200 });
-              }
-            });
-          }
-        })
-        .catch(() => res.status(500).send({ error: 'Internal Server Error', statusCode: 500 }));
+    .then((valid) => {
+      if (!valid) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+      return getUser(email);
     })
-    .catch(() => res.status(400).send({ error: 'Bad Request', statusCode: 400 }));
+    .then((user) => {
+      if (!user) {
+        res
+          .status(400)
+          .send({ error: `User with email '${email}' does not exist`, statusCode: 400 });
+      } else {
+        bcrypt.compare(password, user.password).then((passIsValid) => {
+          if (!passIsValid) res.status(400).send({ error: 'Wrong password', statusCode: 400 });
+          else {
+            const { password: pass, ...userResult } = user;
+            res.cookie('jwt', genCookie(user));
+            res.send({ data: userResult, statusCode: 200 });
+          }
+        });
+      }
+    })
+    .catch(() => res.status(500).send({ error: 'Internal Server Error', statusCode: 500 }));
 };
