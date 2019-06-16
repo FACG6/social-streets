@@ -86,7 +86,6 @@ const publicServicesSchema = yup.object().shape({
   secondary_tag: yup
     .array()
     .required(),
-
 })
 
 module.exports = {
