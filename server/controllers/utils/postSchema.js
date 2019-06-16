@@ -42,7 +42,7 @@ const eventSchema = yup.object().shape({
     .required(),
 })
 
-const publicServicesSchema = yup.object().shape({
+const publicServiceSchema = yup.object().shape({
   primary_tag: yup
     .number()
     .required(),
@@ -77,5 +77,5 @@ const publicServicesSchema = yup.object().shape({
 
 module.exports = {
   eventSchema,
-  publicServicesSchema
+  publicServiceSchema
 };
