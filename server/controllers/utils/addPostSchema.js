@@ -40,8 +40,6 @@ const eventSchema = yup.object().shape({
   eventTopic: yup
     .array()
     .required(),
-  eventImg: yup
-    .string()
 })
 
 const publicServicesSchema = yup.object().shape({
