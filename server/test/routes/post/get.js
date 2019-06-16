@@ -10,7 +10,7 @@ test('Add new post at /api/v1/post/', async (t) => {
     await buildStaticData()
     await buildFakeData()
     request(app)
-      .get('/api/v1/post/')
+      .get('/api/v1/post/draft')
       .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
       .expect(200)
       .expect('Content-Type', /json/)
