@@ -12,6 +12,7 @@ test('post in /api/v1/posts/event/1', (t) => {
     .then(() => {
       request(app)
         .delete('/api/v1/posts/event/1')
+        .set('Cookie', 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM')
         .expect(200)
         .end((error, response) => {
           t.equal(Object.keys(response.body.data).length, 15, 'should be 15 keys');
@@ -29,6 +30,7 @@ test('post in /api/v1/posts/public-service/1', (t) => {
     .then(() => {
       request(app)
         .delete('/api/v1/posts/public-service/1')
+        .set('Cookie', 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM')
         .expect(200)
         .end((error, response) => {
           const keys = ['id', 'primary_tag', 'description', 'image', 'focus_key', 'alt_text', 'meta', 'publisher_id', 'publish_datetime', 'title', 'is_draft'];
