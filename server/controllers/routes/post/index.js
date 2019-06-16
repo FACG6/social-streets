@@ -1,11 +1,15 @@
 const router = require('express').Router();
 
 const { deleteEvent, deletePublicService } = require('./delete');
-const addPost = require('./post');
+const draftPosts = require('./getDraftPosts')
+const post = require('./post');
 
 router
   .route('/')
-  .post(addPost);
+  .post(post);
+
+router.route('/draft')
+  .get(draftPosts);
 
 router.route('/event/:postId')
   .delete(deleteEvent);

@@ -8,10 +8,10 @@ tape('insert topic for post (Event) ', async (t) => {
     await buildDb()
     await buildStaticData()
     await buildFakeData()
-    const event_id = 1;
-    const topic_id= 2;
-    const res = await addTopic(event_id, topic_id);
-    console.log(res);
+    const eventId = 1;
+    const topicId= 2;
+    const res = await addTopic(eventId, topicId);
+    console.log(res, 'topic');
     if (res.rowCount === 1) {
       t.deepEqual(
         Object.keys(res.rows[0]),

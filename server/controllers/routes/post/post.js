@@ -19,14 +19,14 @@ const post = async (req, res, next) => {
     const {
       type,
       eventTopic,
-      secondary_tag
+      secondaryTag,
     } = req.body;
-    const {
-      id: publisher_id
-    } = req.user.id;
+
     const {
       image
     } = req.files;
+    const publisherId = Number(req.user.id)
+    console.log(publisherId, 11111111);
 
     if (type === 'event') {
       if (!image) throw new Error();
@@ -36,11 +36,11 @@ const post = async (req, res, next) => {
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
           ...req.body,
-          publisher_id,
+          publisherId,
           imageName
         })
-        await eventTopic.forEach(async (topic_id) => {
-          await addTopic(addedEvent.rows[0].id, topic_id)
+        await eventTopic.forEach(async (topicId) => {
+          await addTopic(Number(addedEvent.rows[0].id), Number(topicId))
         });
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
@@ -64,11 +64,12 @@ const post = async (req, res, next) => {
         const imageName = Date.now() + image.name;
         const addedPublicServices = await addPublicServices({
           ...req.body,
-          publisher_id,
+          publisherId,
           imageName
         })
-        await secondary_tag.forEach(async (secondaryTag_id) => {
-          await addSecondaryTag(addedPublicServices.rows[0].id, secondaryTag_id)
+        console.log(secondaryTag)
+        await secondaryTag.forEach(async (secondaryTagId) => {
+          await addSecondaryTag(Number(addedPublicServices.rows[0].id), Number(secondaryTagId))
         });
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
@@ -84,7 +85,7 @@ const post = async (req, res, next) => {
         })
       } else throw new Error();
     } else throw new Error();
-  } catch {
+  } catch (err) {
     res.status(400).send({
       error: 'Bad Request',
       statusCode: 400
