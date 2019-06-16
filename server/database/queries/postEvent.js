@@ -1,6 +1,6 @@
 const connection = require('../config/connection');
 
-addEvent = ({
+const addEvent = ({
 	title,
 	description,
 	category,
@@ -39,7 +39,7 @@ addEvent = ({
 	]
 );
 
-addTopic = (eventId, topicId) => connection.query(`
+const addTopic = (eventId, topicId) => connection.query(`
 	INSERT INTO event_topic
   	(event_id, topic_id)
 	VALUES 
@@ -51,7 +51,7 @@ addTopic = (eventId, topicId) => connection.query(`
 	]
 );
 
-addPublicServices = ({
+const addPublicServices = ({
 	primaryTag,
 	description,
 	imageName,
@@ -82,7 +82,7 @@ addPublicServices = ({
 	]
 );
 
-addSecondaryTag = (publicServiceId, secondaryTag) => connection.query(`
+const addSecondaryTag = (publicServiceId, secondaryTag) => connection.query(`
 	INSERT INTO public_service_tag
 		(public_service_id, secondary_tag)
 	VALUES
