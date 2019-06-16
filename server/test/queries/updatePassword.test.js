@@ -4,16 +4,16 @@ const { updatePasswordQuery } = require('./../../database/queries/updatePassword
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
 tape('Update user password', (e) => {
-  const email = 'aminking@gmail.com';
-  const password = '123456';
+  const password = '123456789';
+  const id = 1;
   buildDb()
     .then(() => buildStaticData())
     .then(() => buildFakeData())
     .then(() => {
-      updatePasswordQuery(email, password)
+      updatePasswordQuery(password, id)
         .then((result) => {
           if (result.rowCount === 1) {
-            e.deepEqual(result.rows[0].bool, true, 'Password Has Changed !!');
+            e.equal(result.rows[0].bool, true, 'Password Has Changed !!');
             e.end();
           } else {
             e.error();
