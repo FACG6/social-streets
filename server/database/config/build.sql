@@ -53,7 +53,7 @@ BEGIN;
     
     CREATE TABLE public_service_tag (
         secondary_tag INTEGER REFERENCES secondary_tag(id),
-        public_service_id INTEGER REFERENCES public_service(id)
+        public_service_id INTEGER REFERENCES public_service(id) on DELETE CASCADE
     );
     
 
@@ -82,8 +82,8 @@ BEGIN;
     );
 
     CREATE TABLE event_topic (
-        event_id INTEGER REFERENCES event(id),
-        topic_id INTEGER REFERENCES topic(id)
+        event_id INTEGER REFERENCES event(id) ON DELETE CASCADE,
+        topic_id INTEGER REFERENCES topic(id) 
     );
 
 COMMIT;
