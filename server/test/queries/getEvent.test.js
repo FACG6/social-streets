@@ -49,7 +49,7 @@ tape("get event post query test", t => {
           t.error(err);
         });
     })
-    .catch(err => console.log(err));
+    .catch(err => t.error(err));
 });
 
 tape.onFinish(() => process.exit(0));

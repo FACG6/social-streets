@@ -26,8 +26,8 @@ tape("insert user query test", t => {
     avatar: "avatar.png"
   };
   buildDb()
-    .then(buildStaticDatad)
-    .then(buildFakeDatad)
+    .then(buildStaticData)
+    .then(buildFakeData)
     .then(() => {
       insertUser(userInfo)
         .then(res => {
