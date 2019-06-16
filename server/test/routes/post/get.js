@@ -18,13 +18,12 @@ test('Add new post at /api/v1/post/', async (t) => {
         if (err) {
           t.error(err);
         } else {
-          if(res.body.data.allPosts[0]) {
-            t.deepEqual(Object.keys(res.body.data), [ 'allPosts' ], 'Get all posts sucssfully')
-            t.equal(res.body.data.allPosts[0].id, 2, 'Same id for the Post')
+          if(res.body.data[0]) {
+            t.equal(res.body.data[0].id, 2, 'Same id for the Post')
             t.end();
           } else {
-            t.deepEqual(Object.keys(res.body.data), [ 'allPosts' ], 'Get all posts sucssfully')
-            t.equal(res.body.data.allPosts.length, 0, 'No posts in the database')
+            t.deepEqual(Object.keys(res.body.data), [], 'Get all posts sucssfully')
+            t.equal(res.body.data.length, 0, 'No posts in the database')
             t.end()
           }
         }
