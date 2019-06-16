@@ -1,8 +1,10 @@
 const router = require('express').Router();
 
-const { getUser } = require('./get');
+const { get } = require('./get');
+const { post } = require('./post');
 
-router.route('/')
-  .get(getUser);
+router.route('*')
+  .get(get)
+  .post(post);
 
 module.exports = router;

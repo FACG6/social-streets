@@ -1,6 +1,6 @@
 const getUser = require('./../../../database/queries/selectUser');
 
-exports.getUser = (req, res, next) => {
+exports.get = (req, res, next) => {
   const userId = req.user.id;
   getUser(userId)
     .then((response) => {
