@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
 const { post, user } = require('./routes');
-const unlockedCookie = require('./middlewares/unlockCookie');
+const unlockCookie = require('./middlewares/unlockCookie');
 
 router
-  .use(unlockedCookie);
+  .use(unlockCookie);
 
 router
   .use('/post', post);
