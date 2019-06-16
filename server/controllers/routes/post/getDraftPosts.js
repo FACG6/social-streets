@@ -1,10 +1,10 @@
 const { getDraftEvents, getDraftPublicServices } = require('../../../database/queries/getDraftPosts');
 
-draftPosts = async (req, res) => {
+const draftPosts = async (req, res) => {
   try {
-    const { id: publisher_id } = req.user;
-    const resEvent = await getDraftEvents(true, publisher_id)
-    const resPublic = await getDraftPublicServices(true, publisher_id)
+    const { id: publisherId } = req.user;
+    const resEvent = await getDraftEvents(true, publisherId)
+    const resPublic = await getDraftPublicServices(true, publisherId)
      
     res.status(200).send({
       data: [ ...resEvent.rows ,  ...resPublic.rows ],

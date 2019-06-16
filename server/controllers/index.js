@@ -1,15 +1,12 @@
 const router = require('express').Router();
 
-const { post, user } = require('./routes');
-const unlockCookie = require('./middlewares/unlockCookie');
+const { user, post } = require('./routes');
+const { post: userPost } = require('./routes/user/post');
+const unlockedCookie = require('./middlewares/unlockCookie');
 
-router
-  .use(unlockCookie)
-
-router
-  .use('/post', post)
-
-router
-  .use('/user', user);
+router.post('/user',userPost);
+router.use(unlockedCookie);
+router.use('/user', user);
+router.use('/post', post);
 
 module.exports = router;

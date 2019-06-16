@@ -1,4 +1,2 @@
-const post = require('./post');
-const user = require('./user');
-
-module.exports = { post, user };
+exports.user = require('./user');
+exports.post = require('./post');
