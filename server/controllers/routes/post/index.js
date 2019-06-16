@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
-const draftPosts = require('./getDraftPosts')
+const draftPosts = require('./getDraftPosts');
+const livePosts = require('./getLivePosts')
 const post = require('./post');
 const {
   get
@@ -12,6 +13,9 @@ router
 
 router
   .get('/draft', draftPosts)
+
+router
+  .get('/live', livePosts)
 
 router.get("/:postId", get);
 
