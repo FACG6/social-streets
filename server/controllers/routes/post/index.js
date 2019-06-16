@@ -1,14 +1,15 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const { get } = require('./get');
-const post = require('./post');
-const put = require('./put');
-const unlockedCookie = require('./../../middlewares/unlockCookie');
+const draftPosts = require("./getDraftPosts");
+const post = require("./post");
+const { get } = require("./get");
 
-router.use(unlockedCookie);
+router.route("/").post(post);
 
-router.post('/', post);
-router.get('/:postId', get);
-router.put('/:postId', put);
+router.get("/draft", draftPosts);
+
+router.post("/", post);
+router.get("/:postId", get);
+router.put("/:postId", put);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const yup = require('yup');
+const yup = require("yup");
 
 const eventSchema = yup.object().shape({
   title: yup
@@ -10,42 +10,42 @@ const eventSchema = yup.object().shape({
     .min(10)
     .required(),
   category: yup.number().required(),
-  event_datetime: yup.string().required(),
+  eventDatetime: yup.string().required(),
   venue: yup.string().required(),
-  alt_text: yup.string().required(),
+  altText: yup.string().required(),
   website: yup.string().required(),
-  is_draft: yup.boolean().required(),
-  focus_key: yup.string().required(),
+  isDraft: yup.boolean().required(),
+  focusKey: yup.string().required(),
   meta: yup
     .string()
     .min(5)
     .required(),
-  publish_datetime: yup.string().required(),
-  eventTopic: yup.array().required(),
+  publishDatetime: yup.string().required(),
+  eventTopic: yup.array().required()
 });
 
 const publicServiceSchema = yup.object().shape({
-  primary_tag: yup.number().required(),
+  primaryTag: yup.number().required(),
   description: yup
     .string()
     .min(10)
     .required(),
-  focus_key: yup.string().required(),
-  alt_text: yup.string().required(),
+  focusKey: yup.string().required(),
+  altText: yup.string().required(),
   meta: yup
     .string()
     .min(5)
     .required(),
-  publish_datetime: yup.string().required(),
+  publishDatetime: yup.string().required(),
   title: yup
     .string()
     .max(60)
     .required(),
-  is_draft: yup.boolean().required(),
-  secondary_tag: yup.array().required(),
+  isDraft: yup.boolean().required(),
+  secondaryTag: yup.array().required()
 });
 
 module.exports = {
   eventSchema,
-  publicServiceSchema,
+  publicServiceSchema
 };

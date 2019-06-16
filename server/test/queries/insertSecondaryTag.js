@@ -11,13 +11,13 @@ const {
 
 tape('insert secondary_tag for post (public services) ', async (t) => {
 
-  const public_services_id = 1;
-  const secondary_tag= 2
+  const publicServicesId = 1;
+  const secondaryTag= 2
   try {
     await buildDb()
     await buildStaticData()
     await buildFakeData()
-    const res = await addSecondaryTag(public_services_id, secondary_tag)
+    const res = await addSecondaryTag(publicServicesId, secondaryTag)
     if (res.rowCount === 1) {
       t.deepEqual(
         Object.keys(res.rows[0]),
