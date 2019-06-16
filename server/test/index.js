@@ -4,3 +4,8 @@ require('./queries/getAuthPost.test');
 require('./queries/insertUser.test');
 require('./routes/userPost.test');
 require('./routes/fetchPost.test');
+require('./routes/post/post');
+require('./queries/insertEvent');
+require('./queries/insertPublicServices');
+require('./queries/insertTopic');
+require('./queries/insertSecondaryTag');
