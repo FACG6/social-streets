@@ -12,10 +12,10 @@ test('get live posts at /api/v1/post/live', async (t) => {
     request(app)
       .get('/api/v1/post/live')
       .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
-      .expect(400)
+      .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
-        t.equal(res.body.error, 'No Live Posts Available', 'no live posts for this user')
+        t.equal(res.body.data.length, 0, 'length should be 0')
         t.end()
       })
   }
