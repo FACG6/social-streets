@@ -8,9 +8,9 @@ const eventId = () => connection.query('SELECT id from event limit 1');
 
 test('testing delete Event Query', (t) => {
   buildDb()
-    .then(() => buildStaticData())
-    .then(() => buildFakeData())
-    .then(() => eventId())
+    .then(buildStaticData)
+    .then(buildFakeData)
+    .then(eventId)
     .then(id => deleteEvent(id.rows[0].id))
     .then((response) => {
       t.equal(Object.keys(response.rows[0]).length, 15, 'should be 15 keys');
