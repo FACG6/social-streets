@@ -83,7 +83,7 @@ BEGIN;
 
     CREATE TABLE event_topic (
         event_id INTEGER REFERENCES event(id) ON DELETE CASCADE,
-        topic_id INTEGER REFERENCES topic(id) 
+        topic_id INTEGER REFERENCES topic(id)
     );
 
 COMMIT;
