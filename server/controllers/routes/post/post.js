@@ -29,7 +29,7 @@ const post = async (req, res, next) => {
     if (type === 'event') {
       if (!image) throw new Error();
       const valid = await eventSchema
-        .validate(req.body)
+        .isValid(req.body)
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
@@ -57,7 +57,7 @@ const post = async (req, res, next) => {
       }
     } else if (type === 'public_services') {
       const valid = await publicServiceSchema
-        .validate(req.body)
+        .isValid(req.body)
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedPublicServices = await addPublicServices({
