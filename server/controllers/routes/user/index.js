@@ -1,7 +1,7 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const { post } = require('./post');
+const { updatePersonal } = require('./personal');
 
-router.route('*').post(post);
+router.route('/personal').put(updatePersonal);
 
 module.exports = router;
