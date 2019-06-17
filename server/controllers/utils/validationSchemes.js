@@ -40,3 +40,10 @@ exports.userPostSchema = yup.object().shape({
     .url()
     .notRequired(),
 });
+
+exports.fetchPostSchema = yup.object().shape({
+  postId: Number(),
+  postType: String()
+    .trim()
+    .match(/(\bevent\b)|(\bpublic_service\b)/),
+});
