@@ -1,6 +1,6 @@
 const tape = require('tape');
 
-const { getPassword } = require('./../../database/queries/updatePassword');
+const { getPassword } = require('./../../database/queries/getPassword');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
 tape('get password', (e) => {
