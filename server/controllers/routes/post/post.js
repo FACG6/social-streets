@@ -12,6 +12,7 @@ const {
   eventSchema,
   publicServiceSchema
 } = require('../../utils/postSchema');
+
 const post = async (req, res, next) => {
   try {
     const {
