@@ -8,7 +8,6 @@ const {
   addPublicServices,
   addSecondaryTag
 } = require('../../../database/queries/postEvent');
-
 const {
   eventSchema,
   publicServiceSchema
