@@ -26,3 +26,15 @@ test('testing delete public service Query', (t) => {
     })
     .catch(t.error);
 });
+
+test('testing delete public service Query | no posts for this user', (t) => {
+  buildDb()
+    .then(buildStaticData)
+    .then(buildFakeData)
+    .then(() => deletePublicService(1, 2))
+    .then((response) => {
+      t.equal(response.rowCount, 0, 'no posts');
+      t.end();
+    })
+    .catch(t.error);
+});
