@@ -1,4 +1,5 @@
 require('./queries/deletePost');
+require('./routes/getUser');
 require('./routes/login.test');
 require('./queries/getUser.test');
 require('./routes/post/post');
