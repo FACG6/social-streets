@@ -11,11 +11,9 @@ exports.updatePassword = (req, res) => {
   const { oldPassword, newPassword } = req.body;
   getPassword(req.user.id)
     .then(dbRes => {
-      console.log("------------------- The Password =>>>>> ", dbRes);
-      compare(oldPassword, dbRes.rows[0].password)
+      return compare(oldPassword, dbRes.rows[0].password)
     })
     .then(passMatch => {
-      console.log("-----------------------------  Pass is match");
       if (passMatch) return passwordSchema.isValid({ password: newPassword });
       return res.status(400).send({
         error: "Wrong Password",

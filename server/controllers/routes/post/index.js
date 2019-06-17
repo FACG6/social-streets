@@ -11,7 +11,8 @@ router
   .post(post);
 
 router
-  .get('/draft', draftPosts)
+  .route('/draft')
+  .get(draftPosts);
 
 router.get("/:postId", get);
 

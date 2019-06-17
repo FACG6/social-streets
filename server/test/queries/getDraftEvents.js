@@ -9,11 +9,11 @@ tape('Get draft Events', async (t) => {
     await buildStaticData()
     await buildFakeData()
     const publisherId = 2;
-    const res = await getEvents(true, publisherId)
+    const res = await getEvents('true', publisherId)
     if (res.rowCount !== 0) {
       t.deepEqual(
         Object.keys(res.rows[0]),
-        [ 'id', 'category' ],
+        [ 'id', 'category', 'title' ],
         'Get all draft events'
       );  
       t.equal(res.rows[0].id, 1, 'Same id for the event');
