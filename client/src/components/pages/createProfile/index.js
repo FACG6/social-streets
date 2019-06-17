@@ -29,7 +29,13 @@ export default class Profile extends Component {
       } = this.state;
       axios
         .post("/api/v1/user", { ...restPersonal, ...business })
-        .then(() => this.props.history.push("/login"))
+        .then(() => {
+          notification.success({
+            message:'Successfull',
+            description:'Successfull sign up'
+          });
+          this.props.history.push("/login");
+        })
         .catch(err => {
           const errObj = {
             message: "Error",
