@@ -7,9 +7,10 @@ const put = require('./put');
 
 router.route('/').post(post);
 
-router.get('/draft', draftPosts);
+router.route('/draft').get(draftPosts);
 
 router.post('/', post);
+
 router
   .route('/:postId')
   .get(get)
