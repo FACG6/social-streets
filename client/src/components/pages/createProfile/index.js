@@ -31,8 +31,8 @@ export default class Profile extends Component {
         .post("/api/v1/user", { ...restPersonal, ...business })
         .then(() => {
           notification.success({
-            message:'Successfull',
-            description:'Successfull sign up'
+            message: "Successfully",
+            description: "Successfully sign up"
           });
           this.props.history.push("/login");
         })
@@ -45,15 +45,11 @@ export default class Profile extends Component {
             errObj.message = "Server Error";
             errObj.description =
               "Internal Server Error, Please try again later";
-          } else {
+          } else if (err.status === 400) {
             errObj.message = "Validation Error";
             errObj.description = "Please, Check the data you entered";
           }
-          const { message, description } = errObj;
-          notification.open({
-            message,
-            description
-          });
+          notification.open(errObj);
         });
     });
   };
