@@ -37,11 +37,7 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-
-        await Promise.all(eventTopic.map(async (topicId) => {
-          return addTopic(Number(addedEvent.rows[0].id), Number(topicId))
-        }));
-
+        await Promise.all(eventTopic.map((topicId) => addTopic(addedEvent.rows[0].id, topicId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -55,7 +51,9 @@ const post = async (req, res, next) => {
           }
         })
       } else {
-        throw new Error();
+        const error = new Error('validation');
+        error.statusCode = 400
+        throw error;
       }
     } else if (type === 'public_services') {
       const valid = await publicServiceSchema
@@ -67,10 +65,7 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-        await Promise.all(secondaryTag.map(async (secondaryTagId) => {
-          return addSecondaryTag(Number(addedPublicServices.rows[0].id), Number(secondaryTagId))
-        }));
-
+        await Promise.all(secondaryTag.map((secondaryTagId) => addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -83,13 +78,25 @@ const post = async (req, res, next) => {
             })
           }
         })
-      } else throw new Error();
-    } else throw new Error();
-  } catch (error) {
-    res.status(400).send({
-      error: 'Bad Request',
-      statusCode: 400
-    })
+      } else {
+        const error = new Error('validation');
+        error.statusCode = 400
+        throw error;
+      }
+    } else {
+      const error = new Error('Bad Request');
+      error.statusCode = 400
+      throw error;
+    }
+  } catch (err) {
+    if (err.statusCode) {
+      res.status(statusCode).send({
+        error: err.message,
+        statusCode: statusCode
+      })
+    } else {
+      next(err)
+    }
   }
 };
 

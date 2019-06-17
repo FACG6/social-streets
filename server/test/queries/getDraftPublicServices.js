@@ -1,7 +1,7 @@
 const tape = require('tape');
 
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build.js');
-const { getDraftPublicServices } = require('../../database/queries/getDraftPosts');
+const { getPublicServices } = require('../../database/queries/getDraftPosts');
 
 tape('Get draft Events', async (t) => {
   try {
@@ -9,11 +9,11 @@ tape('Get draft Events', async (t) => {
     await buildStaticData()
     await buildFakeData()
     const publisherId = 1;
-    const res = await getDraftPublicServices(true, publisherId)
+    const res = await getPublicServices('true', publisherId)
     if (res.rowCount !== 0) {
       t.deepEqual(
         Object.keys(res.rows[0]),
-        [ 'id', 'primary_tag' ],
+        [ 'id', 'primary_tag', 'title' ],
         'Get all draft public_services'
       );  
       t.equal(res.rows[0].id, 2, 'Same id for the public_services');
