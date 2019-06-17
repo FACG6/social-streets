@@ -1,15 +1,14 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const { join } = require('path');
-const uploadeMiddleware = require('multer');
-
+const fileUpload = require('express-fileupload');
 require('dotenv').config();
+
 const router = require('./controllers');
 
 const app = express();
-
 app.set('port', process.env.PORT || 5000);
-app.use(uploadeMiddleware());
+app.use(fileUpload());
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/v1', router);
