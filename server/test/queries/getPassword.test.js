@@ -4,7 +4,7 @@ const { getPassword } = require('./../../database/queries/getPassword');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
 tape('get password', (e) => {
-  const id = [1];
+  const id = 1;
   buildDb()
     .then(() => buildStaticData())
     .then(() => buildFakeData())
