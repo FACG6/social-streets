@@ -1,16 +1,16 @@
-const router = require("express").Router();
+const router = require('express').Router();
 
-const draftPosts = require("./getDraftPosts");
-const post = require("./post");
-const { get } = require("./get");
-const put = require("./put");
+const draftPosts = require('./getDraftPosts');
+const post = require('./post');
+const { get } = require('./get');
+const put = require('./put');
 
-router.route("/").post(post);
+router.route('/').post(post);
 
-router.get("/draft", draftPosts);
+router.get('/draft', draftPosts);
 
-router.post("/", post);
-router.get("/:postId", get);
-router.put("/:postId", put);
+router.post('/', post);
+router.get('/:postId', get);
+router.put('/:postId', put);
 
 module.exports = router;

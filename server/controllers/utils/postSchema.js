@@ -1,4 +1,4 @@
-const yup = require("yup");
+const yup = require('yup');
 
 const eventSchema = yup.object().shape({
   title: yup
@@ -21,7 +21,7 @@ const eventSchema = yup.object().shape({
     .min(5)
     .required(),
   publishDatetime: yup.string().required(),
-  eventTopic: yup.array().required()
+  eventTopic: yup.array().required(),
 });
 
 const publicServiceSchema = yup.object().shape({
@@ -42,10 +42,10 @@ const publicServiceSchema = yup.object().shape({
     .max(60)
     .required(),
   isDraft: yup.boolean().required(),
-  secondaryTag: yup.array().required()
+  secondaryTag: yup.array().required(),
 });
 
 module.exports = {
   eventSchema,
-  publicServiceSchema
+  publicServiceSchema,
 };
