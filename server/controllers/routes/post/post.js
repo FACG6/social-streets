@@ -51,7 +51,9 @@ const post = async (req, res, next) => {
           }
         })
       } else {
-        throw new Error();
+        const error = new Error('validation');
+        error.statusCode = 400
+        throw error;
       }
     } else if (type === 'public_services') {
       const valid = await publicServiceSchema
@@ -66,7 +68,9 @@ const post = async (req, res, next) => {
         await Promise.all(secondaryTag.map((secondaryTagId) => addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
-            next(err)
+            const error = new Error('validation');
+            error.statusCode = 400
+            throw error;
           } else {
             res.status(201).send({
               data: {
@@ -76,16 +80,24 @@ const post = async (req, res, next) => {
             })
           }
         })
-      } else throw new Error();
-    } else throw new Error();
-  } catch (err) {
-    if (err.code === '42601') {
-      next(err)
+      } else {
+        const error = new Error('validation');
+        error.statusCode = 400
+        throw error;
+      }
     } else {
-      res.status(400).send({
-        error: 'Bad Request',
-        statusCode: 400
+      const error = new Error('Bad Request');
+      error.statusCode = 400
+      throw error;
+    }
+  } catch (err) {
+    if (err.statusCode) {
+      res.status(statusCode).send({
+        error: err.message,
+        statusCode: statusCode
       })
+    } else {
+      next(err)
     }
   }
 };
