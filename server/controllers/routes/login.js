@@ -5,7 +5,6 @@ const getUser = require("../../database/queries/getUser");
 const { loginSchema } = require("../utils/validationSchemes");
 
 module.exports = (req, res) => {
-  console.log("HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOO");
   const { email, password } = req.body;
 
   loginSchema
@@ -17,12 +16,10 @@ module.exports = (req, res) => {
     })
     .then(user => {
       if (!user) {
-        res
-          .status(400)
-          .send({
-            error: `User with email '${email}' does not exist`,
-            statusCode: 400
-          });
+        res.status(400).send({
+          error: `User with email '${email}' does not exist`,
+          statusCode: 400
+        });
       } else {
         bcrypt
           .compare(password, user.password)
