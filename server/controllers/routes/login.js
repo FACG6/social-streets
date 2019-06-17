@@ -4,7 +4,7 @@ const { genCookie } = require('../utils/helper.js');
 const getUser = require('../../database/queries/getUser');
 const { loginSchema } = require('../utils/validationSchemes');
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
   const { email, password } = req.body;
 
   loginSchema
@@ -33,7 +33,7 @@ module.exports = (req, res) => {
               res.send({ data: userResult, statusCode: 200 });
             }
           })
-          .catch(() => res.status(500).send({ error: 'Internal Server Error', statusCode: 500 }));
+          .catch(next);
       }
     })
     .catch((e) => {
@@ -43,7 +43,7 @@ module.exports = (req, res) => {
           res.status(400).send({ error: e.message, statusCode: 400 });
           break;
         default:
-          res.status(500).send({ error: 'Internal Server Error', statusCode: 500 });
+          next(e);
       }
     });
 };
