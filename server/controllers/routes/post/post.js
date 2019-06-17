@@ -68,9 +68,7 @@ const post = async (req, res, next) => {
         await Promise.all(secondaryTag.map((secondaryTagId) => addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
-            const error = new Error('validation');
-            error.statusCode = 400
-            throw error;
+            next(err)
           } else {
             res.status(201).send({
               data: {
