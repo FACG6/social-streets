@@ -4,7 +4,7 @@ const { user, post } = require('./routes');
 const { post: userPost } = require('./routes/user/post');
 const unlockedCookie = require('./middlewares/unlockCookie');
 
-router.post('/user', userPost);
+router.post('/user',userPost);
 router.use(unlockedCookie);
 router.use('/user', user);
 router.use('/posts', post);

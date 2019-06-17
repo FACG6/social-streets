@@ -19,13 +19,14 @@ const post = async (req, res, next) => {
     const {
       type,
       eventTopic,
-      secondaryTag,
+      secondaryTag
     } = req.body;
 
     const {
       image
     } = req.files;
     const publisherId = Number(req.user.id)
+    
     if (type === 'event') {
       if (!image) throw new Error();
       const valid = await eventSchema

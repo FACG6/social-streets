@@ -14,7 +14,7 @@ test('Add new post at /api/v1/post/', async (t) => {
   await buildFakeData()
   try {
     request(app)
-      .post('/api/v1/post')
+      .post('/api/v1/post/')
       .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
       .field('type', 'event')
       .field('title', 'Title from')
