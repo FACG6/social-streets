@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 
 const { genCookie } = require('../utils/helper.js');
-const getUser = require('../../database/queries/getUser');
+const { getUserByEmail } = require('../../database/queries/getUser');
 const { loginSchema } = require('../utils/validationSchemes');
 
 module.exports = (req, res) => {
@@ -11,7 +11,7 @@ module.exports = (req, res) => {
     .isValid({ email, password })
     .then((valid) => {
       if (!valid) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
-      return getUser(email);
+      return getUserByEmail(email);
     })
     .then((user) => {
       if (!user) {
