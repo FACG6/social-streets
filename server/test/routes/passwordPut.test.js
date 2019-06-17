@@ -25,10 +25,8 @@ test('PUT in /api/v1/user/password', (t) => {
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          // console.log("00000000000000000000000000000000");
           if (err){
-            // t.error(console.log("error is here : =>> ", err));
-            console.log("The Res =>> ", res.text);
+            t.error(console.log("error is here : =>> ", err));
           }
           t.equal(JSON.parse(res.text).data, 'Updated Password Successfully', 'Updated');
           t.end();
