@@ -1,5 +1,9 @@
 const yup = require('yup');
 
+const loginSchema = require('./loginSchema');
+
+exports.loginSchema = loginSchema;
+
 exports.userPostSchema = yup.object().shape({
   firstName: yup
     .string()
