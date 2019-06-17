@@ -38,7 +38,7 @@ const post = async (req, res, next) => {
           imageName
         })
         await eventTopic.forEach(async (topicId) => {
-          await addTopic(addedEvent.rows[0].id, topicId)
+          return addTopic(addedEvent.rows[0].id, topicId)
         });
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
@@ -66,7 +66,7 @@ const post = async (req, res, next) => {
           imageName
         })
         await secondaryTag.forEach(async (secondaryTagId) => {
-          await addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)
+          return addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)
         });
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
