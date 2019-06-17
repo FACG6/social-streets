@@ -23,6 +23,8 @@ module.exports = (req, res, next) => {
         }
       })
       .catch(error => next(error));
+  } else {
+    res.send({ statusCode: 400, error: 'Bad Request' });
   }
 };
 
