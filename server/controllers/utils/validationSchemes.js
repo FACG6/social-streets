@@ -1,6 +1,6 @@
-const yup = require("yup");
+const yup = require('yup');
 
-const loginSchema = require("./loginSchema");
+const loginSchema = require('./loginSchema');
 
 exports.loginSchema = loginSchema;
 
@@ -42,12 +42,12 @@ exports.userPostSchema = yup.object().shape({
   instagram: yup
     .string()
     .url()
-    .notRequired()
+    .notRequired(),
 });
 
 exports.fetchPostSchema = yup.object().shape({
   postId: Number(),
   postType: String()
     .trim()
-    .match(/(\bevent\b)|(\bpublic_service\b)/)
+    .match(/(\bevent\b)|(\bpublic_service\b)/),
 });

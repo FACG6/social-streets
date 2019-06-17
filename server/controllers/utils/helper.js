@@ -1,5 +1,5 @@
-const bcrypt = require("bcryptjs");
-const { sign } = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const { sign } = require('jsonwebtoken');
 
 exports.hashPassword = password => bcrypt.hash(password, 10);
 
