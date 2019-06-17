@@ -37,9 +37,9 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-        await eventTopic.forEach(async (topicId) => {
+        await Promise.all(eventTopic.map(async (topicId) => {
           return addTopic(addedEvent.rows[0].id, topicId)
-        });
+        }));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -65,9 +65,9 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-        await secondaryTag.forEach(async (secondaryTagId) => {
+        await Promise.all(secondaryTag.map(async (secondaryTagId) => {
           return addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)
-        });
+        }));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
