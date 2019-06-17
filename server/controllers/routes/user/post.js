@@ -9,7 +9,7 @@ exports.post = (req, res, next) => {
   userInfo.avatar = "avatar.png";
 
   userPostSchema
-    .validate(userInfo)
+    .isValid(userInfo)
     .then(valid => {
       if (valid) return hashPassword(userInfo.password);
       return res.status(400).send({
