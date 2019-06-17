@@ -10,7 +10,9 @@ router.route('/').post(post);
 router.get('/draft', draftPosts);
 
 router.post('/', post);
-router.get('/:postId', get);
-router.put('/:postId', put);
+router
+  .route('/:postId')
+  .get(get)
+  .put(put);
 
 module.exports = router;
