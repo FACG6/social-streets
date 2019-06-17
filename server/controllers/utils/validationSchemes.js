@@ -41,30 +41,25 @@ exports.userPostSchema = yup.object().shape({
     .required(),
   facebook: yup
     .string()
-    .trim()
-    .matche(
+    .matches(
       /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
     )
     .notRequired(),
   twitter: yup
     .string()
-    .trim()
-    .matche(
+    .matches(
       /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
     )
     .notRequired(),
   instagram: yup
     .string()
-    .trim()
-    .matche(
+    .matches(
       /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
     )
     .notRequired()
 });
 
 exports.fetchPostSchema = yup.object().shape({
-  postId: Number(),
-  postType: String()
-    .trim()
-    .match(/(\bevent\b)|(\bpublic_service\b)/)
+  postId: yup.number(),
+  postType: yup.string().matches(/(\bevent\b)|(\bpublic_service\b)/)
 });
