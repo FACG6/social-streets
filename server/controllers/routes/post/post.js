@@ -37,9 +37,7 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-        await Promise.all(eventTopic.map(async (topicId) => {
-          return addTopic(addedEvent.rows[0].id, topicId)
-        }));
+        await Promise.all(eventTopic.map((topicId) => addTopic(addedEvent.rows[0].id, topicId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -65,9 +63,7 @@ const post = async (req, res, next) => {
           publisherId,
           imageName
         })
-        await Promise.all(secondaryTag.map(async (secondaryTagId) => {
-          return addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)
-        }));
+        await Promise.all(secondaryTag.map((secondaryTagId) => addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -82,11 +78,15 @@ const post = async (req, res, next) => {
         })
       } else throw new Error();
     } else throw new Error();
-  } catch {
-    res.status(400).send({
-      error: 'Bad Request',
-      statusCode: 400
-    })
+  } catch (err) {
+    if (err.code === '42601') {
+      next(err)
+    } else {
+      res.status(400).send({
+        error: 'Bad Request',
+        statusCode: 400
+      })
+    }
   }
 };
 

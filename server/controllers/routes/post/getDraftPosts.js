@@ -2,6 +2,7 @@ const { getEvents, getPublicServices } = require('../../../database/queries/getD
 
 const draftPosts = async (req, res) => {
   try {
+    // throw new Error()
     const { id: publisherId } = req.user;
     const resEvent = await getEvents('true', publisherId)
     const resPublic = await getPublicServices('true', publisherId)
@@ -11,7 +12,7 @@ const draftPosts = async (req, res) => {
       statusCode: 200
     })
 
-  } catch (err) {
+  } catch {
     res.status(400).send({
       error: 'Bad Request',
       statusCode: 400
