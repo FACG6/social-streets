@@ -1,4 +1,3 @@
-require('./queries/selectUsers');
 require('./routes/getUser');
 require('./routes/login.test');
 require('./queries/getUser.test');

@@ -24,12 +24,12 @@ const user = {
   instagram: 'https://www.instagram.com',
   twitter: 'https://www.twitter.com',
   avatar: null
-}
+};
 
-test('testing getUser route', (t) => {
+test('testing /user | GET route', (t) => {
   buildDb()
-    .then(() => buildStaticData())
-    .then(() => buildFakeData())
+    .then(buildStaticData)
+    .then(buildFakeData)
     .then(() => {
       request(app)
         .get('/api/v1/user')
@@ -37,10 +37,45 @@ test('testing getUser route', (t) => {
         .expect(200)
         .end((error, response) => {
           const resUser = response.body.data;
-          t.equal(typeof user, 'object', 'should be object');
-          t.equal(Object.keys(user).length >= 11, true, 'should be equal to or more than 11 keys');
           t.deepEqual(resUser, user, 'should be true');
           t.end();
         });
-    });
+    })
+    .catch(t.error);
+});
+
+test('testing /user | GET route | wrong path', (t) => {
+  buildDb()
+    .then(buildStaticData)
+    .then(buildFakeData)
+    .then(() => {
+      request(app)
+        .get('/api/v1/user')
+        .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIs5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
+        .expect(401)
+        .end((error, response) => {
+          t.equal(response.body.error, 'unauthorized', 'should be unauthorized');
+          t.end();
+        });
+    })
+    .catch(t.error);
+});
+
+const cookie = 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTYwNzc3MzE0fQ.9HU7nVgfgRsB0FXuXRaWiG6sBEEQutkQEe-uQc9DTE8';
+
+test('testing /user | GET route | user does not exist', (t) => {
+  buildDb()
+    .then(buildStaticData)
+    .then(buildFakeData)
+    .then(() => {
+      request(app)
+        .get('/api/v1/user')
+        .set('Cookie', [cookie])
+        .expect(400)
+        .end((error, response) => {
+          t.equal(response.body.error, 'Bad Request', 'should be unauthorized');
+          t.end();
+        });
+    })
+    .catch(t.error);
 });

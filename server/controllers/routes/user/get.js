@@ -1,15 +1,13 @@
-const getUser = require('./../../../database/queries/selectUser');
+const { getUserById } = require('./../../../database/queries/getUser');
 
 exports.get = (req, res, next) => {
-  const userId = req.user.id;
-  getUser(userId)
+  getUserById(req.user.id)
     .then((response) => {
-      if (!response.rowCount) {
-        res.status(400).send({ error: 'Bad Request', statusCode: 400 });
-      } else {
-        delete response.rows[0].password;
-        res.send({ data: response.rows[0], statusCode: 200 });
-      }
+      if (!response.rowCount)
+        return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+      delete response.rows[0].password;
+      res.send({ data: response.rows[0], statusCode: 200 });
+
     })
-    .catch(error => next(error));
+    .catch(next);
 };
