@@ -7,9 +7,9 @@ const livePosts = async (req, res, next) => {
     const resPublic = await getPublicServices('false', publisherId);
     const allPosts = await [...resEvent.rows, ...resPublic.rows];
     if (!allPosts.length) {
-      res.status(200).send({
+      res.status(400).send({
         error: 'No Live Posts Available',
-        statusCode: 200
+        statusCode: 400
       });
     } else {
       res.send({
