@@ -7,6 +7,7 @@ exports.get = (req, res, next) => {
       if (!response.rowCount) {
         res.status(400).send({ error: 'Bad Request', statusCode: 400 });
       } else {
+        delete response.rows[0].password;
         res.send({ data: response.rows[0], statusCode: 200 });
       }
     })
