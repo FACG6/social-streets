@@ -20,3 +20,4 @@ require('./queries/insertEvent');
 require('./queries/insertPublicServices');
 require('./queries/insertTopic');
 require('./queries/insertSecondaryTag');
+require('./routes/deletePost');
