@@ -10,15 +10,18 @@ module.exports = (req, res) => {
   loginSchema
     .isValid({ email, password })
     .then((valid) => {
-      if (!valid) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+      if (!valid) {
+        const validationErr = new Error('Bad Request');
+        validationErr.statusCode = 400;
+        throw validationErr;
+      }
       return getUser(email);
     })
     .then((user) => {
       if (!user) {
-        res.status(400).send({
-          error: `User with email '${email}' does not exist`,
-          statusCode: 400,
-        });
+        const noUserErr = new Error(`User with email '${email}' does not exist`);
+        noUserErr.statusCode = 400;
+        throw noUserErr;
       } else {
         bcrypt
           .compare(password, user.password)
@@ -33,5 +36,14 @@ module.exports = (req, res) => {
           .catch(() => res.status(500).send({ error: 'Internal Server Error', statusCode: 500 }));
       }
     })
-    .catch(() => res.status(500).send({ error: 'Internal Server Error', statusCode: 500 }));
+    .catch((e) => {
+      const { statusCode } = e;
+      switch (statusCode) {
+        case 400:
+          res.status(400).send({ error: e.message, statusCode: 400 });
+          break;
+        default:
+          res.status(500).send({ error: 'Internal Server Error', statusCode: 500 });
+      }
+    });
 };
