@@ -16,22 +16,20 @@ test("post in /api/v1/user (with valid data)", t => {
       request(app)
         .post("/api/v1/user")
         .send({
-          user: {
-            firstName: "amin",
-            lastName: "alakhsham",
-            email: "amin@gmail.com",
-            password: "aminamin",
-            typeOfBusiness: "Business",
-            website: "https://www.socialstreets.com",
-            orgName: "social-street",
-            address: "gaza",
-            city: "gaza",
-            country: "palestine",
-            zipCode: "45214",
-            facebook: "https://fb.com/aminalakhsham",
-            twitter: "https://twitter.com/aminalakhsham",
-            instagram: "https://www.instagram.com/aminalakhsham"
-          }
+          first_name: "amin",
+          last_name: "alakhsham",
+          email: "amin@gmail.com",
+          password: "aminamin",
+          businestype: "Business",
+          website: "https://www.socialstreets.com",
+          orgnisation: "social-street",
+          address: "gaza strip",
+          city: "gaza",
+          country: "palestine",
+          postal: "45214",
+          facebook: "https://fb.com/aminalakhsham",
+          twitter: "https://twitter.com/aminalakhsham",
+          instagram: "https://www.instagram.com/aminalakhsham"
         })
         .expect(201)
         .expect("Content-Type", /json/)

@@ -4,12 +4,12 @@ const { userPostSchema } = require("./../../utils/validationSchemes");
 const { hashPassword } = require("./../../utils/helper");
 
 exports.post = (req, res, next) => {
-  const userInfo = { ...req.body.user };
+  const userInfo = { ...req.body };
 
   userInfo.avatar = "avatar.png";
 
   userPostSchema
-    .isValid(userInfo)
+    .validate(userInfo)
     .then(valid => {
       if (valid) return hashPassword(userInfo.password);
       return res.status(400).send({

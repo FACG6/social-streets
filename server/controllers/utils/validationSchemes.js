@@ -1,11 +1,11 @@
-const yup = require('yup');
+const yup = require("yup");
 
 exports.userPostSchema = yup.object().shape({
-  firstName: yup
+  first_name: yup
     .string()
     .min(3)
     .required(),
-  lastName: yup
+  last_name: yup
     .string()
     .min(3)
     .required(),
@@ -17,33 +17,36 @@ exports.userPostSchema = yup.object().shape({
     .string()
     .min(8)
     .required(),
-  orgName: yup.string().required(),
-  typeOfBusiness: yup.string().required(),
-  website: yup
+  orgnisation: yup
     .string()
-    .url()
+    .min(5)
     .required(),
-  address: yup.string().required(),
-  city: yup.string().required(),
-  country: yup.string().required(),
-  zipCode: yup.string().required(),
-  facebook: yup
+  businestype: yup.string().required(),
+  website: yup.string().required(),
+  address: yup
     .string()
-    .url()
-    .notRequired(),
-  twitter: yup
+    .min(5)
+    .required(),
+  country: yup
     .string()
-    .url()
-    .notRequired(),
-  instagram: yup
+    .min(3)
+    .required(),
+  city: yup
     .string()
-    .url()
-    .notRequired(),
+    .min(3)
+    .required(),
+  postal: yup
+    .string()
+    .min(4)
+    .required(),
+  facebook: yup.string().notRequired(),
+  twitter: yup.string().notRequired(),
+  instagram: yup.string().notRequired()
 });
 
 exports.fetchPostSchema = yup.object().shape({
   postId: Number(),
   postType: String()
     .trim()
-    .match(/(\bevent\b)|(\bpublic_service\b)/),
+    .match(/(\bevent\b)|(\bpublic_service\b)/)
 });

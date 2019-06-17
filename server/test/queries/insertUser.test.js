@@ -9,21 +9,20 @@ const {
 
 tape("insert user query test", t => {
   const userInfo = {
-    firstName: "amin",
-    lastName: "alakhsham",
+    first_name: "amin",
+    last_name: "alakhsham",
     email: "amin@gmail.com",
     password: "aminamin",
-    typeOfBusiness: "Business",
+    businestype: "Business",
     website: "https://www.socialstreets.com",
-    orgName: "social-street",
-    address: "gaza",
+    orgnisation: "social-street",
+    address: "gaza strip",
     city: "gaza",
     country: "palestine",
-    zipCode: "45214",
+    postal: "45214",
     facebook: "https://fb.com/aminalakhsham",
     twitter: "https://twitter.com/aminalakhsham",
-    instagram: "https://www.instagram.com/aminalakhsham",
-    avatar: "avatar.png"
+    instagram: "https://www.instagram.com/aminalakhsham"
   };
   buildDb()
     .then(buildStaticData)
