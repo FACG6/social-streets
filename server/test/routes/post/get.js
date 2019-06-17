@@ -4,7 +4,7 @@ const app = require('../../../app');
 
 const { buildDb, buildFakeData, buildStaticData } = require('../../../database/config/build');
 
-test('Add new post at /api/v1/post/', async (t) => {
+test('Get all post from /api/v1/post/', async (t) => {
   try {
     await buildDb()
     await buildStaticData()
