@@ -10,9 +10,7 @@ const { getPassword } = require("./../../../database/queries/getPassword");
 exports.updatePassword = (req, res) => {
   const { oldPassword, newPassword } = req.body;
   getPassword(req.user.id)
-    .then(dbRes => {
-      return compare(oldPassword, dbRes.rows[0].password)
-    })
+    .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then(passMatch => {
       if (passMatch) return passwordSchema.isValid({ password: newPassword });
       return res.status(400).send({
