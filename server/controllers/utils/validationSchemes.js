@@ -39,9 +39,27 @@ exports.userPostSchema = yup.object().shape({
     .string()
     .min(4)
     .required(),
-  facebook: yup.string().notRequired(),
-  twitter: yup.string().notRequired(),
-  instagram: yup.string().notRequired()
+  facebook: yup
+    .string()
+    .trim()
+    .matche(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+    )
+    .notRequired(),
+  twitter: yup
+    .string()
+    .trim()
+    .matche(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+    )
+    .notRequired(),
+  instagram: yup
+    .string()
+    .trim()
+    .matche(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+    )
+    .notRequired()
 });
 
 exports.fetchPostSchema = yup.object().shape({
