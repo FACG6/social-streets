@@ -14,14 +14,14 @@ tape('insert new post (Public Services) ', async (t) => {
   const publicServicesData = {
     title: 'the main Public Services',
     description: 'any desc',
-    primary_tag: 1,
+    primaryTag: 1,
     image: 'images.pexels.com/photos/617278/pexels-photo',
-    focus_key: 'any key',
+    focusKey: 'any key',
     meta: 'this is meta',
-    alt_text: 'alt for the image',
-    is_draft: false,
-    publisher_id: 1,
-    publish_datetime: '11/6/ 2019 - 04.30 p.m'
+    altText: 'alt for the image',
+    isDraft: false,
+    publisherId: 1,
+    publishDatetime: '11/6/ 2019 - 04.30 p.m'
   }
 
   try {

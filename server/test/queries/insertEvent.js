@@ -15,17 +15,17 @@ tape('insert new post (Event) ', async (t) => {
     title: 'the main event',
     description: 'any desc',
     category: 1,
-    event_datetime: '11/6/ 2019 - 04.30 p.m',
+    eventDatetime: '11/6/ 2019 - 04.30 p.m',
     venue: 'any street',
     website: 'www.gaza.com',
     cost: 12,
     imageName: 'images.pexels.com/photos/617278/pexels-photo',
-    focus_key: 'any key',
+    focusKey: 'any key',
     meta: 'this is meta',
-    alt_text: 'alt for the image',
-    is_draft: false,
-    publisher_id: 1,
-    publish_datetime: '11/6/ 2019 - 04.30 p.m'
+    altText: 'alt for the image',
+    isDraft: false,
+    publisherId: 1,
+    publishDatetime: '11/6/ 2019 - 04.30 p.m'
   }
   
   try {
