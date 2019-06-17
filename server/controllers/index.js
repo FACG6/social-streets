@@ -7,7 +7,6 @@ const unlockedCookie = require('./middlewares/unlockCookie');
 router.post('/user',userPost);
 router.use(unlockedCookie);
 router.use('/user', user);
-router.use('/posts', post);
 router.use('/post', post);
 
 module.exports = router;
