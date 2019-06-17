@@ -13,7 +13,7 @@ tape('Get draft Events', async (t) => {
     if (res.rowCount !== 0) {
       t.deepEqual(
         Object.keys(res.rows[0]),
-        [ 'id', 'primary_tag' ],
+        [ 'id', 'primary_tag', 'title' ],
         'Get all draft public_services'
       );  
       t.equal(res.rows[0].id, 2, 'Same id for the public_services');
