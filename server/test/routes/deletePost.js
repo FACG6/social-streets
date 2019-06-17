@@ -26,8 +26,8 @@ test('test post route | DELETE', (t) => {
 
 test('test post route | DELETE', (t) => {
   buildDb()
-    .then(() => buildStaticData())
-    .then(() => buildFakeData())
+    .then(buildStaticData)
+    .then(buildFakeData)
     .then(() => {
       request(app)
         .delete('/api/v1/post/1')
@@ -36,9 +36,9 @@ test('test post route | DELETE', (t) => {
         .expect(200)
         .end((error, response) => {
           const keys = ['id', 'primary_tag', 'description', 'image', 'focus_key', 'alt_text', 'meta', 'publisher_id', 'publish_datetime', 'title', 'is_draft'];
-          // t.equal(Object.keys(response.body.data).length, 11, 'should be 11 keys');
-          // t.equal(Object.keys(response.body.data).includes('id'), true, 'should include id of public service');
-          // t.deepEqual(Object.keys(response.body.data), keys, 'should be equal');
+          t.equal(Object.keys(response.body.data).length, 11, 'should be 11 keys');
+          t.equal(Object.keys(response.body.data).includes('id'), true, 'should include id of public service');
+          t.deepEqual(Object.keys(response.body.data), keys, 'should be equal');
           t.end();
         });
     })
