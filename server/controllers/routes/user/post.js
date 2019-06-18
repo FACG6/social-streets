@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { insertUser } = require("./../../../database/queries/insertUser");
-const checkUser = require("./../../../database/queries/getUser");
+const { getUserByEmail } = require("./../../../database/queries/getUser");
 const { userPostSchema } = require("./../../utils/validationSchemes");
 const { hashPassword } = require("./../../utils/helper");
 
@@ -10,18 +10,20 @@ exports.post = (req, res, next) => {
   userPostSchema
     .isValid(userInfo)
     .then(valid => {
-      if (valid) return checkUser(userInfo.email);
-      return res.status(400).send({
-        error: "bad request",
-        statusCode: 400
-      });
+      if (!valid) {
+        const validationErr = new Error("Please, Check the data you entered");
+        validationErr.statusCode = 400;
+        throw validationErr;
+      }
+      return getUserByEmail(userInfo.email);
     })
     .then(result => {
-      if (!result) return hashPassword(userInfo.password);
-      return res.status(400).send({
-        error: "Email already exists.",
-        statusCode: 400
-      });
+      if (result) {
+        const validationErr = new Error("Email already exists.");
+        validationErr.statusCode = 400;
+        throw validationErr;
+      }
+      return hashPassword(userInfo.password);
     })
     .then(hashedPass => {
       userInfo.password = hashedPass;
@@ -34,5 +36,14 @@ exports.post = (req, res, next) => {
         statusCode: 201
       });
     })
-    .catch(next);
+    .catch(err => {
+      const { statusCode } = err;
+      switch (statusCode) {
+        case 400:
+          res.status(400).send({ error: err.message, statusCode: 400 });
+          break;
+        default:
+          next(e);
+      }
+    });
 };
