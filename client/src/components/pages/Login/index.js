@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { Form, Icon, Input, Checkbox } from "antd";
+import { Form, Icon, Input, Checkbox, notification } from "antd";
+import axios from "axios";
 
 import Button from "components/utils/Button";
 import "./style.css";
@@ -8,19 +9,49 @@ import "./style.css";
 function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFields((err, values) => {});
+    props.form.validateFields((err, { email, password, rememberMe }) => {
+      axios
+        .post("/api/v1/login", {
+          email,
+          password
+        })
+        .then(() => {
+          props.history.push("/");
+        })
+        .catch(({ response: { data: { error, statusCode } } }) => {
+          let notObj = {};
+          switch (statusCode) {
+            case 400:
+              notObj = {
+                message: "Bad Request",
+                description: "Please Enter a valid email and/or password"
+              };
+              break;
+            case 401:
+              notObj = { message: "Unauthorized", description: error };
+              break;
+            default:
+              notObj = {
+                message: "Internal Server Error",
+                description:
+                  "Something went wrong with server, please try again later"
+              };
+          }
+          notification.error(notObj);
+        });
+    });
   };
 
   const {
     form: { getFieldDecorator }
   } = props;
-  
+
   return (
     <Fragment>
       <main className="login-page--main-section">
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Item label="Email Address">
-            {getFieldDecorator("username", {
+            {getFieldDecorator("email", {
               rules: [
                 { required: true, message: "Email address is required!" },
                 {
