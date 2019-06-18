@@ -28,13 +28,13 @@ test('Testing login route with wrong password', (t) => {
   supertest(app)
     .post('/api/v1/login')
     .send({ email: 'ahmedisam9922@gmail.com', password: '124' })
-    .expect(400)
+    .expect(401)
     .expect('Content-Type', 'application/json; charset=utf-8')
     .end((err, res) => {
       if (err) t.error(err);
       const parsedRes = JSON.parse(res.text);
       t.equal(parsedRes.error, 'Wrong password', 'expect password to be wrong');
-      t.equal(parsedRes.statusCode, 400, 'expect status code to be 400');
+      t.equal(parsedRes.statusCode, 401, 'expect status code to be 401');
       t.end();
     });
 });

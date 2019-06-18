@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 
 const { genCookie } = require('../utils/helper.js');
-const getUser = require('../../database/queries/getUser');
+const { getUserByEmail } = require('../../database/queries/getUser');
 const { loginSchema } = require('../utils/validationSchemes');
 
 module.exports = (req, res, next) => {
@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
         validationErr.statusCode = 400;
         throw validationErr;
       }
-      return getUser(email);
+      return getUserByEmail(email);
     })
     .then((user) => {
       if (!user) {
@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
         bcrypt
           .compare(password, user.password)
           .then((passIsValid) => {
-            if (!passIsValid) res.status(400).send({ error: 'Wrong password', statusCode: 400 });
+            if (!passIsValid) res.status(401).send({ error: 'Wrong password', statusCode: 401 });
             else {
               const { password: pass, ...userResult } = user;
               res.cookie('jwt', genCookie(user));
