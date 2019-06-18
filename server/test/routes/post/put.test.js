@@ -15,7 +15,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
     supertest(app)
       .put('/api/v1/post/1')
       .set('Cookie', [
-        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM',
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTYwODA5NDU5fQ.Uu-Xm-_rsx3NnatKObF2aH1wp_K67iPwBlOfxS-Q3cY',
       ])
       .field('type', 'event')
       .field('title', 'New Title 17/6/2019 - 9:45:33 AM.')
@@ -51,7 +51,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
     supertest(app)
       .put('/api/v1/post/1')
       .set('Cookie', [
-        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM',
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTYwODA5ODM5fQ.TmwcbEeUxCLES1M4RIpF2nAY0oVt4vo8pL4dfHgbGJ0',
       ])
       .field('type', 'public_services')
       .field('primaryTag', 1)
