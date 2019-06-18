@@ -4,7 +4,6 @@ const app = require('../../app');
 
 const { buildDb, buildFakeData, buildStaticData } = require('../../database/config/build');
 
-const cookieId1 = 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM';
 const cookieId3 = 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTYwODAwMjE2fQ.PeA2v-blt95xNFg0tFP_UZvayy7Re-dhxVgHjIaWTSU';
 const invalidCookie = 'jwt=eyJhbGciJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTYwODAwMjE2fQ.XPTwlhVJw8L-NgqsOH5WlnpfWPJ3aNG7BtJfC3k8onM';
 
