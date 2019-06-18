@@ -19,31 +19,25 @@ module.exports = (req, res, next) => {
     })
     .then((user) => {
       if (!user) {
-        const noUserErr = new Error(`User with email '${email}' does not exist`);
-        noUserErr.statusCode = 400;
-        throw noUserErr;
+        const authErr = new Error('Check your email or password');
+        authErr.statusCode = 401;
+        throw authErr;
       } else {
-        bcrypt
-          .compare(password, user.password)
-          .then((passIsValid) => {
-            if (!passIsValid) res.status(401).send({ error: 'Wrong password', statusCode: 401 });
-            else {
-              const { password: pass, ...userResult } = user;
-              res.cookie('jwt', genCookie(user));
-              res.send({ data: userResult, statusCode: 200 });
-            }
-          })
-          .catch(next);
+        return bcrypt.compare(password, user.password).then((passIsValid) => {
+          if (!passIsValid) {
+            const authErr = new Error('Check your email or password');
+            authErr.statusCode = 401;
+            throw authErr;
+          } else {
+            const { password: pass, ...userResult } = user;
+            res.cookie('jwt', genCookie(user));
+            res.send({ data: userResult, statusCode: 200 });
+          }
+        });
       }
     })
     .catch((e) => {
-      const { statusCode } = e;
-      switch (statusCode) {
-        case 400:
-          res.status(400).send({ error: e.message, statusCode: 400 });
-          break;
-        default:
-          next(e);
-      }
+      const { statusCode, message } = e;
+      return statusCode ? res.status(statusCode).send({ error: message, statusCode }) : next(e);
     });
 };
