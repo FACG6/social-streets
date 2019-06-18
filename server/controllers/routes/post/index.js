@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+const deletePost = require('./delete');
 const draftPosts = require('./getDraftPosts')
 const post = require('./post');
 const {
@@ -14,6 +15,8 @@ router
   .route('/draft')
   .get(draftPosts);
 
-router.get("/:postId", get);
+router.route('/:postId')
+  .get(get)
+  .delete(deletePost)
 
 module.exports = router;
