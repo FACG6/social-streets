@@ -25,10 +25,10 @@ test('PUT in /api/v1/user/password', (t) => {
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if (err){
-            t.error(console.log("error is here : =>> ", err));
+          if (err) {
+            t.error(err);
           }
-          t.equal(JSON.parse(res.text).data, 'Updated Password Successfully', 'Updated');
+          t.equal(JSON.parse(res.text).data, 'Updated Password Successfully', 'PUT method on /password Work Successfully');
           t.end();
         });
     })
