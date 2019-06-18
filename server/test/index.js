@@ -18,4 +18,7 @@ require('./queries/getPassword.test');
 require('./queries/updatePassword.test');
 require('./routes/passwordPut.test');
 require('./routes/post/post');
+require('./routes/getLivePosts');
+require('./queries/getLivePublicService');
+require('./queries/getLiveEvents');
 require('./routes/deletePost');

@@ -39,7 +39,7 @@ tape('insert new post (Event) ', async (t) => {
         [ 'id', 'title', 'description', 'category', 'event_datetime', 'venue', 'website', 'cost', 'image', 'focus_key', 'meta', 'alt_text', 'is_draft', 'publisher_id', 'publish_datetime' ],
         'New Post (Event) added sucssfully'
       );
-      t.equal(res.rows[0].id, 2, 'Same id for the new event');
+      t.equal(res.rows[0].id, 3, 'Same id for the new event');
       t.end();
     } else {
       t.error();
