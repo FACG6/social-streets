@@ -13,7 +13,7 @@ const BusinessTypeValues = [
   },
   {
     key: 4,
-    value: "organisation"
+    value: "Organisation"
   },
   {
     key: 5,
