@@ -1,20 +1,20 @@
 const connection = require('../config/connection');
 
-addEvent = ({
+const addEvent = ({
 	title,
 	description,
 	category,
 	imageName,
-	event_datetime,
+	eventDatetime,
 	venue,
 	website,
 	cost,
-	focus_key,
+	focusKey,
 	meta,
-	alt_text,
-	is_draft,
-	publisher_id,
-	publish_datetime
+	altText,
+	isDraft,
+	publisherId,
+	publishDatetime
 }) => connection.query(`
 	INSERT INTO event
 		(title, description, category, event_datetime, venue, website, image, cost, focus_key, meta, alt_text, is_draft, publisher_id, publish_datetime)
@@ -25,43 +25,43 @@ addEvent = ({
 		title,
 		description,
 		category,
-		event_datetime,
+		eventDatetime,
 		venue,
 		website,
 		imageName,
 		cost,
-		focus_key,
+		focusKey,
 		meta,
-		alt_text,
-		is_draft,
-		publisher_id,
-		publish_datetime
+		altText,
+		isDraft,
+		publisherId,
+		publishDatetime
 	]
 );
 
-addTopic = (event_id, topic_id) => connection.query(`
+const addTopic = (eventId, topicId) => connection.query(`
 	INSERT INTO event_topic
   	(event_id, topic_id)
 	VALUES 
 		($1, $2)
 	RETURNING *`,
 	[
-		event_id,
-		topic_id
+		eventId,
+		topicId
 	]
 );
 
-addPublicServices = ({
-	primary_tag,
+const addPublicServices = ({
+	primaryTag,
 	description,
 	imageName,
-	focus_key,
-	alt_text,
+	focusKey,
+	altText,
 	meta,
-	publisher_id,
-	publish_datetime,
+	publisherId,
+	publishDatetime,
 	title,
-	is_draft
+	isDraft
 }) => connection.query(`
   INSERT INTO public_service
     (primary_tag, description, image, focus_key, alt_text, meta, publisher_id, publish_datetime, title, is_draft)
@@ -69,28 +69,28 @@ addPublicServices = ({
 		($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
 	RETURNING *`,
 	[
-		primary_tag,
+		primaryTag,
 		description,
 		imageName,
-		focus_key,
-		alt_text,
+		focusKey,
+		altText,
 		meta,
-		publisher_id,
-		publish_datetime,
+		publisherId,
+		publishDatetime,
 		title,
-		is_draft
+		isDraft
 	]
 );
 
-addSecondaryTag = (public_service_id, secondary_tag) => connection.query(`
+const addSecondaryTag = (publicServiceId, secondaryTag) => connection.query(`
 	INSERT INTO public_service_tag
 		(public_service_id, secondary_tag)
 	VALUES
 		($1, $2) 
 	RETURNING *`,
 	[
-		public_service_id,
-		secondary_tag
+		publicServiceId,
+		secondaryTag
 	]
 );
 

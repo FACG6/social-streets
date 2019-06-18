@@ -18,29 +18,26 @@ const post = async (req, res, next) => {
     const {
       type,
       eventTopic,
-      secondary_tag
+      secondaryTag
     } = req.body;
-    const {
-      id: publisher_id
-    } = req.user.id;
+
     const {
       image
     } = req.files;
+    const publisherId = Number(req.user.id)
 
     if (type === 'event') {
       if (!image) throw new Error();
       const valid = await eventSchema
-        .validate(req.body)
+        .isValid(req.body)
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
           ...req.body,
-          publisher_id,
+          publisherId,
           imageName
         })
-        await eventTopic.forEach(async (topic_id) => {
-          await addTopic(addedEvent.rows[0].id, topic_id)
-        });
+        await Promise.all(eventTopic.map((topicId) => addTopic(addedEvent.rows[0].id, topicId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -54,21 +51,21 @@ const post = async (req, res, next) => {
           }
         })
       } else {
-        throw new Error();
+        const error = new Error('validation');
+        error.statusCode = 400
+        throw error;
       }
     } else if (type === 'public_services') {
       const valid = await publicServiceSchema
-        .validate(req.body)
+        .isValid(req.body)
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedPublicServices = await addPublicServices({
           ...req.body,
-          publisher_id,
+          publisherId,
           imageName
         })
-        await secondary_tag.forEach(async (secondaryTag_id) => {
-          await addSecondaryTag(addedPublicServices.rows[0].id, secondaryTag_id)
-        });
+        await Promise.all(secondaryTag.map((secondaryTagId) => addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)));
         image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
           if (err) {
             next(err)
@@ -81,13 +78,25 @@ const post = async (req, res, next) => {
             })
           }
         })
-      } else throw new Error();
-    } else throw new Error();
-  } catch {
-    res.status(400).send({
-      error: 'Bad Request',
-      statusCode: 400
-    })
+      } else {
+        const error = new Error('validation');
+        error.statusCode = 400
+        throw error;
+      }
+    } else {
+      const error = new Error('Bad Request');
+      error.statusCode = 400
+      throw error;
+    }
+  } catch (err) {
+    if (err.statusCode) {
+      res.status(statusCode).send({
+        error: err.message,
+        statusCode: statusCode
+      })
+    } else {
+      next(err)
+    }
   }
 };
 
