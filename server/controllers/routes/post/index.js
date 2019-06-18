@@ -12,12 +12,11 @@ router
   .post(post);
 
 router
-  .route('/draft')
-  .get(draftPosts);
+  .get('/draft', draftPosts);
 
 router
-  .get('/live', livePosts)
+  .get('/live', livePosts);
 
-router.get("/:postId", get);
+router.get('/:postId', get);
 
 module.exports = router;
