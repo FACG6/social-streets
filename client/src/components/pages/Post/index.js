@@ -13,30 +13,37 @@ export default class Post extends Component {
 
   componentDidMount() {
     const { postType } = this.props;
-    let allPosts;
     axios.get(`/api/v1/post/${postType}`)
       .then(({ data: { data } }) => {
         if (!data.length)
           return this.setState({ error: `No ${postType} Posts Available` });
-        allPosts = data;
-        console.log(allPosts)
+        const posts = data.map(post => {
+          post.link = post.category.toLowerCase().replace(' and ', '-');
+          return post;
+        });
+        this.setState({ posts })
       })
       .catch(err => {
-        const { statusCode, error } = err;
-        notification.error({
-          message: "ERROR",
-          description: error,
-        })
-        if (statusCode === 401) {
-          this.props.history.push('/login')
+        const { status } = err.response;
+        const objError = {
+          message: 'ERROR',
+        }
+        switch (status) {
+          case 400:
+            objError.description = 'Bad Request!';
+            break;
+          case 401:
+            objError.description = 'Please Log in to your account!';
+            break;
+          default:
+            objError.description = 'Oops, somthing went wrong. Try another time!';
+        };
+        notification.error(objError);
+        if (status === 401) {
+          //Redirect to login//
+          // this.props.history.push('/login')
         }
       })
-
-    // const posts = allPosts.map(post => {
-    //   post.link = post.category.toLowerCase().replace(' and ', '-');
-    //   return post;
-    // });
-    this.setState({ posts: allPosts })
   }
 
   handleDelete = (id) => {
