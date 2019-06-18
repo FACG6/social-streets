@@ -3,8 +3,6 @@ const tape = require('tape');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build.js');
 const { getPublicServices } = require('../../database/queries/getPosts');
 
-const livePosts = [{ id: 1, primary_tag: 2, title: 'News Title' }];
-
 tape('Get Live Public Services | Query', async (t) => {
   try {
     await buildDb();
@@ -12,7 +10,7 @@ tape('Get Live Public Services | Query', async (t) => {
     await buildFakeData();
     const publisherId = 3;
     const res = await getPublicServices('false', publisherId);
-    const resPublicService = [{ id: 1, primary_tag: 2, title: 'News Title' }]
+    const resPublicService = [{ id: 1, tag: 'Petitions', title: 'News Title' }];
     t.deepEqual(res.rows, resPublicService, 'should be equal');
     t.end();
   } catch (err) {

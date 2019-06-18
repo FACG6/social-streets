@@ -25,9 +25,16 @@ tape('Get Live Events | Query', async (t) => {
     const publisherId = 2;
     const res = await getEvents('false', publisherId);
     const resPosts = [
-      { id: 1, category: 1, title: 'The main Event' },
-      { id: 2, category: 1, title: 'The main Event' },
-    ];
+      {
+        id: 1,
+        category: 'Events and Festivals',
+        title: 'The main Event',
+      },
+      {
+        id: 2,
+        category: 'Events and Festivals',
+        title: 'The main Event',
+      }];
     t.deepEqual(res.rows, resPosts, 'should be equal');
     t.end();
   } catch (err) {

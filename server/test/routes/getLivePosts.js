@@ -18,7 +18,7 @@ test('Testing /api/v1/post/live | GET | normal path', async (t) => {
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err, res) => {
-        const resPosts = [{ id: 1, primary_tag: 2, title: 'News Title' }];
+        const resPosts = [{ id: 1, tag: 'Petitions', title: 'News Title' }];
         t.deepEqual(res.body.data, resPosts, 'should be equal');
         t.end();
       });
