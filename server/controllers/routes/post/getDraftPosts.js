@@ -1,4 +1,4 @@
-const { getEvents, getPublicServices } = require('../../../database/queries/getDraftPosts');
+const { getEvents, getPublicServices } = require('../../../database/queries/getPosts');
 
 const draftPosts = async (req, res, next) => {
   try {

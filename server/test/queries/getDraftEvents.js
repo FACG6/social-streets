@@ -1,7 +1,7 @@
 const tape = require('tape');
 
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build.js');
-const { getEvents } = require('../../database/queries/getDraftPosts');
+const { getEvents } = require('../../database/queries/getPosts');
 
 tape('Get draft Events', async (t) => {
   try {
