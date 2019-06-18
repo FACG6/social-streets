@@ -1,3 +1,3 @@
 const connection = require('./../config/connection');
 
-module.exports = userId => connection.query(`SELECT password FROM "user" WHERE id = ${userId}`);
+exports.getPassword = userId => connection.query('SELECT password FROM "user" WHERE id = $1', [userId]);
