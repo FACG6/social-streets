@@ -63,7 +63,6 @@ class BusinessForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.handleSubmit(values, e);
-        console.log("Received values of form: ", values);
       }
     });
   };
@@ -91,12 +90,12 @@ class BusinessForm extends React.Component {
 
         <InputGroup size="large" >
 
-          <Form.Item label="Orgnisation Name" className='create-profile-form--item'>
-            {getFieldDecorator('orgnisation', {
+          <Form.Item label="Organization Name" className='create-profile-form--item'>
+            {getFieldDecorator('organization', {
               rules: [
                 {
                   type: "string",
-                  message: "The Orgnisation Name should be string!"
+                  message: "The Organization Name should be string!"
                 },
                 {
                   whitespace: true,
@@ -104,30 +103,30 @@ class BusinessForm extends React.Component {
                 },
                 {
                   min: 5,
-                  message: "Orgnisation Name must be 5 charcter at least!"
+                  message: "Organization Name must be 5 charcter at least!"
                 },
                 {
                   required: true,
-                  message: "Please enter your Orgnisation Name!"
+                  message: "Please enter your Organization Name!"
                 }
               ]
-            })(<Input placeholder="Orgnisation Name" />)}
+            })(<Input placeholder="Organization Name" />)}
           </Form.Item>
 
           <Form.Item
-            label="Type of busines"
+            label="Type of business"
             className="create-profile-form--item"
           >
-            {getFieldDecorator("businestype", {
+            {getFieldDecorator("businessType", {
               rules: [
                 {
                   required: true,
-                  message: "Please select your Type of busines!"
+                  message: "Please select your Type of business!"
                 }
               ]
             })(
               <Select
-                placeholder="Type of busines"
+                placeholder="Type of business"
                 onChange={this.handleSelectChange}
                 style={{ width: "100%", fontSize: "16px" }}
               >
@@ -243,7 +242,7 @@ class BusinessForm extends React.Component {
             label="Zip/Postal Code"
             className="create-profile-form--item"
           >
-            {getFieldDecorator("postal", {
+            {getFieldDecorator("zipCode", {
               rules: [
                 {
                   whitespace: true,
@@ -251,14 +250,14 @@ class BusinessForm extends React.Component {
                 },
                 {
                   min: 4,
-                  message: "Postal NaCodeme must be 4 charcter at least!"
+                  message: "Zip NaCodeme must be 4 charcter at least!"
                 },
                 {
                   required: true,
-                  message: "Please enter your Postal Code!"
+                  message: "Please enter your Zip Code!"
                 }
               ]
-            })(<Input placeholder="Postal Code" />)}
+            })(<Input placeholder="Zip Code" />)}
           </Form.Item>
 
             <h3>Social Media</h3>
@@ -270,6 +269,10 @@ class BusinessForm extends React.Component {
                   {
                     whitespace: true,
                     message: 'Delete the spaces!'
+                  },
+                  {
+                    pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                    message: "Please input a valied website"
                   }
                 ],
               })(
@@ -286,6 +289,10 @@ class BusinessForm extends React.Component {
                   {
                     whitespace: true,
                     message: 'Delete the spaces!'
+                  },
+                  {
+                    pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                    message: "Please input a valied website"
                   }
                 ],
               })(
@@ -302,6 +309,10 @@ class BusinessForm extends React.Component {
                   {
                     whitespace: true,
                     message: 'Delete the spaces!'
+                  },
+                  {
+                    pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+                    message: "Please input a valied website"
                   }
                 ],
               })(
