@@ -3,7 +3,7 @@ const tape = require('tape');
 const { updatePasswordQuery } = require('./../../database/queries/updatePassword');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
-tape('Update user password', (e) => {
+tape('Query - Update User Password', (e) => {
   const password = '123456789';
   const id = 1;
   buildDb()
