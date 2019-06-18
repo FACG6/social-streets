@@ -15,7 +15,7 @@ tape('Update user personal data', (e) => {
       updatePersonalDataQuery(firstName, lastName, email, userId)
         .then((result) => {
           if (result.rowCount === 1) {
-            e.equal(result.rows[0].bool, true, 'Password Has Changed !!');
+            e.equal(result.rows[0].bool, true, 'Personal Data Have Updated !!');
             e.end();
           } else {
             e.error();
