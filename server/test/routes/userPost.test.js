@@ -35,27 +35,6 @@ test('post in /api/v1/user (with valid data)', (t) => {
           } else if (res.body.error) {
             t.error(res.body.error);
           } else {
-            t.deepEqual(
-              Object.keys(res.body.data),
-              [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'business_type',
-                'website',
-                'organisation_name',
-                'address',
-                'city',
-                'country',
-                'zip_code',
-                'facebook',
-                'instagram',
-                'twitter',
-                'avatar',
-              ],
-              'update project and it users sucssfully',
-            );
             t.equal(res.body.data.id, 4, 'id is four');
             t.end();
           }

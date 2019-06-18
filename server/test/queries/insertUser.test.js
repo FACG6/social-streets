@@ -27,28 +27,6 @@ tape('insert user query test', (t) => {
       insertUser(userInfo)
         .then((res) => {
           if (res.rowCount === 1) {
-            t.deepEqual(
-              Object.keys(res.rows[0]),
-              [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'password',
-                'business_type',
-                'website',
-                'organisation_name',
-                'address',
-                'city',
-                'country',
-                'zip_code',
-                'facebook',
-                'instagram',
-                'twitter',
-                'avatar',
-              ],
-              'add user in database sucssfully',
-            );
             t.equal(res.rows[0].id, 4, 'id is four');
             t.end();
           } else {
