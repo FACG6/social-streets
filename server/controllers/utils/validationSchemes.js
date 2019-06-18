@@ -21,11 +21,11 @@ exports.userPostSchema = yup.object().shape({
     .string()
     .min(8)
     .required(),
-  orgnisation: yup
+  organization: yup
     .string()
     .min(5)
     .required(),
-  businestype: yup.string().required(),
+  businesType: yup.string().required(),
   website: yup.string().matches(
       /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
     ).required(),
@@ -41,7 +41,7 @@ exports.userPostSchema = yup.object().shape({
     .string()
     .min(3)
     .required(),
-  postal: yup
+  zipCode: yup
     .string()
     .min(4)
     .required(),

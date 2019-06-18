@@ -37,15 +37,16 @@ export default class Profile extends Component {
           this.props.history.push("/login");
         })
         .catch(err => {
+          const { statusCode } = err.response.data;
           const errObj = {
             message: "Error",
             description: "There is Error please try again"
           };
-          if (err.status === 500) {
+          if (statusCode === 500) {
             errObj.message = "Server Error";
             errObj.description =
               "Internal Server Error, Please try again later";
-          } else if (err.status === 400) {
+          } else if (statusCode === 400) {
             errObj.message = "Validation Error";
             errObj.description = "Please, Check the data you entered";
           }
