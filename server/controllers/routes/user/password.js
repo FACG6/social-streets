@@ -14,17 +14,15 @@ exports.updatePassword = (req, res) => {
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then((passMatch) => {
       if (passMatch) return passwordSchema.isValid({ password: newPassword });
-      return res.status(401).send({
-        error: 'Wrong Password',
-        statusCode: 401,
-      });
+      const objError = new Error('Bad Request');
+      objError.statusCode = 400;
+      throw objError;
     })
     .then((valid) => {
       if (valid) return hashPassword(newPassword);
-      return res.status(400).send({
-        error: 'Bad Request!',
-        statusCode: 400,
-      });
+      const objError = new Error('Bad Request');
+      objError.statusCode = 400;
+      throw objError;
     })
     .then(newHashedPass => updatePasswordQuery(newHashedPass, id))
     .then(() => res.send({
