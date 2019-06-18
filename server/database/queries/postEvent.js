@@ -40,11 +40,11 @@ const addEvent = ({
 );
 
 const addTopic = (eventId, topicId) => connection.query(`
-	INSERT INTO event_topic
-  	(event_id, topic_id)
-	VALUES 
-		($1, $2)
-	RETURNING *`,
+        INSERT INTO event_topic
+        (event_id, topic_id)
+        VALUES 
+              ($1, $2)
+        RETURNING *`,
   [
     eventId,
     topicId
@@ -66,8 +66,8 @@ const addPublicServices = ({
   INSERT INTO public_service
     (primary_tag, description, image, focus_key, alt_text, meta, publisher_id, publish_datetime, title, is_draft)
   VALUES 
-		($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
-	RETURNING *`,
+              ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
+      RETURNING *`,
   [
     primaryTag,
     description,
@@ -83,11 +83,11 @@ const addPublicServices = ({
 );
 
 const addSecondaryTag = (publicServiceId, secondaryTag) => connection.query(`
-	INSERT INTO public_service_tag
-		(public_service_id, secondary_tag)
-	VALUES
-		($1, $2) 
-	RETURNING *`,
+      INSERT INTO public_service_tag
+              (public_service_id, secondary_tag)
+      VALUES
+              ($1, $2) 
+      RETURNING *`,
   [
     publicServiceId,
     secondaryTag

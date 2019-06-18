@@ -1,7 +1,12 @@
 const router = require("express").Router();
 
+<<<<<<< HEAD
 const draftPosts = require('./getDraftPosts');
 const livePosts = require('./getLivePosts')
+=======
+const deletePost = require('./delete');
+const draftPosts = require('./getDraftPosts')
+>>>>>>> fcf2d772f0354543cb94e7dce316cffd3738ba6e
 const post = require('./post');
 const {
   get
@@ -17,6 +22,8 @@ router
 router
   .get('/live', livePosts);
 
-router.get('/:postId', get);
+router.route('/:postId')
+  .get(get)
+  .delete(deletePost)
 
 module.exports = router;

@@ -1,3 +1,4 @@
+require('./queries/deletePost');
 require('./routes/getUser');
 require('./routes/login.test');
 require('./queries/getUser.test');
@@ -21,7 +22,7 @@ require('./queries/insertTopic');
 require('./queries/insertSecondaryTag');
 require('./routes/getLivePosts');
 require('./queries/getLivePublicService');
-require('./queries/getLiveEvents')
+require('./queries/getLiveEvents');
 require('./queries/getEvent.test');
 require('./queries/getPublicService.test');
 require('./queries/insertUser.test');
@@ -32,3 +33,4 @@ require('./queries/insertEvent');
 require('./queries/insertPublicServices');
 require('./queries/insertTopic');
 require('./queries/insertSecondaryTag');
+require('./routes/deletePost');
