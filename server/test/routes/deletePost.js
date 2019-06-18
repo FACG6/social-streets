@@ -14,9 +14,9 @@ test('test post route | DELETE | post for another user', (t) => {
         .delete('/api/v1/post/1')
         .set('Cookie', [cookieId1])
         .send({ type: 'event' })
-        .expect(200)
+        .expect(401)
         .end((error, response) => {
-          t.equal(response.body.error, 'Bad Request', 'bad request');
+          t.equal(response.body.error, 'unauthorized', 'bad request');
           t.end();
         });
     })

@@ -1,18 +1,24 @@
 const { deleteEvent, deletePublicService } = require('../../../database/queries/deletePost');
+const getPostPublisher = require('../../../database/queries/getPostPublisher');
 
 module.exports = (req, res, next) => {
   const { postId } = req.params;
   const userId = req.user.id;
   const { type } = req.body;
-  let callback;
-  if (type === 'event') {
-    callback = deleteEvent;
-  } else if (type === 'public_services') {
-    callback = deletePublicService;
-  } else {
-    throw Error('Bad Request');
-  }
-  callback(postId, userId)
+
+  getPostPublisher(type, postId)
+    .then((publisherId) => {
+      if (userId !== publisherId) throw Error('unauthorized');
+    })
+    .then(() => {
+      if (type === 'event') {
+        return deleteEvent(postId, userId);
+      }
+      if (type === 'public_services') {
+        return deletePublicService(postId, userId);
+      }
+      throw Error('Bad Request');
+    })
     .then((response) => {
       if (!response.rowCount) {
         throw Error('Bad Request');
@@ -25,6 +31,12 @@ module.exports = (req, res, next) => {
       switch (message) {
         case 'Bad Request':
           res.status(400).send({ statusCode: 400, error: message });
+          break;
+        case 'unauthorized':
+          res.status(401).send({ statusCode: 401, error: message });
+          break;
+        case `Cannot read property 'publisher_id' of undefined`:
+          res.status(400).send({ statusCode: 400, error: 'Bad Request' });
           break;
         default:
           next(err);
