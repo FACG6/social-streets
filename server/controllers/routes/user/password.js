@@ -9,6 +9,7 @@ const { getPassword } = require('./../../../database/queries/getPassword');
 
 exports.updatePassword = (req, res) => {
   const { oldPassword, newPassword } = req.body;
+  const { id } = req.user;
   getPassword(req.user.id)
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then((passMatch) => {
@@ -25,8 +26,11 @@ exports.updatePassword = (req, res) => {
         statusCode: 400,
       });
     })
-    .then(newHashedPass => updatePasswordQuery(newHashedPass, req.user.id))
-    .then(() => res.send({ data: 'Updated Password Successfully', statusCode: 200 }))
+    .then(newHashedPass => updatePasswordQuery(newHashedPass, id))
+    .then(() => res.send({
+      data: 'Updated Password Successfully',
+      statusCode: 200,
+    }))
     .catch(() => {
       res.status(500).send({
         error: 'Internal Server Error',
