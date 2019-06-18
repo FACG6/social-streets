@@ -1,6 +1,6 @@
 const { compare } = require("bcryptjs");
 
-const { hashPassword } = require("../../utils/hashPassword");
+const { hashPassword } = require("../../utils/helper");
 const passwordSchema = require("./../../utils/passwordSchema");
 const {
   updatePasswordQuery
