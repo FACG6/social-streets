@@ -1,7 +1,7 @@
 require('./routes/getUser');
 require('./routes/login.test');
 require('./queries/getUser.test');
-require('./routes/post/post');
+// require('./routes/post/post');
 require('./queries/insertEvent');
 require('./queries/insertPublicServices');
 require('./queries/insertTopic');
