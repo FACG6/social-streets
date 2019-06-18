@@ -4,12 +4,13 @@ const { join } = require('path');
 const { eventSchema, publicServiceSchema } = require('../../utils/postSchema');
 const {
   updateEventQuery,
-  updateTopicQuery,
+  deleteTopicQuery,
   updatePublicServiceQuery,
-  updateSecondaryTagQuery,
+  deleteSecondaryTagQuery,
 } = require('../../../database/queries/updatePost');
 const getPostPublisher = require('../../../database/queries/getPostPublisher');
 const getPostImg = require('../../../database/queries/getPostImg');
+const { addTopic, addSecondaryTag } = require('../../../database/queries/postEvent');
 
 const updateEvent = async (req, res, next) => {
   const { postId: eventId } = req.params;
@@ -46,7 +47,8 @@ const updateEvent = async (req, res, next) => {
       }
       return updateEventQuery(eventId, req.body, imageName);
     })
-    .then(() => Promise.all(eventTopic.map(topic => updateTopicQuery(eventId, topic))))
+    .then(() => deleteTopicQuery(eventId))
+    .then(() => Promise.all(eventTopic.map(topic => addTopic(eventId, topic))))
     .then(() => res.send({ data: 'Updated event successfully', statusCode: 200 }))
     .catch((e) => {
       const { statusCode } = e;
@@ -98,7 +100,8 @@ const updatePublicService = async (req, res, next) => {
       }
       return updatePublicServiceQuery(publicServiceId, req.body, imageName);
     })
-    .then(() => Promise.all(secondaryTag.map(tag => updateSecondaryTagQuery(publicServiceId, tag))))
+    .then(() => deleteSecondaryTagQuery(publicServiceId))
+    .then(() => Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag))))
     .then(() => res.send({
       data: 'Updated public service successfully',
       statusCode: 200,

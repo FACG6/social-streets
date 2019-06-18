@@ -62,7 +62,7 @@ exports.updateEventQuery = (
   );
 };
 
-exports.updateTopicQuery = (eventId, topicId) => connection.query('UPDATE event_topic SET topic_id = $1 WHERE event_id = $2;', [topicId, eventId]);
+exports.deleteTopicQuery = eventId => connection.query('DELETE FROM event_topic WHERE event_id = $1;', [eventId]);
 
 exports.updatePublicServiceQuery = (
   publicServiceId,
@@ -114,7 +114,6 @@ exports.updatePublicServiceQuery = (
   );
 };
 
-exports.updateSecondaryTagQuery = (publicServiceId, secondaryTag) => connection.query(
-  'UPDATE public_service_tag SET secondary_tag = $1 WHERE public_service_id = $2;',
-  [secondaryTag, publicServiceId],
-);
+exports.deleteSecondaryTagQuery = publicServiceId => connection.query('DELETE FROM public_service_tag WHERE public_service_id = $1;', [
+  publicServiceId,
+]);

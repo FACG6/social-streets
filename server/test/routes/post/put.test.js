@@ -30,7 +30,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
       .field('focusKey', 'focusKeyword')
       .field('meta', 'this is meta description')
       .field('publishDatetime', '17/6/2019 - 09:30 p.m')
-      .field('eventTopic', [1, 2])
+      .field('eventTopic', [1, 2, 3])
       .attach('image', 'test/fakeImg/amideasblue.png')
       .expect(200)
       .expect('Content-Type', /json/)
@@ -41,7 +41,6 @@ test('update existing post at /api/v1/post/1', async (t) => {
           { data: 'Updated event successfully', statusCode: 200 },
           'Excpect the server to responed with success',
         );
-        // t.end();
       });
   } catch (err) {
     t.error(err);
@@ -62,7 +61,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
       .field('publishDatetime', '11/4/2019')
       .field('title', 'Title new public_services title')
       .field('isDraft', false)
-      .field('secondaryTag', [1, 2, 3])
+      .field('secondaryTag', [1, 2])
       .attach('image', 'test/fakeImg/amideasblue.png')
       .expect(200)
       .expect('Content-Type', /json/)
