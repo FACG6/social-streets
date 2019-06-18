@@ -6,17 +6,27 @@ const { buildDb, buildFakeData, buildStaticData } = require('./../../database/co
 tape('Query - Get User Password', (e) => {
   const id = 1;
   buildDb()
-    .then(() => buildStaticData())
-    .then(() => buildFakeData())
+    .then(buildStaticData)
+    .then(buildFakeData)
     .then(() => {
       getPassword(id)
         .then((result) => {
-          if (result.rowCount === 1) {
-            e.deepEqual(result.rowCount, 1, 'Password Has Gotten');
-            e.end();
-          } else {
-            e.error();
-          }
+          e.equal(result.rows[0].password, '$2y$12$0tqIpfxzTSFIKFECzjS1XOKhhxAlPsexglTCOKhysSXVt.R4KTBAW', 'Password Has Gotten');
+          e.end();
+        });
+    });
+});
+
+tape('Query - Get User Password || No id', (e) => {
+  const id = 50;
+  buildDb()
+    .then(buildStaticData)
+    .then(buildFakeData)
+    .then(() => {
+      getPassword(id)
+        .then((result) => {
+          e.equal(result.rowCount, 0, 'No Password');
+          e.end();
         });
     });
 });
