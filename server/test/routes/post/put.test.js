@@ -92,7 +92,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
       .field('type', 'event')
       .field('title', 'New Title 17/6/2019 - 9:45:33 AM.')
       .field('description', 'Lorem Lorem Lorem')
-      .field('category', '1')
+      .field('category', 'ahmed')
       .field('eventDatetime', '19/6/2019 - 04:00 p.m')
       .field('venue', 'gaza st')
       .field('website', 'www.qqqq.com')
@@ -110,7 +110,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
         if (err) t.error(err);
         t.deepEqual(
           res.body,
-          { error: 'Unauthorized', statusCode: 400 },
+          { error: 'Bad Request', statusCode: 400 },
           'Excpect the server to responed with 400 Bad Request',
         );
       });
