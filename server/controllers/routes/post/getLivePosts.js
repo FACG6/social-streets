@@ -7,10 +7,9 @@ module.exports = async (req, res, next) => {
     const resPublic = await getPublicServices('false', publisherId);
     res.send({
       data: [...resEvent.rows, ...resPublic.rows],
-      statusCode: 200
+      statusCode: 200,
     });
   } catch (err) {
     next(err);
-  };
-}
-
+  }
+};
