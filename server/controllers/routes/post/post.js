@@ -66,7 +66,6 @@ const post = async (req, res, next) => {
           join(__dirname, "..", "..", "..", "uploads", imageName),
           err => {
             if (err) {
-              console.log(err);
               next(err);
             } else {
               res.status(201).send({
