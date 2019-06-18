@@ -10,7 +10,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
   await buildStaticData();
   await buildFakeData();
 
-  // start testing
+  // test with valid data
   try {
     supertest(app)
       .put('/api/v1/post/1')
@@ -46,6 +46,79 @@ test('update existing post at /api/v1/post/1', async (t) => {
     t.error(err);
   }
 
+  // test updating a post that does not belong to the current user
+  try {
+    supertest(app)
+      .put('/api/v1/post/1')
+      .set('Cookie', [
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTYwODA5ODM5fQ.TmwcbEeUxCLES1M4RIpF2nAY0oVt4vo8pL4dfHgbGJ0',
+      ])
+      .field('type', 'event')
+      .field('title', 'New Title 17/6/2019 - 9:45:33 AM.')
+      .field('description', 'Lorem Lorem Lorem')
+      .field('category', 1)
+      .field('eventDatetime', '19/6/2019 - 04:00 p.m')
+      .field('venue', 'gaza st')
+      .field('website', 'www.qqqq.com')
+      .field('altText', 'new alt text')
+      .field('cost', 15)
+      .field('isDraft', false)
+      .field('focusKey', 'focusKeyword')
+      .field('meta', 'this is meta description')
+      .field('publishDatetime', '17/6/2019 - 09:30 p.m')
+      .field('eventTopic', [1, 2, 3])
+      .attach('image', 'test/fakeImg/amideasblue.png')
+      .expect(401)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) t.error(err);
+        t.deepEqual(
+          res.body,
+          { error: 'Unauthorized', statusCode: 401 },
+          'Excpect the server to responed with 401 Unauthorized',
+        );
+      });
+  } catch (err) {
+    t.error(err);
+  }
+
+  // test with unvalid data
+  try {
+    supertest(app)
+      .put('/api/v1/post/1')
+      .set('Cookie', [
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTYwODA5NDU5fQ.Uu-Xm-_rsx3NnatKObF2aH1wp_K67iPwBlOfxS-Q3cY',
+      ])
+      .field('type', 'event')
+      .field('title', 'New Title 17/6/2019 - 9:45:33 AM.')
+      .field('description', 'Lorem Lorem Lorem')
+      .field('category', [1])
+      .field('eventDatetime', '19/6/2019 - 04:00 p.m')
+      .field('venue', 'gaza st')
+      .field('website', 'www.qqqq.com')
+      .field('altText', 'new alt text')
+      .field('cost', 15)
+      .field('isDraft', false)
+      .field('focusKey', 'focusKeyword')
+      .field('meta', 'this is meta description')
+      .field('publishDatetime', '17/6/2019 - 09:30 p.m')
+      .field('eventTopic', [1, 2, 3])
+      .attach('image', 'test/fakeImg/amideasblue.png')
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) t.error(err);
+        t.deepEqual(
+          res.body,
+          { error: 'Unauthorized', statusCode: 400 },
+          'Excpect the server to responed with 400 Bad Request',
+        );
+      });
+  } catch (err) {
+    t.error(err);
+  }
+
+  // test with valid data
   try {
     supertest(app)
       .put('/api/v1/post/1')
