@@ -57,7 +57,7 @@ class PersonalForm extends React.Component {
       <Form onSubmit={this.handleSubmit} className="create-profile-form">
         <InputGroup size="large">
           <Form.Item label="First Name" className="create-profile-form--item">
-            {getFieldDecorator("first_name", {
+            {getFieldDecorator("firstName", {
               rules: [
                 {
                   type: "string",
@@ -80,7 +80,7 @@ class PersonalForm extends React.Component {
           </Form.Item>
 
           <Form.Item label="Last Name" className="create-profile-form--item">
-            {getFieldDecorator("last_name", {
+            {getFieldDecorator("lastName", {
               rules: [
                 {
                   type: "string",

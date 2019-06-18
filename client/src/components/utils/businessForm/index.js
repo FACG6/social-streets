@@ -114,19 +114,19 @@ class BusinessForm extends React.Component {
           </Form.Item>
 
           <Form.Item
-            label="Type of busines"
+            label="Type of business"
             className="create-profile-form--item"
           >
-            {getFieldDecorator("businesType", {
+            {getFieldDecorator("businessType", {
               rules: [
                 {
                   required: true,
-                  message: "Please select your Type of busines!"
+                  message: "Please select your Type of business!"
                 }
               ]
             })(
               <Select
-                placeholder="Type of busines"
+                placeholder="Type of business"
                 onChange={this.handleSelectChange}
                 style={{ width: "100%", fontSize: "16px" }}
               >
