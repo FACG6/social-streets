@@ -28,7 +28,7 @@ test('PUT in /api/v1/user/password || With valid password', (t) => {
           if (err) {
             t.error(err);
           }
-          t.equal(JSON.parse(res.text).data, 'Updated Password Successfully', 'PUT method on /password Work Successfully');
+          t.equal(res.body.data, 'Updated Password Successfully', 'PUT method on /password Work Successfully');
           t.end();
         });
     })
