@@ -90,12 +90,12 @@ class BusinessForm extends React.Component {
 
         <InputGroup size="large" >
 
-          <Form.Item label="organization Name" className='create-profile-form--item'>
+          <Form.Item label="Organization Name" className='create-profile-form--item'>
             {getFieldDecorator('organization', {
               rules: [
                 {
                   type: "string",
-                  message: "The organization Name should be string!"
+                  message: "The Organization Name should be string!"
                 },
                 {
                   whitespace: true,
@@ -103,14 +103,14 @@ class BusinessForm extends React.Component {
                 },
                 {
                   min: 5,
-                  message: "organization Name must be 5 charcter at least!"
+                  message: "Organization Name must be 5 charcter at least!"
                 },
                 {
                   required: true,
-                  message: "Please enter your organization Name!"
+                  message: "Please enter your Organization Name!"
                 }
               ]
-            })(<Input placeholder="organization Name" />)}
+            })(<Input placeholder="Organization Name" />)}
           </Form.Item>
 
           <Form.Item
