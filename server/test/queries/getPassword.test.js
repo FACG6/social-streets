@@ -3,7 +3,7 @@ const tape = require('tape');
 const { getPassword } = require('./../../database/queries/getPassword');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
-tape('get password', (e) => {
+tape('Query - Get User Password', (e) => {
   const id = 1;
   buildDb()
     .then(() => buildStaticData())
@@ -12,7 +12,7 @@ tape('get password', (e) => {
       getPassword(id)
         .then((result) => {
           if (result.rowCount === 1) {
-            e.deepEqual(result.rowCount, 1, 'get password');
+            e.deepEqual(result.rowCount, 1, 'Password Has Gotten');
             e.end();
           } else {
             e.error();
