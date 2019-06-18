@@ -89,6 +89,7 @@ const post = async (req, res, next) => {
       throw error;
     }
   } catch (err) {
+    console.log(err);
     if (err.statusCode) {
       res.status(statusCode).send({
         error: err.message,
