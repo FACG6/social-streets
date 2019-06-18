@@ -12,12 +12,23 @@ tape('Query - Update User Password', (e) => {
     .then(() => {
       updatePasswordQuery(password, id)
         .then((result) => {
-          if (result.rowCount === 1) {
-            e.equal(result.rows[0].bool, true, 'Password Has Changed !!');
-            e.end();
-          } else {
-            e.error();
-          }
+          e.equal(result.rows[0].password, '123456789', 'Password Has Changed !!');
+          e.end();
+        });
+    });
+});
+
+tape('Query - Update User Password', (e) => {
+  const password = '123456789';
+  const id = 50;
+  buildDb()
+    .then(() => buildStaticData())
+    .then(() => buildFakeData())
+    .then(() => {
+      updatePasswordQuery(password, id)
+        .then((result) => {
+          e.equal(result.rowCount, 0, 'No id to update his password');
+          e.end();
         });
     });
 });
