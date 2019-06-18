@@ -4,7 +4,7 @@ const personalSchema = require('../../utils/personalSchema');
 const { getPassword } = require('./../../../database/queries/getPassword');
 const { updatePersonalDataQuery } = require('./../../../database/queries/updatePersonalData');
 
-exports.updatePersonal = (req, res) => {
+exports.updatePersonal = (req, res, next) => {
   const {
     oldPassword, firstName, lastName, email,
   } = req.body;
@@ -20,7 +20,7 @@ exports.updatePersonal = (req, res) => {
           email,
         });
       }
-      const objError = new Error('Bad Request');
+      const objError = new Error('Password not match');
       objError.statusCode = 400;
       throw objError;
     })
@@ -34,10 +34,14 @@ exports.updatePersonal = (req, res) => {
       data: 'Personal Data Updated Successfully',
       statusCode: 200,
     }))
-    .catch(() => {
-      res.status(500).send({
-        error: 'Internal Server Error',
-        statusCode: 500,
-      });
+    .catch((e) => {
+      const { statusCode, message } = e;
+      if (statusCode) {
+        res.status(statusCode).send({
+          statusCode, error: message,
+        });
+      } else {
+        next(e);
+      }
     });
 };
