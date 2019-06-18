@@ -3,7 +3,7 @@ const tape = require('tape');
 const { updatePersonalDataQuery } = require('./../../database/queries/updatePersonalData');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
-tape('Query - Update User Personal Data', (e) => {
+tape('Query - Update User Personal Data || Valid', (e) => {
   const userId = 1;
   const firstName = 'Khader';
   const lastName = 'Murtaja';
@@ -14,12 +14,25 @@ tape('Query - Update User Personal Data', (e) => {
     .then(() => {
       updatePersonalDataQuery(firstName, lastName, email, userId)
         .then((result) => {
-          if (result.rowCount === 1) {
-            e.equal(result.rows[0].bool, true, 'Personal Data Have Updated in Database !!');
-            e.end();
-          } else {
-            e.error();
-          }
+          e.equal(result.rows[0].id, 1, 'Personal Data Have Updated in Database !!');
+          e.end();
+        });
+    });
+});
+
+tape('Query - Update User Personal Data || Wrong id', (e) => {
+  const userId = 48451;
+  const firstName = 'Khader';
+  const lastName = 'Murtaja';
+  const email = 'aaa@bbb.com';
+  buildDb()
+    .then(buildStaticData)
+    .then(buildFakeData)
+    .then(() => {
+      updatePersonalDataQuery(firstName, lastName, email, userId)
+        .then((result) => {
+          e.equal(result.rowCount, 0, 'Can not update data for inexistent id');
+          e.end();
         });
     });
 });
