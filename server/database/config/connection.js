@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
 const { parse } = require('url');
 require('dotenv').config();
-require('events').EventEmitter.defaultMaxListeners = 100;
 
 let DB_URL = '';
 
