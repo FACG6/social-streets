@@ -3,7 +3,7 @@ const tape = require('tape');
 const { updatePersonalDataQuery } = require('./../../database/queries/updatePersonalData');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
-tape('Update user personal data', (e) => {
+tape('Query - Update User Personal Data', (e) => {
   const userId = 1;
   const firstName = 'Khader';
   const lastName = 'Murtaja';
@@ -15,7 +15,7 @@ tape('Update user personal data', (e) => {
       updatePersonalDataQuery(firstName, lastName, email, userId)
         .then((result) => {
           if (result.rowCount === 1) {
-            e.equal(result.rows[0].bool, true, 'Personal Data Have Updated !!');
+            e.equal(result.rows[0].bool, true, 'Personal Data Have Updated in Database !!');
             e.end();
           } else {
             e.error();
