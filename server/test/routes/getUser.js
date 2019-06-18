@@ -2,11 +2,7 @@ const request = require('supertest');
 const test = require('tape');
 
 const app = require('../../app');
-const {
-  buildDb,
-  buildStaticData,
-  buildFakeData,
-} = require('../../database/config/build');
+const { buildDb, buildStaticData, buildFakeData } = require('../../database/config/build');
 
 const user = {
   id: 1,
@@ -23,7 +19,7 @@ const user = {
   facebook: 'https://www.facebook.com',
   instagram: 'https://www.instagram.com',
   twitter: 'https://www.twitter.com',
-  avatar: null
+  avatar: null,
 };
 
 test('testing /user | GET route', (t) => {
@@ -33,7 +29,9 @@ test('testing /user | GET route', (t) => {
     .then(() => {
       request(app)
         .get('/api/v1/user')
-        .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
+        .set('Cookie', [
+          'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM',
+        ])
         .expect(200)
         .end((error, response) => {
           const resUser = response.body.data;
@@ -51,7 +49,9 @@ test('testing /user | GET route | wrong path', (t) => {
     .then(() => {
       request(app)
         .get('/api/v1/user')
-        .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIs5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
+        .set('Cookie', [
+          'jwt=eyJhbGciOiJIUzI1NiIs5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM',
+        ])
         .expect(401)
         .end((error, response) => {
           t.equal(response.body.error, 'unauthorized', 'should be unauthorized');
