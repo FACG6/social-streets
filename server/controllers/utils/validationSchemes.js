@@ -21,33 +21,51 @@ exports.userPostSchema = yup.object().shape({
     .string()
     .min(8)
     .required(),
-  orgName: yup.string().required(),
-  typeOfBusiness: yup.string().required(),
+  organization: yup
+    .string()
+    .min(5)
+    .required(),
+  businessType: yup.string().required(),
   website: yup
     .string()
-    .url()
+    .matches(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    )
     .required(),
-  address: yup.string().required(),
-  city: yup.string().required(),
-  country: yup.string().required(),
-  zipCode: yup.string().required(),
+  address: yup
+    .string()
+    .min(5)
+    .required(),
+  country: yup
+    .string()
+    .min(3)
+    .required(),
+  city: yup
+    .string()
+    .min(3)
+    .required(),
+  zipCode: yup
+    .string()
+    .min(4)
+    .required(),
   facebook: yup
     .string()
-    .url()
-    .notRequired(),
+    .matches(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    ),
   twitter: yup
     .string()
-    .url()
-    .notRequired(),
+    .matches(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    ),
   instagram: yup
     .string()
-    .url()
-    .notRequired(),
+    .matches(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    ),
 });
 
 exports.fetchPostSchema = yup.object().shape({
-  postId: Number(),
-  postType: String()
-    .trim()
-    .match(/(\bevent\b)|(\bpublic_service\b)/),
+  postId: yup.number(),
+  postType: yup.string().matches(/(\bevent\b)|(\bpublic_service\b)/),
 });
