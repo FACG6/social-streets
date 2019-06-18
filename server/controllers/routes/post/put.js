@@ -1,5 +1,6 @@
 const { rmdir } = require('fs');
 const { join } = require('path');
+const { promisify } = require('util');
 
 const { eventSchema, publicServiceSchema } = require('../../utils/postSchema');
 const {
@@ -14,111 +15,96 @@ const { addTopic, addSecondaryTag } = require('../../../database/queries/postEve
 
 const updateEvent = async (req, res, next) => {
   const { postId: eventId } = req.params;
-  const { eventTopic } = req.body;
-  const { image } = req.files;
-  let imageName = '';
-  if (image) {
-    imageName = Date.now() + image.name;
-    try {
-      await image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName));
-    } catch (err) {
-      next(err);
-    }
-    getPostImg('event', eventId).then((postImg) => {
-      rmdir(join(__dirname, '..', '..', '..', 'uploads', postImg), console.warn);
-    });
+
+  try {
+    const publisherId = await getPostPublisher('event', eventId);
+    if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
+  } catch (e) {
+    return next(e);
   }
 
-  eventSchema
-    .isValid(req.body)
-    .then((valid) => {
-      if (!valid) {
-        const valErr = new Error('Bad Request');
-        valErr.statusCode = 400;
-        throw valErr;
+  const { eventTopic } = req.body;
+  let imageName = '';
+
+  if (req.files) {
+    try {
+      const { image } = req.files;
+      imageName = Date.now() + image.name;
+
+      const moveImg = promisify(image.mv);
+      const deleteImg = promisify(rmdir);
+
+      await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
+      const imgDir = await getPostImg('event', eventId);
+      try {
+        await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn(e);
       }
-      return getPostPublisher('event', eventId);
-    })
-    .then((publisherId) => {
-      if (publisherId !== req.user.id) {
-        const authErr = new Error('Unauthorized');
-        authErr.statusCode = 401;
-        throw authErr;
-      }
-      return updateEventQuery(eventId, req.body, imageName);
-    })
-    .then(() => deleteTopicQuery(eventId))
-    .then(() => Promise.all(eventTopic.map(topic => addTopic(eventId, topic))))
-    .then(() => res.send({ data: 'Updated event successfully', statusCode: 200 }))
-    .catch((e) => {
-      const { statusCode } = e;
-      switch (statusCode) {
-        case 400:
-          res.status(400).send({ error: e.message, statusCode: 400 });
-          break;
-        case 401:
-          res.status(401).send({ error: e.message, statusCode: 401 });
-          break;
-        default:
-          next(e);
-      }
-    });
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  try {
+    const schemaValidation = await eventSchema.isValid(req.body);
+    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+
+    await updateEventQuery(eventId, req.body, imageName);
+    await deleteTopicQuery(eventId);
+    await Promise.all(eventTopic.map(topic => addTopic(eventId, topic)));
+    return res.send({ data: 'Updated event successfully', statusCode: 200 });
+  } catch (e) {
+    return next(e);
+  }
 };
 
 const updatePublicService = async (req, res, next) => {
   const { postId: publicServiceId } = req.params;
-  const { secondaryTag } = req.body;
-  let imageName = '';
-  if (req.files) {
-    const { image } = req.files;
-    imageName = Date.now() + image.name;
-    try {
-      await image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName));
-    } catch (err) {
-      next(err);
-    }
-    getPostImg('public_service', publicServiceId).then((postImg) => {
-      rmdir(join(__dirname, '..', '..', '..', 'uploads', postImg), console.warn);
-    });
+
+  try {
+    const publisherId = await getPostPublisher('public_service', publicServiceId);
+    if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
+  } catch (e) {
+    next(e);
   }
 
-  publicServiceSchema
-    .isValid(req.body)
-    .then((valid) => {
-      if (!valid) {
-        const valErr = new Error('Bad Request');
-        valErr.statusCode = 400;
-        throw valErr;
+  const { secondaryTag } = req.body;
+  let imageName = '';
+
+  if (req.files) {
+    try {
+      const { image } = req.files;
+      imageName = Date.now() + image.name;
+
+      const moveImg = promisify(image.mv);
+      const deleteImg = promisify(rmdir);
+
+      await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
+      const imgDir = await getPostImg('public_service', publicServiceId);
+      try {
+        await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn(e);
       }
-      return getPostPublisher('public_service', publicServiceId);
-    })
-    .then((publisherId) => {
-      if (publisherId !== req.user.id) {
-        const authErr = new Error('Unauthorized');
-        authErr.statusCode = 401;
-        throw authErr;
-      }
-      return updatePublicServiceQuery(publicServiceId, req.body, imageName);
-    })
-    .then(() => deleteSecondaryTagQuery(publicServiceId))
-    .then(() => Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag))))
-    .then(() => res.send({
-      data: 'Updated public service successfully',
-      statusCode: 200,
-    }))
-    .catch((e) => {
-      const { statusCode } = e;
-      switch (statusCode) {
-        case 400:
-          res.status(400).send({ error: e.message, statusCode: 400 });
-          break;
-        case 401:
-          res.status(401).send({ error: e.message, statusCode: 401 });
-          break;
-        default:
-          next(e);
-      }
-    });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  try {
+    const schemaValidation = await publicServiceSchema.isValid(req.body);
+    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+
+    await updatePublicServiceQuery(publicServiceId, req.body, imageName);
+    await deleteSecondaryTagQuery(publicServiceId);
+    await Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag)));
+    return res.send({ data: 'Updated public service successfully', statusCode: 200 });
+  } catch (e) {
+    next(e);
+  }
 };
 
 module.exports = (req, res, next) => {
