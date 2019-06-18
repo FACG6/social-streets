@@ -3,16 +3,16 @@ import { Icon } from 'antd';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import './style.css'
 
-export default function Post({ onClick, title, id, type, category }) {
+export default function Post({ onClick, title, id, type, link }) {
 
   function handleClick() {
-    onClick(id);
+    onClick(id, type);
   }
 
   return (
     <Router>
       <div className='post-row-container'>
-        <Link className='post-row-container--link' to={`/${type}/${category}/${id}`}>
+        <Link className='post-row-container--link' to={`/${type}/${link}/${id}`}>
           <p className='post-row-container--title'>
             {title}
           </p>

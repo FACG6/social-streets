@@ -25,9 +25,8 @@ export default class Post extends Component {
       })
       .catch(err => {
         const { status } = err.response;
-        const objError = {
-          message: 'ERROR',
-        }
+        const objError = { message: 'ERROR' }
+
         switch (status) {
           case 400:
             objError.description = 'Bad Request!';
@@ -38,21 +37,39 @@ export default class Post extends Component {
           default:
             objError.description = 'Oops, somthing went wrong. Try another time!';
         };
+
         notification.error(objError);
-        if (status === 401) {
-          //Redirect to login//
-          // this.props.history.push('/login')
-        }
+        if (status === 401) this.props.history.push('/login');
       })
   }
 
-  handleDelete = (id) => {
+  handleDelete = (id, type) => {
     const { posts } = this.state;
 
-    //Testing Delete with Mock Data/
-    this.setState({
-      posts: posts.filter(post => post.id !== Number(id))
-    });
+    axios.delete(`/api/v1/post/${id}`, { data: { type } })
+      .then(({ data: { data } }) => {
+        if (data.id === id) {
+          notification.success({ message: 'Success', description: 'Deleted Successfully' });
+          this.setState({ posts: posts.filter(post => post.id !== Number(id)) });
+        }
+      })
+      .catch(err => {
+        const { status } = err.response;
+        const objError = { message: 'ERROR' };
+        switch (status) {
+          case 400:
+            objError.description = 'Bad Request!';
+            break;
+          case 401:
+            objError.description = 'Please Log in to your account!';
+            break;
+          default:
+            objError.description = 'Oops, somthing went wrong. Try another time!';
+        };
+
+        notification.error(objError);
+        if (status === 401) this.props.history.push('/login');
+      })
   }
 
   render() {
@@ -64,7 +81,6 @@ export default class Post extends Component {
         <span className='post-page--error'>{error}</span>
         {posts.map(post => <PostRow
           {...post}
-          type={postType}
           key={post.id}
           onClick={this.handleDelete}
         />
