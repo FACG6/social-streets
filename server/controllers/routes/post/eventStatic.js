@@ -6,7 +6,10 @@ module.exports = async (req, res, next) => {
     const categories = await getEventCategory()
     const topics = await getEventTopics()
     res.send({
-      data: [categories.rows, topics.rows],
+      data: {
+        categories: categories.rows,
+        topics: topics.rows
+      },
       statusCode: 200
     })
   } catch (err) {

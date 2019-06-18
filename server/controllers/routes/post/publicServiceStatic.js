@@ -6,7 +6,10 @@ module.exports = async (req, res, next) => {
     const primaryTags = await getPrimaryTags()
     const secondaryTags = await getSecondaryTags()
     res.send({
-      data: [primaryTags.rows, secondaryTags.rows],
+      data: {
+        primaryTags: primaryTags.rows,
+        secondaryTags: secondaryTags.rows
+      },
       statusCode: 200
     })
   } catch (err) {
