@@ -5,8 +5,8 @@ module.exports = (req, res, next) => {
   if (jwt) {
     verify(jwt, process.env.SECRET, (error, unlockedCookie) => {
       if (error) {
-        req.clearCookie(jwt);
-        res.status(401).send('unauthorized');
+        res.clearCookie('jwt');
+        res.status(401).send({ error: 'unauthorized', statusCode: 401 });
       } else {
         req.user = unlockedCookie;
         next();
