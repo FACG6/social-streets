@@ -64,6 +64,7 @@ export default class Post extends Component {
         <span className='post-page--error'>{error}</span>
         {posts.map(post => <PostRow
           {...post}
+          type={postType}
           key={post.id}
           onClick={this.handleDelete}
         />
