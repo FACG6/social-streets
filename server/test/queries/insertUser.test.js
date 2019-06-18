@@ -5,8 +5,8 @@ const { buildDb, buildFakeData, buildStaticData } = require('./../../database/co
 
 tape('insert user query test', (t) => {
   const userInfo = {
-    first_name: 'amin',
-    last_name: 'alakhsham',
+    firstName: 'amin',
+    lastName: 'alakhsham',
     email: 'amin@gmail.com',
     password: 'aminamin',
     businessType: 'Business',

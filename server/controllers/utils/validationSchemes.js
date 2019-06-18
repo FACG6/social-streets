@@ -5,11 +5,11 @@ const loginSchema = require('./loginSchema');
 exports.loginSchema = loginSchema;
 
 exports.userPostSchema = yup.object().shape({
-  first_name: yup
+  firstName: yup
     .string()
     .min(3)
     .required(),
-  last_name: yup
+  lastName: yup
     .string()
     .min(3)
     .required(),

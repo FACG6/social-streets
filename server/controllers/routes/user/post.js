@@ -1,42 +1,42 @@
 /* eslint-disable camelcase */
-const { insertUser } = require("./../../../database/queries/insertUser");
-const { getUserByEmail } = require("./../../../database/queries/getUser");
-const { userPostSchema } = require("./../../utils/validationSchemes");
-const { hashPassword } = require("./../../utils/helper");
+const { insertUser } = require('./../../../database/queries/insertUser');
+const { getUserByEmail } = require('./../../../database/queries/getUser');
+const { userPostSchema } = require('./../../utils/validationSchemes');
+const { hashPassword } = require('./../../utils/helper');
 
 exports.post = (req, res, next) => {
   const userInfo = { ...req.body };
-  userInfo.avatar = "avatar.png";
+  userInfo.avatar = 'avatar.png';
   userPostSchema
     .isValid(userInfo)
-    .then(valid => {
+    .then((valid) => {
       if (!valid) {
-        const validationErr = new Error("Please, Check the data you entered");
+        const validationErr = new Error('Please, Check the data you entered');
         validationErr.statusCode = 400;
         throw validationErr;
       }
       return getUserByEmail(userInfo.email);
     })
-    .then(result => {
+    .then((result) => {
       if (result) {
-        const validationErr = new Error("Email already exists.");
+        const validationErr = new Error('Email already exists.');
         validationErr.statusCode = 400;
         throw validationErr;
       }
       return hashPassword(userInfo.password);
     })
-    .then(hashedPass => {
+    .then((hashedPass) => {
       userInfo.password = hashedPass;
       return insertUser(userInfo);
     })
-    .then(result => {
+    .then((result) => {
       const { password, ...userInfoResult } = result.rows[0];
       res.status(201).send({
         data: { ...userInfoResult },
-        statusCode: 201
+        statusCode: 201,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       const { statusCode } = err;
       switch (statusCode) {
         case 400:

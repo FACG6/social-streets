@@ -12,8 +12,8 @@ test('post in /api/v1/user (with valid data)', (t) => {
       request(app)
         .post('/api/v1/user')
         .send({
-          first_name: 'amin',
-          last_name: 'alakhsham',
+          firstName: 'amin',
+          lastName: 'alakhsham',
           email: 'amin@gmail.com',
           password: 'aminamin',
           businessType: 'Business',
@@ -72,8 +72,8 @@ test('post in /api/v1/user (Email exists)', (t) => {
       request(app)
         .post('/api/v1/user')
         .send({
-          first_name: 'amin',
-          last_name: 'alakhsham',
+          firstName: 'amin',
+          lastName: 'alakhsham',
           email: 'aminking@gmail.com',
           password: 'aminamin',
           businessType: 'Business',
@@ -109,8 +109,8 @@ test('post in /api/v1/user (with not valid data)', (t) => {
       request(app)
         .post('/api/v1/user')
         .send({
-          first_name: 'amin',
-          last_name: 'alakhsham',
+          firstName: 'amin',
+          lastName: 'alakhsham',
           email: 'aminking',
           password: 'aminamin',
           businessType: 'Business',
