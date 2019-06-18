@@ -1,8 +1,8 @@
 const {
   getEvent,
-  getPublicService
-} = require("./../../../database/queries/getPost");
-const { fetchPostSchema } = require("./../../utils/validationSchemes");
+  getPublicService,
+} = require('./../../../database/queries/getPost');
+const { fetchPostSchema } = require('./../../utils/validationSchemes');
 
 exports.get = (req, res, next) => {
   const { id: idUser } = req.user;
@@ -11,15 +11,15 @@ exports.get = (req, res, next) => {
 
   fetchPostSchema
     .isValid({ postId, postType, idUser })
-    .then(validation => {
+    .then((validation) => {
       if (validation) {
-        return postType === "event"
+        return postType === 'event'
           ? getEvent(postId, idUser)
           : getPublicService(postId, idUser);
       }
       return res.status(400).send({
-        error: "bad request",
-        statusCode: 400
+        error: 'bad request',
+        statusCode: 400,
       });
     })
     .then(result => res.send({ data: result.rows, statusCode: 200 }))
