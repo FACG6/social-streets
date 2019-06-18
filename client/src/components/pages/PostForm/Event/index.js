@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, { element } from "prop-types";
 import { Redirect } from "react-router-dom";
 import {
   Form,
@@ -11,8 +11,10 @@ import {
   Upload,
   Divider,
   Card,
-  Button
+  Button,
+  notification
 } from "antd";
+import axios from 'axios';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
@@ -37,13 +39,58 @@ class EventForm extends React.Component {
     }
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        // for fetch
+    this.props.form.validateFieldsAndScroll((async (err, values) => {
+      try {
+        console.log(values)
+        values.type = 'event'
+        if (err) {
+          console.log(err)
+          notification.error({
+            message: "Error",
+            description: "Validation Error"
+          });
+        } else {
+          console.log(111111111111, values)
+          const formData = new FormData()
+          const file = this.uploadInput.state.fileList[0].originFileObj
+          formData.append('data', JSON.stringify(values))
+          formData.append('image', file)
+          const serverResponse = await axios.post('/api/v1/post', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          console.log(2222222222, serverResponse)
+
+          if (serverResponse) {
+            notification.success({
+              message: "Successfully",
+              description: "Post added successfully"
+            })
+          }
+        }
+      } catch (err) {
+        console.log(5555555555, err)
+        if (Number(err.statusCode) === 400) {
+          notification.error({
+            message: "Bad Request",
+            description: err.message
+          });
+        } else if (Number(err.statusCode) === 500) {
+          notification.error({
+            message: "Internal Server Error",
+            description: err.message
+          });
+        } else {
+          notification.error({
+            message: 'Error',
+            description: 'There is an error try again'
+          });
+        }
       }
-    });
+    }));
   };
 
   render() {
@@ -156,26 +203,18 @@ class EventForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator("image", {
-            rules: [
-              {
-                required: false,
-                message: "Please input your image!",
-                whitespace: true
-              }
-            ]
-          })(
-            <Upload
+          { <Upload
               style={{ width: "100%" }}
-              name="eventImage"
-              action="/upload.do"
+              customRequest={_=>_}
               listType="picture"
+              ref={element => (this.uploadInput = element)}
+              showUploadList={false}
             >
               <Button size="large">
                 <Icon type="upload" /> Click to upload
               </Button>
             </Upload>
-          )}
+          }
         </Form.Item>
         <InputGroup size="large">
           <InputAntd

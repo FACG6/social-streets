@@ -15,21 +15,25 @@ const {
 
 const post = async (req, res, next) => {
   try {
+    const data = JSON.parse(req.body.data)
     const {
       type,
       eventTopic,
       secondaryTag
-    } = req.body;
-
+    } = data;
     const {
       image
     } = req.files;
     const publisherId = Number(req.user.id)
+    console.log(image)
 
+    console.log(data)
     if (type === 'event') {
       if (!image) throw new Error();
+      console.log(999999999999999)
       const valid = await eventSchema
-        .validate(req.body)
+        .isValid(data)
+        console.log(valid)
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({

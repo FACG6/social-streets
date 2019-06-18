@@ -9,8 +9,10 @@ import {
   Divider,
   Card,
   Button,
-  Input
+  Input,
+  notification
 } from "antd";
+import axios from 'axios';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
@@ -34,13 +36,51 @@ class PublicServicesForm extends React.Component {
       setFieldsValue(publicService);
     }
   }
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        // for fetch
+    this.props.form.validateFieldsAndScroll((async (err, values) => {
+      try {
+        if (!err) {
+          notification.error({
+            message: "Error",
+            description: "Validation Error"
+          });
+        } else {
+          const formData = new FormData()
+          const file = this.uploadInput.state.fileList[0].originFileObj
+          formData.append('data', JSON.stringify(values))
+          formData.append('image', file)
+          const serverResponse = await axios.post('/api/v1/post', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          if (serverResponse) {
+            notification.success({
+              message: "Successfully",
+              description: "Post added successfully"
+            })
+          }
+        }
+      } catch (err) {
+        if (Number(err.statusCode) === 400) {
+          notification.error({
+            message: "Bad Request",
+            description: err.message
+          });
+        } else if (Number(err.statusCode) === 500) {
+          notification.error({
+            message: "Internal Server Error",
+            description: err.message
+          });
+        } else {
+          notification.error({
+            message: 'Error',
+            description: 'There is an error try again'
+          });
+        }
       }
-    });
+    }));
   };
 
   render() {
@@ -122,6 +162,7 @@ class PublicServicesForm extends React.Component {
               name="eventImage"
               action="/upload.do"
               listType="picture"
+              ref={element => (this.uploadInput = element)}
             >
               <Button size="large">
                 <Icon type="upload" /> Click to upload
