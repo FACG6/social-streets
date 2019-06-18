@@ -1,5 +1,4 @@
 .not-found {
-    min-height: calc(100vh - calc(184px + 70px));
     display: flex;
     flex-direction: column;
     justify-content: center;

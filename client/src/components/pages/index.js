@@ -1,21 +1,21 @@
-import Home from 'components/pages/Home'
-import Login from 'components/pages/Login';
-import CreateProfile from 'components/pages/createProfile';
-import Posts from 'components/pages/Posts';
-import Post from 'components/pages/Post';
+import Profile from "components/pages/createProfile";
+import Event from "components/pages/Event";
+import Home from "components/pages/Home";
+import Login from "components/pages/Login";
+import PageNotFound from "components/pages/PageNotFound";
+import Post from "components/pages/Post";
 import PostForm from "components/pages/PostForm";
-import PublicService from 'components/pages/PublicService';
-import PageNotFound from 'components/pages/PageNotFound';
-import Event from 'components/pages/Event';
+import Posts from "components/pages/Posts";
+import PublicService from "components/pages/PublicService";
 
 export {
+  Profile,
+  Event,
   Home,
   Login,
-  CreateProfile,
-  Posts,
+  PageNotFound,
   Post,
   PostForm,
-  PublicService,
-  PageNotFound,
-  Event,
+  Posts,
+  PublicService
 };

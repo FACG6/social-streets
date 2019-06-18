@@ -8,12 +8,13 @@ import "./style.css";
 function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFields((err, values) => { });
+    props.form.validateFields((err, values) => {});
   };
 
   const {
     form: { getFieldDecorator }
   } = props;
+  
   return (
     <Fragment>
       <main className="login-page--main-section">
