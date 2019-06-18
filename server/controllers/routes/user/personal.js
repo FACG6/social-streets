@@ -20,17 +20,15 @@ exports.updatePersonal = (req, res) => {
           email,
         });
       }
-      return res.status(401).send({
-        error: 'Bad Request',
-        statusCode: 401,
-      });
+      const objError = new Error('Bad Request');
+      objError.statusCode = 400;
+      throw objError;
     })
     .then((valid) => {
       if (valid) return updatePersonalDataQuery(firstName, lastName, email, id);
-      return res.status(401).send({
-        error: 'Bad Request',
-        statusCode: 401,
-      });
+      const objError = new Error('Bad Request');
+      objError.statusCode = 400;
+      throw objError;
     })
     .then(() => res.send({
       data: 'Personal Data Updated Successfully',
