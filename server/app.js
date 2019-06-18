@@ -19,7 +19,7 @@ app.get('*', (_req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  res.status(500).send({ error: 'Internal Server Error' });
+  res.status(500).send({ error: 'Internal Server Error', statusCode: 500 });
 });
 
 module.exports = app;
