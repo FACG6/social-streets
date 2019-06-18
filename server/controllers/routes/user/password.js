@@ -7,14 +7,14 @@ const {
 } = require('./../../../database/queries/updatePassword');
 const { getPassword } = require('./../../../database/queries/getPassword');
 
-exports.updatePassword = (req, res) => {
+exports.updatePassword = (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
   const { id } = req.user;
   getPassword(req.user.id)
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then((passMatch) => {
       if (passMatch) return passwordSchema.isValid({ password: newPassword });
-      const objError = new Error('Bad Request');
+      const objError = new Error('Password not match');
       objError.statusCode = 400;
       throw objError;
     })
@@ -29,10 +29,8 @@ exports.updatePassword = (req, res) => {
       data: 'Updated Password Successfully',
       statusCode: 200,
     }))
-    .catch(() => {
-      res.status(500).send({
-        error: 'Internal Server Error',
-        statusCode: 500,
-      });
+    .catch((e) => {
+      const { statusCode, message } = e;
+      if (statusCode) { res.status(statusCode).send({ statusCode, error: message }); } else next(e);
     });
 };
