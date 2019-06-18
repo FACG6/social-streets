@@ -31,6 +31,12 @@ exports.updatePassword = (req, res, next) => {
     }))
     .catch((e) => {
       const { statusCode, message } = e;
-      if (statusCode) { res.status(statusCode).send({ statusCode, error: message }); } else next(e);
+      if (statusCode) {
+        res.status(statusCode).send({
+          statusCode, error: message,
+        });
+      } else {
+        next(e);
+      }
     });
 };
