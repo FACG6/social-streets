@@ -5,47 +5,41 @@ const { getPassword } = require('./../../../database/queries/getPassword');
 const { updatePersonalDataQuery } = require('./../../../database/queries/updatePersonalData');
 
 exports.updatePersonal = (req, res) => {
-  console.log(req.body);
-  const { oldPassword, first_name, last_name, email, avatar } = req.body;
+  const {
+    oldPassword, firstName, lastName, email,
+  } = req.body;
+  const { id } = req.user;
 
   getPassword(req.user.id)
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
-    .then(passMatch => {
-      if (passMatch) return personalSchema.isValid({ 
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
-        avatar: avatar
-       });
-      return res.status(400).send({
-        error: "Wrong Personal Data",
-        statusCode: 400
-      });
-    })
-    .then(valid => {
-      if (valid) {
-        data = {
-          first_name,
-          last_name,
+    .then((passMatch) => {
+      if (passMatch) {
+        return personalSchema.isValid({
+          firstName,
+          lastName,
           email,
-          avatar,
-          id: req.body.id
-        }
-      } else {
-        return res.status(400).send({
-          error: "Bad Request!",
-          statusCode: 400
         });
       }
+      return res.status(401).send({
+        error: 'Bad Request',
+        statusCode: 401,
+      });
     })
-    .then(newHashedPass => updatePasswordQuery(newHashedPass, req.user.id))
-    .then(() =>
-      res.send({ data: "Updated Password Successfully", statusCode: 200 })
-    )
-    .catch(e => {
+    .then((valid) => {
+      if (valid) return updatePersonalDataQuery(firstName, lastName, email, id);
+      return res.status(401).send({
+        error: 'Bad Request',
+        statusCode: 401,
+      });
+    })
+    .then(() => res.send({
+      data: 'Personal Data Updated Successfully',
+      statusCode: 200,
+    }))
+    .catch(() => {
       res.status(500).send({
-        error: "Internal Server Error",
-        statusCode: 500
+        error: 'Internal Server Error',
+        statusCode: 500,
       });
     });
-}
+};
