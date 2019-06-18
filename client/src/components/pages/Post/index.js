@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { notification } from 'antd'
+import { notification } from 'antd';
+import Swal from 'sweetalert2';
 
 import PostButton from 'components/utils/PostButton';
 import PostRow from 'components/utils/PostRow';
@@ -45,38 +46,54 @@ export default class Post extends Component {
 
   handleDelete = (id, type) => {
     const { posts } = this.state;
+    this.deleteSwal().then(response => {
+      if (response.value) {
+        axios.delete(`/api/v1/post/${id}`, { data: { type } })
+          .then(({ data: { data } }) => {
+            if (data.id === id) {
+              notification.success({ message: 'Success', description: 'Deleted Successfully' });
+              this.setState({ posts: posts.filter(post => post.id !== Number(id)) });
+            }
+          })
+          .catch(err => {
+            const { status } = err.response;
+            const objError = { message: 'ERROR' };
+            switch (status) {
+              case 400:
+                objError.description = 'Bad Request!';
+                break;
+              case 401:
+                objError.description = 'Please Log in to your account!';
+                break;
+              default:
+                objError.description = 'Oops, somthing went wrong. Try another time!';
+            };
 
-    axios.delete(`/api/v1/post/${id}`, { data: { type } })
-      .then(({ data: { data } }) => {
-        if (data.id === id) {
-          notification.success({ message: 'Success', description: 'Deleted Successfully' });
-          this.setState({ posts: posts.filter(post => post.id !== Number(id)) });
-        }
-      })
-      .catch(err => {
-        const { status } = err.response;
-        const objError = { message: 'ERROR' };
-        switch (status) {
-          case 400:
-            objError.description = 'Bad Request!';
-            break;
-          case 401:
-            objError.description = 'Please Log in to your account!';
-            break;
-          default:
-            objError.description = 'Oops, somthing went wrong. Try another time!';
-        };
+            notification.error(objError);
+            if (status === 401) this.props.history.push('/login');
+          })
+      }
+    }).catch(error => notification.error({ message: 'ERROR', description: 'Oops, something went wrong. Try again!' }));
+  }
 
-        notification.error(objError);
-        if (status === 401) this.props.history.push('/login');
-      })
+  deleteSwal = () => {
+    return Swal.fire({
+      title: 'Are you sure?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ff4d4d',
+      cancelButtonColor: '#3085d6',
+      customClass: {
+        confirmButton: 'btn btn-delete',
+      }
+    });
   }
 
   render() {
     const { postType } = this.props;
     const { posts, error } = this.state;
     return (
-      <section className='post-page--main'>
+      <section className='post-page--main' >
         <PostButton postType={`${postType} Posts`} />
         <span className='post-page--error'>{error}</span>
         {posts.map(post => <PostRow
@@ -84,8 +101,9 @@ export default class Post extends Component {
           key={post.id}
           onClick={this.handleDelete}
         />
-        )}
-      </section>
+        )
+        }
+      </section >
     )
   }
 }
