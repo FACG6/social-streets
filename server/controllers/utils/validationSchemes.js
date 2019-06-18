@@ -1,4 +1,4 @@
-const yup = require("yup");
+const yup = require('yup');
 
 const loginSchema = require('./loginSchema');
 
@@ -25,10 +25,13 @@ exports.userPostSchema = yup.object().shape({
     .string()
     .min(5)
     .required(),
-  businesType: yup.string().required(),
-  website: yup.string().matches(
-      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
-    ).required(),
+  businessType: yup.string().required(),
+  website: yup
+    .string()
+    .matches(
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    )
+    .required(),
   address: yup
     .string()
     .min(5)
@@ -48,21 +51,21 @@ exports.userPostSchema = yup.object().shape({
   facebook: yup
     .string()
     .matches(
-      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
     ),
   twitter: yup
     .string()
     .matches(
-      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
     ),
   instagram: yup
     .string()
     .matches(
-      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
-    )
+      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+    ),
 });
 
 exports.fetchPostSchema = yup.object().shape({
   postId: yup.number(),
-  postType: yup.string().matches(/(\bevent\b)|(\bpublic_service\b)/)
+  postType: yup.string().matches(/(\bevent\b)|(\bpublic_service\b)/),
 });

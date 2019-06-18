@@ -50,7 +50,7 @@ export default class Profile extends Component {
             errObj.message = "Validation Error";
             errObj.description = error;
           }
-          notification.open(errObj);
+          notification.error(errObj);
         });
     });
   };
