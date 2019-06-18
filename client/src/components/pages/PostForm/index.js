@@ -1,5 +1,6 @@
 import React from "react";
 import { Divider, Select } from "antd";
+import axios from 'axios';
 
 import WrappedEventForm from "components/pages/PostForm/Event";
 import WrappedPublicServices from "components/pages/PostForm/PublicServices";
@@ -9,6 +10,7 @@ import {
   primaryTag,
   secondaryTag
 } from "./dumyData";
+
 
 import "./style.css";
 
@@ -24,8 +26,11 @@ class CreatPostPage extends React.Component {
   };
 
   componentDidMount() {
+    axios
+      .get('/api/v1/')
+    
     this.setState({
-      eventTypeValues: eventTypeValues,
+       eventTypeValues,
       eventTopicValues: eventTopicValues,
       primaryTag: primaryTag,
       secondaryTag: secondaryTag

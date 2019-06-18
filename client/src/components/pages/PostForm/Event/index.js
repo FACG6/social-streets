@@ -15,6 +15,7 @@ import {
   notification
 } from "antd";
 import axios from 'axios';
+import moment from 'moment'
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
@@ -45,6 +46,8 @@ class EventForm extends React.Component {
       try {
         console.log(values)
         values.type = 'event'
+        values.publishDatetime = moment().format()
+        values.isDraft = 'false'
         if (err) {
           console.log(err)
           notification.error({
@@ -120,7 +123,7 @@ class EventForm extends React.Component {
         <DropDownAntd
           label="Event’s Type"
           getFieldDecorator={getFieldDecorator}
-          name="eventType"
+          name="category"
           required
           validationMsg="Please select your Event’s Type!"
           placeholder="Event’s Type"
@@ -149,7 +152,7 @@ class EventForm extends React.Component {
           max={false}
         />
         <Form.Item label={<span>Date and Time&nbsp;</span>}>
-          {getFieldDecorator("dateAndTime", {
+          {getFieldDecorator("eventDatetime", {
             rules: [
               {
                 required: true,
@@ -178,6 +181,15 @@ class EventForm extends React.Component {
               pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
               message: "Please input website!"
             }}
+          />
+        </InputGroup>
+        <InputGroup size="large">
+          <InputAntd
+            label="Venue"
+            getFieldDecorator={getFieldDecorator}
+            name="venue"
+            validationMsg="Please input your Event’s venue!"
+            placeholder="Event’s Venue"
           />
         </InputGroup>
         <Form.Item label="Cost">
@@ -234,7 +246,7 @@ class EventForm extends React.Component {
             label="Focus Keyword"
             tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="focusKeyword"
+            name="focusKey"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
@@ -257,7 +269,7 @@ class EventForm extends React.Component {
             style={{ fontSize: "15px" }}
             label="Meta Description"
             getFieldDecorator={getFieldDecorator}
-            name="metaDescription"
+            name="meta"
             validationMsg="Please input your Meta Description!"
             placeholder="Your main Meta Description"
             min={5}
