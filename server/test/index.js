@@ -1,3 +1,4 @@
+require('./queries/deletePost');
 require('./routes/getUser');
 require('./routes/login.test');
 require('./queries/getUser.test');
@@ -17,3 +18,4 @@ require('./queries/getPassword.test');
 require('./queries/updatePassword.test');
 require('./routes/passwordPut.test');
 require('./routes/post/post');
+require('./routes/deletePost');
