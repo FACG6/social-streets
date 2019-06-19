@@ -7,6 +7,8 @@ const post = require('./post');
 const {
   get,
 } = require("./get");
+const eventStatic = require('./eventStatic');
+const publicServiceStatic = require('./publicServiceStatic')
 
 router
   .route('/')
@@ -21,5 +23,9 @@ router
 router.route('/:postId')
   .get(get)
   .delete(deletePost)
+
+router.get('/event/static', eventStatic);
+
+router.get('/public-service/static', publicServiceStatic)
 
 module.exports = router;
