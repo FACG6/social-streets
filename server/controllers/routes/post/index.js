@@ -1,19 +1,28 @@
 const router = require('express').Router();
 
 const draftPosts = require('./getDraftPosts');
+const put = require('./put');
+const livePosts = require('./getLivePosts');
+const deletePost = require('./delete');
 const post = require('./post');
 const { get } = require('./get');
-const put = require('./put');
-
-router.route('/').post(post);
-
-router.route('/draft').get(draftPosts);
+const eventStatic = require('./eventStatic');
+const publicServiceStatic = require('./publicServiceStatic');
 
 router.post('/', post);
 
 router
   .route('/:postId')
   .get(get)
-  .put(put);
+  .put(put)
+  .delete(deletePost);
+
+router.get('/draft', draftPosts);
+
+router.get('/live', livePosts);
+
+router.get('/event/static', eventStatic);
+
+router.get('/public-service/static', publicServiceStatic);
 
 module.exports = router;
