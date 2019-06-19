@@ -45,8 +45,7 @@ export default class Post extends Component {
         statusCode
           ? notification.error(objError)
           : notification.error({ message: 'ERROR', description: 'Sorry, there is error' });
-
-        notification.error(objError);
+          
         if (statusCode === 401) this.props.history.push('/login');
       })
   }

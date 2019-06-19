@@ -20,7 +20,6 @@ export default function Post({ onClick, title, id, type, link }) {
           onConfirm={() => onClick(id, type)}
         >
           <Icon
-            id={id}
             className='post-row-container--icon post-row-container--delete'
             type="delete"
           />
