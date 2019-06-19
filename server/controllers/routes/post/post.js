@@ -1,29 +1,13 @@
-const {
-  join
-} = require('path');
+const { join } = require('path');
 
-const {
-  addEvent,
-  addTopic,
-  addPublicServices,
-  addSecondaryTag
-} = require('../../../database/queries/postEvent');
-const {
-  eventSchema,
-  publicServiceSchema
-} = require('../../utils/postSchema');
+const { addEvent, addTopic, addPublicServices, addSecondaryTag } = require('../../../database/queries/postEvent');
+const { eventSchema, publicServiceSchema } = require('../../utils/postSchema');
 
 const post = async (req, res, next) => {
   try {
     const data = JSON.parse(req.body.data)
-    const {
-      type,
-      eventTopic,
-      secondaryTag
-    } = data;
-    const {
-      image
-    } = req.files;
+    const { type, eventTopic, secondaryTag } = data;
+    const { image } = req.files;
     const publisherId = Number(req.user.id)
 
     if (type === 'event') {
@@ -55,7 +39,7 @@ const post = async (req, res, next) => {
         error.statusCode = 400
         throw error;
       }
-    } else if (type === 'publicServices') {
+    } else if (type === 'public_services') {
       const valid = await publicServiceSchema
         .isValid(data)
       if (valid) {
@@ -79,7 +63,7 @@ const post = async (req, res, next) => {
           }
         })
       } else {
-        const error = new Error('validation');
+        const error = new Error('Unsupported post type');
         error.statusCode = 400
         throw error;
       }
