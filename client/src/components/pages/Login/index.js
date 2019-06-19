@@ -5,15 +5,16 @@ import { Form, Icon, Input, Checkbox } from "antd";
 import Button from "components/utils/Button";
 import "./style.css";
 
-function LoginPage() {
+function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {});
+    props.form.validateFields((err, values) => {});
   };
 
   const {
     form: { getFieldDecorator }
-  } = this.props;
+  } = props;
+  
   return (
     <Fragment>
       <main className="login-page--main-section">
