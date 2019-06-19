@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Icon, Divider } from 'antd'
 import PropTypes from 'prop-types'
+import post from './staticData'
 
 import Button from 'components/utils/Button'
 import './style.css'
@@ -17,13 +18,12 @@ class Event extends Component {
     const { postStatus, ...event } = this.props
     if (postStatus === 'published') {
       // fetch
-      this.setState({ ...event })
+      this.setState({ ...post })
     } else
       this.setState({ ...event })
   }
-
+  
   render() {
-
     const {
       image,
       title,
