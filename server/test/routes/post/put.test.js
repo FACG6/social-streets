@@ -38,7 +38,25 @@ test('update existing post at /api/v1/post/1', async (t) => {
         if (err) t.error(err);
         t.deepEqual(
           res.body,
-          { data: 'Updated event successfully', statusCode: 200 },
+          {
+            data: {
+              type: 'event',
+              title: 'New Title 17/6/2019 - 9:45:33 AM.',
+              description: 'Lorem Lorem Lorem',
+              category: '1',
+              eventDatetime: '19/6/2019 - 04:00 p.m',
+              venue: 'gaza st',
+              website: 'www.qqqq.com',
+              altText: 'new alt text',
+              cost: '15',
+              isDraft: 'false',
+              focusKey: 'focusKeyword',
+              meta: 'this is meta description',
+              publishDatetime: '17/6/2019 - 09:30 p.m',
+              eventTopic: ['1', '2', '3'],
+            },
+            statusCode: 200,
+          },
           'Excpect the server to responed with success',
         );
       });
@@ -51,7 +69,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
     supertest(app)
       .put('/api/v1/post/1')
       .set('Cookie', [
-        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTYwODA5ODM5fQ.TmwcbEeUxCLES1M4RIpF2nAY0oVt4vo8pL4dfHgbGJ0',
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwOTMzODQ3fQ.ZK_pYjeVol7e9_2kIFabNn0Q6uaXbHNAq54lSDhKdmY',
       ])
       .field('type', 'event')
       .field('title', 'New Title 17/6/2019 - 9:45:33 AM.')
@@ -126,14 +144,14 @@ test('update existing post at /api/v1/post/1', async (t) => {
         'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTYwODA5ODM5fQ.TmwcbEeUxCLES1M4RIpF2nAY0oVt4vo8pL4dfHgbGJ0',
       ])
       .field('type', 'public_services')
-      .field('primaryTag', 1)
-      .field('description', 'description for the public_services')
-      .field('focusKey', 'focusKeyword')
-      .field('altText', 'desc fro img')
-      .field('meta', 'this is metaDescription')
-      .field('publishDatetime', '11/4/2019')
       .field('title', 'Title new public_services title')
+      .field('description', 'description for the public_services')
+      .field('publishDatetime', '11/4/2019')
+      .field('primaryTag', 1)
+      .field('altText', 'desc fro img')
       .field('isDraft', false)
+      .field('focusKey', 'focusKeyword')
+      .field('meta', 'this is metaDescription')
       .field('secondaryTag', [1, 2])
       .attach('image', 'test/fakeImg/amideasblue.png')
       .expect(200)
@@ -142,7 +160,21 @@ test('update existing post at /api/v1/post/1', async (t) => {
         if (err) t.error(err);
         t.deepEqual(
           res.body,
-          { data: 'Updated public service successfully', statusCode: 200 },
+          {
+            data: {
+              type: 'public_services',
+              title: 'Title new public_services title',
+              description: 'description for the public_services',
+              publishDatetime: '11/4/2019',
+              primaryTag: '1',
+              altText: 'desc fro img',
+              isDraft: 'false',
+              focusKey: 'focusKeyword',
+              meta: 'this is metaDescription',
+              secondaryTag: ['1', '2'],
+            },
+            statusCode: 200,
+          },
           'Excpect the server to responed with success',
         );
         t.end();

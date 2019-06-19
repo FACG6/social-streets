@@ -1,4 +1,4 @@
-const { rmdir } = require('fs');
+const { unlink } = require('fs');
 const { join } = require('path');
 const { promisify } = require('util');
 
@@ -19,91 +19,65 @@ const updateEvent = async (req, res, next) => {
   try {
     const publisherId = await getPostPublisher('event', eventId);
     if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
-  } catch (e) {
-    return next(e);
-  }
 
-  const { eventTopic } = req.body;
-  let imageName = '';
+    const { eventTopic } = req.body;
 
-  if (req.files) {
-    try {
+    const schemaValidation = await eventSchema.isValid(req.body);
+    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+
+    let imageName = '';
+    if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;
 
       const moveImg = promisify(image.mv);
-      const deleteImg = promisify(rmdir);
+      const deleteImg = promisify(unlink);
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('event', eventId);
-      try {
-        await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn(e);
-      }
-    } catch (e) {
-      return next(e);
+      await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
-  }
-
-  try {
-    const schemaValidation = await eventSchema.isValid(req.body);
-    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
     await updateEventQuery(eventId, req.body, imageName);
     await deleteTopicQuery(eventId);
     await Promise.all(eventTopic.map(topic => addTopic(eventId, topic)));
-    return res.send({ data: 'Updated event successfully', statusCode: 200 });
+    return res.send({ data: req.body, statusCode: 200 });
   } catch (e) {
+    if (e.message === 'Cannot read property \'publisher_id\' of undefined') res.status(400).send({ statusCode: 400, error: 'Bad Request' });
     return next(e);
   }
 };
 
 const updatePublicService = async (req, res, next) => {
   const { postId: publicServiceId } = req.params;
-
   try {
     const publisherId = await getPostPublisher('public_service', publicServiceId);
     if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
-  } catch (e) {
-    next(e);
-  }
 
-  const { secondaryTag } = req.body;
-  let imageName = '';
+    const { secondaryTag } = req.body;
 
-  if (req.files) {
-    try {
+    const schemaValidation = await publicServiceSchema.isValid(req.body);
+    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+
+    let imageName = '';
+    if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;
 
       const moveImg = promisify(image.mv);
-      const deleteImg = promisify(rmdir);
+      const deleteImg = promisify(unlink);
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('public_service', publicServiceId);
-      try {
-        await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn(e);
-      }
-    } catch (e) {
-      next(e);
+      await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
-  }
-
-  try {
-    const schemaValidation = await publicServiceSchema.isValid(req.body);
-    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
     await updatePublicServiceQuery(publicServiceId, req.body, imageName);
     await deleteSecondaryTagQuery(publicServiceId);
     await Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag)));
-    return res.send({ data: 'Updated public service successfully', statusCode: 200 });
+    return res.send({ data: req.body, statusCode: 200 });
   } catch (e) {
-    next(e);
+    return next(e);
   }
 };
 
