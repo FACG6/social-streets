@@ -43,7 +43,7 @@ class Event extends Component {
       });
     this.setState({});
   }
-
+  
   render() {
     const {
       image,
