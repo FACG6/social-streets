@@ -1,6 +1,6 @@
+import Footer from "./Footer";
 import businessForm from "./businessForm";
 import Button from "./Button";
-import Footer from "./footer";
 import Header from "./Header";
 import personalForm from "./personalForm";
 import PostButton from "./PostButton";

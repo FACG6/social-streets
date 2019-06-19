@@ -1,19 +1,21 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import 'antd/dist/antd.css';
 
-import "./App.css";
-import { Header, Footer } from "components/utils";
+import { Header, Footer } from 'components/utils'
 import { Event } from "components/pages";
+import "./App.css";
 
 function App() {
   return (
-    <div>
+    <Router>
       <Header />
       <main className="container">
         <Event />
       </main>
       <Footer />
-    </div>
-  );
+    </Router>
+  )
 }
 
 export default App;
