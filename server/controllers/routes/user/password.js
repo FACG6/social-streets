@@ -2,9 +2,7 @@ const { compare } = require('bcryptjs');
 
 const { hashPassword } = require('../../utils/helper');
 const passwordSchema = require('./../../utils/passwordSchema');
-const {
-  updatePasswordQuery,
-} = require('./../../../database/queries/updatePassword');
+const { updatePasswordQuery } = require('./../../../database/queries/updatePassword');
 const { getPassword } = require('./../../../database/queries/getPassword');
 
 exports.updatePassword = (req, res, next) => {
