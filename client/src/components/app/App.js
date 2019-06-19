@@ -2,14 +2,17 @@ import React from "react";
 
 import "./App.css";
 import { Header, Footer } from "components/utils";
+import Posts from 'components/pages/Post';
 
 function App() {
   return (
-    <div>
+    <>
       <Header />
-      <main className="container" />
+      <main className="container">
+        <Posts postType='draft' />
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }
 
