@@ -5,13 +5,14 @@ import 'antd/dist/antd.css';
 import {
   Home,
   Login,
-  Profile,
+  CreateProfile,
   Posts,
   Post,
   PostForm,
   PublicService,
   PageNotFound,
   Event,
+  Profile,
 } from 'components/pages';
 import { Header, Footer } from 'components/utils'
 import "./App.css";
@@ -29,17 +30,17 @@ function App() {
           />
           <Route
             path='/signup'
-            component={Profile}
+            component={CreateProfile}
           />
           <Route
             path='/login'
             component={Login}
           />
-          {/* <Route
+          <Route
             exact
             path='/profile/:id'
             component={Profile}
-          /> */}
+          />
           <Route
             path='/posts/live'
             render={(props) => <Post {...props} postType='live' />}
