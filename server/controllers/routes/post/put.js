@@ -1,4 +1,4 @@
-const { rmdir } = require('fs');
+const { unlink } = require('fs');
 const { join } = require('path');
 const { promisify } = require('util');
 
@@ -28,7 +28,7 @@ const updateEvent = async (req, res, next) => {
       imageName = Date.now() + image.name;
 
       const moveImg = promisify(image.mv);
-      const deleteImg = promisify(rmdir);
+      const deleteImg = promisify(unlink);
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('event', eventId);
@@ -43,6 +43,7 @@ const updateEvent = async (req, res, next) => {
     await Promise.all(eventTopic.map(topic => addTopic(eventId, topic)));
     return res.send({ data: 'Updated event successfully', statusCode: 200 });
   } catch (e) {
+    console.log('111111111111', e);
     return next(e);
   }
 };
@@ -61,7 +62,7 @@ const updatePublicService = async (req, res, next) => {
       imageName = Date.now() + image.name;
 
       const moveImg = promisify(image.mv);
-      const deleteImg = promisify(rmdir);
+      const deleteImg = promisify(unlink);
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('public_service', publicServiceId);
