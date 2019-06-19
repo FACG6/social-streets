@@ -14,10 +14,10 @@ class Event extends Component {
   };
 
   componentDidMount() {
-    // const { id } = this.props.match.params;
+    const { id } = this.props.match.params;
     // fetch
     axios
-      .get(`/api/v1/post/1`, {
+      .get(`/api/v1/post/${id}`, {
         params: {
           postType: "event"
         }
@@ -41,9 +41,8 @@ class Event extends Component {
         }
         notification.error(errObj);
       });
-    this.setState({});
   }
-  
+
   render() {
     const {
       image,
@@ -59,7 +58,6 @@ class Event extends Component {
       cost,
       alt_text
     } = this.state;
-    const { postStatus } = this.state;
     const pargraphs = description ? description.split("\n") : null;
 
     return (
@@ -151,11 +149,12 @@ class Event extends Component {
                 {cost}
               </span>
             </div>
-            {!postStatus ? (
-              <Button onClick={this.handleBack} className="event-btn--back">
-                Back
-              </Button>
-            ) : null}
+            <Button
+              onClick={() => this.props.history.push("/posts")}
+              className="event-btn--back"
+            >
+              Back
+            </Button>
           </section>
         )}
       </>
@@ -163,8 +162,8 @@ class Event extends Component {
   }
 }
 
-// Event.propTypes = {
-//   id: PropTypes.number
-// };
+Event.propTypes = {
+  id: PropTypes.number
+};
 
 export default Event;
