@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import "./style.css";
 
-export default function Menu({ show = false }) {
+export default function Menu({ show = false, handleMenuToggle }) {
   const links = [
     { target: "/profile", label: "Profile" },
     { target: "/new-post", label: "Create Post" },
@@ -17,7 +17,12 @@ export default function Menu({ show = false }) {
       <Router>
         <div className="header--menu">
           {links.map(({ target, label }, i) => (
-            <Link key={`label_${i}`} to={target} className="header--menu-text">
+            <Link
+              key={`label_${i}`}
+              to={target}
+              onClick={handleMenuToggle}
+              className="header--menu-text"
+            >
               {label}
             </Link>
           ))}
@@ -28,5 +33,6 @@ export default function Menu({ show = false }) {
 }
 
 Menu.propTypes = {
-  show: PropTypes.bool.isRequired
+  show: PropTypes.bool.isRequired,
+  handleMenuToggle: PropTypes.func.isRequired
 };
