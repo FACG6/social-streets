@@ -2,12 +2,11 @@ import React from "react";
 
 import "./App.css";
 import { Header, Footer } from "components/utils";
-import { PostForm } from 'components/pages'
 
 function App() {
   return (
     <div>
-      <PostForm />
+      <Header />
       <main className="container" />
       <Footer />
     </div>
