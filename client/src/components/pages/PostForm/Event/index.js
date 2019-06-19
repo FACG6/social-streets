@@ -15,7 +15,7 @@ import {
   notification
 } from "antd";
 import axios from 'axios';
-import moment from 'moment'
+import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
@@ -44,18 +44,28 @@ class EventForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((async (err, values) => {
       try {
-        console.log(values)
-        values.type = 'event'
-        values.publishDatetime = moment().format()
-        values.isDraft = 'false'
         if (err) {
-          console.log(err)
           notification.error({
             message: "Error",
             description: "Validation Error"
           });
         } else {
-          console.log(111111111111, values)
+          values.type = 'event'
+          values.publishDatetime = moment().format()
+          values.isDraft = 'false'
+          this.props.eventTypeValues.forEach(element => {
+            if (element.category === values.category) values.category = element.id
+          });
+          let topicsId = [];
+          for (let i = 0; i < values.eventTopic.length; i++) {
+            for (let z = 0; z < this.props.eventTopicValues.length; z++) {
+              if (values.eventTopic[i] === this.props.eventTopicValues[z].topic) {
+                topicsId.push(this.props.eventTopicValues[z].id)
+              }
+            }
+          }
+          values.eventTopic = topicsId
+          
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
           formData.append('data', JSON.stringify(values))
@@ -65,17 +75,19 @@ class EventForm extends React.Component {
               'Content-Type': 'multipart/form-data',
             },
           });
-          console.log(2222222222, serverResponse)
-
-          if (serverResponse) {
+          if (serverResponse.data.statusCode === 201) {
             notification.success({
               message: "Successfully",
               description: "Post added successfully"
             })
+          } else {
+            notification.error({
+              message: "Bad Request",
+              description: err.message
+            });
           }
         }
       } catch (err) {
-        console.log(5555555555, err)
         if (Number(err.statusCode) === 400) {
           notification.error({
             message: "Bad Request",
@@ -104,6 +116,13 @@ class EventForm extends React.Component {
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
+    const eventCategory = eventTypeValues.map((element) => {
+      return { key: element.id, value: element.category }
+    })
+    const eventTopic = eventTopicValues.map((element) => {
+      return { key: element.id, value: element.topic }
+    })
+
     const urlType = getFieldValue("eventType");
 
     return (
@@ -128,7 +147,7 @@ class EventForm extends React.Component {
           validationMsg="Please select your Event’s Type!"
           placeholder="Event’s Type"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={eventTypeValues}
+          optionsMenu={eventCategory}
         />
         <DropDownAntd
           mode="multiple"
@@ -139,7 +158,7 @@ class EventForm extends React.Component {
           validationMsg="Please select your Event Topic!"
           placeholder="Event’s Topic"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={eventTopicValues}
+          optionsMenu={eventTopic}
         />
         <TextAreaAntd
           withTip
@@ -215,17 +234,17 @@ class EventForm extends React.Component {
             </span>
           }
         >
-          { <Upload
-              style={{ width: "100%" }}
-              customRequest={_=>_}
-              listType="picture"
-              ref={element => (this.uploadInput = element)}
-              showUploadList={false}
-            >
-              <Button size="large">
-                <Icon type="upload" /> Click to upload
+          {<Upload
+            style={{ width: "100%" }}
+            customRequest={_ => _}
+            listType="picture"
+            ref={element => (this.uploadInput = element)}
+            showUploadList={false}
+          >
+            <Button size="large">
+              <Icon type="upload" /> Click to upload
               </Button>
-            </Upload>
+          </Upload>
           }
         </Form.Item>
         <InputGroup size="large">

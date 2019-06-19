@@ -13,6 +13,7 @@ import {
   notification
 } from "antd";
 import axios from 'axios';
+import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
@@ -40,12 +41,29 @@ class PublicServicesForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((async (err, values) => {
       try {
-        if (!err) {
+        if (err) {
           notification.error({
             message: "Error",
             description: "Validation Error"
           });
         } else {
+          values.type = 'publicServices'
+          values.publishDatetime = moment().format()
+          values.isDraft = 'false'
+          
+          this.props.primaryTag.forEach(element => {
+            if (element.tag === values.primaryTag) values.primaryTag = element.id
+          });
+          let secondaryTagsId = [];
+          for (let i = 0; i < values.secondaryTag.length; i++) {
+            for (let z = 0; z < this.props.secondaryTags.length; z++) {
+              if (values.secondaryTag[i] === this.props.secondaryTags[z].tag) {
+                secondaryTagsId.push(this.props.secondaryTags[z].id)
+              }
+            }
+          }
+          values.secondaryTag = secondaryTagsId;
+
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
           formData.append('data', JSON.stringify(values))
@@ -55,11 +73,16 @@ class PublicServicesForm extends React.Component {
               'Content-Type': 'multipart/form-data',
             },
           });
-          if (serverResponse) {
+          if (serverResponse.data.statusCode === 201) {
             notification.success({
               message: "Successfully",
               description: "Post added successfully"
             })
+          } else {
+            notification.error({
+              message: "Bad Request",
+              description: err.message
+            });
           }
         }
       } catch (err) {
@@ -87,9 +110,16 @@ class PublicServicesForm extends React.Component {
     const {
       id,
       primaryTag,
-      secondaryTag,
+      secondaryTags,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
+
+    const publicServicesPrimaryTag = primaryTag.map((element) => {
+      return {key: element.id, value: element.tag}
+    })
+    const publicServicesSecondaryTag = secondaryTags.map((element) => {
+      return { key: element.id, value: element.tag}
+    })
 
     const urlType = getFieldValue("primaryTag");
 
@@ -115,7 +145,7 @@ class PublicServicesForm extends React.Component {
           validationMsg="Please select your Primary Tag!"
           placeholder="Primary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={primaryTag}
+          optionsMenu={publicServicesPrimaryTag}
         />
         <DropDownAntd
           mode="multiple"
@@ -126,7 +156,7 @@ class PublicServicesForm extends React.Component {
           validationMsg="Please select your Secondary Tag!"
           placeholder="Secondary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={secondaryTag}
+          optionsMenu={publicServicesSecondaryTag}
         />
         <TextAreaAntd
           withTip
@@ -148,19 +178,9 @@ class PublicServicesForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator("image", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your image!",
-                whitespace: true
-              }
-            ]
-          })(
-            <Upload
+          {<Upload
               style={{ width: "100%" }}
-              name="eventImage"
-              action="/upload.do"
+              customRequest={_ => _}
               listType="picture"
               ref={element => (this.uploadInput = element)}
             >
@@ -168,7 +188,7 @@ class PublicServicesForm extends React.Component {
                 <Icon type="upload" /> Click to upload
               </Button>
             </Upload>
-          )}
+          }
         </Form.Item>
         <InputAntd
           withTip={false}
@@ -185,7 +205,7 @@ class PublicServicesForm extends React.Component {
             withTip={false}
             label="Focus Keyword"
             getFieldDecorator={getFieldDecorator}
-            name="focusKeyword"
+            name="focusKey"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
@@ -208,7 +228,7 @@ class PublicServicesForm extends React.Component {
             style={{ fontSize: "15px" }}
             label="Meta Description"
             getFieldDecorator={getFieldDecorator}
-            name="metaDescription"
+            name="meta"
             validationMsg="Please input your Meta Description!"
             placeholder="Your main Meta Description"
             min={5}
@@ -245,7 +265,7 @@ const WrappedPublicServices = Form.create({ name: "publicServicesForm" })(
 
 WrappedPublicServices.propTypes = {
   primaryTag: PropTypes.array.isRequired,
-  secondaryTag: PropTypes.array.isRequired
+  secondaryTags: PropTypes.array.isRequired
 };
 
 export default WrappedPublicServices;

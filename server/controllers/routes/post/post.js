@@ -28,12 +28,9 @@ const post = async (req, res, next) => {
 
     if (type === 'event') {
       if (!image) throw new Error();
-      console.log(data)
       const valid = await eventSchema
-        .validate(data)
-        console.log(valid)
+        .isValid(data)
       if (valid) {
-        console.log(8888888888888)
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
           ...data,
@@ -58,13 +55,13 @@ const post = async (req, res, next) => {
         error.statusCode = 400
         throw error;
       }
-    } else if (type === 'public_services') {
+    } else if (type === 'publicServices') {
       const valid = await publicServiceSchema
-        .isValid(req.body)
+        .isValid(data)
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedPublicServices = await addPublicServices({
-          ...req.body,
+          ...data,
           publisherId,
           imageName
         })
@@ -92,7 +89,6 @@ const post = async (req, res, next) => {
       throw error;
     }
   } catch (err) {
-    console.log(err)
     if (err.statusCode) {
       res.status(statusCode).send({
         error: err.message,
