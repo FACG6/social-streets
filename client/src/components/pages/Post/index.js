@@ -9,7 +9,7 @@ import './style.css';
 export default class Post extends Component {
   state = {
     posts: [],
-    error: '',
+    notification: '',
   }
 
   componentDidMount() {
@@ -25,55 +25,34 @@ export default class Post extends Component {
         this.setState({ posts })
       })
       .catch(err => {
-        const { status } = err.response;
-        const objError = { message: 'ERROR' }
-
-        switch (status) {
-          case 400:
-            objError.description = 'Bad Request!';
-            break;
-          case 401:
-            objError.description = 'Please Log in to your account!';
-            break;
-          default:
-            objError.description = 'Oops, somthing went wrong. Try another time!';
-        };
-
-        notification.error(objError);
-        if (status === 401) this.props.history.push('/login');
+        const { statusCode, error } = err.response.data;
+        const objError = { message: 'ERROR', description: error }
+        statusCode
+          ? notification.error(objError)
+          : notification.error({ message: 'ERROR', description: 'Sorry, there is error' })
+        if (statusCode === 401) this.props.history.push('/login');
       })
   }
 
   handleDelete = (id, type) => {
     const { posts } = this.state;
-    this.deleteSwal().then(response => {
-      if (response.value) {
-        axios.delete(`/api/v1/post/${id}`, { data: { type } })
-          .then(({ data: { data } }) => {
-            if (data.id === id) {
-              notification.success({ message: 'Success', description: 'Deleted Successfully' });
-              this.setState({ posts: posts.filter(post => post.id !== Number(id)) });
-            }
-          })
-          .catch(err => {
-            const { status } = err.response;
-            const objError = { message: 'ERROR' };
-            switch (status) {
-              case 400:
-                objError.description = 'Bad Request!';
-                break;
-              case 401:
-                objError.description = 'Please Log in to your account!';
-                break;
-              default:
-                objError.description = 'Oops, somthing went wrong. Try another time!';
-            };
+    axios.delete(`/api/v1/post/${id}`, { data: { type } })
+      .then(({ data: { data } }) => {
+        if (data.id === id) {
+          notification.success({ message: 'Success', description: 'Deleted Successfully' });
+          this.setState({ posts: posts.filter(post => post.id !== Number(id)) });
+        }
+      })
+      .catch(err => {
+        const { statusCode, error } = err.response.data;
+        const objError = { message: 'ERROR', description: error }
+        statusCode
+          ? notification.error(objError)
+          : notification.error({ message: 'ERROR', description: 'Sorry, there is error' });
 
-            notification.error(objError);
-            if (status === 401) this.props.history.push('/login');
-          })
-      }
-    }).catch(error => notification.error({ message: 'ERROR', description: 'Oops, something went wrong. Try again!' }));
+        notification.error(objError);
+        if (statusCode === 401) this.props.history.push('/login');
+      })
   }
 
   deleteSwal = () => {

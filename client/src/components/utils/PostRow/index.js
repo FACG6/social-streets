@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Popconfirm, Icon } from 'antd';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import './style.css'
 
@@ -18,12 +18,17 @@ export default function Post({ onClick, title, id, type, link }) {
           </p>
         </Link>
         <div className='post-row-container--icons'>
-          <Icon
-            id={id}
-            onClick={handleClick}
-            className='post-row-container--icon post-row-container--delete'
-            type="delete"
-          />
+          <Popconfirm
+            title="Are you sure？"
+            icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+            onConfirm={handleClick}
+          >
+            <Icon
+              id={id}
+              className='post-row-container--icon post-row-container--delete'
+              type="delete"
+            />
+          </Popconfirm>
           <Link to={`/posts/${id}/edit`} >
             <Icon
               className='post-row-container--icon post-row-container--edit'
