@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Icon, Divider, Spin } from "antd";
+import { Icon, Divider, Spin, notification } from "antd";
 import PropTypes from "prop-types";
 
 import Button from "components/utils/Button";
 import "./style.css";
+import axios from "axios";
 
 class Event extends Component {
   state = {};
@@ -13,26 +14,50 @@ class Event extends Component {
   };
 
   componentDidMount() {
-    const { postStatus, ...event } = this.props;
-    if (postStatus === "published") {
-      // fetch
-      this.setState({ ...event });
-    } else this.setState({ ...event });
+    // const { id } = this.props.match.params;
+    // fetch
+    axios
+      .get(`/api/v1/post/1`, {
+        params: {
+          postType: "event"
+        }
+      })
+      .then(res => {
+        res.data.data[0].topic = res.data.data.map(res => res.topic);
+        this.setState({ ...res.data.data[0] });
+      })
+      .catch(err => {
+        const { statusCode, error } = err.response.data;
+        const errObj = {
+          message: "Error",
+          description: "There is Error please try again"
+        };
+        if (statusCode === 500) {
+          errObj.message = "Server Error";
+          errObj.description = "Internal Server Error, Please try again later";
+        } else if (statusCode === 400) {
+          errObj.message = "Validation Error";
+          errObj.description = error;
+        }
+        notification.error(errObj);
+      });
+    this.setState({});
   }
 
   render() {
     const {
       image,
       title,
-      publishDate,
-      publisher,
-      type,
+      publish_datetime,
+      organisation_name,
+      category,
       topic,
       description,
-      dateTime,
+      event_datetime,
       venue,
-      organiserWebsite,
-      cost
+      website,
+      cost,
+      alt_text
     } = this.state;
     const { postStatus } = this.state;
     const pargraphs = description ? description.split("\n") : null;
@@ -48,50 +73,46 @@ class Event extends Component {
           />
         ) : (
           <section className="event-container">
-            <img className="event-img" src={image} alt="Event image" />
+            <img className="event-img" src={image} alt={alt_text} />
             <h1 className="event-title">{title}</h1>
             <div className="event-icon">
               <div className="event-icon--col">
                 <h5>
-                  {" "}
                   <Icon
                     type="calendar"
                     style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />{" "}
-                  Posted on {publishDate}
+                  />
+                  Posted on {publish_datetime}
                 </h5>
                 <h5>
-                  {" "}
                   <Icon
                     type="folder"
                     style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />{" "}
-                  Posted in Events
+                  />
+                  {category}
                 </h5>
               </div>
               <div className="event-flex--col">
                 <h5>
-                  {" "}
                   <Icon
                     type="user"
                     style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />{" "}
-                  {publisher}
+                  />
+                  {organisation_name}
                 </h5>
                 <h5>
-                  {" "}
                   <Icon
                     type="folder"
                     style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />{" "}
-                  {type}
+                  />
+                  Event
                 </h5>
               </div>
             </div>
             <Divider />
             <div className="event-body">
               <h3 className="event--lable">Event Type</h3>
-              <span>{type}</span>
+              <span>{category}</span>
               <Divider />
               <h3 className="event--lable">Event Topic</h3>
               <span>
@@ -102,7 +123,6 @@ class Event extends Component {
               <Divider />
               <h3 className="event--lable">Event Description</h3>
               <span>
-                {" "}
                 {pargraphs.map((paragraph, index) => {
                   return (
                     <p key={index} className="public-service--paragraph">
@@ -113,15 +133,15 @@ class Event extends Component {
               </span>
               <Divider />
               <h3 className="event-lable">Event Date & Time</h3>
-              <span>{dateTime}</span>
+              <span>{event_datetime}</span>
               <Divider />
               <h3 className="event--lable">Event Venue</h3>
               <span>{venue}</span>
               <Divider />
               <h3 className="event--lable">Organizer Website</h3>
               <span>
-                <a href={organiserWebsite} style={{ color: "#e85f5f" }}>
-                  {organiserWebsite}
+                <a href={website} style={{ color: "#e85f5f" }}>
+                  {website}
                 </a>
               </span>
               <Divider />
@@ -143,19 +163,8 @@ class Event extends Component {
   }
 }
 
-Event.propTypes = {
-  postStatus: PropTypes.string.isRequired,
-  image: PropTypes.string,
-  title: PropTypes.string,
-  publishDate: PropTypes.string,
-  publisher: PropTypes.string,
-  type: PropTypes.string,
-  topic: PropTypes.arrayOf(PropTypes.string),
-  description: PropTypes.string,
-  dateTime: PropTypes.string,
-  venue: PropTypes.string,
-  organizationWebsite: PropTypes.string,
-  cost: PropTypes.number
-};
+// Event.propTypes = {
+//   id: PropTypes.number
+// };
 
 export default Event;

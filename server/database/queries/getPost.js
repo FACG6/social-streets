@@ -1,13 +1,16 @@
-const connect = require("./../config/connection");
+const connect = require('./../config/connection');
 
-exports.getEvent = (eventId, userId) =>
-  connect.query(
-    `SELECT
-   *,topic.topic
+exports.getEvent = (eventId, userId) => connect.query(
+  `SELECT
+  event.*,topic.topic,"user".organisation_name,event_category.category
   FROM
-   event 
+   event
   INNER JOIN
-   event_category 
+    "user" 
+  ON
+   "user".id = event.publisher_id
+  INNER JOIN
+   event_category
   ON
    event_category.id = event.category
   INNER JOIN
@@ -22,30 +25,33 @@ exports.getEvent = (eventId, userId) =>
    event.id=$1
   AND
    publisher_id=$2`,
-    [eventId, userId]
-  );
+  [eventId, userId],
+);
 
-exports.getPublicService = (publicServiceId, userId) =>
-  connect.query(
-    `SELECT
-        *,secondary_tag.tag
-      FROM
-        public_service
-      INNER JOIN
-        primary_tag
-      ON
-        primary_tag.id = public_service.primary_tag
-      INNER JOIN
-        public_service_tag
-      ON
-        public_service_tag.public_service_id = public_service.id
-      INNER JOIN
-        secondary_tag
-      ON
-        secondary_tag.id = public_service_tag.secondary_tag
-      WHERE
-        public_service.id=$1
-      AND
-        publisher_id=$2`,
-    [publicServiceId, userId]
-  );
+exports.getPublicService = (publicServiceId, userId) => connect.query(
+  `SELECT
+  public_service.*,secondary_tag.tag,"user".organisation_name,primary_tag.tag
+    FROM
+      public_service
+    INNER JOIN
+      "user" 
+    ON
+      "user".id = public_service.publisher_id
+    INNER JOIN
+      primary_tag
+    ON
+      primary_tag.id = public_service.primary_tag
+    INNER JOIN
+      public_service_tag
+    ON
+      public_service_tag.public_service_id = public_service.id
+    INNER JOIN
+      secondary_tag
+    ON
+      secondary_tag.id = public_service_tag.secondary_tag
+    WHERE
+      public_service.id=$1
+    AND
+      publisher_id=$2`,
+  [publicServiceId, userId],
+);
