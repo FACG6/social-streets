@@ -21,8 +21,11 @@ const updateEvent = async (req, res, next) => {
     if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
 
     const { eventTopic } = req.body;
-    let imageName = '';
 
+    const schemaValidation = await eventSchema.isValid(req.body);
+    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+
+    let imageName = '';
     if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;
@@ -35,15 +38,11 @@ const updateEvent = async (req, res, next) => {
       await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
 
-    const schemaValidation = await eventSchema.isValid(req.body);
-    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
-
     await updateEventQuery(eventId, req.body, imageName);
     await deleteTopicQuery(eventId);
     await Promise.all(eventTopic.map(topic => addTopic(eventId, topic)));
     return res.send({ data: 'Updated event successfully', statusCode: 200 });
   } catch (e) {
-    console.log('111111111111', e);
     return next(e);
   }
 };
@@ -55,8 +54,11 @@ const updatePublicService = async (req, res, next) => {
     if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
 
     const { secondaryTag } = req.body;
-    let imageName = '';
 
+    const schemaValidation = await publicServiceSchema.isValid(req.body);
+    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
+
+    let imageName = '';
     if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;
@@ -68,9 +70,6 @@ const updatePublicService = async (req, res, next) => {
       const imgDir = await getPostImg('public_service', publicServiceId);
       await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
-
-    const schemaValidation = await publicServiceSchema.isValid(req.body);
-    if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
     await updatePublicServiceQuery(publicServiceId, req.body, imageName);
     await deleteSecondaryTagQuery(publicServiceId);

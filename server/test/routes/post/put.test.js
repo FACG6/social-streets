@@ -51,7 +51,7 @@ test('update existing post at /api/v1/post/1', async (t) => {
     supertest(app)
       .put('/api/v1/post/1')
       .set('Cookie', [
-        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTYwODA5ODM5fQ.TmwcbEeUxCLES1M4RIpF2nAY0oVt4vo8pL4dfHgbGJ0',
+        'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwOTMzODQ3fQ.ZK_pYjeVol7e9_2kIFabNn0Q6uaXbHNAq54lSDhKdmY',
       ])
       .field('type', 'event')
       .field('title', 'New Title 17/6/2019 - 9:45:33 AM.')
