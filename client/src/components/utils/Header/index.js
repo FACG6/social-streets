@@ -10,17 +10,26 @@ import "./style.css";
 
 class Header extends Component {
   state = {
-    showMenu: false
+    showMenu: false,
+    hamToggled: false
   };
 
-  toggleMenuHandler = () => {
-    const { showMenu } = this.state;
-    this.setState({ showMenu: !showMenu });
+  handleMenuToggle = () => {
+    const { hamToggled, showMenu } = this.state;
+    this.setState({ hamToggled: !hamToggled, showMenu: !showMenu });
+  };
+
+  handleMenuToggleOnScroll = () => {
+    const { hamToggled, showMenu } = this.state;
+    if (!showMenu) return;
+    this.setState({ hamToggled: !hamToggled, showMenu: !showMenu });
   };
 
   render() {
     const { showMenu } = this.state;
     const { showHamburger = true } = this.props;
+
+    window.onscroll = this.handleMenuToggleOnScroll;
 
     return (
       <header className="header">
@@ -31,10 +40,11 @@ class Header extends Component {
           <HamburgerButton
           {...this.props}
             className="header--hamburger-button"
-            toggleMenuHandler={this.toggleMenuHandler}
+            handleMenuToggle={this.handleMenuToggle}
+            toggled={this.state.hamToggled}
           />
         )}
-        <Menu  {...this.props} show={showMenu} />
+        <Menu handleMenuToggle={this.handleMenuToggle} show={showMenu} />
       </header>
     );
   }
