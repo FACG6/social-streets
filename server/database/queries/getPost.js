@@ -30,7 +30,7 @@ exports.getEvent = (eventId, userId) => connect.query(
 
 exports.getPublicService = (publicServiceId, userId) => connect.query(
   `SELECT
-  public_service.*,secondary_tag.tag,"user".organisation_name,primary_tag.tag
+  public_service.*,secondary_tag.tag as secondary_tag,"user".organisation_name,primary_tag.tag
     FROM
       public_service
     INNER JOIN

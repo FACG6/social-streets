@@ -5,7 +5,7 @@ exports.get = (req, res, next) => {
   const { id: idUser } = req.user;
   const { postId } = req.params;
   const { postType } = req.query;
-  
+
   fetchPostSchema
     .isValid({ postId, postType, idUser })
     .then((validation) => {
@@ -16,9 +16,7 @@ exports.get = (req, res, next) => {
       validationErr.statusCode = 400;
       throw validationErr;
     })
-    .then((result) => {
-      res.send({ data: result.rows, statusCode: 200 });
-    })
+    .then(result => res.send({ data: result.rows, statusCode: 200 }))
     .catch((err) => {
       const { statusCode } = err;
       switch (statusCode) {

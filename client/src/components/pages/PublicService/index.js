@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Icon, notification, Spin } from "antd";
-import PropTypes from "prop-types";
 
 import Button from "components/utils/Button";
 import "./style.css";
@@ -157,7 +156,3 @@ export default class PublicService extends Component {
     );
   }
 }
-
-PublicService.propTypes = {
-  id: PropTypes.number
-};

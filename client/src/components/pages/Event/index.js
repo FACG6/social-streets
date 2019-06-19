@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Icon, Divider, Spin, notification } from "antd";
-import PropTypes from "prop-types";
 
 import Button from "components/utils/Button";
 import "./style.css";
@@ -161,9 +160,5 @@ class Event extends Component {
     );
   }
 }
-
-Event.propTypes = {
-  id: PropTypes.number
-};
 
 export default Event;
