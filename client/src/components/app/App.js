@@ -62,14 +62,6 @@ function App() {
             path='/post/event/:id/edit'
             render={(props) => <PostForm postFormType='event' {...props} />}
           />
-            <Route
-              path='/post/event/:category/:id/preview'
-              render={(props) => <Event {...props} />}
-            />
-            <Route
-              path='/post/public-service/:category/:id/preview'
-              render={(props) => <PublicService {...props} />}
-            />
           <Route
             path='/post/event/:category/:id'
             render={(props) => <Event {...props} />}
