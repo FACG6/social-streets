@@ -19,15 +19,11 @@ const updateEvent = async (req, res, next) => {
   try {
     const publisherId = await getPostPublisher('event', eventId);
     if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
-  } catch (e) {
-    return next(e);
-  }
 
-  const { eventTopic } = req.body;
-  let imageName = '';
+    const { eventTopic } = req.body;
+    let imageName = '';
 
-  if (req.files) {
-    try {
+    if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;
 
@@ -36,18 +32,9 @@ const updateEvent = async (req, res, next) => {
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('event', eventId);
-      try {
-        await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn(e);
-      }
-    } catch (e) {
-      return next(e);
+      await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
-  }
 
-  try {
     const schemaValidation = await eventSchema.isValid(req.body);
     if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
@@ -62,19 +49,14 @@ const updateEvent = async (req, res, next) => {
 
 const updatePublicService = async (req, res, next) => {
   const { postId: publicServiceId } = req.params;
-
   try {
     const publisherId = await getPostPublisher('public_service', publicServiceId);
     if (publisherId !== req.user.id) return res.status(401).send({ error: 'Unauthorized', statusCode: 401 });
-  } catch (e) {
-    next(e);
-  }
 
-  const { secondaryTag } = req.body;
-  let imageName = '';
+    const { secondaryTag } = req.body;
+    let imageName = '';
 
-  if (req.files) {
-    try {
+    if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;
 
@@ -83,18 +65,9 @@ const updatePublicService = async (req, res, next) => {
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('public_service', publicServiceId);
-      try {
-        await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.warn(e);
-      }
-    } catch (e) {
-      next(e);
+      await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
-  }
 
-  try {
     const schemaValidation = await publicServiceSchema.isValid(req.body);
     if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
@@ -103,7 +76,7 @@ const updatePublicService = async (req, res, next) => {
     await Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag)));
     return res.send({ data: 'Updated public service successfully', statusCode: 200 });
   } catch (e) {
-    next(e);
+    return next(e);
   }
 };
 
