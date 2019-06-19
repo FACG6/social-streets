@@ -16,7 +16,7 @@ export default class Post extends Component {
     axios.get(`/api/v1/post/${postType}`)
       .then(({ data: { data } }) => {
         if (!data.length)
-          return this.setState({ error: `No ${postType} Posts Available` });
+          return this.setState({ notification: `No ${postType} Posts Available` });
         this.setState({ posts: data })
       })
       .catch(err => {
