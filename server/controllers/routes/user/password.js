@@ -8,10 +8,15 @@ const { getPassword } = require('./../../../database/queries/getPassword');
 exports.updatePassword = (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
   const { id } = req.user;
-  getPassword(req.user.id)
+
+  getPassword(id)
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then((passMatch) => {
-      if (passMatch) return passwordSchema.isValid({ password: newPassword });
+      if (passMatch) {
+        return passwordSchema.isValid({
+          password: newPassword,
+        });
+      }
       const objError = new Error('Password not match');
       objError.statusCode = 400;
       throw objError;
