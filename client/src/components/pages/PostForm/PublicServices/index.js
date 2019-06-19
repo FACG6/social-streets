@@ -24,10 +24,6 @@ const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
   componentDidMount() {
-    // id and postType need for fetch and take post info
-    // const { id, postType } = this.props;
-    // use id, postType for fetch and take post info from DB
-    // by use setFieldsValue will put the reponse of post in inputs
     const {
       form: { setFieldsValue },
       id
