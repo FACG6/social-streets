@@ -18,11 +18,7 @@ export default class Post extends Component {
       .then(({ data: { data } }) => {
         if (!data.length)
           return this.setState({ error: `No ${postType} Posts Available` });
-        const posts = data.map(post => {
-          post.link = post.category.toLowerCase().replace(' and ', '-');
-          return post;
-        });
-        this.setState({ posts })
+        this.setState({ posts: data })
       })
       .catch(err => {
         const { statusCode, error } = err.response.data;
@@ -76,6 +72,7 @@ export default class Post extends Component {
         <PostButton postType={`${postType} Posts`} />
         <span className='post-page--error'>{error}</span>
         {posts.map(post => <PostRow
+          link={post.category.toLowerCase().replace(' and ', '-')}
           {...post}
           key={post.id}
           onClick={this.handleDelete}

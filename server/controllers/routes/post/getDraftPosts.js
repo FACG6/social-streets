@@ -7,7 +7,7 @@ const draftPosts = async (req, res, next) => {
     const resPublic = await getPublicServices('true', publisherId);
     resEvent.rows.forEach(event => event.type = 'event');
     resPublic.rows.forEach(publicPost => publicPost.type = 'public_services');
-    res.status(200).send({
+    res.send({
       data: [...resEvent.rows, ...resPublic.rows],
       statusCode: 200,
     });

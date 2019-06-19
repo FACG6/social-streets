@@ -5,9 +5,6 @@ import './style.css'
 
 export default function Post({ onClick, title, id, type, link }) {
 
-  function handleClick() {
-    onClick(id, type);
-  }
 
   return (
     <Router>
@@ -21,7 +18,7 @@ export default function Post({ onClick, title, id, type, link }) {
           <Popconfirm
             title="Are you sure？"
             icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-            onConfirm={handleClick}
+            onConfirm={() => onClick(id, type)}
           >
             <Icon
               id={id}
@@ -29,7 +26,7 @@ export default function Post({ onClick, title, id, type, link }) {
               type="delete"
             />
           </Popconfirm>
-          <Link to={`/posts/${id}/edit`} >
+          <Link to={`/posts/ ${id}/edit`} >
             <Icon
               className='post-row-container--icon post-row-container--edit'
               type="edit"
