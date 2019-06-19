@@ -1,40 +1,50 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 
 import Menu from "./Menu";
 import * as Logo from "assets/logo.png";
 import HamburgerButton from "./HamburgerButton";
 import "./style.css";
 
-export default class Header extends Component {
+class Header extends Component {
   state = {
-    showMenu: false
+    showMenu: false,
+    hamToggled: false
   };
 
-  toggleMenuHandler = () => {
-    const { showMenu } = this.state;
-    this.setState({ showMenu: !showMenu });
+  handleMenuToggle = () => {
+    const { hamToggled, showMenu } = this.state;
+    this.setState({ hamToggled: !hamToggled, showMenu: !showMenu });
+  };
+
+  handleMenuToggleOnScroll = () => {
+    const { hamToggled, showMenu } = this.state;
+    if (!showMenu) return;
+    this.setState({ hamToggled: !hamToggled, showMenu: !showMenu });
   };
 
   render() {
     const { showMenu } = this.state;
     const { showHamburger = true } = this.props;
 
+    window.onscroll = this.handleMenuToggleOnScroll;
+
     return (
       <header className="header">
-        <Router>
-          <Link to="/">
-            <img src={Logo} alt="Logo" className="header--logo" />
-          </Link>
-        </Router>
+        <Link to="/">
+          <img src={Logo} alt="Logo" className="header--logo" />
+        </Link>
         {showHamburger && (
           <HamburgerButton
+          {...this.props}
             className="header--hamburger-button"
-            toggleMenuHandler={this.toggleMenuHandler}
+            handleMenuToggle={this.handleMenuToggle}
+            toggled={this.state.hamToggled}
           />
         )}
-        <Menu show={showMenu} />
+        <Menu handleMenuToggle={this.handleMenuToggle} show={showMenu} />
       </header>
     );
   }
@@ -43,3 +53,5 @@ export default class Header extends Component {
 Header.propTypes = {
   showHamburger: PropTypes.bool
 };
+
+export default withRouter(Header)
