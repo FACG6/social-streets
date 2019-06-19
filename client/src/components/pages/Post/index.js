@@ -34,8 +34,9 @@ export default class Post extends Component {
     axios.delete(`/api/v1/post/${id}`, { data: { type } })
       .then(({ data: { data } }) => {
         if (data.id === id) {
-          notification.success({ message: 'Success', description: 'Deleted Successfully' });
-          this.setState({ posts: posts.filter(post => post.id !== Number(id)) });
+          this.setState({ posts: posts.filter(post => post.id !== Number(id)) }, () => {
+            notification.success({ message: 'Success', description: 'Deleted Successfully' });
+          });
         }
       })
       .catch(err => {
