@@ -50,26 +50,13 @@ export default class Post extends Component {
       })
   }
 
-  deleteSwal = () => {
-    return Swal.fire({
-      title: 'Are you sure?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#ff4d4d',
-      cancelButtonColor: '#3085d6',
-      customClass: {
-        confirmButton: 'btn btn-delete',
-      }
-    });
-  }
-
   render() {
     const { postType } = this.props;
-    const { posts, error } = this.state;
+    const { posts, notification } = this.state;
     return (
       <section className='post-page--main' >
         <PostButton postType={`${postType} Posts`} />
-        <span className='post-page--error'>{error}</span>
+        <span className='post-page--error'>{notification}</span>
         {posts.map(post => <PostRow
           link={post.category.toLowerCase().replace(' and ', '-')}
           {...post}
