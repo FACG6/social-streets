@@ -10,7 +10,7 @@ class ProfilePersonal extends Component {
     confirmDirty: false
   };
 
-  componentDidMount = () => {
+  componentDidMount = (prevState, prevProps) => {
     this.props.form.setFieldsValue(this.props.personal);
   };
 
@@ -22,7 +22,7 @@ class ProfilePersonal extends Component {
     });
   };
 
-  handleCancel = () => {};
+  handleCancel = () => { };
 
   handleConfirmBlur = e => {
     const value = e.target.value;
@@ -129,7 +129,7 @@ class ProfilePersonal extends Component {
           })(<Input placeholder="Email" />)}
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label="Password"
           required={false}
           hasFeedback
@@ -206,7 +206,7 @@ class ProfilePersonal extends Component {
               placeholder="Confirm Password"
             />
           )}
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item className="profile-page--form-btns">
           <Button
