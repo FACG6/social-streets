@@ -15,14 +15,14 @@ router.get('/draft', draftPosts);
 
 router.get('/live', livePosts);
 
+router.get('/event/static', eventStatic);
+
+router.get('/public-service/static', publicServiceStatic);
+
 router
   .route('/:postId')
   .get(get)
   .put(put)
   .delete(deletePost);
-
-router.get('/event/static', eventStatic);
-
-router.get('/public-service/static', publicServiceStatic);
 
 module.exports = router;

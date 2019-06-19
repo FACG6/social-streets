@@ -38,7 +38,7 @@ test('Add new post at /api/v1/post/', async (t) => {
           t.error(err);
         } else {
           t.deepEqual(Object.keys(res.body.data), ['id', 'title', 'description', 'category', 'event_datetime', 'venue', 'website', 'cost', 'image', 'focus_key', 'meta', 'alt_text', 'is_draft', 'publisher_id', 'publish_datetime'], 'Event add sucssfully')
-          t.equal(res.body.data.id, 2, 'Same id for the new Event Post')
+          t.equal(res.body.data.id, 3, 'Same id for the new Event Post')
           t.end();
         }
       });
