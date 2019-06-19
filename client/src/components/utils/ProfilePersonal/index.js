@@ -51,33 +51,8 @@ class ProfilePersonal extends Component {
       form: { getFieldDecorator }
     } = this.props;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 0 },
-        sm: { span: 0 }
-      },
-      wrapperCol: {
-        xs: { span: 0 },
-        sm: { span: 24 }
-      }
-    };
-
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 8
-        }
-      }
-    };
-
     return (
       <Form
-        {...formItemLayout}
         onSubmit={this.handleSubmit}
         className="profile-page--form-personal"
       >
@@ -102,7 +77,7 @@ class ProfilePersonal extends Component {
               },
               {
                 required: true,
-                message: "Please inter your First Name!"
+                message: "Please Enter your First Name!"
               }
             ]
           })(<Input placeholder="Your First Name" />)}
@@ -129,7 +104,7 @@ class ProfilePersonal extends Component {
               },
               {
                 required: true,
-                message: "Please inter your Last Name!"
+                message: "Please Enter your Last Name!"
               }
             ]
           })(<Input placeholder="Your Last Name" />)}
@@ -155,7 +130,7 @@ class ProfilePersonal extends Component {
         </Form.Item>
 
         <Form.Item
-          label="Old Password"
+          label="Password"
           required={false}
           hasFeedback
           className="profile-page--form-item"
@@ -182,7 +157,6 @@ class ProfilePersonal extends Component {
             <Input.Password placeholder="Password" visibilityToggle={false} />
           )}
         </Form.Item>
-
         <Form.Item
           label="New Password"
           required={false}
@@ -234,7 +208,7 @@ class ProfilePersonal extends Component {
           )}
         </Form.Item>
 
-        <Form.Item {...tailFormItemLayout} className="profile-page--form-btns">
+        <Form.Item className="profile-page--form-btns">
           <Button
             type="submit"
             className="profile-page--form-btn-save"
