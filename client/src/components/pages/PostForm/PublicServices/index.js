@@ -46,19 +46,6 @@ class PublicServicesForm extends React.Component {
           values.type = 'publicServices'
           values.publishDatetime = moment().format()
           values.isDraft = 'false'
-          
-          this.props.primaryTag.forEach(element => {
-            if (element.tag === values.primaryTag) values.primaryTag = element.id
-          });
-          let secondaryTagsId = [];
-          for (let i = 0; i < values.secondaryTag.length; i++) {
-            for (let z = 0; z < this.props.secondaryTags.length; z++) {
-              if (values.secondaryTag[i] === this.props.secondaryTags[z].tag) {
-                secondaryTagsId.push(this.props.secondaryTags[z].id)
-              }
-            }
-          }
-          values.secondaryTag = secondaryTagsId;
 
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
@@ -104,17 +91,16 @@ class PublicServicesForm extends React.Component {
 
   render() {
     const {
-      id,
       primaryTag,
       secondaryTags,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
     const publicServicesPrimaryTag = primaryTag.map((element) => {
-      return {key: element.id, value: element.tag}
+      return {id: element.id, value: element.tag}
     })
     const publicServicesSecondaryTag = secondaryTags.map((element) => {
-      return { key: element.id, value: element.tag}
+      return { id: element.id, value: element.tag}
     })
 
     const urlType = getFieldValue("primaryTag");

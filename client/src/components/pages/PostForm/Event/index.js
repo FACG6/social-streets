@@ -49,19 +49,7 @@ class EventForm extends React.Component {
           values.type = 'event'
           values.publishDatetime = moment().format()
           values.isDraft = 'false'
-          this.props.eventTypeValues.forEach(element => {
-            if (element.category === values.category) values.category = element.id
-          });
-          let topicsId = [];
-          for (let i = 0; i < values.eventTopic.length; i++) {
-            for (let z = 0; z < this.props.eventTopicValues.length; z++) {
-              if (values.eventTopic[i] === this.props.eventTopicValues[z].topic) {
-                topicsId.push(this.props.eventTopicValues[z].id)
-              }
-            }
-          }
-          values.eventTopic = topicsId
-          
+
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
           formData.append('data', JSON.stringify(values))
@@ -106,17 +94,16 @@ class EventForm extends React.Component {
 
   render() {
     const {
-      id,
       eventTypeValues,
       eventTopicValues,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
     const eventCategory = eventTypeValues.map((element) => {
-      return { key: element.id, value: element.category }
+      return { id: element.id, value: element.category }
     })
     const eventTopic = eventTopicValues.map((element) => {
-      return { key: element.id, value: element.topic }
+      return { id: element.id, value: element.topic }
     })
 
     const urlType = getFieldValue("eventType");
