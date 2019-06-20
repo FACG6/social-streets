@@ -103,7 +103,7 @@ class EventForm extends React.Component {
     })
     const eventTopic = eventTopicValues.map((element) => {
       return { id: element.id, value: element.topic }
-    })
+    });
 
     const urlType = getFieldValue("eventType");
 
