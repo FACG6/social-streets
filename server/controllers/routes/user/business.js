@@ -37,7 +37,7 @@ exports.updateBusiness = (req, res, next) => {
           instagram,
         });
       }
-      const objError = new Error('Password not match');
+      const objError = new Error('Retry, password is wrong');
       objError.statusCode = 400;
       throw objError;
     })
