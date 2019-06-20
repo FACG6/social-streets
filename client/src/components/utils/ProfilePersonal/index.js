@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Form, Input } from "antd";
+import { Form, Input, Modal, notification } from "antd";
 
 import Button from "components/utils/Button";
 import "./style.css";
+import axios from "axios";
 
 class ProfilePersonal extends Component {
   state = {
-    confirmDirty: false
+    confirmDirty: false,
+    visiable: false,
+    password: '',
   };
 
   componentDidMount = () => {
@@ -18,6 +21,19 @@ class ProfilePersonal extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        axios.put('/api/v1/user/personal', { ...values, oldPassword: this.state.password })
+          .then(({ data: { data } }) => {
+            if (data) {
+              notification.success({ message: 'Success', description: 'Updated Successfully!' });
+              this.setState({ visible: false })
+            }
+          })
+          .catch(({ response: { data } }) => {
+            const { statusCode, error } = data;
+            if (statusCode) {
+              notification.error({ message: 'ERROR', description: error });
+            }
+          })
       }
     });
   };
@@ -27,26 +43,14 @@ class ProfilePersonal extends Component {
     this.props.history.push('/posts')
   };
 
-  handleConfirmBlur = e => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
+  handlePassword = (e) => {
+    this.setState({ password: e.target.value })
+  }
 
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue("newPassword")) {
-      callback("Passwords must match!");
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
   };
 
   render() {
@@ -56,7 +60,6 @@ class ProfilePersonal extends Component {
 
     return (
       <Form
-        onSubmit={this.handleSubmit}
         className="profile-page--form-personal"
       >
         <Form.Item
@@ -136,10 +139,19 @@ class ProfilePersonal extends Component {
           <Button
             type="submit"
             className="profile-page--form-btn-save"
-            onClick={() => undefined}
+            onClick={this.showModal}
           >
             Save
           </Button>
+          <Modal
+            title="Modal"
+            visible={this.state.visible}
+            onOk={this.handleSubmit}
+            onCancel={this.hideModal}
+          >
+            <label>Your Password</label>
+            <input type='password' value={this.state.password} onChange={this.handlePassword} />
+          </Modal>
 
           <Button
             className="profile-page--form-btn-cancel"
