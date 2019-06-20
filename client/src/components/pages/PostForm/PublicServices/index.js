@@ -17,7 +17,7 @@ import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-import { publicService } from "components/pages/PostForm/dumyData";
+// import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
@@ -30,7 +30,7 @@ class PublicServicesForm extends React.Component {
     } = this.props;
 
     if (id) {
-      setFieldsValue(publicService);
+      // setFieldsValue(publicService);
     }
   }
   handleSubmit = (e) => {

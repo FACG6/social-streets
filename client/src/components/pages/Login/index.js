@@ -9,7 +9,7 @@ import "./style.css";
 function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFields((err, { email, password, rememberMe }) => {
+    props.form.validateFields((err, { email, password }) => {
       if (!err) {
         axios
           .post("/api/v1/login", {
@@ -17,6 +17,7 @@ function LoginPage(props) {
             password
           })
           .then(() => {
+            props.handleLogin();
             props.history.push("/");
           })
           .catch(({ response: { data: { error, statusCode } } }) => {
