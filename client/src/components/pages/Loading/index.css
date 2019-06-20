@@ -9,3 +9,7 @@
   align-content: center;
   align-items: center;
 }
+
+.ant-spin-show-text.loading-page-container {
+  color: #d65050;
+}
