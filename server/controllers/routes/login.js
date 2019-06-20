@@ -6,7 +6,6 @@ const { loginSchema } = require("../utils/validationSchemes");
 
 module.exports = (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password);
   loginSchema
     .isValid({ email, password })
     .then(valid => {
@@ -37,7 +36,6 @@ module.exports = (req, res, next) => {
       }
     })
     .catch(e => {
-      console.log(e);
       const { statusCode, message } = e;
       return statusCode
         ? res.status(statusCode).send({ error: message, statusCode })

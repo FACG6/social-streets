@@ -57,7 +57,7 @@ class App extends Component {
 
   render() {
     const { isAuth, isLoading, user } = this.state;
-    return true ? (
+    return isLoading ? (
       <Loading />
     ) : (
       <Router>
