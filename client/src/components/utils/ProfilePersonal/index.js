@@ -10,7 +10,7 @@ class ProfilePersonal extends Component {
     confirmDirty: false
   };
 
-  componentDidMount = (prevState, prevProps) => {
+  componentDidMount = () => {
     this.props.form.setFieldsValue(this.props.personal);
   };
 
@@ -128,7 +128,7 @@ class ProfilePersonal extends Component {
             ]
           })(<Input placeholder="Email" />)}
         </Form.Item>
-        
+
         <Form.Item className="profile-page--form-btns">
           <Button
             type="submit"
