@@ -56,7 +56,6 @@ class App extends Component {
   };
 
   render() {
-    console.log("object");
     const { isAuth, isLoading, user } = this.state;
     return true ? (
       <Loading />
