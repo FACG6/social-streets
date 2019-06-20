@@ -21,7 +21,6 @@ export default class ProfilePage extends Component {
   componentDidMount() {
     axios.get(`/api/v1/user`)
       .then(({ data: { data } }) => {
-        console.log(data)
         const {
           id,
           first_name: firstName,
