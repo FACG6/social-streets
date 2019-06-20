@@ -101,7 +101,7 @@
   width: 100%;
 }
 
-.public-service-btn--back{
+.public-service-btn--back {
   margin: 30px 0;
 }
 
@@ -112,4 +112,16 @@
 
 .public-service-btn--back {
   margin: 30px 0;
+}
+
+.publicService-spin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - (184px + 70px));
+  justify-content: center;
+}
+
+.ant-spin-show-text.publicService-spin {
+  color: #d65050;
 }

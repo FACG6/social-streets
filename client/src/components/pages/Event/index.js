@@ -1,115 +1,164 @@
-import React, { Component } from 'react'
-import { Icon, Divider } from 'antd'
-import PropTypes from 'prop-types'
+import React, { Component } from "react";
+import { Icon, Divider, Spin, notification } from "antd";
 
-import Button from 'components/utils/Button'
-import './style.css'
+import Button from "components/utils/Button";
+import "./style.css";
+import axios from "axios";
 
 class Event extends Component {
+  state = {};
 
-  state = {}
-
-  handleBack = (e) => {
-    e.preventDefault()
-  }
+  handleBack = e => {
+    e.preventDefault();
+  };
 
   componentDidMount() {
-    const { postStatus, ...event } = this.props
-    if (postStatus === 'published') {
-      // fetch
-      this.setState({ ...event })
-    } else
-      this.setState({ ...event })
+    const { id } = this.props.match.params;
+    // fetch
+    axios
+      .get(`/api/v1/post/${id}`, {
+        params: {
+          postType: "event"
+        }
+      })
+      .then(res => {
+        res.data.data[0].topic = res.data.data.map(res => res.topic);
+        this.setState({ ...res.data.data[0] });
+      })
+      .catch(err => {
+        const { statusCode, error } = err.response.data;
+        const errObj = {
+          message: "Error",
+          description: "There is Error please try again"
+        };
+        if (statusCode === 500) {
+          errObj.message = "Server Error";
+          errObj.description = "Internal Server Error, Please try again later";
+        } else if (statusCode === 400) {
+          errObj.message = "Validation Error";
+          errObj.description = error;
+        }
+        notification.error(errObj);
+      });
   }
 
   render() {
-
     const {
       image,
       title,
-      publishDate,
-      publisher,
-      type,
+      publish_datetime,
+      organisation_name,
+      category,
       topic,
       description,
-      dateTime,
+      event_datetime,
       venue,
-      organiserWebsite,
-      cost
-    } = this.state
-    const { postStatus } = this.state
-    const pargraphs = description ? description.split('\n') : null
+      website,
+      cost,
+      alt_text
+    } = this.state;
+    const pargraphs = description ? description.split("\n") : null;
 
     return (
       <>
-        {!title
-          ? (<h1>Loading ...</h1>)
-          : (
-            <section className='event-container' >
-              <img className='event-img' src={image} alt="Event image" />
-              <h1 className='event-title' >{title}</h1>
-              <div className='event-icon' >
-                <div className='event-icon--col' >
-                  <h5> <Icon type="calendar" style={{ fontSize: '12px', paddingRight: '5px' }} /> Posted on {publishDate}</h5>
-                  <h5> <Icon type="folder" style={{ fontSize: '12px', paddingRight: '5px' }} /> Posted in Events</h5>
-                </div>
-                <div className='event-flex--col' >
-                  <h5> <Icon type="user" style={{ fontSize: '12px', paddingRight: '5px' }} /> {publisher}</h5>
-                  <h5> <Icon type="folder" style={{ fontSize: '12px', paddingRight: '5px' }} /> {type}</h5>
-                </div>
+        {!title ? (
+          <Spin
+            className="event-spin"
+            tip="Loading..."
+            size="large"
+            indicator={<Icon type="loading" style={{ fontSize: 50 }} spin />}
+          />
+        ) : (
+          <section className="event-container">
+            <img className="event-img" src={image} alt={alt_text} />
+            <h1 className="event-title">{title}</h1>
+            <div className="event-icon">
+              <div className="event-icon--col">
+                <h5>
+                  <Icon
+                    type="calendar"
+                    style={{ fontSize: "12px", paddingRight: "5px" }}
+                  />
+                  Posted on {publish_datetime}
+                </h5>
+                <h5>
+                  <Icon
+                    type="folder"
+                    style={{ fontSize: "12px", paddingRight: "5px" }}
+                  />
+                  {category}
+                </h5>
               </div>
+              <div className="event-flex--col">
+                <h5>
+                  <Icon
+                    type="user"
+                    style={{ fontSize: "12px", paddingRight: "5px" }}
+                  />
+                  {organisation_name}
+                </h5>
+                <h5>
+                  <Icon
+                    type="folder"
+                    style={{ fontSize: "12px", paddingRight: "5px" }}
+                  />
+                  Event
+                </h5>
+              </div>
+            </div>
+            <Divider />
+            <div className="event-body">
+              <h3 className="event--lable">Event Type</h3>
+              <span>{category}</span>
               <Divider />
-              <div className='event-body' >
-                <h3 className='event--lable'>Event Type</h3>
-                <span>{type}</span>
-                <Divider />
-                <h3 className='event--lable'>Event Topic</h3>
-                <span>{topic.map((tag, index) => {
+              <h3 className="event--lable">Event Topic</h3>
+              <span>
+                {topic.map((tag, index) => {
+                  return <span key={index}>{tag} </span>;
+                })}
+              </span>
+              <Divider />
+              <h3 className="event--lable">Event Description</h3>
+              <span>
+                {pargraphs.map((paragraph, index) => {
                   return (
-                    <span key={index}>{tag} </span>
-                  )
-                })}</span>
-                <Divider />
-                <h3 className='event--lable'>Event Description</h3>
-                <span> {pargraphs.map((paragraph, index) => {
-                  return <p key={index} className='public-service--paragraph'>{paragraph}</p>
-                })}</span>
-                <Divider />
-                <h3 className='event-lable'>Event Date & Time</h3>
-                <span>{dateTime}</span>
-                <Divider />
-                <h3 className='event--lable'>Event Venue</h3>
-                <span>{venue}</span>
-                <Divider />
-                <h3 className='event--lable'>Organizer Website</h3>
-                <span><a href={organiserWebsite} style={{ color: '#e85f5f' }} >{organiserWebsite}</a></span>
-                <Divider />
-                <h3 className='event--lable'>Cost</h3>
-                <span style={{ paddingBottom: '1rem' }} ><Icon type="euro" />{cost}</span>
-              </div>
-              {!postStatus
-                ? (<Button onClick={this.handleBack} className='event-btn--back' >Back</Button>)
-                : (null)}
-            </section>
-          )}
+                    <p key={index} className="public-service--paragraph">
+                      {paragraph}
+                    </p>
+                  );
+                })}
+              </span>
+              <Divider />
+              <h3 className="event-lable">Event Date & Time</h3>
+              <span>{event_datetime}</span>
+              <Divider />
+              <h3 className="event--lable">Event Venue</h3>
+              <span>{venue}</span>
+              <Divider />
+              <h3 className="event--lable">Organizer Website</h3>
+              <span>
+                <a href={website} style={{ color: "#e85f5f" }}>
+                  {website}
+                </a>
+              </span>
+              <Divider />
+              <h3 className="event--lable">Cost</h3>
+              <span style={{ paddingBottom: "1rem" }}>
+                <Icon type="euro" />
+                {cost}
+              </span>
+            </div>
+            <Button
+              onClick={() => this.props.history.push("/posts")}
+              className="event-btn--back"
+            >
+              Back
+            </Button>
+          </section>
+        )}
       </>
-    )
+    );
   }
 }
 
-Event.propTypes = {
-  postStatus: PropTypes.string.isRequired,
-  image: PropTypes.string,
-  title: PropTypes.string,
-  publishDate: PropTypes.string,
-  publisher: PropTypes.string,
-  type: PropTypes.string,
-  topic: PropTypes.arrayOf(PropTypes.string),
-  description: PropTypes.string,
-  dateTime: PropTypes.string,
-  venue: PropTypes.string,
-  organizationWebsite: PropTypes.string,
-  cost: PropTypes.number,
-}
-
-export default Event
+export default Event;

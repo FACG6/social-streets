@@ -2,6 +2,8 @@ require('./queries/deletePost');
 require('./routes/getUser');
 require('./routes/login.test');
 require('./queries/getUser.test');
+require('./routes/post/post');
+require('./routes/post/put.test');
 require('./queries/insertEvent');
 require('./queries/insertPublicServices');
 require('./queries/insertTopic');
