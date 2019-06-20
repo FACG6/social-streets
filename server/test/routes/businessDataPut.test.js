@@ -14,7 +14,7 @@ tape('PUT in /api/v1/user/business || Valid', (t) => {
         .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
         .send({
           oldPassword: '123',
-          name: 'nameNAME TEST',
+          organisationName: 'nameNAME TEST',
           type: 'typeTYPE TEST',
           website: 'https://www.website_TEST.com',
           city: 'cityCITY TEST',
@@ -47,7 +47,7 @@ tape('PUT in /api/v1/user/business || Invalid Business Data', (t) => {
         .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
         .send({
           oldPassword: '123',
-          name: 'nameT',
+          organisationName: 'nameT',
           type: 'typeT',
           website: 'www.website_TEST.com',
           city: 'cityT',
@@ -80,7 +80,7 @@ tape('PUT in /api/v1/user/business || Invalid Password', (t) => {
         .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
         .send({
           oldPassword: '************',
-          name: 'nameT',
+          organisationName: 'nameT',
           type: 'typeT',
           website: 'www.website_TEST.com',
           city: 'cityT',
@@ -91,13 +91,13 @@ tape('PUT in /api/v1/user/business || Invalid Password', (t) => {
           twitter: 'www.twitter_TEST.com',
           instagram: 'www.instagram.com/username',
         })
-        .expect(400)
+        .expect(401)
         .expect('Content-Type', /json/)
         .end((err, res) => {
           if (err) {
             t.error(err);
           }
-          t.equal(res.body.error, 'Password not match', 'Not updating Business Data on /business with a WRONG PASSWORD');
+          t.equal(res.body.error, 'Retry, password is wrong', 'Not updating Business Data on /business with a WRONG PASSWORD');
           t.end();
         });
     });
