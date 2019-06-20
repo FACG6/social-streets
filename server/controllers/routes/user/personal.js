@@ -10,23 +10,24 @@ exports.updatePersonal = (req, res, next) => {
   } = req.body;
   const { id } = req.user;
 
-  getPassword(id)
-    .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
-    .then((passMatch) => {
-      if (passMatch) {
-        return personalSchema.isValid({
-          firstName,
-          lastName,
-          email,
-        });
-      }
-      const objError = new Error('Retry, password is wrong');
-      objError.statusCode = 400;
-      throw objError;
+  personalSchema
+    .isValid({
+      firstName,
+      lastName,
+      email,
     })
     .then((valid) => {
-      if (valid) return updatePersonalDataQuery(firstName, lastName, email, id);
-      const objError = new Error('Bad Request');
+      if (!valid) {
+        const objError = new Error('Bad Request');
+        objError.statusCode = 400;
+        throw objError;
+      }
+      return getPassword(id);
+    })
+    .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
+    .then((passMatch) => {
+      if (passMatch) return updatePersonalDataQuery(firstName, lastName, email, id);
+      const objError = new Error('Retry, password is wrong');
       objError.statusCode = 400;
       throw objError;
     })
