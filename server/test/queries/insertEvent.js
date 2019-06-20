@@ -33,6 +33,7 @@ tape('insert new post (Event) ', async (t) => {
       t.error();
     }
   } catch (err) {
+    console.log('111111111111111111111111111111111111', err);
     t.error(err);
   }
 });
