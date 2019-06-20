@@ -16,4 +16,8 @@ router
   .route('/business')
   .put(updateBusiness);
 
+const { updatePersonal } = require('./personal');
+
+router.route('/personal').put(updatePersonal);
+
 module.exports = router;

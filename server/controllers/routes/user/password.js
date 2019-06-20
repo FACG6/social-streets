@@ -8,7 +8,6 @@ const { getPassword } = require('./../../../database/queries/getPassword');
 exports.updatePassword = (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
   const { id } = req.user;
-
   getPassword(id)
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then((passMatch) => {
