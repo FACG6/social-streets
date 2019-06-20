@@ -74,13 +74,8 @@ const post = async (req, res, next) => {
           },
         );
       } else {
-<<<<<<< HEAD
         const error = new Error('Unsupported post type');
         error.statusCode = 400
-=======
-        const error = new Error('validation');
-        error.statusCode = 400;
->>>>>>> 64dac26203770404e362ebe9686bd47ee2bbcbfb
         throw error;
       }
     } else {
