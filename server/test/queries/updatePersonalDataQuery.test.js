@@ -14,7 +14,7 @@ tape('Query - Update User Personal Data || Valid', (e) => {
     .then(() => {
       updatePersonalDataQuery(firstName, lastName, email, userId)
         .then((result) => {
-          e.equal(result.rows[0].firstName, 'Khader', 'Personal Data Have Updated in Database !!');
+          e.equal(result.rows[0].first_name, 'Khader', 'Personal Data Have Updated in Database !!');
           e.end();
         });
     });
