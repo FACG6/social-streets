@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Form, Icon, Input, Checkbox, notification } from "antd";
 import axios from "axios";
 
@@ -101,20 +101,17 @@ function LoginPage(props) {
 
           <div className="login-form--submit-div">
             <Button type="submit">Log in</Button>
-            <Router>
-              <span className="form--create-acc">
-                Don't have an account?
-                <Link to="/signup" className="login-form--signup-link">
-                  Sign up
-                </Link>
-                now
-              </span>
-            </Router>
+            <span className="form--create-acc">
+              Don't have an account?
+              <Link to="/signup" className="login-form--signup-link">
+                Sign up
+              </Link>
+              now
+            </span>
           </div>
         </Form>
       </main>
     </Fragment>
   );
 }
-
 export default Form.create({ name: "Login_Form" })(LoginPage);

@@ -9,73 +9,43 @@ const eventSchema = yup.object().shape({
     .string()
     .min(10)
     .required(),
-  category: yup
-    .number()
-    .required(),
-  eventDatetime: yup
-    .string()
-    .required(),
-  venue: yup
-    .string()
-    .required(),
-  altText: yup
-    .string()
-    .required(),
-  website: yup
-    .string()
-    .required(),
-  isDraft: yup
-    .boolean()
-    .required(),
-  focusKey: yup
-    .string()
-    .required(),
+  category: yup.number().required(),
+  eventDatetime: yup.string().required(),
+  venue: yup.string().required(),
+  altText: yup.string().required(),
+  website: yup.string().required(),
+  isDraft: yup.boolean().required(),
+  focusKey: yup.string().required(),
   meta: yup
     .string()
     .min(5)
     .required(),
-  publishDatetime: yup
-    .string()
-    .required(),
-  eventTopic: yup
-    .array()
-    .required(),
-})
+  publishDatetime: yup.string().required(),
+  eventTopic: yup.array().required(),
+});
 
 const publicServiceSchema = yup.object().shape({
-  primaryTag: yup
-    .number()
-    .required(),
+  primaryTag: yup.number().required(),
   description: yup
     .string()
     .min(10)
     .required(),
-  focusKey: yup
-    .string()
-    .required(),
-  altText: yup
-    .string()
-    .required(),
+  focusKey: yup.string().required(),
+  altText: yup.string().required(),
   meta: yup
     .string()
     .min(5)
     .required(),
-  publishDatetime: yup
-    .string()
-    .required(),
+  publishDatetime: yup.string().required(),
   title: yup
     .string()
     .max(60)
     .required(),
-  isDraft: yup
-    .boolean()
-    .required(),
-  secondaryTag: yup
-    .array()
-    .required(),
-})
+  isDraft: yup.boolean().required(),
+  secondaryTag: yup.array().required(),
+});
 
 module.exports = {
   eventSchema,
-  publicServiceSchema
+  publicServiceSchema,
 };

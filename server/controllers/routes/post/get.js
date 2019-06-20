@@ -1,27 +1,30 @@
-const {
-  getEvent,
-  getPublicService
-} = require("./../../../database/queries/getPost");
-const { fetchPostSchema } = require("./../../utils/validationSchemes");
+const { getEvent, getPublicService } = require('./../../../database/queries/getPost');
+const { fetchPostSchema } = require('./../../utils/validationSchemes');
 
 exports.get = (req, res, next) => {
   const { id: idUser } = req.user;
   const { postId } = req.params;
-  const { postType } = req.body;
+  const { postType } = req.query;
 
   fetchPostSchema
     .isValid({ postId, postType, idUser })
-    .then(validation => {
+    .then((validation) => {
       if (validation) {
-        return postType === "event"
-          ? getEvent(postId, idUser)
-          : getPublicService(postId, idUser);
+        return postType === 'event' ? getEvent(postId, idUser) : getPublicService(postId, idUser);
       }
-      return res.status(400).send({
-        error: "bad request",
-        statusCode: 400
-      });
+      const validationErr = new Error('Email already exists.');
+      validationErr.statusCode = 400;
+      throw validationErr;
     })
     .then(result => res.send({ data: result.rows, statusCode: 200 }))
-    .catch(err => next(err));
+    .catch((err) => {
+      const { statusCode } = err;
+      switch (statusCode) {
+        case 400:
+          res.status(400).send({ error: err.message, statusCode: 400 });
+          break;
+        default:
+          next(err);
+      }
+    });
 };

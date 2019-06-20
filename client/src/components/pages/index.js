@@ -1,4 +1,4 @@
-import Profile from "components/pages/createProfile";
+import CreateProfile from "components/pages/createProfile";
 import Event from "components/pages/Event";
 import Home from "components/pages/Home";
 import Login from "components/pages/Login";
@@ -7,6 +7,7 @@ import Post from "components/pages/Post";
 import PostForm from "components/pages/PostForm";
 import Posts from "components/pages/Posts";
 import PublicService from "components/pages/PublicService";
+import Profile from 'components/pages/Profile'
 
 export {
   Profile,
@@ -17,5 +18,6 @@ export {
   Post,
   PostForm,
   Posts,
-  PublicService
+  PublicService, 
+  CreateProfile
 };
