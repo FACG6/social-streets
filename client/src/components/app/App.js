@@ -51,7 +51,7 @@ class App extends Component {
       await axios.get("/api/v1/logout");
       this.setState({ isLoading: false, user: {} });
     } catch (e) {
-      this.setState({ isLoading: false });
+      window.location.href = "/posts";
     }
   };
 
