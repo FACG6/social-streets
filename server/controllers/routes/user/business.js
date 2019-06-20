@@ -59,10 +59,25 @@ exports.updateBusiness = (req, res, next) => {
       objError.statusCode = 400;
       throw objError;
     })
-    .then(() => res.send({
-      data: 'Business Data Updated Successfully',
-      statusCode: 200,
-    }))
+    .then((dbToFront) => {
+      const data = {
+        id: dbToFront.rows[0].id,
+        business_type: dbToFront.rows[0].business_type,
+        website: dbToFront.rows[0].website,
+        organisation_name: dbToFront.rows[0].organisation_name,
+        address: dbToFront.rows[0].address,
+        city: dbToFront.rows[0].city,
+        country: dbToFront.rows[0].country,
+        zip_code: dbToFront.rows[0].zip_code,
+        facebook: dbToFront.rows[0].facebook,
+        instagram: dbToFront.rows[0].instagram,
+        twitter: dbToFront.rows[0].twitter,
+      };
+      res.send({
+        data,
+        statusCode: 200,
+      });
+    })
     .catch((e) => {
       const { statusCode, message } = e;
       if (statusCode) {
