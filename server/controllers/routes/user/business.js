@@ -60,19 +60,7 @@ exports.updateBusiness = (req, res, next) => {
       throw objError;
     })
     .then((dbToFront) => {
-      const data = {
-        id: dbToFront.rows[0].id,
-        business_type: dbToFront.rows[0].business_type,
-        website: dbToFront.rows[0].website,
-        organisation_name: dbToFront.rows[0].organisation_name,
-        address: dbToFront.rows[0].address,
-        city: dbToFront.rows[0].city,
-        country: dbToFront.rows[0].country,
-        zip_code: dbToFront.rows[0].zip_code,
-        facebook: dbToFront.rows[0].facebook,
-        instagram: dbToFront.rows[0].instagram,
-        twitter: dbToFront.rows[0].twitter,
-      };
+      const data = dbToFront.rows[0];
       res.send({
         data,
         statusCode: 200,
