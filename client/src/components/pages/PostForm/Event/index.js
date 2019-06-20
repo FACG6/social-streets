@@ -48,6 +48,9 @@ class EventForm extends React.Component {
           values.type = 'event'
           values.publishDatetime = moment().format()
           values.isDraft = 'false'
+          values.eventDatetime = values.event_datetime;
+          values.altText = values.alt_text;
+          values.focusKey = values.focus_key;
 
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
@@ -149,7 +152,7 @@ class EventForm extends React.Component {
           max={false}
         />
         <Form.Item label={<span>Date and Time&nbsp;</span>}>
-          {getFieldDecorator("eventDatetime", {
+          {getFieldDecorator("event_datetime", {
             rules: [
               {
                 required: true,
@@ -231,7 +234,7 @@ class EventForm extends React.Component {
             label="Alt-Text"
             tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="altText"
+            name="alt_text"
             validationMsg="Please input Alt Text For Image!"
             placeholder="Your Alt Text For Image"
           />
@@ -243,7 +246,7 @@ class EventForm extends React.Component {
             label="Focus Keyword"
             tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="focusKey"
+            name="focus_key"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
