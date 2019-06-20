@@ -5,7 +5,6 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import "antd/dist/antd.css";
 import { notification } from "antd";
 import axios from "axios";
 
