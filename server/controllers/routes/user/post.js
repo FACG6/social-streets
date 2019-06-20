@@ -43,7 +43,7 @@ exports.post = (req, res, next) => {
           res.status(400).send({ error: err.message, statusCode: 400 });
           break;
         default:
-          next(e);
+          next(err);
       }
     });
 };

@@ -12,6 +12,7 @@ app.use(fileUpload());
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/v1', router);
+app.use(express.static(join(__dirname, 'uploads')));
 app.use(express.static(join(__dirname, '..', 'client', 'build')));
 
 app.get('*', (_req, res) => {
