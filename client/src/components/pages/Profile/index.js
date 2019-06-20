@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Tabs, Icon, notification } from "antd";
+import { Tabs, Icon, notification, Spin } from "antd";
 import PropTypes from "prop-types";
 import axios from 'axios';
 
@@ -78,7 +78,14 @@ export default class ProfilePage extends Component {
     const { personal, business, className, avatar } = this.state;
     return (
       <div className={className} >
-        {personal.id &&
+        {!personal.id ?
+          <Spin
+            className="event-spin"
+            tip="Loading..."
+            size="large"
+            indicator={<Icon type="loading" style={{ fontSize: 50 }} spin />}
+          />
+          :
           <>
             <ProfilePic imgSrc={avatar} className="profile-page--pic" />
             <Tabs defaultActiveKey="1" animated={true} className="profile-page-tabs">
