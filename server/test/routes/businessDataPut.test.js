@@ -7,6 +7,10 @@ const { buildDb, buildFakeData, buildStaticData } = require('./../../database/co
 tape('PUT in /api/v1/user/business || Valid', (t) => {
   const expectedResult = {
     id: 1,
+    first_name: 'Ahmed',
+    last_name: 'Abdellatif',
+    email: 'ahmedisam9922@gmail.com',
+    password: '$2y$12$0tqIpfxzTSFIKFECzjS1XOKhhxAlPsexglTCOKhysSXVt.R4KTBAW',
     business_type: 'typeTYPE TEST',
     website: 'https://www.website_TEST.com',
     organisation_name: 'nameNAME TEST',
@@ -17,6 +21,7 @@ tape('PUT in /api/v1/user/business || Valid', (t) => {
     facebook: 'https://www.facebook_TEST.com',
     instagram: 'https://www.instagram.com/username',
     twitter: 'https://www.twitter_TEST.com',
+    avatar: null,
   };
   buildDb()
     .then(buildStaticData)
