@@ -5,24 +5,9 @@ const app = require('../../../server/app');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
 tape('PUT in /api/v1/user/business || Valid', (t) => {
-  const expectedResult = {
-    id: 1,
-    first_name: 'Ahmed',
-    last_name: 'Abdellatif',
-    email: 'ahmedisam9922@gmail.com',
-    password: '$2y$12$0tqIpfxzTSFIKFECzjS1XOKhhxAlPsexglTCOKhysSXVt.R4KTBAW',
-    business_type: 'typeTYPE TEST',
-    website: 'https://www.website_TEST.com',
-    organisation_name: 'nameNAME TEST',
-    address: 'addressADDRESS TEST TEST',
-    city: 'cityCITY TEST',
-    country: 'countryCOUNTRY TEST',
-    zip_code: '12345',
-    facebook: 'https://www.facebook_TEST.com',
-    instagram: 'https://www.instagram.com/username',
-    twitter: 'https://www.twitter_TEST.com',
-    avatar: null,
-  };
+
+  const expectedValues = [1, 'Ahmed', 'Abdellatif', 'ahmedisam9922@gmail.com', 'Charity', 'https://www.website_TEST.com', 'nameNAME TEST', 'addressADDRESS TEST TEST', 'cityCITY TEST', 'countryCOUNTRY TEST', '12345', 'https://www.facebook_TEST.com', 'https://www.instagram.com/username', 'https://www.twitter_TEST.com', null];
+
   buildDb()
     .then(buildStaticData)
     .then(buildFakeData)
@@ -32,8 +17,8 @@ tape('PUT in /api/v1/user/business || Valid', (t) => {
         .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
         .send({
           oldPassword: '123',
-          organisationName: 'nameNAME TEST',
-          type: 'typeTYPE TEST',
+          organization: 'nameNAME TEST',
+          businessType: 'Charity',
           website: 'https://www.website_TEST.com',
           city: 'cityCITY TEST',
           country: 'countryCOUNTRY TEST',
@@ -49,7 +34,7 @@ tape('PUT in /api/v1/user/business || Valid', (t) => {
           if (err) {
             t.error(err);
           }
-          t.deepEqual(res.body.data, expectedResult, 'PUT method on /business Work Successfully');
+          t.deepEqual(Object.values(res.body.data), expectedValues, 'PUT method on /business Work Successfully');
           t.end();
         });
     });
@@ -65,8 +50,8 @@ tape('PUT in /api/v1/user/business || Invalid Business Data', (t) => {
         .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
         .send({
           oldPassword: '123',
-          organisationName: 'nameT',
-          type: 'typeT',
+          organization: 'nameT',
+          businessType: 'invalid',
           website: 'www.website_TEST.com',
           city: 'cityT',
           country: 'countryT',
@@ -98,8 +83,8 @@ tape('PUT in /api/v1/user/business || Invalid Password', (t) => {
         .set('Cookie', ['jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTYwNDE5NDE2fQ.MCP5Rx0eu31Hjyb2gL9YXd9n5w7SHTwOMjjHNNgeovM'])
         .send({
           oldPassword: '************',
-          organisationName: 'nameT',
-          type: 'typeT',
+          organization: 'nameT',
+          businessType: 'typeT',
           website: 'www.website_TEST.com',
           city: 'cityT',
           country: 'countryT',

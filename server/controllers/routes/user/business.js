@@ -61,6 +61,8 @@ exports.updateBusiness = (req, res, next) => {
     })
     .then((dbToFront) => {
       const data = dbToFront.rows[0];
+      delete data.password;
+
       res.send({
         data,
         statusCode: 200,
