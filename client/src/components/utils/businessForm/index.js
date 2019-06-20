@@ -19,7 +19,6 @@ class BusinessForm extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props.business)
     this.props.form.setFieldsValue(this.props.business);
   };
 
