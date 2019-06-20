@@ -34,7 +34,8 @@ tape('Get Live Events | Query', async (t) => {
         id: 2,
         category: 'Events and Festivals',
         title: 'The main Event',
-      }];
+      },
+    ];
     t.deepEqual(res.rows, resPosts, 'should be equal');
     t.end();
   } catch (err) {

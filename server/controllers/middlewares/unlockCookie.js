@@ -13,6 +13,6 @@ module.exports = (req, res, next) => {
       }
     });
   } else {
-    res.status(401).send('unauthorized');
+    res.status(401).send({ error: 'unauthorized', statusCode: 401 });
   }
 };
