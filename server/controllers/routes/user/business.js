@@ -7,7 +7,7 @@ const { updateBusinessDataQuery } = require('./../../../database/queries/updateB
 exports.updateBusiness = (req, res, next) => {
   const {
     oldPassword,
-    name,
+    organisationName,
     type,
     website,
     city,
@@ -25,7 +25,7 @@ exports.updateBusiness = (req, res, next) => {
     .then((passMatch) => {
       if (passMatch) {
         return businessDataSchema.isValid({
-          name,
+          organisationName,
           type,
           website,
           city,
@@ -43,7 +43,7 @@ exports.updateBusiness = (req, res, next) => {
     })
     .then((valid) => {
       if (valid) {
-        return updateBusinessDataQuery(name,
+        return updateBusinessDataQuery(organisationName,
           type,
           website,
           city,
