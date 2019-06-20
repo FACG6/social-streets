@@ -10,35 +10,40 @@ function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, { email, password, rememberMe }) => {
-      axios
-        .post("/api/v1/login", {
-          email,
-          password
-        })
-        .then(() => {
-          props.history.push("/");
-        })
-        .catch(({ response: { data: { error, statusCode } } }) => {
-          let notObj = {};
-          switch (statusCode) {
-            case 400:
-              notObj = {
-                message: "Bad Request",
-                description: "Please Enter a valid email and/or password"
-              };
-              break;
-            case 401:
-              notObj = { message: "Unauthorized", description: error };
-              break;
-            default:
-              notObj = {
-                message: "Internal Server Error",
-                description:
-                  "Something went wrong with server, please try again later"
-              };
-          }
-          notification.error(notObj);
-        });
+      if (!err) {
+        axios
+          .post("/api/v1/login", {
+            email,
+            password
+          })
+          .then(() => {
+            props.history.push("/");
+          })
+          .catch(({ response: { data: { error, statusCode } } }) => {
+            let notificationObj = {};
+            switch (statusCode) {
+              case 400:
+                notificationObj = {
+                  message: "Bad Request",
+                  description: "Please Enter a valid email and/or password"
+                };
+                break;
+              case 401:
+                notificationObj = {
+                  message: "Unauthorized",
+                  description: error
+                };
+                break;
+              default:
+                notificationObj = {
+                  message: "Internal Server Error",
+                  description:
+                    "Something went wrong with server, please try again later"
+                };
+            }
+            notification.error(notificationObj);
+          });
+      }
     });
   };
 
