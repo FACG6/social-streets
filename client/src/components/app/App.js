@@ -27,17 +27,14 @@ import "./App.css";
 
 class App extends Component {
   state = { user: {}, isAuth: false, isLoading: true };
+
   componentDidMount = async () => {
     try {
       const user = (await axios.get("/api/v1/isAuth")).data;
       notification.success({ message: "Welcome Back" });
       this.setState({ isAuth: true, user, isLoading: false });
     } catch (e) {
-      if (e.response.status === 401)
-        notification.warning({
-          message: "You should be a member to see this page"
-        });
-      else
+      if (e.response.status !== 401)
         notification.error({
           message: "Sorry There is an error"
         });
