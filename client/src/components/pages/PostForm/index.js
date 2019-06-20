@@ -16,7 +16,7 @@ const { Option } = Select;
 
 class CreatPostPage extends React.Component {
   state = {
-    postType: this.props.postFormType || "Event",
+    postType: this.props.postFormType || "event",
     eventTypeValues: [],
     eventTopicValues: [],
     primaryTag: [],
@@ -36,8 +36,8 @@ class CreatPostPage extends React.Component {
 
   render() {
     const postTypes = [
-      { key: 1, value: "Event" },
-      { key: 2, value: "Public Services" }
+      { key: 1, value: "event" },
+      { key: 2, value: "public pervices" }
     ];
 
     const {
@@ -48,7 +48,7 @@ class CreatPostPage extends React.Component {
     } = this.state;
 
     const { id } = this.props.match.params;
-    
+
     return (
       <section className="create-post-page-main">
         <h1 style={{ margin: 0 }}>Publish New Post</h1>
@@ -68,7 +68,7 @@ class CreatPostPage extends React.Component {
           ))}
         </Select>
         <Divider style={{ margin: "20px 0" }} />
-        {postType === "Event" ? (
+        {postType === "event" ? (
           <WrappedEventForm
             id={id}
             postType={postType}
@@ -76,13 +76,13 @@ class CreatPostPage extends React.Component {
             eventTypeValues={eventTypeValues}
           />
         ) : (
-            <WrappedPublicServices
-              id={id}
-              postType={postType}
-              primaryTag={primaryTag}
-              secondaryTag={secondaryTag}
-            />
-          )}
+          <WrappedPublicServices
+            id={id}
+            postType={postType}
+            primaryTag={primaryTag}
+            secondaryTag={secondaryTag}
+          />
+        )}
       </section>
     );
   }

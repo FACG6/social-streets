@@ -11,28 +11,63 @@ import {
   Upload,
   Divider,
   Card,
-  Button
+  Button,
+  notification
 } from "antd";
+import axios from "axios";
+import moment from "moment";
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-import { event } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   componentDidMount() {
-    // id and postType need for fetch and take post info
-    // const { id, postType } = this.props;
-    // use id, postType for fetch and take post info from DB
-    // by use setFieldsValue will put the reponse of post in inputs
     const {
       form: { setFieldsValue },
       id
     } = this.props;
+
     if (id) {
-      setFieldsValue(event);
+      axios
+        .get(`http://localhost:5000/api/v1/post/${id}`, {
+          params: {
+            postType: "event"
+          }
+        })
+        .then(res => {
+          const event = res.data.data[0];
+          event.topic = res.data.data.map(event => event.topic);
+          event.event_datetime = moment(new Date(event.event_datetime));
+          setFieldsValue(event);
+        })
+        .catch(({ response: { data: { error, statusCode } } }) => {
+          let notificationObj = {};
+          switch (statusCode) {
+            case 400:
+              notificationObj = {
+                message: "Bad Request",
+                description: "Please Enter a valid email and/or password"
+              };
+              break;
+            case 401:
+              notificationObj = {
+                message: "Unauthorized",
+                description: error
+              };
+              break;
+            default:
+              notificationObj = {
+                message: "Internal Server Error",
+                description:
+                  "Something went wrong with server, please try again later"
+              };
+          }
+          notification.error(notificationObj);
+          this.props.history.push("/");
+        });
     }
   }
 
@@ -40,7 +75,65 @@ class EventForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        // for fetch
+        const { id } = this.props;
+        if (id) {
+          axios
+            .get("http://localhost:5000/api/v1/post/event/static")
+            .then(res => {
+              const { categories, topics } = res.data.data;
+              values.category = categories.find(
+                cat => values.category === cat.category
+              ).id;
+              values.eventTopic = values.topic.map(
+                topicName =>
+                  topics.find(topicObj => topicName === topicObj.topic).id
+              );
+              values.eventDatetime = values.event_datetime.format();
+              values.altText = values.alt_text;
+              values.focusKey = values.focus_key;
+
+              delete values.topic;
+              delete values.event_datetime;
+              delete values.alt_text;
+              delete values.focus_key;
+              console.log(res);
+              console.log(values);
+            })
+            .then(() => {
+              axios
+                .put(`http://localhost:5000/api/v1/post/${id}`, {
+                  type: "event",
+                  ...values
+                })
+                .then(res => {
+                  this.props.history.push("/");
+                });
+            })
+            .catch(({ response: { data: { error, statusCode } } }) => {
+              let notificationObj = {};
+              switch (statusCode) {
+                case 400:
+                  notificationObj = {
+                    message: "Bad Request",
+                    description: "Please Enter a valid email and/or password"
+                  };
+                  break;
+                case 401:
+                  notificationObj = {
+                    message: "Unauthorized",
+                    description: error
+                  };
+                  break;
+                default:
+                  notificationObj = {
+                    message: "Internal Server Error",
+                    description:
+                      "Something went wrong with server, please try again later"
+                  };
+              }
+              notification.error(notificationObj);
+            });
+        }
       }
     });
   };
@@ -72,7 +165,7 @@ class EventForm extends React.Component {
         <DropDownAntd
           label="Event’s Type"
           getFieldDecorator={getFieldDecorator}
-          name="eventType"
+          name="category"
           required
           validationMsg="Please select your Event’s Type!"
           placeholder="Event’s Type"
@@ -83,7 +176,7 @@ class EventForm extends React.Component {
           mode="multiple"
           label="Event’s Topic"
           getFieldDecorator={getFieldDecorator}
-          name="eventTopic"
+          name="topic"
           required
           validationMsg="Please select your Event Topic!"
           placeholder="Event’s Topic"
@@ -101,7 +194,7 @@ class EventForm extends React.Component {
           max={false}
         />
         <Form.Item label={<span>Date and Time&nbsp;</span>}>
-          {getFieldDecorator("dateAndTime", {
+          {getFieldDecorator("event_datetime", {
             rules: [
               {
                 required: true,
@@ -182,7 +275,7 @@ class EventForm extends React.Component {
             label="Alt-Text"
             tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="altText"
+            name="alt_text"
             validationMsg="Please input Alt Text For Image!"
             placeholder="Your Alt Text For Image"
           />
@@ -194,7 +287,7 @@ class EventForm extends React.Component {
             label="Focus Keyword"
             tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="focusKeyword"
+            name="focus_key"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
@@ -217,7 +310,7 @@ class EventForm extends React.Component {
             style={{ fontSize: "15px" }}
             label="Meta Description"
             getFieldDecorator={getFieldDecorator}
-            name="metaDescription"
+            name="meta"
             validationMsg="Please input your Meta Description!"
             placeholder="Your main Meta Description"
             min={5}
@@ -226,7 +319,7 @@ class EventForm extends React.Component {
         </Card>
         <Form.Item>
           <Btn type="primary" htmlType="submit">
-            Publish
+            {id ? "Save" : "Publish"}
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
