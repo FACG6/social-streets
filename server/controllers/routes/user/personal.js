@@ -10,7 +10,7 @@ exports.updatePersonal = (req, res, next) => {
   } = req.body;
   const { id } = req.user;
 
-  getPassword(req.user.id)
+  getPassword(id)
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then((passMatch) => {
       if (passMatch) {
@@ -20,7 +20,7 @@ exports.updatePersonal = (req, res, next) => {
           email,
         });
       }
-      const objError = new Error('Password not match');
+      const objError = new Error('Retry, password is wrong');
       objError.statusCode = 400;
       throw objError;
     })
