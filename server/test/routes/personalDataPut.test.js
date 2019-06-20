@@ -55,7 +55,7 @@ tape('PUT in /api/v1/user/personal || Invalid Password', (t) => {
           if (err) {
             t.error(err);
           }
-          t.equal(res.body.error, 'Password not match', 'Can not update data with wrong password');
+          t.equal(res.body.error, 'Retry, password is wrong', 'Can not update data with wrong password');
           t.end();
         });
     })
