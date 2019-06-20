@@ -4,25 +4,14 @@ import PropTypes from "prop-types";
 import "./style.css";
 
 export default class HamburgerButton extends Component {
-  state = {
-    toggled: false
-  };
-
-  toggleHamburger = () => {
-    const { toggled } = this.state;
-    const { toggleMenuHandler } = this.props;
-    this.setState({ toggled: !toggled }, toggleMenuHandler);
-  };
-
   render() {
-    const { toggled } = this.state;
-    const { className = "" } = this.props;
+    const { toggled = false, className = "" } = this.props;
     return (
       <div
         className={`hamburger-container ${className} ${
           toggled ? "hamburger-container-change" : ""
         }`}
-        onClick={this.toggleHamburger}
+        onClick={this.props.handleMenuToggle}
       >
         {[1, 2, 3].map(value => (
           <div
@@ -36,6 +25,7 @@ export default class HamburgerButton extends Component {
 }
 
 HamburgerButton.propTypes = {
-  toggleMenuHandler: PropTypes.func.isRequired,
+  handleMenuToggle: PropTypes.func.isRequired,
+  toggled: PropTypes.bool.isRequired,
   className: PropTypes.string
 };

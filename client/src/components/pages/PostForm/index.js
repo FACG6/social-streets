@@ -4,12 +4,6 @@ import axios from 'axios';
 
 import WrappedEventForm from "components/pages/PostForm/Event";
 import WrappedPublicServices from "components/pages/PostForm/PublicServices";
-// import {
-//   eventTypeValues,
-//   eventTopicValues,
-//   primaryTag,
-//   secondaryTag
-// } from "./dumyData";
 
 import "./style.css";
 
@@ -60,8 +54,8 @@ class CreatPostPage extends React.Component {
       secondaryTag
     } = this.state;
 
-    const { id } = this.props;
-
+    const { id } = this.props.match.params;
+    
     return (
       <section className="create-post-page-main">
         <h1 style={{ margin: 0 }}>Publish New Post</h1>

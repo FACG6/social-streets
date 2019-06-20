@@ -35,7 +35,7 @@ module.exports = (req, res, next) => {
         case 'unauthorized':
           res.status(401).send({ statusCode: 401, error: message });
           break;
-        case `Cannot read property 'publisher_id' of undefined`:
+        case 'Cannot read property \'publisher_id\' of undefined':
           res.status(400).send({ statusCode: 400, error: 'Bad Request' });
           break;
         default:

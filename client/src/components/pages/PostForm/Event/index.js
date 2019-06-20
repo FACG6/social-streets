@@ -30,7 +30,6 @@ class EventForm extends React.Component {
       form: { setFieldsValue },
       id
     } = this.props;
-
     if (id) {
       setFieldsValue(event);
     }
