@@ -25,3 +25,5 @@ require('./routes/deletePost');
 require('./queries/updatePersonalDataQuery.test');
 require('./routes/personalDataPut.test');
 require('./queries/insertEvent');
+require('./queries/updateBusinessDataQuery.test');
+require('./routes/businessDataPut.test');

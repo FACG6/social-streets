@@ -29,9 +29,9 @@ class PublicServicesForm extends React.Component {
       id
     } = this.props;
 
-    // if (id) {
-    //   setFieldsValue(publicService);
-    // }
+    if (id) {
+      // setFieldsValue(publicService);
+    }
   }
   handleSubmit = (e) => {
     e.preventDefault();
