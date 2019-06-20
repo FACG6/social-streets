@@ -73,26 +73,7 @@ class BusinessForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.props.location.pathname === '/profile') {
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          axios.put('/api/v1/user/business', { ...values, oldPassword: this.state.password })
-            .then(({ data: { data } }) => {
-              if (data) {
-                notification.success({ message: 'Success', description: 'Updated Successfully!' });
-                this.setState({ visible: false });
-              }
-            })
-            .catch(({ response: { data } }) => {
-              const { statusCode, error } = data;
-              if (statusCode) {
-                notification.error({ message: 'ERROR', description: error });
-              }
-            })
-        }
-      });
-
-    } else {
+    if (this.props.location.pathname === '/signup') {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           this.props.handleSubmit(values, e);
@@ -107,6 +88,26 @@ class BusinessForm extends React.Component {
     this.props.handleGoBack(feildValues, e);
   };
 
+  updateInfo = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        axios.put('/api/v1/user/business', { ...values, oldPassword: this.state.password })
+          .then(({ data: { data } }) => {
+            if (data) {
+              notification.success({ message: 'Success', description: 'Updated Successfully!' });
+              this.setState({ visible: false });
+            }
+          })
+          .catch(({ response: { data } }) => {
+            const { statusCode, error } = data;
+            if (statusCode) {
+              notification.error({ message: 'ERROR', description: error });
+            }
+          });
+      }
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResultCountry, autoCompleteResultCity } = this.state;
@@ -120,7 +121,7 @@ class BusinessForm extends React.Component {
     ));
 
     return (
-      <Form onSubmit={this.props.location.pathname === '/profile' ? (e) => e.preventDefault() : this.handleSubmit} className='create-profile-form' >
+      <Form onSubmit={this.handleSubmit} className='create-profile-form' >
 
         <InputGroup size="large" >
 
@@ -362,7 +363,7 @@ class BusinessForm extends React.Component {
             <Modal
               title="Modal"
               visible={this.state.visible}
-              onOk={this.handleSubmit}
+              onOk={this.updateInfo}
               onCancel={this.hideModal}
             >
               <label>Your Password</label>

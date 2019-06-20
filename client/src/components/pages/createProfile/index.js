@@ -71,11 +71,11 @@ export default class Profile extends Component {
               Complete this step to provide us with some personal information
             </p>
           ) : (
-            <p>
-              Complete this step to provide us with some information about your
-              organization
+              <p>
+                Complete this step to provide us with some information about your
+                organization
             </p>
-          )}
+            )}
         </div>
         <Steps size="small" current={current} labelPlacement="vertical">
           <Step />
@@ -83,16 +83,18 @@ export default class Profile extends Component {
         </Steps>
         {current ? (
           <BusinessProfile
+            {...this.props}
             handleSubmit={this.handleSubmit}
             business={business}
             handleGoBack={this.handleGoBack}
           />
         ) : (
-          <PersonalProfile
-            handlePersonalInfo={this.handlePersonalInfo}
-            personal={personal}
-          />
-        )}
+            <PersonalProfile
+              {...this.props}
+              handlePersonalInfo={this.handlePersonalInfo}
+              personal={personal}
+            />
+          )}
       </div>
     );
   }

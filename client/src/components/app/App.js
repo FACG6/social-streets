@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import { notification } from "antd";
 import axios from "axios";
@@ -44,6 +44,10 @@ class App extends Component {
 
   handleLogin = () => this.setState({ isAuth: true });
 
+  handleUnauth = () => {
+    this.setState({ isAuth: false, user: '' });
+  }
+
   handleLogout = async () => {
     this.setState({ isAuth: false, isLoading: true });
     try {
@@ -59,85 +63,98 @@ class App extends Component {
     return isLoading ? (
       <Loading />
     ) : (
-      <Router>
-        <Header />
-        <main className="container">
-          <Switch>
-            <Route
-              path="/logout"
-              component={() => {
-                this.handleLogout();
-                return <Redirect to="/login" />;
-              }}
-            />
-            <ProtectedRoute
-              exact
-              path="/profile"
-              isAuth={isAuth}
-              component={Profile}
-            />
-            <ProtectedRoute
-              path="/posts/live"
-              isAuth={isAuth}
-              render={props => <Post {...props} postType="live" />}
-            />
-            <ProtectedRoute
-              path="/posts/draft"
-              render={props => (
-                <Post {...props} isAuth={isAuth} postType="draft" />
-              )}
-            />
-            <ProtectedRoute
-              path="/posts/new"
-              isAuth={isAuth}
-              component={PostForm}
-            />
-            <ProtectedRoute
-              exact
-              path="/post/public-service/:id/edit"
-              isAuth={isAuth}
-              render={props => (
-                <PostForm postFormType="public service" {...props} />
-              )}
-            />
-            <ProtectedRoute
-              exact
-              path="/post/event/:id/edit"
-              isAuth={isAuth}
-              render={props => <PostForm postFormType="event" {...props} />}
-            />
-            <ProtectedRoute
-              isAuth={isAuth}
-              path="/post/event/:category/:id"
-              render={props => <Event {...props} />}
-            />
-            <ProtectedRoute
-              isAuth={isAuth}
-              path="/post/public-service/:category/:id"
-              render={props => <PublicService {...props} />}
-            />
-            <ProtectedRoute isAuth={isAuth} path="/posts" component={Posts} />
-            {!isAuth ? (
-              <>
-                <Route
-                  path="/login"
-                  component={props => (
-                    <Login {...props} handleLogin={this.handleLogin} />
-                  )}
-                />
-                <Route path="/signup" component={CreateProfile} />
-                <Route exact path="/" component={Home} />
-              </>
-            ) : (
-              <Redirect to={`/profile`} />
-            )}
+        <Router>
+          <Header />
+          <main className="container">
+            <Switch>
+              <Route
+                path="/logout"
+                component={() => {
+                  this.handleLogout();
+                  return <Redirect to="/login" />;
+                }}
+              />
+              <ProtectedRoute
+                exact
+                path="/profile"
+                isAuth={isAuth}
+                component={(props) =>
+                  <Profile
+                    {...props}
+                    handleUnauth={this.handleUnauth}
+                  />}
+              />
+              <ProtectedRoute
+                path="/posts/live"
+                isAuth={isAuth}
+                component={(props) =>
+                  <Post
+                    handleUnauth={this.handleUnauth}
+                    {...props} postType="live"
+                  />}
+              />
+              <ProtectedRoute
+                isAuth={isAuth}
+                path="/posts/draft"
+                component={(props) =>
+                  <Post
+                    handleUnauth={this.handleUnauth}
+                    {...props}
+                    postType="draft"
+                  />}
 
-            <Route component={PageNotFound} />
-          </Switch>
-        </main>
-        <Footer />
-      </Router>
-    );
+              />
+              <ProtectedRoute
+                path="/posts/new"
+                isAuth={isAuth}
+                component={PostForm}
+              />
+              <ProtectedRoute
+                exact
+                path="/post/public-service/:id/edit"
+                isAuth={isAuth}
+                render={props => (
+                  <PostForm postFormType="public service" {...props} />
+                )}
+              />
+              <ProtectedRoute
+                exact
+                path="/post/event/:id/edit"
+                isAuth={isAuth}
+                render={props => <PostForm postFormType="event" {...props} />}
+              />
+              <ProtectedRoute
+                isAuth={isAuth}
+                path="/post/event/:category/:id"
+                render={props => <Event {...props} />}
+              />
+              <ProtectedRoute
+                isAuth={isAuth}
+                path="/post/public-service/:category/:id"
+                render={props => <PublicService {...props} />}
+              />
+              <ProtectedRoute isAuth={isAuth} path="/posts" component={Posts} />
+              {!isAuth ? (
+                <>
+                  <Route
+                    path="/login"
+                    component={props => (
+                      <Login {...props} handleLogin={this.handleLogin} />
+                    )}
+                  />
+                  <Route path="/signup" component={CreateProfile} />
+                  <Route exact path="/" component={Home} />
+                </>
+              ) : (
+                  <Redirect to={`/profile`} />
+                )}
+
+              <Route component={PageNotFound} />
+            </Switch>
+          </main>
+          <Footer />
+        </Router>
+      );
   }
 }
 
