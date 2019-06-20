@@ -22,7 +22,10 @@ class ProfilePersonal extends Component {
     });
   };
 
-  handleCancel = () => { };
+  handleCancel = (e) => {
+    e.preventDefault();
+    this.props.history.push('/posts')
+  };
 
   handleConfirmBlur = e => {
     const value = e.target.value;

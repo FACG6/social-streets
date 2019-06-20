@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Tabs, Icon, notification, Spin } from "antd";
+import { Tabs, Icon, notification } from "antd";
+import Spin from 'components/pages/Loading'
 import PropTypes from "prop-types";
 import axios from 'axios';
 
@@ -16,6 +17,7 @@ export default class ProfilePage extends Component {
     business: {},
     avatar: '',
     className: "",
+    current: '1',
   }
 
   componentDidMount() {
@@ -68,26 +70,24 @@ export default class ProfilePage extends Component {
         if (statusCode) {
           notification.error({ message: 'ERROR', description: error });
         }
-        if (statusCode === 401) {
-          this.props.history.push('/login');
-        }
       });
   }
+
+  handleGoBack = (data, e) => {
+    e.preventDefault();
+    this.setState({ current: '2', business: data });
+  };
+
   render() {
     const { personal, business, className, avatar } = this.state;
     return (
       <div className={className} >
         {!personal.id ?
-          <Spin
-            className="event-spin"
-            tip="Loading..."
-            size="large"
-            indicator={<Icon type="loading" style={{ fontSize: 50 }} spin />}
-          />
+          <Spin />
           :
           <>
-            <ProfilePic imgSrc={avatar} className="profile-page--pic" />
-            <Tabs defaultActiveKey="1" animated={true} className="profile-page-tabs">
+            <ProfilePic {...this.props} imgSrc={avatar} className="profile-page--pic" />
+            <Tabs defaultActiveKey={this.state.current} animated={true} className="profile-page-tabs">
               <TabPane
                 tab={
                   <span>
@@ -97,7 +97,7 @@ export default class ProfilePage extends Component {
                 }
                 key="1"
               >
-                <PersonalInfoForm personal={personal} />
+                <PersonalInfoForm {...this.props} personal={personal} />
               </TabPane>
               <TabPane
                 tab={
@@ -108,7 +108,7 @@ export default class ProfilePage extends Component {
                 }
                 key="2"
               >
-                <BusinessForm business={business} />
+                <BusinessForm handleGoBack={this.handleGoBack}{...this.props} business={business} />
               </TabPane>
             </Tabs>
           </>
