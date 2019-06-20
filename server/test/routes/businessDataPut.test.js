@@ -5,6 +5,19 @@ const app = require('../../../server/app');
 const { buildDb, buildFakeData, buildStaticData } = require('./../../database/config/build');
 
 tape('PUT in /api/v1/user/business || Valid', (t) => {
+  const expectedResult = {
+    id: 1,
+    business_type: 'typeTYPE TEST',
+    website: 'https://www.website_TEST.com',
+    organisation_name: 'nameNAME TEST',
+    address: 'addressADDRESS TEST TEST',
+    city: 'cityCITY TEST',
+    country: 'countryCOUNTRY TEST',
+    zip_code: '12345',
+    facebook: 'https://www.facebook_TEST.com',
+    instagram: 'https://www.instagram.com/username',
+    twitter: 'https://www.twitter_TEST.com',
+  };
   buildDb()
     .then(buildStaticData)
     .then(buildFakeData)
@@ -31,7 +44,7 @@ tape('PUT in /api/v1/user/business || Valid', (t) => {
           if (err) {
             t.error(err);
           }
-          t.equal(res.body.data, 'Business Data Updated Successfully', 'PUT method on /business Work Successfully');
+          t.deepEqual(res.body.data, expectedResult, 'PUT method on /business Work Successfully');
           t.end();
         });
     });
