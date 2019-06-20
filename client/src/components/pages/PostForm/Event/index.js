@@ -54,7 +54,7 @@ class EventForm extends React.Component {
           formData.append('data', JSON.stringify(values))
           formData.append('image', file)
           if (!file) return notification.error({ message: "Bad Request", description: 'Add an Image'});
-          await axios.post('/api/v1/post', formData, {
+          const postResponse = await axios.post('/api/v1/post', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -63,6 +63,8 @@ class EventForm extends React.Component {
               message: "Successfully",
               description: "Post added successfully"
             })
+            const id = postResponse.rows[0].id
+            this.props.history.push(`/post/${id}`)
         }
       } catch (err) {
         if (Number(err.statusCode) === 400) {
