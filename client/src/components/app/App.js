@@ -33,7 +33,6 @@ class App extends Component {
       notification.success({ message: "Welcome Back" });
       this.setState({ isAuth: true, user, isLoading: false });
     } catch (e) {
-      console.log(JSON.parse(JSON.stringify(e)));
       if (e.response.status === 401)
         notification.warning({
           message: "You should be a member to see this page"
