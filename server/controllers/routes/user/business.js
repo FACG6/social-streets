@@ -38,7 +38,7 @@ exports.updateBusiness = (req, res, next) => {
         });
       }
       const objError = new Error('Retry, password is wrong');
-      objError.statusCode = 400;
+      objError.statusCode = 401;
       throw objError;
     })
     .then((valid) => {
