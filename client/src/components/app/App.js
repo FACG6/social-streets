@@ -42,6 +42,8 @@ class App extends Component {
     }
   };
 
+  handleLogin = () => this.setState({ isAuth: true });
+
   handleLogout = async () => {
     this.setState({ isAuth: false, isLoading: true });
     try {
@@ -53,7 +55,7 @@ class App extends Component {
   };
 
   render() {
-    const { isAuth, isLoading, user } = this.state;
+    const { isAuth, isLoading } = this.state;
     return isLoading ? (
       <Loading />
     ) : (
@@ -70,7 +72,7 @@ class App extends Component {
             />
             <ProtectedRoute
               exact
-              path="/profile/:id"
+              path="/profile"
               isAuth={isAuth}
               component={Profile}
             />
@@ -117,12 +119,17 @@ class App extends Component {
             <ProtectedRoute isAuth={isAuth} path="/posts" component={Posts} />
             {!isAuth ? (
               <>
-                <Route path="/login" component={Login} />
+                <Route
+                  path="/login"
+                  component={props => (
+                    <Login {...props} handleLogin={this.handleLogin} />
+                  )}
+                />
                 <Route path="/signup" component={CreateProfile} />
                 <Route exact path="/" component={Home} />
               </>
             ) : (
-              <Redirect to={`/profile/${user.id}`} />
+              <Redirect to={`/profile`} />
             )}
 
             <Route component={PageNotFound} />

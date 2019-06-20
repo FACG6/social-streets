@@ -19,7 +19,7 @@ import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-import { event } from "components/pages/PostForm/dumyData";
+// import { event } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
@@ -31,7 +31,7 @@ class EventForm extends React.Component {
       id
     } = this.props;
     if (id) {
-      setFieldsValue(event);
+      // setFieldsValue(event);
     }
   }
 
