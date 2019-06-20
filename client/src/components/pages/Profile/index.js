@@ -75,8 +75,12 @@ export default class ProfilePage extends Component {
 
   handleGoBack = (data, e) => {
     e.preventDefault();
-    this.setState({ current: '2', business: data });
+    this.setState({ current: '1', business: data });
   };
+
+  handleTabClick = (e) => {
+    this.setState({ current: e })
+  }
 
   render() {
     const { personal, business, className, avatar } = this.state;
@@ -87,7 +91,7 @@ export default class ProfilePage extends Component {
           :
           <>
             <ProfilePic {...this.props} imgSrc={avatar} className="profile-page--pic" />
-            <Tabs defaultActiveKey={this.state.current} animated={true} className="profile-page-tabs">
+            <Tabs onTabClick={this.handleTabClick} activeKey={this.state.current} animated={true} className="profile-page-tabs">
               <TabPane
                 tab={
                   <span>

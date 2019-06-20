@@ -13,9 +13,12 @@ export default class Post extends Component {
 
   componentDidMount() {
     const { postType } = this.props;
+    console.log(postType, 11)
     axios.get(`/api/v1/post/${postType}`)
       .then(({ data: { data } }) => {
+        console.log(data)
         if (!data.length)
+          // console.log(2222)
           return this.setState({ notification: `No ${postType} Posts Available` });
         this.setState({ posts: data })
       })
@@ -25,7 +28,7 @@ export default class Post extends Component {
         statusCode
           ? notification.error(objError)
           : notification.error({ message: 'ERROR', description: 'Sorry, there is error' })
-        if (statusCode === 401) this.props.history.push('/login');
+        if (statusCode === 401) this.props.handleUnauth();
       })
   }
 
@@ -45,7 +48,7 @@ export default class Post extends Component {
         statusCode
           ? notification.error(objError)
           : notification.error({ message: 'ERROR', description: 'Sorry, there is error' });
-          
+
         if (statusCode === 401) this.props.history.push('/login');
       })
   }
@@ -58,7 +61,7 @@ export default class Post extends Component {
         <PostButton postType={`${postType} Posts`} />
         <span className='post-page--error'>{notification}</span>
         {posts.map(post => <PostRow
-          link={post.category.toLowerCase().replace(' and ', '-')}
+          link={post.tag.toLowerCase().replace(' and ', '-')}
           {...post}
           key={post.id}
           onClick={this.handleDelete}
