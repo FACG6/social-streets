@@ -17,22 +17,12 @@ import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-// import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
-  componentDidMount() {
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
 
-    // if (id) {
-    //   setFieldsValue(publicService);
-    // }
-  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((async (err, values) => {
@@ -97,10 +87,10 @@ class PublicServicesForm extends React.Component {
     } = this.props;
 
     const publicServicesPrimaryTag = primaryTag.map((element) => {
-      return {id: element.id, value: element.tag}
+      return { id: element.id, value: element.tag }
     })
     const publicServicesSecondaryTag = secondaryTags.map((element) => {
-      return { id: element.id, value: element.tag}
+      return { id: element.id, value: element.tag }
     })
 
     const urlType = getFieldValue("primaryTag");
@@ -161,15 +151,15 @@ class PublicServicesForm extends React.Component {
           }
         >
           {<Upload
-              style={{ width: "100%" }}
-              customRequest={_ => _}
-              listType="picture"
-              ref={element => (this.uploadInput = element)}
-            >
-              <Button size="large">
-                <Icon type="upload" /> Click to upload
+            style={{ width: "100%" }}
+            customRequest={_ => _}
+            listType="picture"
+            ref={element => (this.uploadInput = element)}
+          >
+            <Button size="large">
+              <Icon type="upload" /> Click to upload
               </Button>
-            </Upload>
+          </Upload>
           }
         </Form.Item>
         <InputAntd
