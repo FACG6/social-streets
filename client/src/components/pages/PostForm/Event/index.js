@@ -24,16 +24,6 @@ import "./style.css";
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
-  componentDidMount() {
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
-    // if (id) {
-    //   setFieldsValue(event);
-    // }
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((async (err, values) => {
