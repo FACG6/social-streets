@@ -4,13 +4,9 @@ import { Icon, Divider, Spin, notification } from "antd";
 import Button from "components/utils/Button";
 import "./style.css";
 import axios from "axios";
-
+import moment from 'moment';
 class Event extends Component {
   state = {};
-
-  handleBack = e => {
-    e.preventDefault();
-  };
 
   componentDidMount() {
     const { id } = this.props.match.params;
@@ -23,7 +19,6 @@ class Event extends Component {
       })
       .then(res => {
         res.data.data[0].topic = res.data.data.map(res => res.topic);
-        console.log(res.data, 222)
         this.setState({ ...res.data.data[0] });
       })
       .catch(err => {
@@ -52,11 +47,12 @@ class Event extends Component {
       category,
       topic,
       description,
-      event_datetime,
       venue,
       website,
       cost,
-      alt_text
+      alt_text,
+      event_start_datetime,
+      event_end_datetime,
     } = this.state;
     const pargraphs = description ? description.split("\n") : null;
 
@@ -70,93 +66,96 @@ class Event extends Component {
             indicator={<Icon type="loading" style={{ fontSize: 50 }} spin />}
           />
         ) : (
-          <section className="event-container">
-            <img className="event-img" src={image} alt={alt_text} />
-            <h1 className="event-title">{title}</h1>
-            <div className="event-icon">
-              <div className="event-icon--col">
-                <h5>
-                  <Icon
-                    type="calendar"
-                    style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />
-                  Posted on {publish_datetime}
+            <section className="event-container">
+              <img className="event-img" src={window.location.origin + `/server/uploads/` + image} alt={alt_text} />
+              <h1 className="event-title">{title}</h1>
+              <div className="event-icon">
+                <div className="event-icon--col">
+                  <h5>
+                    <Icon
+                      type="calendar"
+                      style={{ fontSize: "12px", paddingRight: "5px" }}
+                    />
+                    {moment(publish_datetime).format('ll') + moment(publish_datetime).startOf('hour').fromNow()}
+                  </h5>
+                  <h5>
+                    <Icon
+                      type="folder"
+                      style={{ fontSize: "12px", paddingRight: "5px" }}
+                    />
+                    {category}
+                  </h5>
+                </div>
+                <div className="event-flex--col">
+                  <h5>
+                    <Icon
+                      type="user"
+                      style={{ fontSize: "12px", paddingRight: "5px" }}
+                    />
+                    {organisation_name}
+                  </h5>
+                  <h5>
+                    <Icon
+                      type="folder"
+                      style={{ fontSize: "12px", paddingRight: "5px" }}
+                    />
+                    Event
                 </h5>
-                <h5>
-                  <Icon
-                    type="folder"
-                    style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />
-                  {category}
-                </h5>
+                </div>
               </div>
-              <div className="event-flex--col">
-                <h5>
-                  <Icon
-                    type="user"
-                    style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />
-                  {organisation_name}
-                </h5>
-                <h5>
-                  <Icon
-                    type="folder"
-                    style={{ fontSize: "12px", paddingRight: "5px" }}
-                  />
-                  Event
-                </h5>
+              <Divider />
+              <div className="event-body">
+                <h3 className="event--lable">Event Type</h3>
+                <span>{category}</span>
+                <Divider />
+                <h3 className="event--lable">Event Topic</h3>
+                <span>
+                  {topic.map((tag, index) => {
+                    return <span key={index}>{tag} </span>;
+                  })}
+                </span>
+                <Divider />
+                <h3 className="event--lable">Event Description</h3>
+                <span>
+                  {pargraphs.map((paragraph, index) => {
+                    return (
+                      <p key={index} className="public-service--paragraph">
+                        {paragraph}
+                      </p>
+                    );
+                  })}
+                </span>
+                <Divider />
+                <h3 className="event-lable">Event Start Date & Time</h3>
+                <span>{moment(event_start_datetime).format('YYYY-MM-DD, h:mm:ss a')}</span>
+                <Divider />
+                <h3 className="event-lable">Event End Date & Time</h3>
+                <span>{moment(event_end_datetime).format('YYYY-MM-DD, h:mm:ss a')}</span>
+                <Divider />
+                <h3 className="event--lable">Event Venue</h3>
+                <span>{venue}</span>
+                <Divider />
+                <h3 className="event--lable">Organizer Website</h3>
+                <span>
+                  <a href={website} style={{ color: "#f36f18" }}>
+                    {website}
+                  </a>
+                </span>
+                <Divider />
+                <h3 className="event--lable">Cost</h3>
+                <span style={{ paddingBottom: "1rem" }}>
+                  <Icon type="euro" />
+                  {cost}
+                </span>
               </div>
-            </div>
-            <Divider />
-            <div className="event-body">
-              <h3 className="event--lable">Event Type</h3>
-              <span>{category}</span>
-              <Divider />
-              <h3 className="event--lable">Event Topic</h3>
-              <span>
-                {topic.map((tag, index) => {
-                  return <span key={index}>{tag} </span>;
-                })}
-              </span>
-              <Divider />
-              <h3 className="event--lable">Event Description</h3>
-              <span>
-                {pargraphs.map((paragraph, index) => {
-                  return (
-                    <p key={index} className="public-service--paragraph">
-                      {paragraph}
-                    </p>
-                  );
-                })}
-              </span>
-              <Divider />
-              <h3 className="event-lable">Event Date & Time</h3>
-              <span>{event_datetime}</span>
-              <Divider />
-              <h3 className="event--lable">Event Venue</h3>
-              <span>{venue}</span>
-              <Divider />
-              <h3 className="event--lable">Organizer Website</h3>
-              <span>
-                <a href={website} style={{ color: "#e85f5f" }}>
-                  {website}
-                </a>
-              </span>
-              <Divider />
-              <h3 className="event--lable">Cost</h3>
-              <span style={{ paddingBottom: "1rem" }}>
-                <Icon type="euro" />
-                {cost}
-              </span>
-            </div>
-            <Button
-              onClick={() => this.props.history.push("/posts")}
-              className="event-btn--back"
-            >
-              Back
+              <Button
+                onClick={() => this.props.history.push("/posts")}
+                className="event-btn--back"
+              >
+                Back
             </Button>
-          </section>
-        )}
+            </section>
+          )}
       </>
     );
   }

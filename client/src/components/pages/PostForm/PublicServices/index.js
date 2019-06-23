@@ -80,16 +80,18 @@ class PublicServicesForm extends React.Component {
           description: "Something went wrong please try again later"
         });
       }
-      this.props.redirectTo("/");
+      this.props.history.push("/");
     }
   }
   handleSubmit = e => {
     e.preventDefault();
+    const { target } = e;
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
         if (!err) {
           const { id } = this.props;
 
+          //Edit Post//
           if (id) {
             values.type = "public_services";
             values.publishDatetime = this.state.publishDatetime;
@@ -101,39 +103,42 @@ class PublicServicesForm extends React.Component {
               formData.append("image", file);
             }
             formData.append("data", JSON.stringify(values));
-
-            console.log("new public Service", values);
+            //Axios Edit//
             await axios.put(`/api/v1/post/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data"
               }
             });
-            this.props.redirectTo(`/post/${id}`);
+            this.props.history.push(`/post/${id}`);
           } else {
+            //Publish New Posts//
             values.type = "public_services";
             values.publishDatetime = moment().format();
-            values.isDraft = "false";
+            target.textContent === 'Preview' ? values.isDraft = "true" : values.isDraft = 'false';
 
             const formData = new FormData();
-            const file = this.uploadInput.state.fileList[0].originFileObj;
+            const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
             formData.append("data", JSON.stringify(values));
             formData.append("image", file);
-            const serverResponse = await axios.post("/api/v1/post", formData, {
+
+
+            const postResponse = await axios.post("/api/v1/post", formData, {
               headers: {
                 "Content-Type": "multipart/form-data"
               }
             });
-            if (serverResponse.data.statusCode === 201) {
+            //Success//
+            if (target.textContent !== 'Preview')
               notification.success({
                 message: "Successfully",
                 description: "Post added successfully"
               });
-            } else {
-              notification.error({
-                message: "Bad Request",
-                description: err.message
-              });
-            }
+            //Redirect to the post page//
+            const { id, primary_tag } = postResponse.data.data;
+            const primaryTags = this.props.primaryTag;
+            const tagId = primaryTags.findIndex(({ id }) => id === primary_tag);
+            const tag = primaryTags[tagId].tag.toLowerCase().replace(' and ', '-');
+            this.props.history.push(`/post/public-service/${tag}/${id}`)
           }
         }
       } catch (err) {
@@ -174,7 +179,7 @@ class PublicServicesForm extends React.Component {
     const urlType = getFieldValue("primaryTag");
 
     return (
-      <Form className="main--eventForm" onSubmit={this.handleSubmit}>
+      <Form className="main--eventForm">
         <InputGroup size="large">
           <InputAntd
             withTip
@@ -238,7 +243,7 @@ class PublicServicesForm extends React.Component {
               <Button size="large">
                 <Icon type="upload" /> Click to upload
               </Button>
-          </Upload>
+            </Upload>
           }
         </Form.Item>
         <InputAntd
@@ -287,10 +292,11 @@ class PublicServicesForm extends React.Component {
           />
         </Card>
         <Form.Item>
-          <Btn type="primary" htmlType="submit">
+          <Btn onClick={this.handleSubmit} type="primary" htmlType="submit">
             Publish
           </Btn>
           <Btn
+            onClick={this.handleSubmit}
             className="main--form-btn-gradient main--form-btn"
             type="primary"
             htmlType="submit"

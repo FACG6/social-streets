@@ -32,7 +32,7 @@ export default class Profile extends Component {
         .then(() => {
           notification.success({
             message: "Successfully",
-            description: "Successfully sign up"
+            description: "Successful Registregation. Your account will be reviewed by the admin!"
           });
           this.props.history.push("/login");
         })

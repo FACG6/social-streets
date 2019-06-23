@@ -1,12 +1,10 @@
 import React from "react";
-import { Modal, notification, Form, Input, AutoComplete, Select } from "antd";
-import axios from 'axios';
+import { Form, Input, AutoComplete, Select } from "antd";
 
 import Button from "components/utils/Button";
 import { BusinessTypeValues } from "./business-type";
 import countries from "./country.json";
 import "./style.css";
-import "../modal.css"
 
 const { Option } = Select;
 const InputGroup = Input.Group;
@@ -17,9 +15,7 @@ class BusinessForm extends React.Component {
   state = {
     autoCompleteResultCountry: [],
     autoCompleteResultCity: [],
-    country: "",
-    password: '',
-    visible: false,
+    country: ""
   };
 
   componentDidMount = () => {
@@ -62,31 +58,13 @@ class BusinessForm extends React.Component {
     });
   };
 
-  handlePassword = (e) => {
-    this.setState({ password: e.target.value })
-  }
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  hideModal = () => {
-    this.setState({
-      visible: false,
-    });
-  }
-
   handleSubmit = e => {
     e.preventDefault();
-    if (this.props.location.pathname === '/signup') {
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          this.props.handleSubmit(values, e);
-        }
-      });
-    }
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        this.props.handleSubmit(values, e);
+      }
+    });
   };
 
   handleBack = e => {
@@ -94,26 +72,6 @@ class BusinessForm extends React.Component {
     const feildValues = this.props.form.getFieldsValue();
     this.props.handleGoBack(feildValues, e);
   };
-
-  updateInfo = () => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        axios.put('/api/v1/user/business', { ...values, oldPassword: this.state.password })
-          .then(({ data: { data } }) => {
-            if (data) {
-              notification.success({ message: 'Success', description: 'Updated Successfully!' });
-              this.setState({ visible: false });
-            }
-          })
-          .catch(({ response: { data } }) => {
-            const { statusCode, error } = data;
-            if (statusCode) {
-              notification.error({ message: 'ERROR', description: error });
-            }
-          });
-      }
-    });
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -128,7 +86,7 @@ class BusinessForm extends React.Component {
     ));
 
     return (
-      <Form onSubmit={this.handleSubmit} className='create-profile-form' >
+      <Form onSubmit={this.handleSubmit} className='create-profile-form'>
 
         <InputGroup size="large" >
 
@@ -168,7 +126,7 @@ class BusinessForm extends React.Component {
               ]
             })(
               <Select
-                placeholder="Type of business"
+                placeholder="Type of organisation"
                 onChange={this.handleSelectChange}
                 style={{ width: "100%", fontSize: "16px" }}
               >
@@ -290,9 +248,10 @@ class BusinessForm extends React.Component {
                   whitespace: true,
                   message: "Delete the spaces!"
                 },
+
                 {
-                  min: 4,
-                  message: "Zip NaCodeme must be 4 charcter at least!"
+                  pattern: '^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$',
+                  message: 'Please input a valid post code',
                 },
                 {
                   required: true,
@@ -366,21 +325,7 @@ class BusinessForm extends React.Component {
         </InputGroup>
 
         <Form.Item>
-          {this.props.location.pathname === '/profile' &&
-            <Modal
-              className='profile--password-popup'
-              title="Confrim Password"
-              visible={this.state.visible}
-              onOk={this.updateInfo}
-              onCancel={this.hideModal}
-            >
-              <label>Your Password</label>
-              <input className='profile--password-input' type='password' value={this.state.password} onChange={this.handlePassword} />
-            </Modal>
-          }
-          <Button
-            onClick={this.props.location.pathname === '/profile' ? this.showModal : null}
-            type="submit" className="form--btn-save">
+          <Button type="submit" className="form--btn-save">
             Save
           </Button>
           <Button onClick={this.handleBack} className="form--btn-cancel">

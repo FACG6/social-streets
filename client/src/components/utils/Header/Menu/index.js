@@ -9,7 +9,7 @@ export default function Menu({ show = false, handleMenuToggle }) {
     { target: "/profile", label: "Profile" },
     { target: "/posts/new", label: "Create Post" },
     { target: "/posts/live", label: "Live Posts" },
-    { target: "/posts/draft", label: "Draft" },
+    { target: "/posts/draft", label: "Draft Posts" },
     { target: "/logout", label: "Logout" }
   ];
   if (show)

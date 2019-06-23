@@ -77,7 +77,6 @@ class EventForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target.textContent, 222)
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
         if (err) {
@@ -88,13 +87,12 @@ class EventForm extends React.Component {
         } else {
           values.type = 'event'
           values.publishDatetime = moment().format()
-          values.isDraft = 'false'
+          e.target.textContent === 'Preview' ? values.isDraft = 'true' : values.isDraft = 'false';
           values.eventStartDatetime = values.event_start_datetime;
           values.eventEndDatetime = values.event_end_datetime;
           values.eventTopic = values.topic;
           values.altText = values.alt_text;
           values.focusKey = values.focus_key;
-          console.log(values)
 
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
@@ -104,7 +102,6 @@ class EventForm extends React.Component {
 
           let postResponse;
           if (e.target.textContent === 'Preview') {
-            values.isDraft = 'true';
             postResponse = await axios.post('/api/v1/post', formData, {
               headers: {
                 'Content-Type': 'multipart/form-data',
@@ -130,7 +127,6 @@ class EventForm extends React.Component {
         }
 
       } catch (err) {
-        console.log(err)
         if (Number(err.statusCode) === 400) {
           notification.error({
             message: "Bad Request",

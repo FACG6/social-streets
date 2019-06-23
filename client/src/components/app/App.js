@@ -78,7 +78,7 @@ class App extends Component {
                 exact
                 path="/profile"
                 isAuth={isAuth}
-                component={(props) =>
+                render={(props) =>
                   <Profile
                     {...props}
                     handleUnauth={this.handleUnauth}
