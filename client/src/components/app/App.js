@@ -24,12 +24,11 @@ import {
 import { Header, Footer } from "components/utils";
 import ProtectedRoute from "./../auth/protectedRoute";
 import "./App.css";
-import { assignmentExpression } from "@babel/types";
 
 class App extends Component {
   state = {
     user: { role: "admin", isAdmin: true },
-    isAuth: false,
+    isAuth: true,
     isLoading: true
   };
 
@@ -185,7 +184,7 @@ class App extends Component {
                 user={user}
                 isAuth={isAuth}
                 path="/admin"
-                component={Spin}
+                component={<h1>Hello World</h1>}
               />
             </Switch>
           </main>

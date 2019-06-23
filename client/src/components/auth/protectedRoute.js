@@ -1,15 +1,20 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
+import AdminLayout from "components/utils/AdminLayout";
 
 export default function protectedRoute({ isAuth, isAdmin, user, ...props }) {
-  console.log("is  Auth", isAuth);
-  console.log("is  Admin", isAdmin);
-  console.log("User : ", user);
-  console.log("props", props);
+  const { component: Component } = props;
   return isAuth ? (
     isAdmin ? (
       user.role === "admin" ? (
-        <Route {...props} />
+        <Route
+          {...props}
+          component={props => (
+            <AdminLayout {...props}>
+              <Component {...props} />
+            </AdminLayout>
+          )}
+        />
       ) : (
         <Redirect to="/page-not-found" />
       )
