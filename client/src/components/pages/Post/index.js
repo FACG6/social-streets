@@ -17,7 +17,6 @@ export default class Post extends Component {
       .then(({ data: { data } }) => {
         if (!data.length)
           return this.setState({ notification: `No ${postType} Posts Available` });
-        console.log(data, 11)
         this.setState({ posts: data })
       })
       .catch(err => {
