@@ -3,13 +3,15 @@ import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import {
   Form,
+  Input,
   Tooltip,
   Icon,
+  DatePicker,
+  InputNumber,
   Upload,
   Divider,
   Card,
   Button,
-  Input,
   notification
 } from "antd";
 import axios from 'axios';
@@ -17,22 +19,11 @@ import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-// import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
-class PublicServicesForm extends React.Component {
-  componentDidMount() {
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
-
-    if (id) {
-      // setFieldsValue(publicService);
-    }
-  }
+class EventForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((async (err, values) => {
@@ -43,30 +34,29 @@ class PublicServicesForm extends React.Component {
             description: "Validation Error"
           });
         } else {
-          values.type = 'publicServices'
+          values.type = 'event'
           values.publishDatetime = moment().format()
           values.isDraft = 'false'
+          values.eventDatetime = values.event_datetime;
+          values.altText = values.alt_text;
+          values.focusKey = values.focus_key;
 
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
           formData.append('data', JSON.stringify(values))
           formData.append('image', file)
-          const serverResponse = await axios.post('/api/v1/post', formData, {
+          if (!file) return notification.error({ message: "Bad Request", description: 'Add an Image'});
+          const postResponse = await axios.post('/api/v1/post', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
           });
-          if (serverResponse.data.statusCode === 201) {
             notification.success({
               message: "Successfully",
               description: "Post added successfully"
             })
-          } else {
-            notification.error({
-              message: "Bad Request",
-              description: err.message
-            });
-          }
+            const id = postResponse.rows[0].id
+            this.props.history.push(`/post/${id}`)
         }
       } catch (err) {
         if (Number(err.statusCode) === 400) {
@@ -91,19 +81,19 @@ class PublicServicesForm extends React.Component {
 
   render() {
     const {
-      primaryTag,
-      secondaryTags,
+      eventTypeValues,
+      eventTopicValues,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
-    const publicServicesPrimaryTag = primaryTag.map((element) => {
-      return {id: element.id, value: element.tag}
+    const eventCategory = eventTypeValues.map((element) => {
+      return { id: element.id, value: element.category }
     })
-    const publicServicesSecondaryTag = secondaryTags.map((element) => {
-      return { id: element.id, value: element.tag}
-    })
+    const eventTopic = eventTopicValues.map((element) => {
+      return { id: element.id, value: element.topic }
+    });
 
-    const urlType = getFieldValue("primaryTag");
+    const urlType = getFieldValue("eventType");
 
     return (
       <Form className="main--eventForm" onSubmit={this.handleSubmit}>
@@ -111,34 +101,34 @@ class PublicServicesForm extends React.Component {
           <InputAntd
             withTip
             label="Title"
-            tipInfo="Title for Public Services"
+            tipInfo="Title for Event"
             getFieldDecorator={getFieldDecorator}
             name="title"
-            validationMsg="Please input your Public Services"
-            placeholder="Public Services Title"
+            validationMsg="Please input your Event’s Title!"
+            placeholder="Event’s Title"
             validation={{ max: 60 }}
           />
         </InputGroup>
         <DropDownAntd
-          label="Primary Tag"
+          label="Event’s Type"
           getFieldDecorator={getFieldDecorator}
-          name="primaryTag"
+          name="category"
           required
-          validationMsg="Please select your Primary Tag!"
-          placeholder="Primary Tag"
+          validationMsg="Please select your Event’s Type!"
+          placeholder="Event’s Type"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={publicServicesPrimaryTag}
+          optionsMenu={eventCategory}
         />
         <DropDownAntd
           mode="multiple"
-          label="Secondary Tag"
+          label="Event’s Topic"
           getFieldDecorator={getFieldDecorator}
-          name="secondaryTag"
+          name="eventTopic"
           required
-          validationMsg="Please select your Secondary Tag!"
-          placeholder="Secondary Tag"
+          validationMsg="Please select your Event Topic!"
+          placeholder="Event’s Topic"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={publicServicesSecondaryTag}
+          optionsMenu={eventTopic}
         />
         <TextAreaAntd
           withTip
@@ -150,44 +140,102 @@ class PublicServicesForm extends React.Component {
           min={10}
           max={false}
         />
+        <Form.Item label={<span>Date and Time&nbsp;</span>}>
+          {getFieldDecorator("event_datetime", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your Date and Time!"
+              }
+            ]
+          })(
+            <DatePicker
+              style={{ width: "100%" }}
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              size="large"
+            />
+          )}
+        </Form.Item>
+        <InputGroup size="large">
+          <InputAntd
+            withTip={false}
+            label="Website"
+            getFieldDecorator={getFieldDecorator}
+            name="website"
+            validationMsg="Please input website!"
+            placeholder="Enter website"
+            validation={{
+              max: 60,
+              pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              message: "Please input website!"
+            }}
+          />
+        </InputGroup>
+        <InputGroup size="large">
+          <InputAntd
+            label="Venue"
+            getFieldDecorator={getFieldDecorator}
+            name="venue"
+            validationMsg="Please input your Event’s venue!"
+            placeholder="Event’s Venue"
+          />
+        </InputGroup>
+        <Form.Item label="Cost">
+          {getFieldDecorator("cost", {
+            rules: [{ required: true, message: "Please input cost!" }]
+          })(
+            <InputNumber
+              style={{ width: "100%" }}
+              formatter={value =>
+                `£ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              size="large"
+            />
+          )}
+        </Form.Item>
         <Form.Item
           label={
             <span>
               Image&nbsp;
-              <Tooltip title="Image for Public Services">
+              <Tooltip title="Image for event">
                 <Icon type="info-circle" />
               </Tooltip>
             </span>
           }
         >
           {<Upload
-              style={{ width: "100%" }}
-              customRequest={_ => _}
-              listType="picture"
-              ref={element => (this.uploadInput = element)}
-            >
-              <Button size="large">
-                <Icon type="upload" /> Click to upload
+            style={{ width: "100%" }}
+            customRequest={_ => _}
+            listType="picture"
+            ref={element => (this.uploadInput = element)}
+            showUploadList={false}
+          >
+            <Button size="large">
+              <Icon type="upload" /> Click to upload
               </Button>
-            </Upload>
+          </Upload>
           }
         </Form.Item>
-        <InputAntd
-          withTip={false}
-          label="Alt-Text"
-          tipInfo=""
-          getFieldDecorator={getFieldDecorator}
-          name="altText"
-          validationMsg="Please input Alt Text For Image!"
-          placeholder="Your Alt Text For Image"
-        />
+        <InputGroup size="large">
+          <InputAntd
+            withTip={false}
+            label="Alt-Text"
+            tipInfo=""
+            getFieldDecorator={getFieldDecorator}
+            name="alt_text"
+            validationMsg="Please input Alt Text For Image!"
+            placeholder="Your Alt Text For Image"
+          />
+        </InputGroup>
         <Divider style={{ margin: "20px 0" }} />
         <InputGroup size="large">
           <InputAntd
             withTip={false}
             label="Focus Keyword"
+            tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="focusKey"
+            name="focus_key"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
@@ -241,13 +289,12 @@ class PublicServicesForm extends React.Component {
     );
   }
 }
-const WrappedPublicServices = Form.create({ name: "publicServicesForm" })(
-  PublicServicesForm
-);
 
-WrappedPublicServices.propTypes = {
-  primaryTag: PropTypes.array.isRequired,
-  secondaryTags: PropTypes.array.isRequired
+const WrappedEventForm = Form.create({ name: "eventForm" })(EventForm);
+
+WrappedEventForm.propTypes = {
+  eventTopicValues: PropTypes.array.isRequired,
+  eventTypeValues: PropTypes.array.isRequired,
+  event: PropTypes.object
 };
-
-export default WrappedPublicServices;
+export default WrappedEventForm;

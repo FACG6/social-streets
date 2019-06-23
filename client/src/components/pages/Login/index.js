@@ -18,7 +18,7 @@ function LoginPage(props) {
           })
           .then(() => {
             props.handleLogin();
-            props.history.push("/");
+            props.history.push("/posts");
           })
           .catch(({ response: { data: { error, statusCode } } }) => {
             let notificationObj = {};

@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, Input, AutoComplete, Select } from "antd";
+import { Modal, notification, Form, Input, AutoComplete, Select } from "antd";
+import axios from 'axios';
 
 import Button from "components/utils/Button";
 import { BusinessTypeValues } from "./business-type";
@@ -15,7 +16,9 @@ class BusinessForm extends React.Component {
   state = {
     autoCompleteResultCountry: [],
     autoCompleteResultCity: [],
-    country: ""
+    country: "",
+    password: '',
+    visible: false,
   };
 
   componentDidMount = () => {
@@ -58,13 +61,25 @@ class BusinessForm extends React.Component {
     });
   };
 
+  handlePassword = (e) => {
+    this.setState({ password: e.target.value })
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        this.props.handleSubmit(values, e);
-      }
-    });
+    if (this.props.location.pathname === '/signup') {
+      this.props.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          this.props.handleSubmit(values, e);
+        }
+      });
+    }
   };
 
   handleBack = e => {
@@ -72,6 +87,26 @@ class BusinessForm extends React.Component {
     const feildValues = this.props.form.getFieldsValue();
     this.props.handleGoBack(feildValues, e);
   };
+
+  updateInfo = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        axios.put('/api/v1/user/business', { ...values, oldPassword: this.state.password })
+          .then(({ data: { data } }) => {
+            if (data) {
+              notification.success({ message: 'Success', description: 'Updated Successfully!' });
+              this.setState({ visible: false });
+            }
+          })
+          .catch(({ response: { data } }) => {
+            const { statusCode, error } = data;
+            if (statusCode) {
+              notification.error({ message: 'ERROR', description: error });
+            }
+          });
+      }
+    });
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -86,7 +121,7 @@ class BusinessForm extends React.Component {
     ));
 
     return (
-      <Form onSubmit={this.handleSubmit} className='create-profile-form'>
+      <Form onSubmit={this.handleSubmit} className='create-profile-form' >
 
         <InputGroup size="large" >
 
@@ -260,7 +295,7 @@ class BusinessForm extends React.Component {
             })(<Input placeholder="Zip Code" />)}
           </Form.Item>
 
-            <h3>Social Media</h3>
+          <h3>Social Media</h3>
           <div className='social-input' >
             <img src='https://image.flaticon.com/icons/svg/174/174848.svg' alt="facebook logo" className='social-img' />
             <Form.Item className='create-profile-form--item'>
@@ -324,7 +359,20 @@ class BusinessForm extends React.Component {
         </InputGroup>
 
         <Form.Item>
-          <Button type="submit" className="form--btn-save">
+          {this.props.location.pathname === '/profile' &&
+            <Modal
+              title="Modal"
+              visible={this.state.visible}
+              onOk={this.updateInfo}
+              onCancel={this.hideModal}
+            >
+              <label>Your Password</label>
+              <input type='password' value={this.state.password} onChange={this.handlePassword} />
+            </Modal>
+          }
+          <Button
+            onClick={this.props.location.pathname === '/profile' ? this.showModal : null}
+            type="submit" className="form--btn-save">
             Save
           </Button>
           <Button onClick={this.handleBack} className="form--btn-cancel">
