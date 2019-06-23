@@ -12,30 +12,19 @@ import {
   Input,
   notification
 } from "antd";
-import axios from 'axios';
-import moment from 'moment';
+import axios from "axios";
+import moment from "moment";
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-// import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
-  componentDidMount() {
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
-
-    if (id) {
-      // setFieldsValue(publicService);
-    }
-  }
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((async (err, values) => {
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
         if (err) {
           notification.error({
@@ -43,24 +32,24 @@ class PublicServicesForm extends React.Component {
             description: "Validation Error"
           });
         } else {
-          values.type = 'publicServices'
-          values.publishDatetime = moment().format()
-          values.isDraft = 'false'
+          values.type = "publicServices";
+          values.publishDatetime = moment().format();
+          values.isDraft = "false";
 
-          const formData = new FormData()
-          const file = this.uploadInput.state.fileList[0].originFileObj
-          formData.append('data', JSON.stringify(values))
-          formData.append('image', file)
-          const serverResponse = await axios.post('/api/v1/post', formData, {
+          const formData = new FormData();
+          const file = this.uploadInput.state.fileList[0].originFileObj;
+          formData.append("data", JSON.stringify(values));
+          formData.append("image", file);
+          const serverResponse = await axios.post("/api/v1/post", formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+              "Content-Type": "multipart/form-data"
+            }
           });
           if (serverResponse.data.statusCode === 201) {
             notification.success({
               message: "Successfully",
               description: "Post added successfully"
-            })
+            });
           } else {
             notification.error({
               message: "Bad Request",
@@ -81,12 +70,12 @@ class PublicServicesForm extends React.Component {
           });
         } else {
           notification.error({
-            message: 'Error',
-            description: 'There is an error try again'
+            message: "Error",
+            description: "There is an error try again"
           });
         }
       }
-    }));
+    });
   };
 
   render() {
@@ -96,12 +85,12 @@ class PublicServicesForm extends React.Component {
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
-    const publicServicesPrimaryTag = primaryTag.map((element) => {
-      return {id: element.id, value: element.tag}
-    })
-    const publicServicesSecondaryTag = secondaryTags.map((element) => {
-      return { id: element.id, value: element.tag}
-    })
+    const publicServicesPrimaryTag = primaryTag.map(element => {
+      return { id: element.id, value: element.tag };
+    });
+    const publicServicesSecondaryTag = secondaryTags.map(element => {
+      return { id: element.id, value: element.tag };
+    });
 
     const urlType = getFieldValue("primaryTag");
 
@@ -160,7 +149,8 @@ class PublicServicesForm extends React.Component {
             </span>
           }
         >
-          {<Upload
+          {
+            <Upload
               style={{ width: "100%" }}
               customRequest={_ => _}
               listType="picture"
