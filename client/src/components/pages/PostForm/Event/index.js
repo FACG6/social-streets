@@ -25,7 +25,7 @@ const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   state = {
-    publishDatetime: moment().format(),
+    // publishDatetime: moment().format(),
   };
   async componentDidMount() {
     try {
@@ -43,11 +43,11 @@ class EventForm extends React.Component {
         const event = getRes.data.data[0];
         event.topic = getRes.data.data.map(event => event.topic_id);
         event.category = event.event_category;
-        event.event_datetime = moment(new Date(event.event_datetime));
         delete event.event_category;
         delete event.topic_id;
-        await this.setState({ publishDatetime: event.publish_datetime });
+        // this.setState({ publishDatetime: event.publish_datetime }, () => {
         setFieldsValue(event);
+        // });
       }
     } catch (err) {
       if (Number(err.statusCode) === 400) {
@@ -159,7 +159,6 @@ class EventForm extends React.Component {
       eventTopicValues,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
-
     const eventCategory = eventTypeValues.map(element => {
       return { id: element.id, value: element.category };
     });
@@ -224,6 +223,7 @@ class EventForm extends React.Component {
             ]
           })(
             <DatePicker
+              defaultPickerValue={null}
               style={{ width: "100%" }}
               showTime
               format="YYYY-MM-DD HH:mm:ss"
@@ -241,6 +241,7 @@ class EventForm extends React.Component {
             ]
           })(
             <DatePicker
+              defaultPickerValue={null}
               style={{ width: "100%" }}
               showTime
               format="YYYY-MM-DD HH:mm:ss"
@@ -337,7 +338,7 @@ class EventForm extends React.Component {
             <>
               Event Title
               <br />
-              <span style={{ color: "#277839" }}>
+              <span style={{ color: "#f36f18" }}>
                 www.socialstreets.co/events/{urlType && urlType}
               </span>
             </>

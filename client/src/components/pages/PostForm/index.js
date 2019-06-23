@@ -4,6 +4,7 @@ import axios from "axios";
 
 import WrappedEventForm from "components/pages/PostForm/Event";
 import WrappedPublicServices from "components/pages/PostForm/PublicServices";
+import Spin from 'components/pages/Loading'
 
 import "./style.css";
 
@@ -15,9 +16,10 @@ class CreatPostPage extends React.Component {
     eventTypeValues: [],
     eventTopicValues: [],
     primaryTag: [],
-    secondaryTag: []
+    secondaryTag: [],
+    isLoading: true,
   };
-  
+
   async componentDidMount() {
     try {
       const eventRespons = await axios.get("/api/v1/post/event/static");
@@ -30,7 +32,8 @@ class CreatPostPage extends React.Component {
         eventTypeValues: categories,
         eventTopicValues: topics,
         primaryTag: primaryTags,
-        secondaryTag: secondaryTags
+        secondaryTag: secondaryTags,
+        isLoading: false,
       });
     } catch (err) {
       notification.error({
@@ -45,7 +48,7 @@ class CreatPostPage extends React.Component {
   render() {
     const postTypes = [
       { key: 1, value: "event" },
-      { key: 2, value: "public pervices" }
+      { key: 2, value: "public services" }
     ];
 
     const {
@@ -77,24 +80,27 @@ class CreatPostPage extends React.Component {
           ))}
         </Select>
         <Divider style={{ margin: "20px 0" }} />
-        {postType === "event" ? (
-          <WrappedEventForm
-            {...this.props}
-            id={id}
-            postType={postType}
-            eventTopicValues={eventTopicValues}
-            eventTypeValues={eventTypeValues}
-            redirectTo={this.redirectTo}
-          />
-        ) : (
-            <WrappedPublicServices
+        {!this.state.isLoading ?
+          postType === "event" ? (
+            <WrappedEventForm
               {...this.props}
               id={id}
               postType={postType}
-              primaryTag={primaryTag}
-              secondaryTags={secondaryTag}
+              eventTopicValues={eventTopicValues}
+              eventTypeValues={eventTypeValues}
             />
-          )}
+          ) : (
+              <WrappedPublicServices
+                {...this.props}
+                id={id}
+                postType={postType}
+                primaryTag={primaryTag}
+                secondaryTags={secondaryTag}
+              />
+            )
+          :
+          <Spin />
+        }
       </section>
     );
   }

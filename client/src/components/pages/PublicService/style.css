@@ -13,6 +13,7 @@
   padding-top: 10px;
   font-size: 36px;
   color: #333333;
+  text-transform: capitalize;
 }
 
 .post-header--container {
@@ -28,23 +29,19 @@
 
 .post-header--item {
   display: flex;
-  padding-right: 10px;
-  font-size: 16px;
-  align-items: center;
-  color: #888888;
-  text-transform: capitalize;
 }
 
-.post-header--icon {
-  color: #888888;
+.post-header--icon, .post-header--meta {
   padding-right: 5px;
   font-size: 12px;
+  color: #888888;
+  text-transform: capitalize;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .public-service--content {
   padding: 20px 0px 20px 0;
   line-height: 1.6;
-  font-family: 'Open Sans', serif;
   font-size: 15px;
   color: #333333;
 }
@@ -76,38 +73,13 @@
 
 .public-service--tag {
   padding-right: 10px;
-  color: rgb(232, 95, 95);
+  color: #f36f18;
   text-transform: capitalize;
   font-size: 15px;
 }
 
-.public-service--link-preview-container {
-  padding-top: 20px;
-  margin-bottom: 30px;
-}
-
-.public-service--link-preview {
-  padding-top: 20px;
-  width: 90%;
-  margin: 0 auto;
-}
-
-.link-preview--description {
-  padding-top: 10px;
-  font-size: 15px;
-}
-
-.link-preview--image {
-  width: 100%;
-}
-
 .public-service-btn--back {
   margin: 30px 0;
-}
-
-.link-preview--link {
-  font-size: 12px;
-  color: blue;
 }
 
 .public-service-btn--back {

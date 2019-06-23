@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, Input, AutoComplete, Select } from "antd";
+import { notification, Modal, Form, Input, AutoComplete, Select } from "antd";
+import axios from 'axios';
 
 import Button from "components/utils/Button";
 import { BusinessTypeValues } from "./business-type";
@@ -15,7 +16,9 @@ class BusinessForm extends React.Component {
   state = {
     autoCompleteResultCountry: [],
     autoCompleteResultCity: [],
-    country: ""
+    country: "",
+    visible: false,
+    password: '',
   };
 
   componentDidMount = () => {
@@ -58,14 +61,52 @@ class BusinessForm extends React.Component {
     });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        this.props.handleSubmit(values, e);
-      }
+  handlePassword = (e) => {
+    this.setState({ password: e.target.value })
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true,
     });
   };
+
+  hideModal = () => {
+    this.setState({
+      visible: false,
+    });
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    if (this.props.location.pathname === '/signup') {
+      this.props.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          this.props.handleSubmit(values, e);
+        }
+      });
+    }
+  };
+
+  updateInfo = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        axios.put('/api/v1/user/business', { ...values, oldPassword: this.state.password })
+          .then(({ data: { data } }) => {
+            if (data) {
+              notification.success({ message: 'Success', description: 'Updated Successfully!' });
+              this.setState({ visible: false });
+            }
+          })
+          .catch(({ response: { data } }) => {
+            const { statusCode, error } = data;
+            if (statusCode) {
+              notification.error({ message: 'ERROR', description: error });
+            }
+          });
+      }
+    });
+  }
 
   handleBack = e => {
     e.preventDefault();
@@ -325,7 +366,21 @@ class BusinessForm extends React.Component {
         </InputGroup>
 
         <Form.Item>
-          <Button type="submit" className="form--btn-save">
+          {this.props.location.pathname === '/profile' &&
+            <Modal
+              className='profile--password-popup'
+              title="Confrim Password"
+              visible={this.state.visible}
+              onOk={this.updateInfo}
+              onCancel={this.hideModal}
+            >
+              <label>Your Password</label>
+              <input className='profile--password-input' type='password' value={this.state.password} onChange={this.handlePassword} />
+            </Modal>
+          }
+          <Button
+            onClick={this.props.location.pathname === '/profile' ? this.showModal : null}
+            type="submit" className="form--btn-save">
             Save
           </Button>
           <Button onClick={this.handleBack} className="form--btn-cancel">

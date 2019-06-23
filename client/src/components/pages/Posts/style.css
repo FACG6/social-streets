@@ -1,5 +1,5 @@
 .posts-page-main {
-  padding-top: 80px;
+  padding-top: 30px;
   width: 90%;
   margin: 0 auto;
   height: calc(100vh - (184px + 70px));
@@ -17,7 +17,7 @@
 }
 
 .posts--button {
-  margin-bottom: 70px;
+  margin-bottom: 30px;
   transition: background-color 1s ease;
   width: 50%;
 }

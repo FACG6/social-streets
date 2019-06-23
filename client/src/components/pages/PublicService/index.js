@@ -54,9 +54,6 @@ export default class PublicService extends Component {
       focus_key,
       description,
       organizerWebsite,
-      linkTitle,
-      linkDescription,
-      link,
       secondary_tag
     } = this.state;
 
@@ -83,21 +80,21 @@ export default class PublicService extends Component {
                 <div className="post-header--column">
                   <div className="post-header--item">
                     <Icon type="calendar" className="post-header--icon" />
-                    <span className="post-header--meta">{moment(publish_datetime).format('ll') + moment(publish_datetime).startOf('hour').fromNow()}</span>
+                    <h5 className="post-header--meta">{moment(publish_datetime).format('ll') + moment(publish_datetime).startOf('hour').fromNow()}</h5>
                   </div>
                   <div className="post-header--item">
                     <Icon type="tags" className="post-header--icon" />
-                    <span className="post-header--meta">{tag}</span>
+                    <h5 className="post-header--meta">{tag}</h5>
                   </div>
                 </div>
                 <div className="post-header--column">
                   <div className="post-header--item">
                     <Icon type="user" className="post-header--icon" />
-                    <span className="post-header--meta">{organisation_name}</span>
+                    <h5 className="post-header--meta">{organisation_name}</h5>
                   </div>
                   <div className="post-header--item">
                     <Icon type="form" className="post-header--icon" />
-                    <span className="post-header--meta">{focus_key}</span>
+                    <h5 className="post-header--meta">{focus_key}</h5>
                   </div>
                 </div>
               </div>
@@ -125,23 +122,6 @@ export default class PublicService extends Component {
                       {tag}
                     </span>
                   ))}
-                </div>
-              </div>
-              <div className="public-service--link-preview-container">
-                <h3 className="public-service--label public-service--label--link">
-                  Link
-              </h3>
-                <div className="public-service--link-preview">
-                  <img
-                    className="link-preview--image"
-                    src={image}
-                    alt="link Title"
-                  />
-                  <h2 className="link-preview--title">{linkTitle}</h2>
-                  <a href={link} className="link-preview--link">
-                    {link}
-                  </a>
-                  <p className="link-preview--description">{linkDescription}</p>
                 </div>
               </div>
               <Button

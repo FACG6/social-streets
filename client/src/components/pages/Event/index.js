@@ -70,7 +70,7 @@ class Event extends Component {
               <img className="event-img" src={window.location.origin + `/server/uploads/` + image} alt={alt_text} />
               <h1 className="event-title">{title}</h1>
               <div className="event-icon">
-                <div className="event-icon--col">
+                <div className="event-flex--col">
                   <h5>
                     <Icon
                       type="calendar"
@@ -143,8 +143,8 @@ class Event extends Component {
                 </span>
                 <Divider />
                 <h3 className="event--lable">Cost</h3>
-                <span style={{ paddingBottom: "1rem" }}>
-                  <Icon type="euro" />
+                <span style={{ paddingBottom: "1rem", fontSize: '18px' }}>
+                  <Icon type="euro" style={{ paddingRight: '6px' }} />
                   {cost}
                 </span>
               </div>
