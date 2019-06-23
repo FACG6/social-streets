@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const { get } = require('./get');
 const { post } = require('./post');
+const { updateBusiness } = require('./business');
 const { updatePassword } = require('./password');
 
 router
@@ -9,6 +10,14 @@ router
   .get(get)
   .post(post);
 router
-  .put('/password', updatePassword);
+  .route('/password')
+  .put(updatePassword);
+router
+  .route('/business')
+  .put(updateBusiness);
+
+const { updatePersonal } = require('./personal');
+
+router.route('/personal').put(updatePersonal);
 
 module.exports = router;

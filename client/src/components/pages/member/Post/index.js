@@ -25,7 +25,7 @@ export default class Post extends Component {
         statusCode
           ? notification.error(objError)
           : notification.error({ message: 'ERROR', description: 'Sorry, there is error' })
-        if (statusCode === 401) this.props.history.push('/login');
+        if (statusCode === 401) this.props.handleUnauth();
       })
   }
 
@@ -45,8 +45,8 @@ export default class Post extends Component {
         statusCode
           ? notification.error(objError)
           : notification.error({ message: 'ERROR', description: 'Sorry, there is error' });
-          
-        if (statusCode === 401) this.props.history.push('/login');
+
+        if (statusCode === 401) this.props.handleUnauth();
       })
   }
 
@@ -58,7 +58,7 @@ export default class Post extends Component {
         <PostButton postType={`${postType} Posts`} />
         <span className='post-page--error'>{notification}</span>
         {posts.map(post => <PostRow
-          link={post.category.toLowerCase().replace(' and ', '-')}
+          link={post.tag.toLowerCase().replace(' and ', '-')}
           {...post}
           key={post.id}
           onClick={this.handleDelete}

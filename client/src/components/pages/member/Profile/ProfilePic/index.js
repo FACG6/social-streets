@@ -8,7 +8,6 @@ export default function ProfilePic({ className = "", imgSrc = "" }) {
   const fileInput = React.createRef();
 
   const handleFileInput = () => {
-    console.log(fileInput.current.files);
   };
 
   return (

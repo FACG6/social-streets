@@ -11,47 +11,87 @@ import {
   Upload,
   Divider,
   Card,
-  Button
+  Button,
+  notification
 } from "antd";
+import axios from 'axios';
+import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-import { event } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
-  componentDidMount() {
-    // id and postType need for fetch and take post info
-    // const { id, postType } = this.props;
-    // use id, postType for fetch and take post info from DB
-    // by use setFieldsValue will put the reponse of post in inputs
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
-    if (id) {
-      setFieldsValue(event);
-    }
-  }
-
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        // for fetch
+    this.props.form.validateFieldsAndScroll((async (err, values) => {
+      try {
+        if (err) {
+          notification.error({
+            message: "Error",
+            description: "Validation Error"
+          });
+        } else {
+          values.type = 'event'
+          values.publishDatetime = moment().format()
+          values.isDraft = 'false'
+          values.eventDatetime = values.event_datetime;
+          values.altText = values.alt_text;
+          values.focusKey = values.focus_key;
+
+          const formData = new FormData()
+          const file = this.uploadInput.state.fileList[0].originFileObj
+          formData.append('data', JSON.stringify(values))
+          formData.append('image', file)
+          if (!file) return notification.error({ message: "Bad Request", description: 'Add an Image'});
+          const postResponse = await axios.post('/api/v1/post', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+            notification.success({
+              message: "Successfully",
+              description: "Post added successfully"
+            })
+            const id = postResponse.rows[0].id
+            this.props.history.push(`/post/${id}`)
+        }
+      } catch (err) {
+        if (Number(err.statusCode) === 400) {
+          notification.error({
+            message: "Bad Request",
+            description: err.message
+          });
+        } else if (Number(err.statusCode) === 500) {
+          notification.error({
+            message: "Internal Server Error",
+            description: err.message
+          });
+        } else {
+          notification.error({
+            message: 'Error',
+            description: 'There is an error try again'
+          });
+        }
       }
-    });
+    }));
   };
 
   render() {
     const {
-      id,
       eventTypeValues,
       eventTopicValues,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
+
+    const eventCategory = eventTypeValues.map((element) => {
+      return { id: element.id, value: element.category }
+    })
+    const eventTopic = eventTopicValues.map((element) => {
+      return { id: element.id, value: element.topic }
+    });
 
     const urlType = getFieldValue("eventType");
 
@@ -72,12 +112,12 @@ class EventForm extends React.Component {
         <DropDownAntd
           label="Event’s Type"
           getFieldDecorator={getFieldDecorator}
-          name="eventType"
+          name="category"
           required
           validationMsg="Please select your Event’s Type!"
           placeholder="Event’s Type"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={eventTypeValues}
+          optionsMenu={eventCategory}
         />
         <DropDownAntd
           mode="multiple"
@@ -88,7 +128,7 @@ class EventForm extends React.Component {
           validationMsg="Please select your Event Topic!"
           placeholder="Event’s Topic"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={eventTopicValues}
+          optionsMenu={eventTopic}
         />
         <TextAreaAntd
           withTip
@@ -101,7 +141,7 @@ class EventForm extends React.Component {
           max={false}
         />
         <Form.Item label={<span>Date and Time&nbsp;</span>}>
-          {getFieldDecorator("dateAndTime", {
+          {getFieldDecorator("event_datetime", {
             rules: [
               {
                 required: true,
@@ -132,6 +172,15 @@ class EventForm extends React.Component {
             }}
           />
         </InputGroup>
+        <InputGroup size="large">
+          <InputAntd
+            label="Venue"
+            getFieldDecorator={getFieldDecorator}
+            name="venue"
+            validationMsg="Please input your Event’s venue!"
+            placeholder="Event’s Venue"
+          />
+        </InputGroup>
         <Form.Item label="Cost">
           {getFieldDecorator("cost", {
             rules: [{ required: true, message: "Please input cost!" }]
@@ -155,26 +204,18 @@ class EventForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator("image", {
-            rules: [
-              {
-                required: false,
-                message: "Please input your image!",
-                whitespace: true
-              }
-            ]
-          })(
-            <Upload
-              style={{ width: "100%" }}
-              name="eventImage"
-              action="/upload.do"
-              listType="picture"
-            >
-              <Button size="large">
-                <Icon type="upload" /> Click to upload
+          {<Upload
+            style={{ width: "100%" }}
+            customRequest={_ => _}
+            listType="picture"
+            ref={element => (this.uploadInput = element)}
+            showUploadList={false}
+          >
+            <Button size="large">
+              <Icon type="upload" /> Click to upload
               </Button>
-            </Upload>
-          )}
+          </Upload>
+          }
         </Form.Item>
         <InputGroup size="large">
           <InputAntd
@@ -182,7 +223,7 @@ class EventForm extends React.Component {
             label="Alt-Text"
             tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="altText"
+            name="alt_text"
             validationMsg="Please input Alt Text For Image!"
             placeholder="Your Alt Text For Image"
           />
@@ -194,7 +235,7 @@ class EventForm extends React.Component {
             label="Focus Keyword"
             tipInfo=""
             getFieldDecorator={getFieldDecorator}
-            name="focusKeyword"
+            name="focus_key"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
@@ -217,7 +258,7 @@ class EventForm extends React.Component {
             style={{ fontSize: "15px" }}
             label="Meta Description"
             getFieldDecorator={getFieldDecorator}
-            name="metaDescription"
+            name="meta"
             validationMsg="Please input your Meta Description!"
             placeholder="Your main Meta Description"
             min={5}

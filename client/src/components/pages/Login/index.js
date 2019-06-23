@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Form, Icon, Input, Checkbox } from "antd";
+import { Form, Icon, Input, Checkbox, notification } from "antd";
+import axios from "axios";
 
 import Button from "components/utils/Button";
 import "./style.css";
@@ -8,19 +9,55 @@ import "./style.css";
 function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFields((err, values) => {});
+    props.form.validateFields((err, { email, password }) => {
+      if (!err) {
+        axios
+          .post("/api/v1/login", {
+            email,
+            password
+          })
+          .then(() => {
+            props.handleLogin();
+            props.history.push("/posts");
+          })
+          .catch(({ response: { data: { error, statusCode } } }) => {
+            let notificationObj = {};
+            switch (statusCode) {
+              case 400:
+                notificationObj = {
+                  message: "Bad Request",
+                  description: "Please Enter a valid email and/or password"
+                };
+                break;
+              case 401:
+                notificationObj = {
+                  message: "Unauthorized",
+                  description: error
+                };
+                break;
+              default:
+                notificationObj = {
+                  message: "Internal Server Error",
+                  description:
+                    "Something went wrong with server, please try again later"
+                };
+            }
+            notification.error(notificationObj);
+          });
+      }
+    });
   };
 
   const {
     form: { getFieldDecorator }
   } = props;
-  
+
   return (
     <Fragment>
       <main className="login-page--main-section">
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Item label="Email Address">
-            {getFieldDecorator("username", {
+            {getFieldDecorator("email", {
               rules: [
                 { required: true, message: "Email address is required!" },
                 {
@@ -67,11 +104,11 @@ function LoginPage(props) {
             <Button type="submit">Log in</Button>
             <span className="form--create-acc">
               Don't have an account?
-                <Link to="/signup" className="login-form--signup-link">
+              <Link to="/signup" className="login-form--signup-link">
                 Sign up
-                </Link>
+              </Link>
               now
-              </span>
+            </span>
           </div>
         </Form>
       </main>

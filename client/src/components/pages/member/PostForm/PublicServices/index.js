@@ -9,47 +9,88 @@ import {
   Divider,
   Card,
   Button,
-  Input
+  Input,
+  notification
 } from "antd";
+import axios from "axios";
+import moment from "moment";
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
-  componentDidMount() {
-    // id and postType need for fetch and take post info
-    // const { id, postType } = this.props;
-    // use id, postType for fetch and take post info from DB
-    // by use setFieldsValue will put the reponse of post in inputs
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
-
-    if (id) {
-      setFieldsValue(publicService);
-    }
-  }
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        // for fetch
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
+      try {
+        if (err) {
+          notification.error({
+            message: "Error",
+            description: "Validation Error"
+          });
+        } else {
+          values.type = "publicServices";
+          values.publishDatetime = moment().format();
+          values.isDraft = "false";
+
+          const formData = new FormData();
+          const file = this.uploadInput.state.fileList[0].originFileObj;
+          formData.append("data", JSON.stringify(values));
+          formData.append("image", file);
+          const serverResponse = await axios.post("/api/v1/post", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+          if (serverResponse.data.statusCode === 201) {
+            notification.success({
+              message: "Successfully",
+              description: "Post added successfully"
+            });
+          } else {
+            notification.error({
+              message: "Bad Request",
+              description: err.message
+            });
+          }
+        }
+      } catch (err) {
+        if (Number(err.statusCode) === 400) {
+          notification.error({
+            message: "Bad Request",
+            description: err.message
+          });
+        } else if (Number(err.statusCode) === 500) {
+          notification.error({
+            message: "Internal Server Error",
+            description: err.message
+          });
+        } else {
+          notification.error({
+            message: "Error",
+            description: "There is an error try again"
+          });
+        }
       }
     });
   };
 
   render() {
     const {
-      id,
       primaryTag,
-      secondaryTag,
+      secondaryTags,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
+
+    const publicServicesPrimaryTag = primaryTag.map(element => {
+      return { id: element.id, value: element.tag };
+    });
+    const publicServicesSecondaryTag = secondaryTags.map(element => {
+      return { id: element.id, value: element.tag };
+    });
 
     const urlType = getFieldValue("primaryTag");
 
@@ -75,7 +116,7 @@ class PublicServicesForm extends React.Component {
           validationMsg="Please select your Primary Tag!"
           placeholder="Primary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={primaryTag}
+          optionsMenu={publicServicesPrimaryTag}
         />
         <DropDownAntd
           mode="multiple"
@@ -86,7 +127,7 @@ class PublicServicesForm extends React.Component {
           validationMsg="Please select your Secondary Tag!"
           placeholder="Secondary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={secondaryTag}
+          optionsMenu={publicServicesSecondaryTag}
         />
         <TextAreaAntd
           withTip
@@ -108,26 +149,18 @@ class PublicServicesForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator("image", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your image!",
-                whitespace: true
-              }
-            ]
-          })(
+          {
             <Upload
               style={{ width: "100%" }}
-              name="eventImage"
-              action="/upload.do"
+              customRequest={_ => _}
               listType="picture"
+              ref={element => (this.uploadInput = element)}
             >
               <Button size="large">
                 <Icon type="upload" /> Click to upload
               </Button>
             </Upload>
-          )}
+          }
         </Form.Item>
         <InputAntd
           withTip={false}
@@ -144,7 +177,7 @@ class PublicServicesForm extends React.Component {
             withTip={false}
             label="Focus Keyword"
             getFieldDecorator={getFieldDecorator}
-            name="focusKeyword"
+            name="focusKey"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
@@ -167,7 +200,7 @@ class PublicServicesForm extends React.Component {
             style={{ fontSize: "15px" }}
             label="Meta Description"
             getFieldDecorator={getFieldDecorator}
-            name="metaDescription"
+            name="meta"
             validationMsg="Please input your Meta Description!"
             placeholder="Your main Meta Description"
             min={5}
@@ -204,7 +237,7 @@ const WrappedPublicServices = Form.create({ name: "publicServicesForm" })(
 
 WrappedPublicServices.propTypes = {
   primaryTag: PropTypes.array.isRequired,
-  secondaryTag: PropTypes.array.isRequired
+  secondaryTags: PropTypes.array.isRequired
 };
 
 export default WrappedPublicServices;

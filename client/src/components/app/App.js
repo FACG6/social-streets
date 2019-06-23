@@ -5,7 +5,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import { notification } from "antd";
+import { notification, Spin } from "antd";
 import axios from "axios";
 
 import {
@@ -24,15 +24,25 @@ import {
 import { Header, Footer } from "components/utils";
 import ProtectedRoute from "./../auth/protectedRoute";
 import "./App.css";
+import { assignmentExpression } from "@babel/types";
 
 class App extends Component {
-  state = { user: {}, isAuth: false, isLoading: true };
+  state = {
+    user: { role: "admin", isAdmin: true },
+    isAuth: false,
+    isLoading: true
+  };
 
   componentDidMount = async () => {
     try {
       const user = (await axios.get("/api/v1/isAuth")).data;
       notification.success({ message: "Welcome Back" });
-      this.setState({ isAuth: true, user, isLoading: false });
+      this.setState({
+        isAuth: true,
+        user: { ...user, role: "admin" },
+        isAdmin: true,
+        isLoading: false
+      });
     } catch (e) {
       if (e.response.status !== 401)
         notification.error({
@@ -40,6 +50,14 @@ class App extends Component {
         });
       this.setState({ isLoading: false });
     }
+  };
+
+  handleLogin = () => {
+    this.setState({ isAuth: true });
+  };
+
+  handleUnauth = () => {
+    this.setState({ isAuth: false, user: {} });
   };
 
   handleLogout = async () => {
@@ -58,77 +76,121 @@ class App extends Component {
       <Loading />
     ) : (
       <Router>
-        <Header />
-        <main className="container">
-          <Switch>
-            <Route
-              path="/logout"
-              component={() => {
-                this.handleLogout();
-                return <Redirect to="/login" />;
-              }}
-            />
-            <ProtectedRoute
-              exact
-              path="/profile/:id"
-              isAuth={isAuth}
-              component={Profile}
-            />
-            <ProtectedRoute
-              path="/posts/live"
-              isAuth={isAuth}
-              render={props => <Post {...props} postType="live" />}
-            />
-            <ProtectedRoute
-              path="/posts/draft"
-              render={props => (
-                <Post {...props} isAuth={isAuth} postType="draft" />
-              )}
-            />
-            <ProtectedRoute
-              path="/posts/new"
-              isAuth={isAuth}
-              component={PostForm}
-            />
-            <ProtectedRoute
-              exact
-              path="/post/public-service/:id/edit"
-              isAuth={isAuth}
-              render={props => (
-                <PostForm postFormType="public service" {...props} />
-              )}
-            />
-            <ProtectedRoute
-              exact
-              path="/post/event/:id/edit"
-              isAuth={isAuth}
-              render={props => <PostForm postFormType="event" {...props} />}
-            />
-            <ProtectedRoute
-              isAuth={isAuth}
-              path="/post/event/:category/:id"
-              render={props => <Event {...props} />}
-            />
-            <ProtectedRoute
-              isAuth={isAuth}
-              path="/post/public-service/:category/:id"
-              render={props => <PublicService {...props} />}
-            />
-            <ProtectedRoute isAuth={isAuth} path="/posts" component={Posts} />
-            {!isAuth ? (
-              <>
-                <Route path="/login" component={Login} />
-                <Route path="/signup" component={CreateProfile} />
-                <Route exact path="/" component={Home} />
-              </>
-            ) : (
-              <Redirect to={`/profile/${user.id}`} />
-            )}
-
-            <Route component={PageNotFound} />
-          </Switch>
-        </main>
-        <Footer />
+        <>
+          {user.role !== "admin" && <Header showHamburger={isAuth} />}
+          <main
+            className="container"
+            style={isAuth ? {} : { minHeight: "calc(100vh - (129px + 70px))" }}
+          >
+            <Switch>
+              <Route
+                path="/login"
+                component={props => (
+                  <Login {...props} handleLogin={this.handleLogin} />
+                )}
+              />
+              <Route path="/signup" component={CreateProfile} />
+              <Route exact path="/" component={Home} />
+              <Route
+                path="/logout"
+                component={() => {
+                  this.handleLogout();
+                  return <Redirect to="/login" />;
+                }}
+              />
+              <ProtectedRoute
+                exact
+                isAdmin={false}
+                path="/profile"
+                isAuth={isAuth}
+                user={user}
+                component={props => (
+                  <Profile {...props} handleUnauth={this.handleUnauth} />
+                )}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                path="/posts/live"
+                isAuth={isAuth}
+                user={user}
+                component={props => (
+                  <Post
+                    handleUnauth={this.handleUnauth}
+                    {...props}
+                    postType="live"
+                  />
+                )}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                isAuth={isAuth}
+                user={user}
+                path="/posts/draft"
+                component={props => (
+                  <Post
+                    handleUnauth={this.handleUnauth}
+                    {...props}
+                    postType="draft"
+                  />
+                )}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                path="/posts/new"
+                isAuth={isAuth}
+                user={user}
+                component={PostForm}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                exact
+                path="/post/public-service/:id/edit"
+                isAuth={isAuth}
+                user={user}
+                render={props => (
+                  <PostForm postFormType="public service" {...props} />
+                )}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                exact
+                path="/post/event/:id/edit"
+                isAuth={isAuth}
+                user={user}
+                render={props => <PostForm postFormType="event" {...props} />}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                isAuth={isAuth}
+                user={user}
+                path="/post/event/:category/:id"
+                render={props => <Event {...props} />}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                isAuth={isAuth}
+                user={user}
+                path="/post/public-service/:category/:id"
+                render={props => <PublicService {...props} />}
+              />
+              <ProtectedRoute
+                isAdmin={false}
+                user={user}
+                isAuth={isAuth}
+                path="/posts"
+                component={Posts}
+              />
+              <ProtectedRoute
+                isAdmin={true}
+                user={user}
+                isAuth={isAuth}
+                path="/admin"
+                component={Spin}
+              />
+            </Switch>
+          </main>
+          {user.role !== "admin" && <Footer />}
+        </>
       </Router>
     );
   }
