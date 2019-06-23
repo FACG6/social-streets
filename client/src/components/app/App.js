@@ -47,7 +47,6 @@ class App extends Component {
   };
 
   handleLogin = () => {
-    console.log(5);
     this.setState({ isAuth: true });
   };
 
@@ -86,7 +85,8 @@ class App extends Component {
                   )}
                 />
                 <Route path="/signup" component={CreateProfile} />
-                <Route component={PageNotFound} />
+                <Route exact path="/" component={Home} />
+                <Route component={() => <PageNotFound to="login" />} />
               </Switch>
             ) : user.role === "member" ? (
               <Switch>
@@ -94,7 +94,6 @@ class App extends Component {
                   path="/logout"
                   component={() => {
                     this.handleLogout();
-                    // return <h1>Hi</h1>;
                     return <Redirect to="/login" />;
                   }}
                 />
@@ -162,7 +161,7 @@ class App extends Component {
                   path="/posts"
                   component={Posts}
                 />
-                <Route component={PageNotFound} />
+                <Route component={() => <PageNotFound to="/posts" />} />
               </Switch>
             ) : (
               user.role === "admin" && (
