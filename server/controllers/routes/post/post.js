@@ -11,7 +11,6 @@ const { eventSchema, publicServiceSchema } = require('../../utils/postSchema');
 const post = async (req, res, next) => {
   try {
     const data = JSON.parse(req.body.data)
-    console.log(data, 1)
     const { type, eventTopic, secondaryTag } = data;
     const { image } = req.files;
     const publisherId = Number(req.user.id);
@@ -20,7 +19,6 @@ const post = async (req, res, next) => {
       if (!image) throw new Error();
       const valid = await eventSchema.isValid(data)
       if (valid) {
-        console.log(valid, 111)
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
           ...data,
