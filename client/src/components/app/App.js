@@ -52,7 +52,6 @@ class App extends Component {
   };
 
   handleUnauth = () => {
-    console.log("1");
     this.setState({ isAuth: false, user: {} });
   };
 
