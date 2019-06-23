@@ -17,7 +17,7 @@ const post = async (req, res, next) => {
 
     if (type === 'event') {
       if (!image) throw new Error();
-      const valid = await eventSchema.isValid(data);
+      const valid = await eventSchema.validate(data);
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
@@ -43,8 +43,8 @@ const post = async (req, res, next) => {
         error.statusCode = 400;
         throw error;
       }
-    } else if (type === 'public_service') {
-      const valid = await publicServiceSchema.isValid(data);
+    } else if (type === 'public_services') {
+      const valid = await publicServiceSchema.validate(data);
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedPublicServices = await addPublicServices({
@@ -73,11 +73,13 @@ const post = async (req, res, next) => {
         throw error;
       }
     } else {
+      console.log('222222222', type);
       const error = new Error('Bad Request');
       error.statusCode = 400;
       throw error;
     }
   } catch (err) {
+    console.log('111111111111111111', err);
     const { statusCode, message } = err;
 
     if (statusCode) {

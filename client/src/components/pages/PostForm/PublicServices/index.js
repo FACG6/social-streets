@@ -110,7 +110,7 @@ class PublicServicesForm extends React.Component {
             });
             this.props.redirectTo(`/post/${id}`);
           } else {
-            values.type = "public_service";
+            values.type = "public_services";
             values.publishDatetime = moment().format();
             values.isDraft = "false";
 
