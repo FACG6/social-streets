@@ -9,7 +9,12 @@ exports.businessDataSchema = yup.object().shape({
   city: yup.string().min(3).required(),
   country: yup.string().min(3).required(),
   address: yup.string().min(5).required(),
-  zipCode: yup.number().min(4).required(),
+  zipCode: yup
+    .string()
+    .matches(
+      /^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$/
+    )
+    .required(),
   facebook: yup
     .string()
     .matches(
