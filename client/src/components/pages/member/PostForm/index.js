@@ -2,8 +2,8 @@ import React from "react";
 import { Divider, Select, notification } from "antd";
 import axios from 'axios';
 
-import WrappedEventForm from "components/pages/PostForm/Event";
-import WrappedPublicServices from "components/pages/PostForm/PublicServices";
+import WrappedEventForm from "components/pages/member/PostForm/Event";
+import WrappedPublicServices from "components/pages/member/PostForm/PublicServices";
 
 import "./style.css";
 

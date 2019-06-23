@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import PersonalInfoForm from "components/utils/ProfilePersonal";
 import BusinessForm from "components/utils/businessForm";
-import ProfilePic from "components/pages/Profile/ProfilePic";
+import ProfilePic from "components/pages/member/Profile/ProfilePic";
 import "./style.css";
 
 const { TabPane } = Tabs;
