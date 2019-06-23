@@ -25,7 +25,7 @@ const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   state = {
-    publishDatetime: moment().format()
+    publishDatetime: moment().format(),
   };
   async componentDidMount() {
     try {
@@ -50,7 +50,6 @@ class EventForm extends React.Component {
         setFieldsValue(event);
       }
     } catch (err) {
-      console.log(err);
       if (Number(err.statusCode) === 400) {
         notification.error({
           message: "Bad Request",
@@ -72,75 +71,63 @@ class EventForm extends React.Component {
           description: "Something went wrong please try again later"
         });
       }
-      this.props.redirectTo("/");
+      this.props.history.push('/');
     }
   }
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log(e.target.textContent, 222)
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
-        if (!err) {
-          const { id } = this.props;
-          if (id) {
-            values.publishDatetime = this.state.publishDatetime;
-            values.eventDatetime = values.event_datetime.format();
-            values.altText = values.alt_text;
-            values.focusKey = values.focus_key;
-            values.isDraft = "false";
-            values.type = "event";
-            values.eventTopic = values.topic;
+        if (err) {
+          notification.error({
+            message: "Error",
+            description: "Validation Error"
+          });
+        } else {
+          values.type = 'event'
+          values.publishDatetime = moment().format()
+          values.isDraft = 'false'
+          values.eventStartDatetime = values.event_start_datetime;
+          values.eventEndDatetime = values.event_end_datetime;
+          values.eventTopic = values.topic;
+          values.altText = values.alt_text;
+          values.focusKey = values.focus_key;
 
-            delete values.topic;
-            delete values.event_datetime;
-            delete values.alt_text;
-            delete values.focus_key;
+          const formData = new FormData()
+          const file = this.uploadInput.state.fileList[0].originFileObj
+          formData.append('data', JSON.stringify(values))
+          formData.append('image', file)
+          if (!file) return notification.error({ message: "Bad Request", description: 'Add an Image' });
 
-            const formData = new FormData();
-            if (this.uploadInput.state.fileList[0]) {
-              const file = this.uploadInput.state.fileList[0].originFileObj;
-              formData.append("image", file);
-            }
-            formData.append("data", JSON.stringify(values));
-
-            await axios.put(`/api/v1/post/${id}`, formData, {
+          let postResponse;
+          if (e.target.textContent === 'Preview') {
+            values.isDraft = 'true';
+            postResponse = await axios.post('/api/v1/post', formData, {
               headers: {
-                "Content-Type": "multipart/form-data"
-              }
+                'Content-Type': 'multipart/form-data',
+              },
             });
-            this.props.redirectTo(`/post/${id}`);
-          } else {
-            values.type = "event";
-            values.publishDatetime = moment().format();
-            values.isDraft = "false";
-            values.eventDatetime = values.event_datetime;
-            values.altText = values.alt_text;
-            values.focusKey = values.focus_key;
-            values.eventTopic = values.topic;
 
-            const formData = new FormData();
-            if (this.uploadInput.state.fileList[0]) {
-              const file = this.uploadInput.state.fileList[0].originFileObj;
-              formData.append("image", file);
-            } else
-              return notification.error({
-                message: "Bad Request",
-                description: "Add an Image"
-              });
-            formData.append("data", JSON.stringify(values));
-            const postResponse = await axios.post("/api/v1/post", formData, {
+          } else {
+            postResponse = await axios.post('/api/v1/post', formData, {
               headers: {
-                "Content-Type": "multipart/form-data"
-              }
+                'Content-Type': 'multipart/form-data',
+              },
             });
             notification.success({
               message: "Successfully",
               description: "Post added successfully"
-            });
-            const id = postResponse.Imagerows[0].id;
-            this.props.redirectTo(`/Imagepost/${id}`);
+            })
           }
+          const { id, category } = postResponse.data.data;
+          const categories = this.props.eventTypeValues;
+          const catId = categories.findIndex(({ id }) => id === category);
+          const postCategory = categories[catId].category.toLowerCase().replace(' and ', '-');
+          this.props.history.push(`/post/event/${postCategory}/${id}`)
         }
+
       } catch (err) {
         if (Number(err.statusCode) === 400) {
           notification.error({
@@ -185,7 +172,7 @@ class EventForm extends React.Component {
     const urlType = getFieldValue("eventType");
 
     return (
-      <Form className="main--eventForm" onSubmit={this.handleSubmit}>
+      <Form className="main--eventForm">
         <InputGroup size="large">
           <InputAntd
             withTip
@@ -229,8 +216,25 @@ class EventForm extends React.Component {
           min={10}
           max={false}
         />
-        <Form.Item label={<span>Date and Time&nbsp;</span>}>
-          {getFieldDecorator("event_datetime", {
+        <Form.Item label={<span>Start Date & Time &nbsp;</span>}>
+          {getFieldDecorator("event_start_datetime", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your Date and Time!"
+              }
+            ]
+          })(
+            <DatePicker
+              style={{ width: "100%" }}
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              size="large"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label={<span>End Date & Time &nbsp;</span>}>
+          {getFieldDecorator("event_end_datetime", {
             rules: [
               {
                 required: true,
@@ -356,13 +360,14 @@ class EventForm extends React.Component {
           />
         </Card>
         <Form.Item>
-          <Btn type="primary" htmlType="submit">
+          <Btn name='publish' type="primary" htmlType="submit" onClick={this.handleSubmit}>
             {id ? "Save" : "Publish"}
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"
             type="primary"
             htmlType="submit"
+            onClick={this.handleSubmit}
           >
             Preview
           </Btn>

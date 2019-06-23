@@ -10,7 +10,8 @@ const eventSchema = yup.object().shape({
     .min(10)
     .required(),
   category: yup.number().required(),
-  eventDatetime: yup.string().required(),
+  eventStartDatetime: yup.string().required(),
+  eventEndDatetime: yup.string().required(),
   venue: yup.string().required(),
   altText: yup.string().required(),
   website: yup.string().required(),

@@ -17,9 +17,7 @@ class CreatPostPage extends React.Component {
     primaryTag: [],
     secondaryTag: []
   };
-
-  redirectTo = path => this.props.history.push(path);
-
+  
   async componentDidMount() {
     try {
       const eventRespons = await axios.get("/api/v1/post/event/static");
@@ -81,6 +79,7 @@ class CreatPostPage extends React.Component {
         <Divider style={{ margin: "20px 0" }} />
         {postType === "event" ? (
           <WrappedEventForm
+            {...this.props}
             id={id}
             postType={postType}
             eventTopicValues={eventTopicValues}
@@ -88,14 +87,14 @@ class CreatPostPage extends React.Component {
             redirectTo={this.redirectTo}
           />
         ) : (
-          <WrappedPublicServices
-            id={id}
-            postType={postType}
-            primaryTag={primaryTag}
-            secondaryTags={secondaryTag}
-            redirectTo={this.redirectTo}
-          />
-        )}
+            <WrappedPublicServices
+              {...this.props}
+              id={id}
+              postType={postType}
+              primaryTag={primaryTag}
+              secondaryTags={secondaryTag}
+            />
+          )}
       </section>
     );
   }

@@ -23,6 +23,7 @@ class Event extends Component {
       })
       .then(res => {
         res.data.data[0].topic = res.data.data.map(res => res.topic);
+        console.log(res.data, 222)
         this.setState({ ...res.data.data[0] });
       })
       .catch(err => {
