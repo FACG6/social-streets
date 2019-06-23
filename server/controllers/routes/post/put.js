@@ -22,7 +22,7 @@ const updateEvent = async (req, res, next) => {
 
     const { eventTopic } = req.body;
 
-    const schemaValidation = await eventSchema.validate(req.body);
+    const schemaValidation = await eventSchema.isValid(req.body);
     if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
     let imageName = '';
@@ -56,7 +56,7 @@ const updatePublicService = async (req, res, next) => {
 
     const { secondaryTag } = req.body;
 
-    const schemaValidation = await publicServiceSchema.validate(req.body);
+    const schemaValidation = await publicServiceSchema.isValid(req.body);
     if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
     let imageName = '';
