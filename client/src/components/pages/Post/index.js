@@ -17,6 +17,7 @@ export default class Post extends Component {
       .then(({ data: { data } }) => {
         if (!data.length)
           return this.setState({ notification: `No ${postType} Posts Available` });
+        console.log(data, 11)
         this.setState({ posts: data })
       })
       .catch(err => {
@@ -58,9 +59,12 @@ export default class Post extends Component {
         <PostButton postType={`${postType} Posts`} />
         <span className='post-page--error'>{notification}</span>
         {posts.map(post => <PostRow
-          link={post.tag.toLowerCase().replace(' and ', '-')}
+          link={post.type === 'event' ?
+            post.category.toLowerCase().replace(' and ', '-') :
+            post.tag.toLowerCase().replace(' and ', '-')
+          }
           {...post}
-          key={post.id}
+          key={post.id + post.type}
           onClick={this.handleDelete}
         />
         )
