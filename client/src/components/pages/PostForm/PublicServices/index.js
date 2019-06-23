@@ -12,60 +12,128 @@ import {
   Input,
   notification
 } from "antd";
-import axios from 'axios';
-import moment from 'moment';
+import axios from "axios";
+import moment from "moment";
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-// import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
-  componentDidMount() {
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
+  state = {
+    publishDatetime: moment().format()
+  };
 
-    if (id) {
-      // setFieldsValue(publicService);
+  async componentDidMount() {
+    try {
+      const {
+        form: { setFieldsValue },
+        id
+      } = this.props;
+
+      if (id) {
+        const getRes = await axios.get(`/api/v1/post/${id}`, {
+          params: {
+            postType: "public_service"
+          }
+        });
+        const publicService = getRes.data.data[0];
+        publicService.primaryTag = publicService.primary_tag;
+        publicService.secondaryTag = getRes.data.data.map(
+          publicService => publicService.secondary_tag_id
+        );
+        publicService.altText = publicService.alt_text;
+        publicService.focusKey = publicService.focus_key;
+
+        delete publicService.primary_tag;
+        delete publicService.secondary_tag_id;
+        delete publicService.secondary_tag;
+        delete publicService.alt_text;
+        delete publicService.focus_key;
+
+        await this.setState({
+          publishDatetime: publicService.publish_datetime
+        });
+        setFieldsValue(publicService);
+      }
+    } catch (err) {
+      if (Number(err.statusCode) === 400) {
+        notification.error({
+          message: "Bad Request",
+          description: err.message
+        });
+      } else if (Number(err.statusCode) === 401) {
+        notification.error({
+          message: "Unauthorized",
+          description: err.message
+        });
+      } else if (Number(err.statusCode) === 500) {
+        notification.error({
+          message: "Internal Server Error",
+          description: err.message
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: "Something went wrong please try again later"
+        });
+      }
+      this.props.redirectTo("/");
     }
   }
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((async (err, values) => {
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
-        if (err) {
-          notification.error({
-            message: "Error",
-            description: "Validation Error"
-          });
-        } else {
-          values.type = 'publicServices'
-          values.publishDatetime = moment().format()
-          values.isDraft = 'false'
+        if (!err) {
+          const { id } = this.props;
 
-          const formData = new FormData()
-          const file = this.uploadInput.state.fileList[0].originFileObj
-          formData.append('data', JSON.stringify(values))
-          formData.append('image', file)
-          const serverResponse = await axios.post('/api/v1/post', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-          if (serverResponse.data.statusCode === 201) {
-            notification.success({
-              message: "Successfully",
-              description: "Post added successfully"
-            })
-          } else {
-            notification.error({
-              message: "Bad Request",
-              description: err.message
+          if (id) {
+            values.type = "public_services";
+            values.publishDatetime = this.state.publishDatetime;
+            values.isDraft = "false";
+
+            const formData = new FormData();
+            if (this.uploadInput.state.fileList[0]) {
+              const file = this.uploadInput.state.fileList[0].originFileObj;
+              formData.append("image", file);
+            }
+            formData.append("data", JSON.stringify(values));
+
+            console.log("new public Service", values);
+            await axios.put(`/api/v1/post/${id}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
             });
+            this.props.redirectTo(`/post/${id}`);
+          } else {
+            values.type = "public_services";
+            values.publishDatetime = moment().format();
+            values.isDraft = "false";
+
+            const formData = new FormData();
+            const file = this.uploadInput.state.fileList[0].originFileObj;
+            formData.append("data", JSON.stringify(values));
+            formData.append("image", file);
+            const serverResponse = await axios.post("/api/v1/post", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            });
+            if (serverResponse.data.statusCode === 201) {
+              notification.success({
+                message: "Successfully",
+                description: "Post added successfully"
+              });
+            } else {
+              notification.error({
+                message: "Bad Request",
+                description: err.message
+              });
+            }
           }
         }
       } catch (err) {
@@ -81,12 +149,12 @@ class PublicServicesForm extends React.Component {
           });
         } else {
           notification.error({
-            message: 'Error',
-            description: 'There is an error try again'
+            message: "Error",
+            description: "There is an error try again"
           });
         }
       }
-    }));
+    });
   };
 
   render() {
@@ -96,12 +164,12 @@ class PublicServicesForm extends React.Component {
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
-    const publicServicesPrimaryTag = primaryTag.map((element) => {
-      return {id: element.id, value: element.tag}
-    })
-    const publicServicesSecondaryTag = secondaryTags.map((element) => {
-      return { id: element.id, value: element.tag}
-    })
+    const publicServicesPrimaryTag = primaryTag.map(element => {
+      return { id: element.id, value: element.tag };
+    });
+    const publicServicesSecondaryTag = secondaryTags.map(element => {
+      return { id: element.id, value: element.tag };
+    });
 
     const urlType = getFieldValue("primaryTag");
 
@@ -160,7 +228,8 @@ class PublicServicesForm extends React.Component {
             </span>
           }
         >
-          {<Upload
+          {
+            <Upload
               style={{ width: "100%" }}
               customRequest={_ => _}
               listType="picture"

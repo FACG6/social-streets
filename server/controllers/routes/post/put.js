@@ -43,7 +43,7 @@ const updateEvent = async (req, res, next) => {
     await Promise.all(eventTopic.map(topic => addTopic(eventId, topic)));
     return res.send({ data: req.body, statusCode: 200 });
   } catch (e) {
-    if (e.message === 'Cannot read property \'publisher_id\' of undefined') res.status(400).send({ statusCode: 400, error: 'Bad Request' });
+    if (e.message === "Cannot read property 'publisher_id' of undefined") res.status(400).send({ statusCode: 400, error: 'Bad Request' });
     return next(e);
   }
 };
@@ -82,6 +82,7 @@ const updatePublicService = async (req, res, next) => {
 };
 
 module.exports = (req, res, next) => {
+  req.body = JSON.parse(req.body.data);
   const { type } = req.body;
   if (type === 'event') updateEvent(req, res, next);
   else if (type === 'public_services') updatePublicService(req, res, next);

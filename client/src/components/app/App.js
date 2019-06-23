@@ -5,9 +5,6 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import { notification } from "antd";
-import axios from "axios";
-
 import {
   Home,
   Loading,
@@ -21,6 +18,9 @@ import {
   Event,
   Profile
 } from "components/pages";
+import { notification } from "antd";
+import axios from "axios";
+
 import { Header, Footer } from "components/utils";
 import ProtectedRoute from "./../auth/protectedRoute";
 import "./App.css";

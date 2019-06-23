@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes, { element } from "prop-types";
+import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import {
   Form,
@@ -14,65 +14,142 @@ import {
   Button,
   notification
 } from "antd";
-import axios from 'axios';
-import moment from 'moment';
+import axios from "axios";
+import moment from "moment";
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-// import { event } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
-  componentDidMount() {
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
-    if (id) {
-      // setFieldsValue(event);
+  state = {
+    publishDatetime: moment().format()
+  };
+  async componentDidMount() {
+    try {
+      const {
+        form: { setFieldsValue },
+        id
+      } = this.props;
+
+      if (id) {
+        const getRes = await axios.get(`/api/v1/post/${id}`, {
+          params: {
+            postType: "event"
+          }
+        });
+        const event = getRes.data.data[0];
+        event.topic = getRes.data.data.map(event => event.topic_id);
+        event.category = event.event_category;
+        event.event_datetime = moment(new Date(event.event_datetime));
+        delete event.event_category;
+        delete event.topic_id;
+        await this.setState({ publishDatetime: event.publish_datetime });
+        setFieldsValue(event);
+      }
+    } catch (err) {
+      console.log(err);
+      if (Number(err.statusCode) === 400) {
+        notification.error({
+          message: "Bad Request",
+          description: err.message
+        });
+      } else if (Number(err.statusCode) === 401) {
+        notification.error({
+          message: "Unauthorized",
+          description: err.message
+        });
+      } else if (Number(err.statusCode) === 500) {
+        notification.error({
+          message: "Internal Server Error",
+          description: err.message
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: "Something went wrong please try again later"
+        });
+      }
+      this.props.redirectTo("/");
     }
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((async (err, values) => {
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
-        if (err) {
-          notification.error({
-            message: "Error",
-            description: "Validation Error"
-          });
-        } else {
-          values.type = 'event'
-          values.publishDatetime = moment().format()
-          values.isDraft = 'false'
-          values.eventDatetime = values.event_datetime;
-          values.altText = values.alt_text;
-          values.focusKey = values.focus_key;
+        if (!err) {
+          const { id } = this.props;
+          if (id) {
+            values.publishDatetime = this.state.publishDatetime;
+            values.eventDatetime = values.event_datetime.format();
+            values.altText = values.alt_text;
+            values.focusKey = values.focus_key;
+            values.isDraft = "false";
+            values.type = "event";
+            values.eventTopic = values.topic;
 
-          const formData = new FormData()
-          const file = this.uploadInput.state.fileList[0].originFileObj
-          formData.append('data', JSON.stringify(values))
-          formData.append('image', file)
-          if (!file) return notification.error({ message: "Bad Request", description: 'Add an Image'});
-          const postResponse = await axios.post('/api/v1/post', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
+            delete values.topic;
+            delete values.event_datetime;
+            delete values.alt_text;
+            delete values.focus_key;
+
+            const formData = new FormData();
+            if (this.uploadInput.state.fileList[0]) {
+              const file = this.uploadInput.state.fileList[0].originFileObj;
+              formData.append("image", file);
+            }
+            formData.append("data", JSON.stringify(values));
+
+            await axios.put(`/api/v1/post/${id}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            });
+            this.props.redirectTo(`/post/${id}`);
+          } else {
+            values.type = "event";
+            values.publishDatetime = moment().format();
+            values.isDraft = "false";
+            values.eventDatetime = values.event_datetime;
+            values.altText = values.alt_text;
+            values.focusKey = values.focus_key;
+            values.eventTopic = values.topic;
+
+            const formData = new FormData();
+            if (this.uploadInput.state.fileList[0]) {
+              const file = this.uploadInput.state.fileList[0].originFileObj;
+              formData.append("image", file);
+            } else
+              return notification.error({
+                message: "Bad Request",
+                description: "Add an Image"
+              });
+            formData.append("data", JSON.stringify(values));
+            const postResponse = await axios.post("/api/v1/post", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            });
             notification.success({
               message: "Successfully",
               description: "Post added successfully"
-            })
-            const id = postResponse.rows[0].id
-            this.props.history.push(`/post/${id}`)
+            });
+            const id = postResponse.Imagerows[0].id;
+            this.props.redirectTo(`/Imagepost/${id}`);
+          }
         }
       } catch (err) {
         if (Number(err.statusCode) === 400) {
           notification.error({
             message: "Bad Request",
+            description: err.message
+          });
+        } else if (Number(err.statusCode) === 401) {
+          notification.error({
+            message: "Unauthorized",
             description: err.message
           });
         } else if (Number(err.statusCode) === 500) {
@@ -82,26 +159,27 @@ class EventForm extends React.Component {
           });
         } else {
           notification.error({
-            message: 'Error',
-            description: 'There is an error try again'
+            message: "Error",
+            description: "Something went wrong please try again later"
           });
         }
       }
-    }));
+    });
   };
 
   render() {
     const {
+      id,
       eventTypeValues,
       eventTopicValues,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
-    const eventCategory = eventTypeValues.map((element) => {
-      return { id: element.id, value: element.category }
-    })
-    const eventTopic = eventTopicValues.map((element) => {
-      return { id: element.id, value: element.topic }
+    const eventCategory = eventTypeValues.map(element => {
+      return { id: element.id, value: element.category };
+    });
+    const eventTopic = eventTopicValues.map(element => {
+      return { id: element.id, value: element.topic };
     });
 
     const urlType = getFieldValue("eventType");
@@ -134,7 +212,7 @@ class EventForm extends React.Component {
           mode="multiple"
           label="Event’s Topic"
           getFieldDecorator={getFieldDecorator}
-          name="eventTopic"
+          name="topic"
           required
           validationMsg="Please select your Event Topic!"
           placeholder="Event’s Topic"
@@ -215,17 +293,18 @@ class EventForm extends React.Component {
             </span>
           }
         >
-          {<Upload
-            style={{ width: "100%" }}
-            customRequest={_ => _}
-            listType="picture"
-            ref={element => (this.uploadInput = element)}
-            showUploadList={false}
-          >
-            <Button size="large">
-              <Icon type="upload" /> Click to upload
+          {
+            <Upload
+              style={{ width: "100%" }}
+              customRequest={_ => _}
+              listType="picture"
+              ref={element => (this.uploadInput = element)}
+              showUploadList={false}
+            >
+              <Button size="large">
+                <Icon type="upload" /> Click to upload
               </Button>
-          </Upload>
+            </Upload>
           }
         </Form.Item>
         <InputGroup size="large">
@@ -278,7 +357,7 @@ class EventForm extends React.Component {
         </Card>
         <Form.Item>
           <Btn type="primary" htmlType="submit">
-            Publish
+            {id ? "Save" : "Publish"}
           </Btn>
           <Btn
             className="main--form-btn-gradient main--form-btn"

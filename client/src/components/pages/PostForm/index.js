@@ -1,6 +1,6 @@
 import React from "react";
 import { Divider, Select, notification } from "antd";
-import axios from 'axios';
+import axios from "axios";
 
 import WrappedEventForm from "components/pages/PostForm/Event";
 import WrappedPublicServices from "components/pages/PostForm/PublicServices";
@@ -11,30 +11,34 @@ const { Option } = Select;
 
 class CreatPostPage extends React.Component {
   state = {
-    postType: this.props.postFormType || "Event",
+    postType: this.props.postFormType || "event",
     eventTypeValues: [],
     eventTopicValues: [],
     primaryTag: [],
     secondaryTag: []
   };
 
+  redirectTo = path => this.props.history.push(path);
+
   async componentDidMount() {
     try {
-      const eventRespons = await axios.get('/api/v1/post/event/static')
-      const PublicServicesResponse = await axios.get('/api/v1/post/public-service/static')
-      const { categories, topics } = eventRespons.data.data
-      const { primaryTags, secondaryTags } = PublicServicesResponse.data.data
+      const eventRespons = await axios.get("/api/v1/post/event/static");
+      const PublicServicesResponse = await axios.get(
+        "/api/v1/post/public-service/static"
+      );
+      const { categories, topics } = eventRespons.data.data;
+      const { primaryTags, secondaryTags } = PublicServicesResponse.data.data;
       await this.setState({
         eventTypeValues: categories,
         eventTopicValues: topics,
         primaryTag: primaryTags,
         secondaryTag: secondaryTags
-      })
+      });
     } catch (err) {
       notification.error({
         message: "Error",
         description: "There is an error try again"
-      })
+      });
     }
   }
 
@@ -42,8 +46,8 @@ class CreatPostPage extends React.Component {
 
   render() {
     const postTypes = [
-      { key: 1, value: "Event" },
-      { key: 2, value: "Public Services" }
+      { key: 1, value: "event" },
+      { key: 2, value: "public pervices" }
     ];
 
     const {
@@ -55,7 +59,7 @@ class CreatPostPage extends React.Component {
     } = this.state;
 
     const { id } = this.props.match.params;
-    
+
     return (
       <section className="create-post-page-main">
         <h1 style={{ margin: 0 }}>Publish New Post</h1>
@@ -75,21 +79,23 @@ class CreatPostPage extends React.Component {
           ))}
         </Select>
         <Divider style={{ margin: "20px 0" }} />
-        {postType === "Event" ? (
+        {postType === "event" ? (
           <WrappedEventForm
             id={id}
             postType={postType}
             eventTopicValues={eventTopicValues}
             eventTypeValues={eventTypeValues}
+            redirectTo={this.redirectTo}
           />
         ) : (
-            <WrappedPublicServices
-              id={id}
-              postType={postType}
-              primaryTag={primaryTag}
-              secondaryTags={secondaryTag}
-            />
-          )}
+          <WrappedPublicServices
+            id={id}
+            postType={postType}
+            primaryTag={primaryTag}
+            secondaryTags={secondaryTag}
+            redirectTo={this.redirectTo}
+          />
+        )}
       </section>
     );
   }
