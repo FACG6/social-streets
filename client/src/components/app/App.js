@@ -45,7 +45,7 @@ class App extends Component {
   handleLogin = () => this.setState({ isAuth: true });
 
   handleUnauth = () => {
-    this.setState({ isAuth: false, user: '' });
+    this.setState({ isAuth: false, user: {} });
   }
 
   handleLogout = async () => {
