@@ -6,7 +6,7 @@ import "./style.css";
 
 export default function Menu({ show = false, handleMenuToggle }) {
   const links = [
-    { target: "/profile/1", label: "Profile" },
+    { target: "/profile", label: "Profile" },
     { target: "/posts/new", label: "Create Post" },
     { target: "/posts/live", label: "Live Posts" },
     { target: "/posts/draft", label: "Draft" },

@@ -9,47 +9,167 @@ import {
   Divider,
   Card,
   Button,
-  Input
+  Input,
+  notification
 } from "antd";
+import axios from "axios";
+import moment from "moment";
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-import { publicService } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
-  componentDidMount() {
-    // id and postType need for fetch and take post info
-    // const { id, postType } = this.props;
-    // use id, postType for fetch and take post info from DB
-    // by use setFieldsValue will put the reponse of post in inputs
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
+  state = {
+    publishDatetime: moment().format()
+  };
 
-    if (id) {
-      setFieldsValue(publicService);
+  async componentDidMount() {
+    try {
+      const {
+        form: { setFieldsValue },
+        id
+      } = this.props;
+
+      if (id) {
+        const getRes = await axios.get(`/api/v1/post/${id}`, {
+          params: {
+            postType: "public_service"
+          }
+        });
+        const publicService = getRes.data.data[0];
+        publicService.primaryTag = publicService.primary_tag;
+        publicService.secondaryTag = getRes.data.data.map(
+          publicService => publicService.secondary_tag_id
+        );
+        publicService.altText = publicService.alt_text;
+        publicService.focusKey = publicService.focus_key;
+
+        delete publicService.primary_tag;
+        delete publicService.secondary_tag_id;
+        delete publicService.secondary_tag;
+        delete publicService.alt_text;
+        delete publicService.focus_key;
+
+        await this.setState({
+          publishDatetime: publicService.publish_datetime
+        });
+        setFieldsValue(publicService);
+      }
+    } catch (err) {
+      if (Number(err.statusCode) === 400) {
+        notification.error({
+          message: "Bad Request",
+          description: err.message
+        });
+      } else if (Number(err.statusCode) === 401) {
+        notification.error({
+          message: "Unauthorized",
+          description: err.message
+        });
+      } else if (Number(err.statusCode) === 500) {
+        notification.error({
+          message: "Internal Server Error",
+          description: err.message
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: "Something went wrong please try again later"
+        });
+      }
+      this.props.redirectTo("/");
     }
   }
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        // for fetch
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
+      try {
+        if (!err) {
+          const { id } = this.props;
+
+          if (id) {
+            values.type = "public_services";
+            values.publishDatetime = this.state.publishDatetime;
+            values.isDraft = "false";
+
+            const formData = new FormData();
+            if (this.uploadInput.state.fileList[0]) {
+              const file = this.uploadInput.state.fileList[0].originFileObj;
+              formData.append("image", file);
+            }
+            formData.append("data", JSON.stringify(values));
+
+            console.log("new public Service", values);
+            await axios.put(`/api/v1/post/${id}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            });
+            this.props.redirectTo(`/post/${id}`);
+          } else {
+            values.type = "public_service";
+            values.publishDatetime = moment().format();
+            values.isDraft = "false";
+
+            const formData = new FormData();
+            const file = this.uploadInput.state.fileList[0].originFileObj;
+            formData.append("data", JSON.stringify(values));
+            formData.append("image", file);
+            const serverResponse = await axios.post("/api/v1/post", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            });
+            if (serverResponse.data.statusCode === 201) {
+              notification.success({
+                message: "Successfully",
+                description: "Post added successfully"
+              });
+            } else {
+              notification.error({
+                message: "Bad Request",
+                description: err.message
+              });
+            }
+          }
+        }
+      } catch (err) {
+        if (Number(err.statusCode) === 400) {
+          notification.error({
+            message: "Bad Request",
+            description: err.message
+          });
+        } else if (Number(err.statusCode) === 500) {
+          notification.error({
+            message: "Internal Server Error",
+            description: err.message
+          });
+        } else {
+          notification.error({
+            message: "Error",
+            description: "There is an error try again"
+          });
+        }
       }
     });
   };
 
   render() {
     const {
-      id,
       primaryTag,
-      secondaryTag,
+      secondaryTags,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
+
+    const publicServicesPrimaryTag = primaryTag.map(element => {
+      return { id: element.id, value: element.tag };
+    });
+    const publicServicesSecondaryTag = secondaryTags.map(element => {
+      return { id: element.id, value: element.tag };
+    });
 
     const urlType = getFieldValue("primaryTag");
 
@@ -75,7 +195,7 @@ class PublicServicesForm extends React.Component {
           validationMsg="Please select your Primary Tag!"
           placeholder="Primary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={primaryTag}
+          optionsMenu={publicServicesPrimaryTag}
         />
         <DropDownAntd
           mode="multiple"
@@ -86,7 +206,7 @@ class PublicServicesForm extends React.Component {
           validationMsg="Please select your Secondary Tag!"
           placeholder="Secondary Tag"
           handleSelectChange={this.handleSelectChange}
-          optionsMenu={secondaryTag}
+          optionsMenu={publicServicesSecondaryTag}
         />
         <TextAreaAntd
           withTip
@@ -108,26 +228,18 @@ class PublicServicesForm extends React.Component {
             </span>
           }
         >
-          {getFieldDecorator("image", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your image!",
-                whitespace: true
-              }
-            ]
-          })(
+          {
             <Upload
               style={{ width: "100%" }}
-              name="eventImage"
-              action="/upload.do"
+              customRequest={_ => _}
               listType="picture"
+              ref={element => (this.uploadInput = element)}
             >
               <Button size="large">
                 <Icon type="upload" /> Click to upload
               </Button>
             </Upload>
-          )}
+          }
         </Form.Item>
         <InputAntd
           withTip={false}
@@ -144,7 +256,7 @@ class PublicServicesForm extends React.Component {
             withTip={false}
             label="Focus Keyword"
             getFieldDecorator={getFieldDecorator}
-            name="focusKeyword"
+            name="focusKey"
             validationMsg="Please input your keyword!"
             placeholder="Your main keyword"
           />
@@ -167,7 +279,7 @@ class PublicServicesForm extends React.Component {
             style={{ fontSize: "15px" }}
             label="Meta Description"
             getFieldDecorator={getFieldDecorator}
-            name="metaDescription"
+            name="meta"
             validationMsg="Please input your Meta Description!"
             placeholder="Your main Meta Description"
             min={5}
@@ -204,7 +316,7 @@ const WrappedPublicServices = Form.create({ name: "publicServicesForm" })(
 
 WrappedPublicServices.propTypes = {
   primaryTag: PropTypes.array.isRequired,
-  secondaryTag: PropTypes.array.isRequired
+  secondaryTags: PropTypes.array.isRequired
 };
 
 export default WrappedPublicServices;

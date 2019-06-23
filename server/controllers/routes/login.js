@@ -6,7 +6,6 @@ const { loginSchema } = require('../utils/validationSchemes');
 
 module.exports = (req, res, next) => {
   const { email, password } = req.body;
-
   loginSchema
     .isValid({ email, password })
     .then((valid) => {

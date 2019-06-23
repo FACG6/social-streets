@@ -7,7 +7,8 @@ import Post from "components/pages/Post";
 import PostForm from "components/pages/PostForm";
 import Posts from "components/pages/Posts";
 import PublicService from "components/pages/PublicService";
-import Profile from 'components/pages/Profile'
+import Profile from "components/pages/Profile";
+import Loading from "./Loading";
 
 export {
   Profile,
@@ -18,6 +19,7 @@ export {
   Post,
   PostForm,
   Posts,
-  PublicService, 
-  CreateProfile
+  PublicService,
+  CreateProfile,
+  Loading
 };
