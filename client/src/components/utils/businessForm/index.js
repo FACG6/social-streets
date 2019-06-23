@@ -114,7 +114,7 @@ class BusinessForm extends React.Component {
           </Form.Item>
 
           <Form.Item
-            label="Type of business"
+            label="Type of organisation"
             className="create-profile-form--item"
           >
             {getFieldDecorator("businessType", {
