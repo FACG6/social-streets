@@ -27,12 +27,9 @@ export default class Post extends Component {
         const objError = { message: "ERROR", description: error };
         statusCode
           ? notification.error(objError)
-          : notification.error({
-              message: "ERROR",
-              description: "Sorry, there is error"
-            });
-        if (statusCode === 401) this.props.history.push("/login");
-      });
+          : notification.error({ message: 'ERROR', description: 'Sorry, there is error' })
+        if (statusCode === 401) this.props.handleUnauth();
+      })
   }
 
   handleDelete = (id, type) => {
@@ -57,14 +54,11 @@ export default class Post extends Component {
         const objError = { message: "ERROR", description: error };
         statusCode
           ? notification.error(objError)
-          : notification.error({
-              message: "ERROR",
-              description: "Sorry, there is error"
-            });
+          : notification.error({ message: 'ERROR', description: 'Sorry, there is error' });
 
-        if (statusCode === 401) this.props.history.push("/login");
-      });
-  };
+        if (statusCode === 401) this.props.handleUnauth();
+      })
+  }
 
   render() {
     const { postType } = this.props;
@@ -72,16 +66,21 @@ export default class Post extends Component {
     return (
       <section className="post-page--main">
         <PostButton postType={`${postType} Posts`} />
-        <span className="post-page--error">{notification}</span>
-        {posts.map(post => (
-          <PostRow
-            link={post.tag.toLowerCase().replace(" and ", "-")}
-            {...post}
-            key={post.id}
-            onClick={this.handleDelete}
-          />
-        ))}
-      </section>
-    );
+        <span className='post-page--error'>{notification}</span>
+        {posts.map(post => <PostRow
+          link={post.type === 'event'
+            ?
+            post.category.toLowerCase().replace(' and ', '-')
+            :
+            post.tag.toLowerCase().replace(' and ', '-')
+          }
+          {...post}
+          key={post.id + post.type}
+          onClick={this.handleDelete}
+        />
+        )
+        }
+      </section >
+    )
   }
 }

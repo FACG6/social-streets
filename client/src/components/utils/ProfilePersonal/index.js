@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Form, Input } from "antd";
+import { Form, Input, Modal, notification } from "antd";
 
 import Button from "components/utils/Button";
 import "./style.css";
+import "../modal.css"
+import axios from "axios";
 
 class ProfilePersonal extends Component {
   state = {
-    confirmDirty: false
+    confirmDirty: false,
+    visiable: false,
+    password: '',
   };
 
   componentDidMount = () => {
@@ -18,33 +22,43 @@ class ProfilePersonal extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        axios.put('/api/v1/user/personal', { ...values, oldPassword: this.state.password })
+          .then(({ data: { data } }) => {
+            if (data) {
+              notification.success({ message: 'Success', description: 'Updated Successfully!' });
+              this.setState({ visible: false })
+            }
+          })
+          .catch(({ response: { data } }) => {
+            const { statusCode, error } = data;
+            if (statusCode) {
+              notification.error({ message: 'ERROR', description: error });
+            }
+          })
       }
     });
   };
 
-  handleCancel = () => {};
-
-  handleConfirmBlur = e => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  handleCancel = (e) => {
+    e.preventDefault();
+    this.props.history.push('/posts')
   };
 
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue("newPassword")) {
-      callback("Passwords must match!");
-    } else {
-      callback();
-    }
+  handlePassword = (e) => {
+    this.setState({ password: e.target.value })
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
   };
 
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
-  };
+  hideModal = () => {
+    this.setState({
+      visible: false,
+    });
+  }
 
   render() {
     const {
@@ -53,7 +67,6 @@ class ProfilePersonal extends Component {
 
     return (
       <Form
-        onSubmit={this.handleSubmit}
         className="profile-page--form-personal"
       >
         <Form.Item
@@ -129,93 +142,24 @@ class ProfilePersonal extends Component {
           })(<Input placeholder="Email" />)}
         </Form.Item>
 
-        <Form.Item
-          label="Password"
-          required={false}
-          hasFeedback
-          className="profile-page--form-item"
-        >
-          {getFieldDecorator("oldPassword", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your password!"
-              },
-              {
-                whitespace: true,
-                message: "Delete the spaces!"
-              },
-              {
-                validator: this.validateToNextPassword
-              },
-              {
-                min: 8,
-                message: "Password must be 8 charcter at least!"
-              }
-            ]
-          })(
-            <Input.Password placeholder="Password" visibilityToggle={false} />
-          )}
-        </Form.Item>
-        <Form.Item
-          label="New Password"
-          required={false}
-          hasFeedback
-          className="profile-page--form-item"
-        >
-          {getFieldDecorator("newPassword", {
-            rules: [
-              {
-                required: false
-              },
-              {
-                min: 8,
-                message: "Password must be 8 charcter at least!"
-              }
-            ]
-          })(
-            <Input.Password
-              onBlur={this.handleConfirmBlur}
-              placeholder="Confirm Password"
-            />
-          )}
-        </Form.Item>
-
-        <Form.Item
-          label="Confirm New Password"
-          required={false}
-          hasFeedback
-          className="profile-page--form-item"
-        >
-          {getFieldDecorator("confirmNewPassword", {
-            rules: [
-              {
-                required: false
-              },
-              {
-                validator: this.compareToFirstPassword
-              },
-              {
-                min: 8,
-                message: "Password must be 8 charcter at least!"
-              }
-            ]
-          })(
-            <Input.Password
-              onBlur={this.handleConfirmBlur}
-              placeholder="Confirm Password"
-            />
-          )}
-        </Form.Item>
-
         <Form.Item className="profile-page--form-btns">
           <Button
             type="submit"
             className="profile-page--form-btn-save"
-            onClick={() => undefined}
+            onClick={this.showModal}
           >
             Save
           </Button>
+          <Modal
+            className='profile--password-popup'
+            title="Confirm Password"
+            visible={this.state.visible}
+            onOk={this.handleSubmit}
+            onCancel={this.hideModal}
+          >
+            <label>Your Password</label>
+            <input className='profile--password-input' type='password' value={this.state.password} onChange={this.handlePassword} />
+          </Modal>
 
           <Button
             className="profile-page--form-btn-cancel"

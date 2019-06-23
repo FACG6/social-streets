@@ -6,7 +6,6 @@ const { hashPassword } = require('./../../utils/helper');
 
 exports.post = (req, res, next) => {
   const userInfo = { ...req.body };
-  userInfo.avatar = 'avatar.png';
   userPostSchema
     .isValid(userInfo)
     .then((valid) => {

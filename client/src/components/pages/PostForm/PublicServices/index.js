@@ -238,7 +238,7 @@ class PublicServicesForm extends React.Component {
               <Button size="large">
                 <Icon type="upload" /> Click to upload
               </Button>
-            </Upload>
+          </Upload>
           }
         </Form.Item>
         <InputAntd
