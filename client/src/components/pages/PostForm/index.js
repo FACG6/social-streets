@@ -1,14 +1,9 @@
 import React from "react";
-import { Divider, Select } from "antd";
+import { Divider, Select, notification } from "antd";
+import axios from "axios";
 
 import WrappedEventForm from "components/pages/PostForm/Event";
 import WrappedPublicServices from "components/pages/PostForm/PublicServices";
-import {
-  eventTypeValues,
-  eventTopicValues,
-  primaryTag,
-  secondaryTag
-} from "./dumyData";
 
 import "./style.css";
 
@@ -23,13 +18,28 @@ class CreatPostPage extends React.Component {
     secondaryTag: []
   };
 
-  componentDidMount() {
-    this.setState({
-      eventTypeValues: eventTypeValues,
-      eventTopicValues: eventTopicValues,
-      primaryTag: primaryTag,
-      secondaryTag: secondaryTag
-    });
+  redirectTo = path => this.props.history.push(path);
+
+  async componentDidMount() {
+    try {
+      const eventRespons = await axios.get("/api/v1/post/event/static");
+      const PublicServicesResponse = await axios.get(
+        "/api/v1/post/public-service/static"
+      );
+      const { categories, topics } = eventRespons.data.data;
+      const { primaryTags, secondaryTags } = PublicServicesResponse.data.data;
+      await this.setState({
+        eventTypeValues: categories,
+        eventTopicValues: topics,
+        primaryTag: primaryTags,
+        secondaryTag: secondaryTags
+      });
+    } catch (err) {
+      notification.error({
+        message: "Error",
+        description: "There is an error try again"
+      });
+    }
   }
 
   handlePostTypeChange = e => this.setState({ postType: e });
@@ -44,7 +54,8 @@ class CreatPostPage extends React.Component {
       postType,
       eventTypeValues,
       eventTopicValues,
-      primaryTag
+      primaryTag,
+      secondaryTag
     } = this.state;
 
     const { id } = this.props.match.params;
@@ -74,13 +85,15 @@ class CreatPostPage extends React.Component {
             postType={postType}
             eventTopicValues={eventTopicValues}
             eventTypeValues={eventTypeValues}
+            redirectTo={this.redirectTo}
           />
         ) : (
           <WrappedPublicServices
             id={id}
             postType={postType}
             primaryTag={primaryTag}
-            secondaryTag={secondaryTag}
+            secondaryTags={secondaryTag}
+            redirectTo={this.redirectTo}
           />
         )}
       </section>

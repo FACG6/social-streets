@@ -11,4 +11,8 @@ router
 router
   .put('/password', updatePassword);
 
+const { updatePersonal } = require('./personal');
+
+router.route('/personal').put(updatePersonal);
+
 module.exports = router;

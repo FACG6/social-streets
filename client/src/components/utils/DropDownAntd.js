@@ -25,8 +25,8 @@ const DropDownAntd = ({
         placeholder={placeholder}
         onChange={handleSelectChange}
       >
-        {optionsMenu.map(({ key, value }) => (
-          <Option key={key} value={value}>
+        {optionsMenu.map(({ id, value }) => (
+          <Option key={id} value={id}>
             {value}
           </Option>
         ))}
