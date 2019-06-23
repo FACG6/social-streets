@@ -43,7 +43,6 @@ exports.updateBusiness = (req, res, next) => {
     })
     .then((valid) => {
       if (valid) {
-        console.log(valid)
         return updateBusinessDataQuery(organization,
           businessType,
           website,

@@ -5,7 +5,6 @@ import Button from "components/utils/Button";
 import "./style.css";
 
 function Home(props) {
-  console.log(props)
   return (
     <section className="home">
       <p className="home--desc">

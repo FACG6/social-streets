@@ -18,7 +18,6 @@ export default class PublicService extends Component {
         }
       })
       .then(res => {
-        console.log(res.data.data[0]);
         res.data.data[0].secondary_tag = res.data.data.map(
           res => res.secondary_tag
         );
