@@ -1,10 +1,10 @@
-import React, { Children } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Icon } from "antd";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-export default ({ Children }) => (
+export default ({ children }) => (
   <Layout>
     <Sider
       style={{
@@ -57,27 +57,17 @@ export default ({ Children }) => (
       </Menu>
     </Sider>
     <Layout style={{ marginLeft: 200 }}>
-      <Header
+      <div
         style={{
+          padding: 24,
           background: "#fff",
-          padding: "10px",
-          margin: "0 auto"
+          textAlign: "center",
+          minHeight: "calc(100vh - 47.99px)"
         }}
       >
-        This is theHeader
-      </Header>
-      <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
-        <div
-          style={{
-            padding: 24,
-            background: "#fff",
-            textAlign: "center"
-          }}
-        >
-          {Children}
-        </div>
-      </Content>
-      <Footer style={{ textAlign: "center" }}>RRL © 2018 Created by GSG</Footer>
+        {children}
+      </div>
+      <Footer style={{ textAlign: "center", height: 40 }}>RRL © 2018 Created by GSG</Footer>
     </Layout>
   </Layout>
 );

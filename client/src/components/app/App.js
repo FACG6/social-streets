@@ -24,6 +24,7 @@ import {
 import { Header, Footer } from "components/utils";
 import ProtectedRoute from "./../auth/protectedRoute";
 import "./App.css";
+import AdminLayout from "components/utils/AdminLayout";
 
 class App extends Component {
   state = {
@@ -77,6 +78,7 @@ class App extends Component {
       <Router>
         <>
           {user.role !== "admin" && <Header showHamburger={isAuth} />}
+
           <main
             className="container"
             style={isAuth ? {} : { minHeight: "calc(100vh - (129px + 70px))" }}
@@ -179,13 +181,15 @@ class App extends Component {
                 path="/posts"
                 component={Posts}
               />
-              <ProtectedRoute
-                isAdmin={true}
-                user={user}
-                isAuth={isAuth}
-                path="/admin"
-                component={<h1>Hello World</h1>}
-              />
+              <AdminLayout>
+                <ProtectedRoute
+                  isAdmin={true}
+                  user={user}
+                  isAuth={isAuth}
+                  path="/admin/1"
+                  component={() => <h1>Hello World</h1>}
+                />
+              </AdminLayout>
             </Switch>
           </main>
           {user.role !== "admin" && <Footer />}
