@@ -94,6 +94,7 @@ class EventForm extends React.Component {
           values.eventTopic = values.topic;
           values.altText = values.alt_text;
           values.focusKey = values.focus_key;
+          console.log(values)
 
           const formData = new FormData()
           const file = this.uploadInput.state.fileList[0].originFileObj
@@ -129,6 +130,7 @@ class EventForm extends React.Component {
         }
 
       } catch (err) {
+        console.log(err)
         if (Number(err.statusCode) === 400) {
           notification.error({
             message: "Bad Request",

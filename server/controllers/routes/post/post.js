@@ -11,14 +11,14 @@ const { eventSchema, publicServiceSchema } = require('../../utils/postSchema');
 const post = async (req, res, next) => {
   try {
     const data = JSON.parse(req.body.data)
+    console.log(data, 1)
     const { type, eventTopic, secondaryTag } = data;
     const { image } = req.files;
     const publisherId = Number(req.user.id);
 
     if (type === 'event') {
       if (!image) throw new Error();
-      const valid = await eventSchema.isValid(data) 
-      console.log(data, 111, valid,2222)
+      const valid = await eventSchema.isValid(data)
       if (valid) {
         console.log(valid, 111)
         const imageName = Date.now() + image.name;
@@ -27,7 +27,6 @@ const post = async (req, res, next) => {
           publisherId,
           imageName,
         });
-        console.log(addedEvent, 22)
         await Promise.all(
           eventTopic.map(topicId => addTopic(addedEvent.rows[0].id, topicId)),
         );
