@@ -74,7 +74,7 @@ class BusinessForm extends React.Component {
 
   hideModal = () => {
     this.setState({
-      visible: true,
+      visible: false,
     });
   }
 
