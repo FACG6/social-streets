@@ -6,6 +6,7 @@ import Button from "components/utils/Button";
 import { BusinessTypeValues } from "./business-type";
 import countries from "./country.json";
 import "./style.css";
+import "../modal.css"
 
 const { Option } = Select;
 const InputGroup = Input.Group;
@@ -70,6 +71,12 @@ class BusinessForm extends React.Component {
       visible: true,
     });
   };
+
+  hideModal = () => {
+    this.setState({
+      visible: true,
+    });
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -361,13 +368,14 @@ class BusinessForm extends React.Component {
         <Form.Item>
           {this.props.location.pathname === '/profile' &&
             <Modal
-              title="Modal"
+              className='profile--password-popup'
+              title="Confrim Password"
               visible={this.state.visible}
               onOk={this.updateInfo}
               onCancel={this.hideModal}
             >
               <label>Your Password</label>
-              <input type='password' value={this.state.password} onChange={this.handlePassword} />
+              <input className='profile--password-input' type='password' value={this.state.password} onChange={this.handlePassword} />
             </Modal>
           }
           <Button

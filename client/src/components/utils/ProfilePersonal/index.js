@@ -4,6 +4,7 @@ import { Form, Input, Modal, notification } from "antd";
 
 import Button from "components/utils/Button";
 import "./style.css";
+import "../modal.css"
 import axios from "axios";
 
 class ProfilePersonal extends Component {
@@ -52,6 +53,12 @@ class ProfilePersonal extends Component {
       visible: true,
     });
   };
+
+  hideModal = () => {
+    this.setState({
+      visible: false,
+    });
+  }
 
   render() {
     const {
@@ -144,13 +151,14 @@ class ProfilePersonal extends Component {
             Save
           </Button>
           <Modal
-            title="Modal"
+            className='profile--password-popup'
+            title="Confirm Password"
             visible={this.state.visible}
             onOk={this.handleSubmit}
             onCancel={this.hideModal}
           >
             <label>Your Password</label>
-            <input type='password' value={this.state.password} onChange={this.handlePassword} />
+            <input className='profile--password-input' type='password' value={this.state.password} onChange={this.handlePassword} />
           </Modal>
 
           <Button
