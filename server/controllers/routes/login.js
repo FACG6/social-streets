@@ -29,7 +29,7 @@ module.exports = (req, res, next) => {
             throw authErr;
           } else {
             const { password: pass, ...userResult } = user;
-         
+
             res.cookie(
               "jwt",
               genCookie({
@@ -37,7 +37,10 @@ module.exports = (req, res, next) => {
                 role: user.id === 1 ? "admin" : "member"
               })
             );
-            res.send({ data: userResult, statusCode: 200 });
+            res.send({
+              data: { ...userResult, role: user.id === 1 ? "admin" : "member" },
+              statusCode: 200
+            });
           }
         });
       }

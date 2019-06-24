@@ -28,7 +28,7 @@ export default ({ children }) => (
         </h1>
       </div>
 
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
         <Menu.Item key="1">
           <Icon type="user" />
           <span className="nav-text">Pending accounts</span>
@@ -53,6 +53,11 @@ export default ({ children }) => (
           <Icon type="cloud-o" />
           <span className="nav-text">Tags</span>
           <Link to="/admin/tags" />
+        </Menu.Item>
+        <Menu.Item key="">
+          <Icon type="logout" />
+          <span className="nav-text">Logout</span>
+          <Link to="/logout" />
         </Menu.Item>
       </Menu>
     </Sider>
