@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Icon } from "antd";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 
 export default ({ children }) => (
   <Layout>
@@ -19,7 +19,6 @@ export default ({ children }) => (
           style={{
             padding: "20px 0px",
             color: "white",
-            textAlign: "center",
             fontFamily: "lato",
             fontSize: "20px"
           }}
