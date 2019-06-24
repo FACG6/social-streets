@@ -19,7 +19,8 @@ BEGIN;
         facebook TEXT,
         instagram TEXT,
         twitter TEXT,
-        avatar TEXT
+        avatar TEXT,
+        pending BOOLEAN NOT NULL
     );
 
     CREATE TABLE event_category (
