@@ -16,11 +16,18 @@ function LoginPage(props) {
             email,
             password
           })
-          .then(() => {
-            props.handleLogin();
-            props.history.push("/posts");
+          .then(({ data: { data } }) => {
+            props.handleLogin(data);
+            data.role === "admin"
+              ? props.history.push("/admin")
+              : props.history.push("/posts");
           })
-          .catch(({ response: { data: { error, statusCode } } }) => {
+          .catch(err => {
+            const {
+              response: {
+                data: { error, statusCode }
+              }
+            } = err;
             let notificationObj = {};
             switch (statusCode) {
               case 400:

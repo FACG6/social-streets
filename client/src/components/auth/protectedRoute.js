@@ -3,19 +3,25 @@ import { Redirect, Route } from "react-router-dom";
 import AdminLayout from "components/utils/AdminLayout";
 
 export default function protectedRoute({ isAuth, isAdmin, user, ...props }) {
-  return isAuth ? (
-    isAdmin ? (
-      user.role === "admin" ? (
-        <Route {...props} />
-      ) : (
-        <Redirect to="/page-not-found" />
-      )
-    ) : user.role === "member" ? (
-      <Route {...props} />
-    ) : (
-      <Redirect to="/page-not-found" />
-    )
-  ) : (
-    <Redirect to="/login" />
+  const { component: Component } = props;
+  return (
+    <Route
+      {...props}
+      component={props =>
+        isAdmin ? (
+          user.role === "admin" ? (
+            <AdminLayout>
+              <Component {...props} />
+            </AdminLayout>
+          ) : (
+            <Redirect to="/posts" {...props} />
+          )
+        ) : user.role === "member" ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/page-not-found" {...props} />
+        )
+      }
+    />
   );
 }
