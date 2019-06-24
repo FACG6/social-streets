@@ -19,7 +19,7 @@ BEGIN;
         facebook TEXT,
         instagram TEXT,
         twitter TEXT,
-        avatar TEXT,
+        avatar TEXT
     );
 
     CREATE TABLE event_category (
