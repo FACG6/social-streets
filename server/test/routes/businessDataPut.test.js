@@ -6,7 +6,7 @@ const { buildDb, buildFakeData, buildStaticData } = require('./../../database/co
 
 tape('PUT in /api/v1/user/business || Valid', (t) => {
 
-  const expectedValues = [1, 'Ahmed', 'Abdellatif', 'ahmedisam9922@gmail.com', 'Charity', 'https://www.website_TEST.com', 'nameNAME TEST', 'addressADDRESS TEST TEST', 'cityCITY TEST', 'countryCOUNTRY TEST', '12345', 'https://www.facebook_TEST.com', 'https://www.instagram.com/username', 'https://www.twitter_TEST.com', null];
+  const expectedValues = [1, 'Ahmed', 'Abdellatif', 'ahmedisam9922@gmail.com', 'Charity', 'https://www.website.com', 'nameNAME TEST', 'addressADDRESS TEST TEST', 'cityCITY TEST', 'countryCOUNTRY TEST', 'WC2N 5DU', 'https://www.facebook_TEST.com', 'https://www.instagram.com/israasuliman/', 'https://www.twitter_TEST.com', null];
 
   buildDb()
     .then(buildStaticData)
@@ -19,14 +19,14 @@ tape('PUT in /api/v1/user/business || Valid', (t) => {
           oldPassword: '123',
           organization: 'nameNAME TEST',
           businessType: 'Charity',
-          website: 'https://www.website_TEST.com',
+          website: 'https://www.website.com',
           city: 'cityCITY TEST',
           country: 'countryCOUNTRY TEST',
           address: 'addressADDRESS TEST TEST',
-          zipCode: 12345,
+          zipCode: 'WC2N 5DU',
           facebook: 'https://www.facebook_TEST.com',
           twitter: 'https://www.twitter_TEST.com',
-          instagram: 'https://www.instagram.com/username',
+          instagram: 'https://www.instagram.com/israasuliman/',
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -56,10 +56,10 @@ tape('PUT in /api/v1/user/business || Invalid Business Data', (t) => {
           city: 'cityT',
           country: 'countryT',
           address: 'addressT',
-          zipCode: 1234,
+          zipCode: 'WC2N 5DU',
           facebook: 'www.facebook_TEST.com',
           twitter: 'www.twitter_TEST.com',
-          instagram: 'www.instagram.com/username',
+          instagram: 'www.instagram.com/israa.sulaiman/',
         })
         .expect(400)
         .expect('Content-Type', /json/)
@@ -89,10 +89,10 @@ tape('PUT in /api/v1/user/business || Invalid Password', (t) => {
           city: 'cityT',
           country: 'countryT',
           address: 'addressT',
-          zipCode: 1234,
+          zipCode: 'WC2N 5DU',
           facebook: 'www.facebook_TEST.com',
           twitter: 'www.twitter_TEST.com',
-          instagram: 'www.instagram.com/username',
+          instagram: 'www.instagram.com/israa.sulaiman/',
         })
         .expect(401)
         .expect('Content-Type', /json/)

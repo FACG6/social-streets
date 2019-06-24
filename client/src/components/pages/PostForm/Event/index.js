@@ -25,7 +25,7 @@ const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   state = {
-    // publishDatetime: moment().format(),
+    publishDatetime: moment().format(),
   };
   async componentDidMount() {
     try {
@@ -43,11 +43,13 @@ class EventForm extends React.Component {
         const event = getRes.data.data[0];
         event.topic = getRes.data.data.map(event => event.topic_id);
         event.category = event.event_category;
+        event.event_start_datetime = moment(getRes.data.data.event_start_date);
+        event.event_end_datetime = moment(getRes.data.data.event_start_date);
         delete event.event_category;
         delete event.topic_id;
-        // this.setState({ publishDatetime: event.publish_datetime }, () => {
-        setFieldsValue(event);
-        // });
+        this.setState({ publishDatetime: event.publish_datetime }, () => {
+          setFieldsValue(event);
+        });
       }
     } catch (err) {
       if (Number(err.statusCode) === 400) {
@@ -77,6 +79,7 @@ class EventForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const target = e.target;
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
         if (err) {
@@ -87,7 +90,7 @@ class EventForm extends React.Component {
         } else {
           values.type = 'event'
           values.publishDatetime = moment().format()
-          e.target.textContent === 'Preview' ? values.isDraft = 'true' : values.isDraft = 'false';
+          target.textContent === 'Preview' && !this.props.id ? values.isDraft = 'true' : values.isDraft = 'false';
           values.eventStartDatetime = values.event_start_datetime;
           values.eventEndDatetime = values.event_end_datetime;
           values.eventTopic = values.topic;
@@ -95,35 +98,58 @@ class EventForm extends React.Component {
           values.focusKey = values.focus_key;
 
           const formData = new FormData()
-          const file = this.uploadInput.state.fileList[0].originFileObj
+          const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
           formData.append('data', JSON.stringify(values))
           formData.append('image', file)
-          if (!file) return notification.error({ message: "Bad Request", description: 'Add an Image' });
+          if (!file && !this.props.id) return notification.error({ message: "Bad Request", description: 'Add an Image' });
 
-          let postResponse;
-          if (e.target.textContent === 'Preview') {
-            postResponse = await axios.post('/api/v1/post', formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            });
+          const { id } = this.props;
+          let resPost;
 
-          } else {
-            postResponse = await axios.post('/api/v1/post', formData, {
+          //Edit Post//
+          if (id && target.textContent !== 'Preview') {
+            resPost = await axios.put(`/api/v1/post/${id}`, formData, {
               headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+                "Content-Type": "multipart/form-data"
+              }
             });
-            notification.success({
-              message: "Successfully",
-              description: "Post added successfully"
-            })
+            if (resPost.data.data.id)
+              notification.success({
+                message: "Successfully",
+                description: "Post updated successfully"
+              })
           }
-          const { id, category } = postResponse.data.data;
+
+          //Preview Published Post//
+          if (this.props.id && target.textContent === 'Preview') {
+            return notification.warning({
+              message: 'Sorry!',
+              description: 'You have to save the post to review it',
+            })
+
+          }
+
+          //Post New Post: Draft or Live//
+          if (!id) {
+            resPost = await axios.post('/api/v1/post', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            });
+            if (resPost.data.data.id)
+              notification.success({
+                message: "Successfully",
+                description: "Post added successfully"
+              })
+          }
+
+          const { id: postId, category } = resPost.data.data;
           const categories = this.props.eventTypeValues;
           const catId = categories.findIndex(({ id }) => id === category);
           const postCategory = categories[catId].category.toLowerCase().replace(' and ', '-');
-          this.props.history.push(`/post/event/${postCategory}/${id}`)
+
+          // redirect
+          this.props.history.push(`/post/event/${postCategory}/${postId}`)
         }
 
       } catch (err) {
@@ -223,7 +249,6 @@ class EventForm extends React.Component {
             ]
           })(
             <DatePicker
-              defaultPickerValue={null}
               style={{ width: "100%" }}
               showTime
               format="YYYY-MM-DD HH:mm:ss"
@@ -241,7 +266,6 @@ class EventForm extends React.Component {
             ]
           })(
             <DatePicker
-              defaultPickerValue={null}
               style={{ width: "100%" }}
               showTime
               format="YYYY-MM-DD HH:mm:ss"

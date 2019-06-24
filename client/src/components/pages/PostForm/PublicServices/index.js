@@ -88,58 +88,67 @@ class PublicServicesForm extends React.Component {
     const { target } = e;
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
-        if (!err) {
+        if (err) {
+          notification.error({
+            message: "Error",
+            description: "Validation Error"
+          });
+        } else {
           const { id } = this.props;
+          values.type = "public_services";
+          values.publishDatetime = this.state.publishDatetime;
+          target.textContent === 'Preview' & !id ? values.isDraft = "true" : values.isDraft = 'false';
+
+          const formData = new FormData();
+          const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
+          formData.append('data', JSON.stringify(values))
+          formData.append('image', file)
+          if (!file && !this.props.id) return notification.error({ message: "Bad Request", description: 'Add an Image' });
+
+          let resPost;
 
           //Edit Post//
-          if (id) {
-            values.type = "public_services";
-            values.publishDatetime = this.state.publishDatetime;
-            values.isDraft = "false";
-
-            const formData = new FormData();
-            if (this.uploadInput.state.fileList[0]) {
-              const file = this.uploadInput.state.fileList[0].originFileObj;
-              formData.append("image", file);
-            }
-            formData.append("data", JSON.stringify(values));
-            //Axios Edit//
-            await axios.put(`/api/v1/post/${id}`, formData, {
+          if (id && target.textContent !== 'Preview') {
+            resPost = await axios.put(`/api/v1/post/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data"
               }
             });
-            this.props.history.push(`/post/${id}`);
-          } else {
-            //Publish New Posts//
-            values.type = "public_services";
-            values.publishDatetime = moment().format();
-            target.textContent === 'Preview' ? values.isDraft = "true" : values.isDraft = 'false';
+            if (resPost.data.data.id)
+              notification.success({
+                message: "Successfully",
+                description: "Post updated successfully"
+              })
+          }
 
-            const formData = new FormData();
-            const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
-            formData.append("data", JSON.stringify(values));
-            formData.append("image", file);
+          //Preview Published Post//
+          if (this.props.id && target.textContent === 'Preview') {
+            return notification.warning({
+              message: 'Sorry!',
+              description: 'You have to save the post to review it',
+            })
+          }
 
-
-            const postResponse = await axios.post("/api/v1/post", formData, {
+          //Post New Post: Draft or Live//
+          if (!id) {
+            resPost = await axios.post('/api/v1/post', formData, {
               headers: {
-                "Content-Type": "multipart/form-data"
-              }
+                'Content-Type': 'multipart/form-data',
+              },
             });
-            //Success//
-            if (target.textContent !== 'Preview')
+            if (resPost.data.data.id)
               notification.success({
                 message: "Successfully",
                 description: "Post added successfully"
-              });
-            //Redirect to the post page//
-            const { id, primary_tag } = postResponse.data.data;
-            const primaryTags = this.props.primaryTag;
-            const tagId = primaryTags.findIndex(({ id }) => id === primary_tag);
-            const tag = primaryTags[tagId].tag.toLowerCase().replace(' and ', '-');
-            this.props.history.push(`/post/public-service/${tag}/${id}`)
+              })
           }
+          const { id: postId, primary_tag } = resPost.data.data;
+          const primaryTags = this.props.primaryTag;
+          const tagId = primaryTags.findIndex(({ id }) => id === primary_tag);
+          const tag = primaryTags[tagId].tag.toLowerCase().replace(' and ', '-');
+
+          //Redirect
+          this.props.history.push(`/post/public-service/${tag}/${postId}`)
         }
       } catch (err) {
         if (Number(err.statusCode) === 400) {

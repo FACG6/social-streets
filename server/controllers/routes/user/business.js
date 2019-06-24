@@ -24,7 +24,7 @@ exports.updateBusiness = (req, res, next) => {
     .then(dbRes => compare(oldPassword, dbRes.rows[0].password))
     .then((passMatch) => {
       if (passMatch) {
-        return businessDataSchema.validate({
+        return businessDataSchema.isValid({
           organization,
           businessType,
           website,

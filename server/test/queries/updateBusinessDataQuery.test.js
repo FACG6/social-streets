@@ -16,7 +16,7 @@ const expectedResult = {
   address: 'address TEST TEST',
   city: 'city TEST',
   country: 'country TEST',
-  zip_code: '12345',
+  zip_code: 'WC2N 5DU',
   facebook: 'www.facebook_TEST.com',
   instagram: 'www.instagram_TEST.com',
   twitter: 'www.twitter_TEST.com',
@@ -30,7 +30,7 @@ tape('Query - Update Business Data || Valid User ID', (t) => {
   const city = 'city TEST';
   const country = 'country TEST';
   const address = 'address TEST TEST';
-  const zipCode = 12345;
+  const zipCode = 'WC2N 5DU';
   const facebook = 'www.facebook_TEST.com';
   const twitter = 'www.twitter_TEST.com';
   const instagram = 'www.instagram_TEST.com';
@@ -54,7 +54,7 @@ tape('Query - Update Business Data || Inexistent ID', (t) => {
   const city = 'city TEST';
   const country = 'country TEST';
   const address = 'address TEST TEST';
-  const zipCode = 12345;
+  const zipCode = 'WC2N 5DU';
   const facebook = 'www.facebook_TEST.com';
   const twitter = 'www.twitter_TEST.com';
   const instagram = 'www.instagram_TEST.com';

@@ -17,18 +17,11 @@ exports.businessDataSchema = yup.object().shape({
     .required(),
   facebook: yup
     .string()
-    .matches(
-      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-    )
-    .nullable(true),
+    .url().nullable(true),
   twitter: yup
     .string()
-    .matches(
-      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-    ).nullable(true),
+    .url().nullable(true),
   instagram: yup
     .string()
-    .matches(
-      /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-    ).nullable(true),
+    .url().nullable(true),
 });

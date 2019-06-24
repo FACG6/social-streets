@@ -32,16 +32,14 @@ const updateEvent = async (req, res, next) => {
 
       const moveImg = promisify(image.mv);
       const deleteImg = promisify(unlink);
-
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('event', eventId);
       await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
-
     await updateEventQuery(eventId, req.body, imageName);
     await deleteTopicQuery(eventId);
     await Promise.all(eventTopic.map(topic => addTopic(eventId, topic)));
-    return res.send({ data: req.body, statusCode: 200 });
+    return res.send({ data: { ...req.body, id: eventId }, statusCode: 200 });
   } catch (e) {
     if (e.message === "Cannot read property 'publisher_id' of undefined") res.status(400).send({ statusCode: 400, error: 'Bad Request' });
     return next(e);
@@ -75,7 +73,8 @@ const updatePublicService = async (req, res, next) => {
     await updatePublicServiceQuery(publicServiceId, req.body, imageName);
     await deleteSecondaryTagQuery(publicServiceId);
     await Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag)));
-    return res.send({ data: req.body, statusCode: 200 });
+    req.body.primary_tag = req.body.primaryTag;
+    return res.send({ data: { ...req.body, id: publicServiceId }, statusCode: 200 });
   } catch (e) {
     return next(e);
   }

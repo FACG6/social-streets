@@ -6,7 +6,8 @@ exports.updateEventQuery = (
     title,
     description,
     category,
-    eventDatetime,
+    eventStartDatetime,
+    eventEndDatetime,
     venue,
     website,
     cost,
@@ -20,12 +21,13 @@ exports.updateEventQuery = (
 ) => {
   if (imageName) {
     return connection.query(
-      'UPDATE event SET title = $1, description = $2, category = $3, event_datetime = $4, venue = $5, website = $6, image = $7, cost = $8, focus_key = $9, meta = $10, alt_text = $11, is_draft = $12, publish_datetime = $13 WHERE id = $14;',
+      'UPDATE event SET title = $1, description = $2, category = $3, event_start_datetime = $4, event_end_datetime = $5, venue = $6, website = $7, image = $8, cost = $9, focus_key = $10, meta = $11, alt_text = $12, is_draft = $13, publish_datetime = $14 WHERE id = $15;',
       [
         title,
         description,
         category,
-        eventDatetime,
+        eventStartDatetime,
+        eventEndDatetime,
         venue,
         website,
         imageName,
@@ -40,12 +42,13 @@ exports.updateEventQuery = (
     );
   }
   return connection.query(
-    'UPDATE event SET title = $1, description = $2, category = $3, event_datetime = $4, venue = $5, website = $6, cost = $7, focus_key = $8, meta = $9, alt_text = $10, is_draft = $11, publish_datetime = $12 WHERE id = $13;',
+    'UPDATE event SET title = $1, description = $2, category = $3, event_start_datetime = $4,event_end_datetime = $5, venue = $6, website = $7, cost = $8, focus_key = $9, meta = $10, alt_text = $11, is_draft = $12, publish_datetime = $13 WHERE id = $14;',
     [
       title,
       description,
       category,
-      eventDatetime,
+      eventStartDatetime,
+      eventEndDatetime,
       venue,
       website,
       cost,

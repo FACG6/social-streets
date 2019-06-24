@@ -14,7 +14,8 @@ test('Add new post at /api/v1/post/', async (t) => {
       'title': 'Title from',
       'description': 'description for the event',
       'category': 1,
-      'eventDatetime': '11/4/2019 - 02.23 p.m',
+      'eventStartDatetime': '11/4/2019 - 02.23 p.m',
+      'eventEndDatetime': '12/4/2019 - 02.23 p.m',
       'venue': 'gaza st',
       'website': 'www.qqqq.com',
       'altText': 'desc fro img',
@@ -37,7 +38,7 @@ test('Add new post at /api/v1/post/', async (t) => {
           t.error(err);
         } else {
           const data = res.body.data
-          t.deepEqual(Object.keys(data), ['id', 'title', 'description', 'category', 'event_datetime', 'venue', 'website', 'cost', 'image', 'focus_key', 'meta', 'alt_text', 'is_draft', 'publisher_id', 'publish_datetime'], 'Event add sucssfully')
+          t.deepEqual(Object.keys(data), ['id', 'title', 'description', 'category', 'event_start_datetime', 'event_end_datetime', 'venue', 'website', 'cost', 'image', 'focus_key', 'meta', 'alt_text', 'is_draft', 'publisher_id', 'publish_datetime'], 'Event add sucssfully')
           t.equal(res.body.data.id, 3, 'Same id for the new Event Post')
           t.end();
         }
