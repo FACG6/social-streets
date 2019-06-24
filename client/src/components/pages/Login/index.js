@@ -18,7 +18,6 @@ function LoginPage(props) {
           })
           .then(({ data: { data } }) => {
             props.handleLogin(data);
-            console.log(data);
             data.role === "admin"
               ? props.history.push("/admin")
               : props.history.push("/posts");
