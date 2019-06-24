@@ -62,7 +62,11 @@ export default class PendingAccounts extends Component {
           <span style={{ display: "block", margin: "20px 0 5px 0" }}>
             Enter your password to confirm this operation:
           </span>
-          <Input onChange={this.handleUpdatePassword} autoFocus={true} />
+          <Input
+            onChange={this.handleUpdatePassword}
+            autoFocus={true}
+            type="password"
+          />
         </label>
       ),
       okText: "Confirm",
