@@ -59,15 +59,13 @@ export default ({ children }) => (
     <Layout style={{ marginLeft: 200 }}>
       <div
         style={{
-          padding: 24,
+          padding: "24px 12px",
           background: "#fff",
-          textAlign: "center",
-          minHeight: "calc(100vh - 47.99px)"
+          maxHeight: "100vh"
         }}
       >
         {children}
       </div>
-      <Footer style={{ textAlign: "center", height: 40 }}>RRL © 2018 Created by GSG</Footer>
     </Layout>
   </Layout>
 );

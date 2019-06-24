@@ -5,24 +5,7 @@ import PropTypes from "prop-types";
 
 import "./style.css";
 
-const data = [
-  {
-    id: 1,
-    name: "Ahmed I. Abdellatif",
-    email: "ahmedisam9922@gmail.com",
-    business_type: "Charity",
-    website: "www.google.com",
-    org_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  }
-];
-
-export default class PendingAccounts extends Component {
+export default class AccountsTable extends Component {
   state = {
     searchText: ""
   };
@@ -83,7 +66,7 @@ export default class PendingAccounts extends Component {
         highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
         searchWords={[this.state.searchText]}
         autoEscape
-        textToHighlight={text.toString()}
+        textToHighlight={text && text.toString()}
       />
     )
   });
@@ -99,6 +82,8 @@ export default class PendingAccounts extends Component {
   };
 
   render() {
+    const { actionRender, data, pageSize = 5 } = this.props;
+
     const columns = [
       {
         title: "Name",
@@ -111,20 +96,29 @@ export default class PendingAccounts extends Component {
         ...this.getColumnSearchProps("email")
       },
       {
-        title: "Business Type",
+        title: "Business",
         dataIndex: "business_type",
         ...this.getColumnSearchProps("business_type")
       },
       {
         title: "Website",
         dataIndex: "website",
-        render: text => <a href={text}>{text}</a>,
-        ...this.getColumnSearchProps("website")
+        ...this.getColumnSearchProps("website"),
+        render: text => (
+          <a
+            href={text && (!text.indexOf("http") ? text : `http://${text}`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="admin-page__link"
+          >
+            Website
+          </a>
+        )
       },
       {
         title: "Organisation",
-        dataIndex: "org_name",
-        ...this.getColumnSearchProps("org_name")
+        dataIndex: "organisation_name",
+        ...this.getColumnSearchProps("organisation_name")
       },
       {
         title: "Address",
@@ -135,21 +129,41 @@ export default class PendingAccounts extends Component {
         title: "Social Media",
         dataIndex: "social_media",
         render: links =>
+          links &&
           links.map(({ type, href }) => (
-            <a href={href}>
+            <a
+              href={!href.indexOf("http") ? href : `http://${href}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Icon type={type} />
             </a>
           ))
       }
     ];
 
+    const actionColumn = {
+      title: "Action",
+      dataIndex: "action",
+      render: actionRender
+    };
+    columns.push(actionColumn);
+
     return (
       <Table
+        bordered
         columns={columns}
         rowKey={({ id }) => id}
         dataSource={data}
-        pagination={{ pageSize: 50 }}
+        pagination={{ pageSize }}
+        style={{ padding: 5 }}
       />
     );
   }
 }
+
+AccountsTable.propTypes = {
+  data: PropTypes.array.isRequired,
+  actionRender: PropTypes.func.isRequired,
+  pageSize: PropTypes.number
+};
