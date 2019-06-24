@@ -151,6 +151,7 @@ export default class AccountsTable extends Component {
 
     return (
       <Table
+        loading={this.props.loading}
         bordered
         columns={columns}
         rowKey={({ id }) => id}

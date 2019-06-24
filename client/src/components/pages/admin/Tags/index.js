@@ -1,6 +1,5 @@
 import React from 'react'
 import { EventType, EventTopics, PublicPrimaryTags, PublicSecondaryTags } from './QWE'
-import './style.css'
 
 export default function Tags() {
   return (

@@ -1,13 +1,18 @@
 import React, { Component } from "react";
-import { Button, notification, Modal, Input } from "antd";
+import { Button, notification, Modal, Input, Typography, Row, Col } from "antd";
 import axios from "axios";
 
 import AccountsTable from "components/utils/AccountsTable/index";
 
+const { Title } = Typography;
+
 export default class PendingAccounts extends Component {
   state = {
     adminPassword: "",
-    users: []
+    query: "",
+    users: [],
+    result: [],
+    isLoading: true
   };
 
   async componentDidMount() {
@@ -34,7 +39,7 @@ export default class PendingAccounts extends Component {
         delete user.twitter;
         return user;
       });
-      await this.setState({ users });
+      await this.setState({ users, result: users, isLoading: false });
     } catch (e) {
       if (e.response) {
         notification.error({
@@ -47,6 +52,7 @@ export default class PendingAccounts extends Component {
           description: e.message
         });
       }
+      this.setState({ isLoading: false });
     }
   }
 
@@ -112,9 +118,18 @@ export default class PendingAccounts extends Component {
       }
     }
   };
+  handleChange = ({ target: { value } }) => {
+    const { users } = this.state;
+    const result = value
+      ? users.filter(user =>
+          user.name.toLowerCase().includes(value.toLowerCase())
+        )
+      : users;
+    this.setState({ query: value, result });
+  };
 
   render() {
-    const { users } = this.state;
+    const { result, query } = this.state;
     const actionRender = (_, { id }) => (
       <Button
         type="danger"
@@ -126,7 +141,29 @@ export default class PendingAccounts extends Component {
     );
 
     return (
-      <AccountsTable data={users} actionRender={actionRender} pageSize={6} />
+      <>
+        <Row type="flex" justify="center" style={{ padding: "5rem 0 0 0" }}>
+          <Col span={23}>
+            <Title style={{ fontFamily: "Lato" }}>Users Accounts : </Title>
+          </Col>
+          <Col span={21} style={{ marginTop: "3rem" }}>
+            <Input
+              size="large"
+              placeholder="Enter Username"
+              onChange={this.handleChange}
+              value={query}
+            />
+          </Col>
+          <Col span={21} style={{ marginTop: "3rem" }}>
+            <AccountsTable
+              loading={this.state.isLoading}
+              data={result}
+              actionRender={actionRender}
+              pageSize={6}
+            />
+          </Col>
+        </Row>
+      </>
     );
   }
 }

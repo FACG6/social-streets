@@ -3,8 +3,6 @@ import { Redirect } from "react-router-dom";
 
 import {
   Home,
-  Loading,
-  Login,
   CreateProfile,
   Posts,
   Post,
@@ -12,7 +10,10 @@ import {
   PublicService,
   Event,
   Profile,
-  AdminPosts
+  AdminPosts,
+  PenddingUsersAccounts,
+  UsersAccounts,
+  Tags
 } from "components/pages";
 
 export const isNotAuthRoutes = [
@@ -113,7 +114,7 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/pending-accounts",
     exact: true,
-    component: (props) => <h1>Pendding Accounts</h1>
+    component: PenddingUsersAccounts
   },
   {
     key: 12,
@@ -121,7 +122,7 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/accounts",
     exact: true,
-    component: (props) => <h1>Accounts</h1>
+    component: UsersAccounts
   },
   {
     key: 13,
@@ -137,7 +138,7 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/seo-tips",
     exact: true,
-    component: (props) => <h1>SEO Tips</h1>
+    component: props => <h1>SEO Tips</h1>
   },
   {
     key: 15,
@@ -145,10 +146,11 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/tags",
     exact: true,
-    component: (props) => <h1>Tags</h1>
-  },{
+    component: Tags
+  },
+  {
     key: 16,
     isProtected: false,
-    path: "*",
+    path: "*"
   }
 ];
