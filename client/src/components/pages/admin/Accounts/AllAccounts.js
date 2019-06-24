@@ -55,12 +55,12 @@ export default class PendingAccounts extends Component {
           <span style={{ display: "block", margin: "20px 0 5px 0" }}>
             Enter your password to confirm this operation:
           </span>
-          <Input onChange={this.handleUpdatePassword} />
+          <Input onChange={this.handleUpdatePassword} autoFocus={true} />
         </label>
       ),
-      okText: "Yes",
+      okText: "Confirm",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Cancel",
       autoFocusButton: "cancel",
       keyboard: true,
       centered: true,
@@ -78,19 +78,34 @@ export default class PendingAccounts extends Component {
   handleDeleteUser = async userId => {
     try {
       const deleteUserRes = await axios.delete(
-        `/api/v1/delete-user/${userId}`,
+        `/api/v1/admin/delete-user/${userId}`,
         {
-          password: this.state.adminPassword
+          data: { password: this.state.adminPassword }
         }
       );
+      const deletedUser = deleteUserRes.data.data;
+      this.setState({
+        users: this.state.users.filter(user => user.id !== deletedUser.id)
+      });
     } catch (e) {
-      console.log(e);
+      if (e.response) {
+        notification.error({
+          message: "Error",
+          description: e.response.data.error
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description:
+            "There is an error contacting with the server please ty again later"
+        });
+      }
     }
   };
 
   render() {
     const { users } = this.state;
-    const actionRender = (text, { id }) => (
+    const actionRender = (_, { id }) => (
       <Button
         type="danger"
         onClick={() => this.confirmDeleteUser(id)}
