@@ -19,8 +19,10 @@ import {
   PublicService,
   PageNotFound,
   Event,
-  Profile
+  Profile,
+  AdminPosts
 } from "components/pages";
+
 import { Header, Footer } from "components/utils";
 import ProtectedRoute from "./../auth/protectedRoute";
 import "./App.css";
@@ -28,7 +30,7 @@ import AdminLayout from "components/utils/AdminLayout";
 
 class App extends Component {
   state = {
-    user: { role: "admin", isAdmin: true },
+    user: { role: "member" },
     isAuth: true,
     isLoading: true
   };
@@ -39,7 +41,7 @@ class App extends Component {
       notification.success({ message: "Welcome Back" });
       this.setState({
         isAuth: true,
-        user: { ...user, role: "admin" },
+        user: { ...user, role: "admin" }, // this should be { ...user } but just for development
         isAdmin: true,
         isLoading: false
       });
@@ -99,6 +101,7 @@ class App extends Component {
                   return <Redirect to="/login" />;
                 }}
               />
+
               <ProtectedRoute
                 exact
                 isAdmin={false}
@@ -188,6 +191,16 @@ class App extends Component {
                   isAuth={isAuth}
                   path="/admin/1"
                   component={() => <h1>Hello World</h1>}
+                />
+                <ProtectedRoute
+                  exact
+                  isAdmin={true}
+                  path="/admin/posts"
+                  isAuth={isAuth}
+                  user={user}
+                  component={props => (
+                    <AdminPosts {...props} handleUnauth={this.handleUnauth} />
+                  )}
                 />
               </AdminLayout>
             </Switch>
