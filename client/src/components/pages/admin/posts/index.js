@@ -101,7 +101,7 @@ class index extends Component {
                       style={{ background: "#1890ff" }}
                       onClick={this.handleSubmit}
                     >
-                      Log in
+                      Search
                     </Button>
                   </Form.Item>
                 </Col>
