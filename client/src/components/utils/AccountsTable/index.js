@@ -130,15 +130,17 @@ export default class AccountsTable extends Component {
         dataIndex: "social_media",
         render: links =>
           links &&
-          links.map(({ type, href }) => (
-            <a
-              href={!href.indexOf("http") ? href : `http://${href}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon type={type} />
-            </a>
-          ))
+          links.map(({ type, href }) =>
+            href ? (
+              <a
+                href={!href.indexOf("http") ? href : `http://${href}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon type={type} />
+              </a>
+            ) : null
+          )
       }
     ];
 

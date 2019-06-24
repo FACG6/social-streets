@@ -11,7 +11,7 @@ import {
   Event,
   Profile,
   AdminPosts,
-  PenddingUsersAccounts,
+  pendingUsersAccounts,
   UsersAccounts,
   Tags
 } from "components/pages";
@@ -114,7 +114,7 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/pending-accounts",
     exact: true,
-    component: PenddingUsersAccounts
+    component: pendingUsersAccounts
   },
   {
     key: 12,
