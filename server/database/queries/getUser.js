@@ -8,4 +8,4 @@ const connection = require('../config/connection');
 
 exports.getUserById = id => connection.query('SELECT * FROM "user" WHERE id = $1', [id]);
 
-exports.getAllUsers = () => connection.query('SELECT *  FROM "user"');
+exports.getAllUsers = () => connection.query('SELECT * FROM "user" WHERE id != 1');
