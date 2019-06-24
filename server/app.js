@@ -8,9 +8,7 @@ const router = require('./controllers');
 
 const app = express();
 app.set('port', process.env.PORT || 5000);
-app.use(fileUpload({
-  limits: { fileSize: 500 * 1024 * 1024 },
-}));
+app.use(fileUpload());
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api/v1', router);
@@ -22,6 +20,7 @@ app.get('*', (_req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log(err)
   res.status(500).send({ error: 'Internal Server Error', statusCode: 500 });
 });
 

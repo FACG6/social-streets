@@ -60,6 +60,9 @@ const updatePublicService = async (req, res, next) => {
     let imageName = '';
     if (req.files && req.files.image) {
       const { image } = req.files;
+      if (image.size >= 500) {
+        return res.send({ statusCode: 400, data: 'Bad Request' });
+      }
       imageName = Date.now() + image.name;
 
       const moveImg = promisify(image.mv);

@@ -67,7 +67,7 @@ class Event extends Component {
           />
         ) : (
             <section className="event-container">
-              <img className="event-img" src={window.location.origin + `/server/uploads/` + image} alt={alt_text} />
+              <img className="event-img" src={image} alt={alt_text} />
               <h1 className="event-title">{title}</h1>
               <div className="event-icon">
                 <div className="event-flex--col">

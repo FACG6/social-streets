@@ -15,7 +15,7 @@ const post = async (req, res, next) => {
     const { image } = req.files;
     const publisherId = Number(req.user.id);
     if (type === 'event') {
-      if (!image) throw new Error();
+      if (!image || (image.size / 1024 / 1024) > 500) throw new Error();
       const valid = await eventSchema.isValid(data)
       if (valid) {
         const imageName = Date.now() + image.name;

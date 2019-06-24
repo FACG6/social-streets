@@ -302,7 +302,7 @@ class PublicServicesForm extends React.Component {
         </Card>
         <Form.Item>
           <Btn onClick={this.handleSubmit} type="primary" htmlType="submit">
-            Publish
+            {this.props.id ? 'Save' : 'Publish'}
           </Btn>
           <Btn
             onClick={this.handleSubmit}
