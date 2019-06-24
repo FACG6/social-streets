@@ -23,9 +23,9 @@ class index extends Component {
     isLoading: false
   };
   handleSubmit = () => {
-    this.setState({ isLoading: true });
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        this.setState({ isLoading: true });
         try {
           const posts = (await axios.get("/api/v1/admin/posts", {
             headers: {
@@ -98,7 +98,7 @@ class index extends Component {
                       type="primary"
                       size="large"
                       htmlType="submit"
-                      className="login-form-button"
+                      style={{ background: "#1890ff" }}
                       onClick={this.handleSubmit}
                     >
                       Log in
