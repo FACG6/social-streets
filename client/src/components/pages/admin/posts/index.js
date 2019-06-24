@@ -116,6 +116,10 @@ class index extends Component {
                 dataSource={this.state.posts}
                 loading={this.state.isLoading}
               >
+                <Table.Column
+                  title="Organisation"
+                  dataIndex="organisation_name"
+                />
                 <Table.Column title="Title" dataIndex="title" />
                 <Table.Column
                   title="Type"
@@ -146,6 +150,10 @@ class index extends Component {
                 dataSource={this.state.posts}
                 loading={this.state.isLoading}
               >
+                <Table.Column
+                  title="Organisation"
+                  dataIndex="organisation_name"
+                />{" "}
                 <Table.Column title="Title" dataIndex="title" />
                 <Table.Column
                   title="Type"
