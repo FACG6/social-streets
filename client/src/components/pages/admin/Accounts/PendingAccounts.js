@@ -1,124 +1,124 @@
 import React, { Component } from "react";
-import { Button } from "antd";
+import { Button, notification, Modal } from "antd";
+import axios from "axios";
 
 import AccountsTable from "components/utils/AccountsTable";
 
-const data = [
-  {
-    id: 1,
-    name: "Ahmed I. Abdellatif",
-    email: "ahmedisam9922@gmail.com",
-    business_type: "Charity",
-    website: "www.google.com",
-    organisation_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  },
-  {
-    id: 2,
-    name: "Abdallah Ammar",
-    email: "abdallah@gmail.com",
-    business_type: "Charity",
-    website: "https://www.google.com",
-    organisation_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  },
-  {
-    id: 3,
-    name: "Amin Al-Akhsham",
-    email: "ahmedisam9922@gmail.com",
-    business_type: "Charity",
-    website: "www.google.com",
-    organisation_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  },
-  {
-    id: 4,
-    name: "Israa Sulaiman",
-    email: "ahmedisam9922@gmail.com",
-    business_type: "Charity",
-    website: "www.google.com",
-    organisation_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  },
-  {
-    id: 5,
-    name: "Israa Sulaiman",
-    email: "ahmedisam9922@gmail.com",
-    business_type: "Charity",
-    website: "www.google.com",
-    organisation_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  },
-  {
-    id: 6,
-    name: "Israa Sulaiman",
-    email: "ahmedisam9922@gmail.com",
-    business_type: "Charity",
-    website: "www.google.com",
-    organisation_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  },
-  {
-    id: 7,
-    name: "Israa Sulaiman",
-    email: "ahmedisam9922@gmail.com",
-    business_type: "Charity",
-    website: "www.google.com",
-    organisation_name: "Ahmed Charity Co.",
-    address: "Palestine, Gaza Strip, Gaza, Omar Al-Mukhtar St. 79702",
-    social_media: [
-      { type: "facebook", href: "www.facebook.com" },
-      { type: "instagram", href: "www.instagram.com" },
-      { type: "twitter", href: "www.twitter.com" }
-    ]
-  }
-];
-
 export default class PendingAccounts extends Component {
   state = {
-    data: [{}]
+    users: []
   };
 
-  componentDidMount() {
-    this.setState({ data });
+  async componentDidMount() {
+    try {
+      const res = await axios.get("/api/v1/admin/pending-users");
+      let users = res.data.data;
+      users = users.map(user => {
+        user.name = `${user.first_name} ${user.last_name}`;
+        user.address = `${user.country}, ${user.city}, ${user.address}, ${
+          user.zip_code
+        }`;
+        user.social_media = [
+          { type: "facebook", href: user.facebook },
+          { type: "instagram", href: user.instagram },
+          { type: "twitter", href: user.twitter }
+        ];
+        delete user.first_name;
+        delete user.last_name;
+        delete user.country;
+        delete user.city;
+        delete user.zip_code;
+        delete user.facebook;
+        delete user.instagram;
+        delete user.twitter;
+        return user;
+      });
+      await this.setState({ users });
+    } catch (e) {
+      if (e.response) {
+        notification.error({
+          message: "Error",
+          description: e.response.data.error
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: e.message
+        });
+      }
+    }
   }
 
-  handleAcceptUser = userId => {
-    console.log("Accept userId", userId);
+  confirmActionOnUser = (userId, message, focusButton, onOk) => {
+    const { confirm } = Modal;
+    confirm({
+      title: "Sure?",
+      content: message,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      autoFocusButton: focusButton,
+      keyboard: true,
+      centered: true,
+      maskClosable: true,
+      width: 620,
+      onOk: () => onOk(userId),
+      onCancel() {
+        Modal.destroyAll();
+      }
+    });
   };
 
-  handleRejectUser = userId => {
-    console.log("Reject userId", userId);
+  handleAcceptUser = async userId => {
+    try {
+      const res = await axios.get(`/api/v1/admin/accept-user/${userId}`);
+      const acceptedUser = res.data.data;
+      await this.setState({
+        users: this.state.users.filter(user => user.id !== acceptedUser.id)
+      });
+      notification.success({
+        message: "Sucess",
+        description: "User was successfully accepted"
+      });
+    } catch (e) {
+      if (e.response) {
+        notification.error({
+          message: "Error",
+          description: e.response.data.error
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: e.message
+        });
+      }
+    }
+  };
+
+  handleRejectUser = async userId => {
+    try {
+      const res = await axios.get(`/api/v1/admin/reject-user/${userId}`);
+      const rejectedUser = res.data.data;
+      await this.setState({
+        users: this.state.users.filter(user => user.id !== rejectedUser.id)
+      });
+      notification.success({
+        message: "Sucess",
+        description: "User was successfully rejected"
+      });
+    } catch (e) {
+      if (e.response) {
+        notification.error({
+          message: "Error",
+          description: e.response.data.error
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: e.message
+        });
+      }
+    }
   };
 
   render() {
@@ -126,7 +126,14 @@ export default class PendingAccounts extends Component {
       <>
         <Button
           type="sucess"
-          onClick={() => this.handleAcceptUser(id)}
+          onClick={() =>
+            this.confirmActionOnUser(
+              id,
+              "Please confirm you want to accept this user?",
+              "ok",
+              this.handleAcceptUser
+            )
+          }
           size="small"
           style={{ marginBottom: 4 }}
         >
@@ -134,7 +141,14 @@ export default class PendingAccounts extends Component {
         </Button>
         <Button
           type="danger"
-          onClick={() => this.handleRejectUser(id)}
+          onClick={() =>
+            this.confirmActionOnUser(
+              id,
+              "Please confirm you want to reject this user?",
+              "cancel",
+              this.handleRejectUser
+            )
+          }
           size="small"
         >
           Reject
@@ -143,7 +157,7 @@ export default class PendingAccounts extends Component {
     );
     return (
       <AccountsTable
-        data={this.state.data}
+        data={this.state.users}
         actionRender={actionRender}
         pageSize={5}
       />

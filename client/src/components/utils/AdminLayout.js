@@ -17,6 +17,7 @@ export default ({ children }) => (
       <div className="logo">
         <h1
           style={{
+            textAlign: "center",
             padding: "20px 0px",
             color: "white",
             fontFamily: "lato",

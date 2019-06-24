@@ -36,10 +36,17 @@ export default class PendingAccounts extends Component {
       });
       await this.setState({ users });
     } catch (e) {
-      notification.error({
-        message: "Error",
-        description: e.message
-      });
+      if (e.response) {
+        notification.error({
+          message: "Error",
+          description: e.response.data.error
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: e.message
+        });
+      }
     }
   }
 
@@ -96,8 +103,7 @@ export default class PendingAccounts extends Component {
       } else {
         notification.error({
           message: "Error",
-          description:
-            "There is an error contacting with the server please ty again later"
+          description: e.message
         });
       }
     }
