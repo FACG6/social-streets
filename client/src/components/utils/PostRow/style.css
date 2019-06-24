@@ -51,3 +51,11 @@
 .post-row-container--edit:hover {
   color: rgba(73, 73, 73, 1)
 }
+
+.ant-popover-buttons {
+  display: flex;
+}
+
+.ant-popover-buttons .ant-btn-primary {
+  background: blue;
+}

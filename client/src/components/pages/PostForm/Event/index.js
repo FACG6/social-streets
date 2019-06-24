@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes, { element } from "prop-types";
+import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import {
   Form,
@@ -19,22 +19,11 @@ import moment from 'moment';
 
 import { InputAntd, TextAreaAntd, DropDownAntd } from "components/utils";
 import { Button as Btn } from "components/utils";
-// import { event } from "components/pages/PostForm/dumyData";
 import "./style.css";
 
 const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
-  componentDidMount() {
-    const {
-      form: { setFieldsValue },
-      id
-    } = this.props;
-    if (id) {
-      // setFieldsValue(event);
-    }
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((async (err, values) => {
