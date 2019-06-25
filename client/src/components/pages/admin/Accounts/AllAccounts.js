@@ -3,7 +3,7 @@ import { Button, notification, Modal, Input, Typography, Row, Col } from "antd";
 import axios from "axios";
 
 import AccountsTable from "components/utils/AccountsTable/index";
-
+import './index.css';
 const { Title } = Typography;
 
 export default class PendingAccounts extends Component {
@@ -75,6 +75,7 @@ export default class PendingAccounts extends Component {
           />
         </label>
       ),
+      className: 'delete-user-accounts-page',
       okText: "Confirm",
       okType: "danger",
       cancelText: "Cancel",
@@ -102,7 +103,8 @@ export default class PendingAccounts extends Component {
       );
       const deletedUser = deleteUserRes.data.data;
       this.setState({
-        users: this.state.users.filter(user => user.id !== deletedUser.id)
+        users: this.state.users.filter(user => user.id !== deletedUser.id),
+        result: this.state.result.filter(user => user.id !== deletedUser.id)
       });
     } catch (e) {
       if (e.response) {
