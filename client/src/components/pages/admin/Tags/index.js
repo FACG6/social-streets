@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Divider } from "antd";
 import axios from "axios";
+import { Loading } from "components/pages";
+import { notification } from "antd";
 
 import AddTagSection from "./tagsSection";
 import "./style.css";
@@ -10,29 +12,42 @@ export default class TagsPage extends Component {
     topics: [],
     categories: [],
     primaryTags: [],
-    secondaryTags: []
+    secondaryTags: [],
+    isLoading: true
   };
 
   async componentDidMount() {
-    const eventStaticRes = await axios.get("/api/v1/post/event/static");
-    const topics = eventStaticRes.data.data.topics.map(
-      element => element.topic
-    );
-    const categories = eventStaticRes.data.data.categories.map(
-      element => element.category
-    );
-    await this.setState({ categories, topics });
-
-    const publicServiceStaticRes = await axios.get(
-      "/api/v1/post/public-service/static"
-    );
-    const primaryTags = publicServiceStaticRes.data.data.primaryTags.map(
-      element => element.tag
-    );
-    const secondaryTags = publicServiceStaticRes.data.data.secondaryTags.map(
-      element => element.tag
-    );
-    await this.setState({ primaryTags, secondaryTags });
+    try {
+      const eventStaticRes = await axios.get("/api/v1/post/event/static");
+      const publicServiceStaticRes = await axios.get(
+        "/api/v1/post/public-service/static"
+      );
+      const topics = eventStaticRes.data.data.topics.map(
+        element => element.topic
+      );
+      const categories = eventStaticRes.data.data.categories.map(
+        element => element.category
+      );
+      const primaryTags = publicServiceStaticRes.data.data.primaryTags.map(
+        element => element.tag
+      );
+      const secondaryTags = publicServiceStaticRes.data.data.secondaryTags.map(
+        element => element.tag
+      );
+      await this.setState({
+        categories,
+        topics,
+        primaryTags,
+        secondaryTags,
+        isLoading: false
+      });
+    } catch (e) {
+      notification.error({
+        message: "Sorry, There is an error",
+        description: "check your network"
+      });
+      this.props.history.push("/admin/accounts");
+    }
   }
 
   handleUpdateTopics = topics => this.setState({ topics });
@@ -42,7 +57,9 @@ export default class TagsPage extends Component {
 
   render() {
     const { topics, categories, primaryTags, secondaryTags } = this.state;
-    return (
+    return this.state.isLoading ? (
+      <Loading />
+    ) : (
       <div className="tagsContainer">
         <div className="addTag">
           <h1 className="tagContainerText">Event Topics</h1>
