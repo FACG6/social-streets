@@ -9,7 +9,6 @@ module.exports = async (req, res, next) => {
       statusCode: 200,
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
