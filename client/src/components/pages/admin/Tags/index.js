@@ -68,8 +68,8 @@ export default class TagsPage extends Component {
             handleUpdateTags={this.handleUpdateTopics}
             axiosRoute="/event/topic"
             addNewMessage="New Topic"
-            deleteSucessMessage="Topic was deleted"
-            addSuccessMessage="Topic was added"
+            deleteSucessMessage="Topic deleted successfully"
+            addSuccessMessage="Topic added successfully"
           />
           <Divider />
         </div>
@@ -80,8 +80,8 @@ export default class TagsPage extends Component {
             handleUpdateTags={this.handleUpdateCategories}
             axiosRoute="/event/category"
             addNewMessage="New Category"
-            deleteSucessMessage="Category was deleted"
-            addSuccessMessage="Category was added"
+            deleteSucessMessage="Category deleted successfully"
+            addSuccessMessage="Category added successfully"
           />
         </div>
         <Divider />
@@ -92,8 +92,8 @@ export default class TagsPage extends Component {
             handleUpdateTags={this.handleUpdatePrimaryTags}
             axiosRoute="/public-service/primary-tag"
             addNewMessage="New Primary Tag"
-            deleteSucessMessage="Primary Tag was deleted"
-            addSuccessMessage="Primary Tag was added"
+            deleteSucessMessage="Primary Tag deleted successfully"
+            addSuccessMessage="Primary Tag added successfully"
           />
         </div>
         <Divider />
@@ -104,8 +104,8 @@ export default class TagsPage extends Component {
             handleUpdateTags={this.handleUpdateSecondaryTags}
             axiosRoute="/public-service/secondary-tag"
             addNewMessage="New Secondary Tag"
-            deleteSucessMessage="Secondary Tag was deleted"
-            addSuccessMessage="Secondary Tag was added"
+            deleteSucessMessage="Secondary Tag deleted successfully"
+            addSuccessMessage="Secondary Tag added successfully"
           />
         </div>
       </div>
