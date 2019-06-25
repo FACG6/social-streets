@@ -1,4 +1,4 @@
-const connect = require('./../config/connection');
+const connect = require("./../config/connection");
 
 exports.insertUser = ({
   firstName,
@@ -15,29 +15,30 @@ exports.insertUser = ({
   facebook,
   twitter,
   instagram,
-  avatar,
-}) => connect.query(
-  `INSERT INTO 
+  avatar
+}) =>
+  connect.query(
+    `INSERT INTO 
     "user" 
-    (first_name,last_name,email,password,business_type,website,organisation_name,address,city,country,zip_code,facebook,twitter,instagram,avatar) 
+    (first_name,last_name,email,password,business_type,website,organisation_name,address,city,country,zip_code,facebook,twitter,instagram,avatar,pending) 
   VALUES
-    ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
+    ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,false)
   RETURNING *`,
-  [
-    firstName,
-    lastName,
-    email,
-    password,
-    businessType,
-    website,
-    organization,
-    address,
-    city,
-    country,
-    zipCode,
-    facebook,
-    twitter,
-    instagram,
-    avatar,
-  ],
-);
+    [
+      firstName,
+      lastName,
+      email,
+      password,
+      businessType,
+      website,
+      organization,
+      address,
+      city,
+      country,
+      zipCode,
+      facebook,
+      twitter,
+      instagram,
+      avatar
+    ]
+  );
