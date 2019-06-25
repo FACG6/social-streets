@@ -11,7 +11,7 @@ import {
   Event,
   Profile,
   AdminPosts,
-  pendingUsersAccounts,
+  PendingUsersAccounts,
   UsersAccounts,
   Tags
 } from "components/pages";
@@ -113,7 +113,7 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/pending-accounts",
     exact: true,
-    component: pendingUsersAccounts,
+    component: PendingUsersAccounts,
     tab: "1"
   },
   {
