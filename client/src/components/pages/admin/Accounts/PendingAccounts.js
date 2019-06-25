@@ -176,7 +176,7 @@ export default class PendingAccounts extends Component {
       <>
         <Row type="flex" justify="center" style={{ padding: "5rem 0 0 0" }}>
           <Col span={23}>
-            <Title style={{ fontFamily: "Lato" }}>Pendding Accounts : </Title>
+            <Title style={{ fontFamily: "Lato" }}>Pending Accounts : </Title>
           </Col>
           <Col span={21} style={{ marginTop: "3rem" }}>
             <Input
