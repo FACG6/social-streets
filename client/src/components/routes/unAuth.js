@@ -8,7 +8,7 @@ export default handleLogin =>
     route.path === "/login" ? (
       <Route
         {...route}
-        component={props => <Login handleLogin={handleLogin} {...props} />}
+        render={props => <Login handleLogin={handleLogin} {...props} />}
       />
     ) : (
       <Route {...route} />
