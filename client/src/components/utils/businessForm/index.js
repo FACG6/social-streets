@@ -122,7 +122,7 @@ class BusinessForm extends React.Component {
       <AutoCompleteOption key={country}>{country}</AutoCompleteOption>
     ));
 
-    const cityOption = autoCompleteResultCity.map(city => (
+    const cityOption = autoCompleteResultCity.map((index, city) => (
       <AutoCompleteOption key={city}>{city}</AutoCompleteOption>
     ));
 

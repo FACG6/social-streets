@@ -25,7 +25,7 @@ const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   state = {
-    publishDatetime: moment().format(),
+    isDraft: true,
   };
   async componentDidMount() {
     try {
@@ -47,9 +47,10 @@ class EventForm extends React.Component {
         event.event_end_datetime = moment(getRes.data.data.event_start_date);
         delete event.event_category;
         delete event.topic_id;
-        this.setState({ publishDatetime: event.publish_datetime }, () => {
+        event.publishDatetime = moment().format();
+        this.setState({ isDraft: event.is_draft }, () => {
           setFieldsValue(event);
-        });
+        })
       }
     } catch (err) {
       if (Number(err.statusCode) === 400) {
@@ -79,7 +80,7 @@ class EventForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const target = e.target;
+    const { textContent } = e.target;
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       try {
         if (err) {
@@ -89,8 +90,10 @@ class EventForm extends React.Component {
           });
         } else {
           values.type = 'event'
-          values.publishDatetime = moment().format()
-          target.textContent === 'Preview' && !this.props.id ? values.isDraft = 'true' : values.isDraft = 'false';
+          values.publishDatetime = moment().format();
+          if (textContent === 'Publish') values.isDraft = 'false';
+          if (textContent === 'Preview' || textContent === 'Save Draft') values.isDraft = 'true';
+          if (textContent === 'Save') values.isDraft = this.state.isDraft;
           values.eventStartDatetime = values.event_start_datetime;
           values.eventEndDatetime = values.event_end_datetime;
           values.eventTopic = values.topic;
@@ -114,40 +117,44 @@ class EventForm extends React.Component {
           let resPost;
 
           //Edit Post//
-          if (id && target.textContent !== 'Preview') {
+          if (id && textContent === 'Save' || (id && textContent === 'Publish')) {
             resPost = await axios.put(`/api/v1/post/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data"
               }
             });
-            if (resPost.data.data.id)
+            if (resPost.data.data.id && textContent === 'Publish')
+              notification.success({
+                message: "Successfully",
+                description: "Post was published successfully"
+              })
+            else if (resPost.data.data.id)
               notification.success({
                 message: "Successfully",
                 description: "Post updated successfully"
               })
-          }
-
-          //Preview Published Post//
-          if (this.props.id && target.textContent === 'Preview') {
-            return notification.warning({
-              message: 'Sorry!',
-              description: 'You have to save the post to review it',
-            })
 
           }
 
           //Post New Post: Draft or Live//
-          if (!id) {
+          if ((!id && textContent === 'Publish') || (textContent === 'Save Draft') || (textContent === 'Preview')) {
+
             resPost = await axios.post('/api/v1/post', formData, {
               headers: {
                 'Content-Type': 'multipart/form-data',
               },
             });
-            if (resPost.data.data.id)
+            if (resPost.data.data.is_draft)
               notification.success({
                 message: "Successfully",
-                description: "Post added successfully"
+                description: "Post saved successfully as a draft"
               })
+            if (!resPost.data.data.is_draft) {
+              notification.success({
+                message: "Successfully",
+                description: "Post was published successfully!"
+              })
+            }
           }
 
           const { id: postId, category } = resPost.data.data;
@@ -389,27 +396,33 @@ class EventForm extends React.Component {
           />
         </Card>
         <Form.Item>
-          <Btn name='publish' type="primary" htmlType="submit" onClick={this.handleSubmit}>
-            {id ? "Save" : "Publish"}
+          {!id || (id && this.state.isDraft) ?
+            < Btn className='main--form-btn' name='publish' type="primary" htmlType="submit" onClick={this.handleSubmit}>
+              Publish
           </Btn>
-          <Btn
+            : ''}
+
+          <Btn className='main--form-btn' name='publish' type="primary" htmlType="submit" onClick={this.handleSubmit}>
+            {!id && this.state.isDraft ? 'Save Draft' : 'Save'}
+          </Btn>
+          {!id ? <Btn
             className="main--form-btn-gradient main--form-btn"
             type="primary"
             htmlType="submit"
             onClick={this.handleSubmit}
           >
             Preview
-          </Btn>
+          </Btn> : ''}
           <Btn
             className="main--form-btn-black main--form-btn"
-            onClick={() => <Redirect to="/home" />}
+            onClick={() => this.props.history.push('/posts')}
             type="primary"
             htmlType="submit"
           >
             Cancel
           </Btn>
         </Form.Item>
-      </Form>
+      </Form >
     );
   }
 }
