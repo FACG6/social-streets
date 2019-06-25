@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Divider } from "antd";
 import axios from "axios";
 import { Loading } from "components/pages";
-import { notification } from "antd";
+import { notification, Typography } from "antd";
 
 import AddTagSection from "./tagsSection";
 import "./style.css";
+const { Title } = Typography;
 
 export default class TagsPage extends Component {
   state = {
@@ -61,6 +62,10 @@ export default class TagsPage extends Component {
       <Loading />
     ) : (
       <div className="tagsContainer">
+        <br />
+        <br />
+        <Title style={{ fontFamily: "lato" }}> Tags :</Title>
+        <br />
         <div className="addTag">
           <h1 className="tagContainerText">Event Topics</h1>
           <AddTagSection
