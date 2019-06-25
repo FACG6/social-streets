@@ -9,12 +9,13 @@ import "./style.css";
 function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFields((err, { email, password }) => {
+    props.form.validateFields((err, { email, password, rememberMe }) => {
       if (!err) {
         axios
           .post("/api/v1/login", {
             email,
-            password
+            password,
+            rememberMe
           })
           .then(({ data: { data } }) => {
             props.handleLogin(data);

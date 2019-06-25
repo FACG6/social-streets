@@ -1,38 +1,69 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
+import { notification } from "antd";
 
 import * as DefaultPic from "assets/default-profile-pic.jpg";
 import "./style.css";
 
-export default function ProfilePic({ className = "", imgSrc = "" }) {
-  const fileInput = React.createRef();
+export default class ProfilePic extends Component {
+  constructor(props) {
+    super(props);
+    this.fileInput = React.createRef();
+    this.state = { imgSrc: this.props.imgSrc || "" };
+  }
 
-  const handleFileInput = () => {
+  handleFileInput = async () => {
+    const formData = new FormData();
+    const file = this.fileInput.current.files[0];
+    formData.append("image", file);
+
+    axios
+      .post("/api/v1/user/edit-pic", formData)
+      .then(res => this.setState({ imgSrc: res.data.data.imgSrc }))
+      .catch(e => {
+        if (e.response) {
+          notification.error({
+            message: "Error",
+            description: e.data.error
+          });
+        } else {
+          notification.error({
+            message: "Error",
+            description: "Something went wrong please try again later"
+          });
+        }
+      });
   };
 
-  return (
-    <div className={`profile-pic ${className}`}>
-      <img
-        src={imgSrc || DefaultPic}
-        alt="Profile Avatar"
-        className="profile-pic--img"
-      />
-      <span
-        className="profile-pic--edit-label"
-        onClick={() => fileInput.current.click()}
-      >
-        Edit Picture
-      </span>
-      <input
-        ref={fileInput}
-        onChange={handleFileInput}
-        type="file"
-        accept="image/*"
-        name="avatar"
-        className="profile-pic--edit-input"
-      />
-    </div>
-  );
+  render() {
+    const { className = "" } = this.props;
+    const { imgSrc } = this.state;
+
+    return (
+      <div className={`profile-pic ${className}`}>
+        <img
+          src={imgSrc || DefaultPic}
+          alt="Profile Avatar"
+          className="profile-pic--img"
+        />
+        <span
+          className="profile-pic--edit-label"
+          onClick={() => this.fileInput.current.click()}
+        >
+          Edit Picture
+        </span>
+        <input
+          ref={this.fileInput}
+          onChange={this.handleFileInput}
+          type="file"
+          accept="image/*"
+          name="avatar"
+          className="profile-pic--edit-input"
+        />
+      </div>
+    );
+  }
 }
 
 ProfilePic.propTypes = {

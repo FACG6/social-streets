@@ -3,14 +3,14 @@ import { Redirect, Route } from "react-router-dom";
 import AdminLayout from "components/utils/AdminLayout";
 
 export default function protectedRoute({ isAuth, isAdmin, user, ...props }) {
-  const { component: Component } = props;
+  const { component: Component, tab } = props;
   return (
     <Route
       {...props}
       component={props =>
         isAdmin ? (
           user.role === "admin" ? (
-            <AdminLayout>
+            <AdminLayout tab={tab}>
               <Component {...props} />
             </AdminLayout>
           ) : (
