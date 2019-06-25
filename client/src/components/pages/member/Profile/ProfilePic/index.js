@@ -49,7 +49,7 @@ export default class ProfilePic extends Component {
         />
         <span
           className="profile-pic--edit-label"
-          onClick={this.fileInput.current.click}
+          onClick={() => this.fileInput.current.click()}
         >
           Edit Picture
         </span>
