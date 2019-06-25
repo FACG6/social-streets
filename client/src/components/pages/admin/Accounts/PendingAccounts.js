@@ -68,7 +68,6 @@ export default class PendingAccounts extends Component {
       keyboard: true,
       centered: true,
       maskClosable: true,
-      width: 520,
       onOk: () => onOk(userId),
       onCancel() {
         Modal.destroyAll();

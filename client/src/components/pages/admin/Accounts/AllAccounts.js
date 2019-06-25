@@ -83,7 +83,6 @@ export default class PendingAccounts extends Component {
       keyboard: true,
       centered: true,
       maskClosable: true,
-      width: 620,
       onOk: () => {
         this.handleDeleteUser(userId);
       },
