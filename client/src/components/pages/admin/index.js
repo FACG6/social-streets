@@ -1,3 +1,4 @@
 import Dummy from "./dummy";
+import Tags from './Tags'
 
-export default { Dummy };
+export default { Dummy, Tags };

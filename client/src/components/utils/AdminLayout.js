@@ -2,7 +2,7 @@ import React, { Children } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Icon } from "antd";
 
-import Tags from "components/app/Tags";
+import Tags from "components/pages/admin/Tags";
 const { Header, Content, Footer, Sider } = Layout;
 
 export default ({ Children }) => (

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Tag, Input, Icon } from 'antd';
+import { Tag, Input, Icon, notification } from 'antd';
 import { TweenOneGroup } from 'rc-tween-one';
 import axios from 'axios'
 
 class EventTopics extends React.Component {
   state = {
-    topics: ['ttttttt'],
+    topics: [],
     inputVisible: false,
     inputValue: '',
   };
@@ -17,10 +17,20 @@ class EventTopics extends React.Component {
     await this.setState({topics})
   }
 
-  handleClose = removedTag => {
-    const topics = this.state.topics.filter(tag => tag !== removedTag);
-    console.log(topics);
-    this.setState({ topics });
+  handleClose = async (removedTag) => {
+    try {
+      const topics = this.state.topics.filter(tag => tag !== removedTag);
+      const deletedTopic = await axios.delete('/api/v1/post/event/topic', {data: {topic: removedTag}} )
+      if(!deletedTopic.data.data[0]) throw new Error();
+      this.setState({ topics });
+      notification.success({
+        message: "Topic deleted successfully"
+      });
+    } catch (err) {
+      notification.error({
+        message: "Sorry There is an error, try again"
+      });
+    }
   };
 
   showInput = () => {
@@ -31,19 +41,30 @@ class EventTopics extends React.Component {
     this.setState({ inputValue: e.target.value });
   };
 
-  handleInputConfirm = () => {
-    const { inputValue } = this.state;
-    let { topics } = this.state;
-    if (inputValue && topics.indexOf(inputValue) === -1) {
-      topics = [...topics, inputValue];
-    }
-    console.log(topics);
-    this.setState({
-      topics,
-      inputVisible: false,
-      inputValue: '',
-    });
+  handleInputConfirm = async () => {
+    try {
+      const { inputValue } = this.state;
+      const addedTopic = await axios.post('/api/v1/post/event/topic', {topic: inputValue})
+      if (!addedTopic.data.data[0]) throw new Error();
+      let { topics } = this.state;
+      if (inputValue && topics.indexOf(inputValue) === -1) {
+        topics = [...topics, inputValue];
+      }
+      this.setState({
+        topics,
+        inputVisible: false,
+        inputValue: '',
+      });
+
+      notification.success({
+        message: "New Category added successfully"
+      });
+    } catch {
+      notification.error({
+          message: "Sorry There is an error, try again"
+      });
   };
+}
 
   saveInputRef = input => (this.input = input);
 
@@ -102,34 +123,13 @@ class EventTopics extends React.Component {
         )}
         {!inputVisible && (
           <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-            <Icon type="plus" /> New Tag
+            <Icon type="plus" /> New Topic
           </Tag>
         )}
       </div>
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class EventType extends React.Component {
   state = {
@@ -145,10 +145,20 @@ class EventType extends React.Component {
     await this.setState({categories})
   }
 
-  handleClose = removedTag => {
-    const categories = this.state.categories.filter(tag => tag !== removedTag);
-    console.log(categories);
-    this.setState({ categories });
+  handleClose = async (removedTag) => {
+    try {
+      const categories = await this.state.categories.filter(tag => tag !== removedTag);
+      const deletedCategory = await axios.delete('/api/v1/post/event/category', {data: {category: removedTag}} )
+      if(!deletedCategory.data.data[0]) throw new Error();
+      this.setState({ categories });
+      notification.success({
+        message: "Category deleted successfully"
+      });
+    } catch (err) {
+      notification.error({
+        message: "Sorry There is an error, try again"
+      });
+    }
   };
 
   showInput = () => {
@@ -159,18 +169,28 @@ class EventType extends React.Component {
     this.setState({ inputValue: e.target.value });
   };
 
-  handleInputConfirm = () => {
-    const { inputValue } = this.state;
-    let { categories } = this.state;
-    if (inputValue && categories.indexOf(inputValue) === -1) {
-      categories = [...categories, inputValue];
+  handleInputConfirm = async () => {
+    try {
+      const { inputValue } = this.state;
+      const addedCategory = await axios.post('/api/v1/post/event/category', {category: inputValue})
+      if (!addedCategory.data.data[0]) throw new Error;
+      let { categories } = this.state;
+      if (inputValue && categories.indexOf(inputValue) === -1) {
+        categories = [...categories, inputValue];
+      }
+      this.setState({
+        categories,
+        inputVisible: false,
+        inputValue: '',
+      });
+      notification.success({
+        message: "New Category added successfully"
+      });
+    } catch (err) {
+      notification.error({
+          message: "Sorry There is an error, try again"
+        });
     }
-    console.log(categories);
-    this.setState({
-      categories,
-      inputVisible: false,
-      inputValue: '',
-    });
   };
 
   saveInputRef = input => (this.input = input);
@@ -230,7 +250,7 @@ class EventType extends React.Component {
         )}
         {!inputVisible && (
           <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-            <Icon type="plus" /> New Tag
+            <Icon type="plus" /> New Category
           </Tag>
         )}
       </div>
@@ -238,26 +258,9 @@ class EventType extends React.Component {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class PublicPrimaryTags extends React.Component {
   state = {
-    primaryTags: ['Tag 1', 'Tag 2', 'Tag 3'],
+    primaryTags: [],
     inputVisible: false,
     inputValue: '',
   };
@@ -265,15 +268,24 @@ class PublicPrimaryTags extends React.Component {
   async componentDidMount () {
     const res = await axios
       .get('/api/v1/post/public-service/static');
-      console.log(res.data.data)
     const primaryTags = res.data.data.primaryTags.map( (element)=> element.tag ) 
     await this.setState({primaryTags})
   }
   
-  handleClose = removedTag => {
-    const primaryTags = this.state.primaryTags.filter(tag => tag !== removedTag);
-    console.log(primaryTags);
-    this.setState({ primaryTags });
+  handleClose = async (removedTag) => {
+    try {
+      const deletedTag = await axios.delete('/api/v1/post/public-service/primary-tag', {data: {tag: removedTag}} )
+      if(!deletedTag.data.data[0]) throw new Error();
+      const primaryTags = this.state.primaryTags.filter(tag => tag !== removedTag);
+      this.setState({ primaryTags });
+      notification.success({
+        message: "Tag deleted successfully"
+      });
+    } catch {
+      notification.error({
+          message: "Sorry There is an error, try again"
+        });
+    }
   };
 
   showInput = () => {
@@ -284,18 +296,28 @@ class PublicPrimaryTags extends React.Component {
     this.setState({ inputValue: e.target.value });
   };
 
-  handleInputConfirm = () => {
-    const { inputValue } = this.state;
-    let { primaryTags } = this.state;
-    if (inputValue && primaryTags.indexOf(inputValue) === -1) {
-      primaryTags = [...primaryTags, inputValue];
+  handleInputConfirm = async () => {
+    try {
+      const { inputValue } = this.state;
+      const addedTag = await axios.post('/api/v1/post/public-service/primary-tag', {tag: inputValue})
+        if (!addedTag.data.data[0]) throw new Error();
+      let { primaryTags } = this.state;
+      if (inputValue && primaryTags.indexOf(inputValue) === -1) {
+        primaryTags = [...primaryTags, inputValue];
+      }
+      this.setState({
+        primaryTags,
+        inputVisible: false,
+        inputValue: '',
+      });
+      notification.success({
+        message: "New Primary tag added successfully"
+      });
+    } catch (err) {
+      notification.error({
+        message: "Sorry There is an error, try again"
+      });
     }
-    console.log(primaryTags);
-    this.setState({
-      primaryTags,
-      inputVisible: false,
-      inputValue: '',
-    });
   };
 
   saveInputRef = input => (this.input = input);
@@ -355,7 +377,7 @@ class PublicPrimaryTags extends React.Component {
         )}
         {!inputVisible && (
           <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-            <Icon type="plus" /> New Tag
+            <Icon type="plus" /> New Primary Tag
           </Tag>
         )}
       </div>
@@ -363,21 +385,9 @@ class PublicPrimaryTags extends React.Component {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 class PublicSecondaryTags extends React.Component {
   state = {
-    secondaryTags: ['Tag 1', 'Tag 2', 'Tag 3'],
+    secondaryTags: [],
     inputVisible: false,
     inputValue: '',
   };
@@ -390,11 +400,21 @@ class PublicSecondaryTags extends React.Component {
   }
   
 
-  handleClose = removedTag => {
-    const secondaryTags = this.state.secondaryTags.filter(tag => tag !== removedTag);
-    console.log(secondaryTags);
-    this.setState({ secondaryTags });
-  };
+  handleClose = async (removedTag) => {
+    try {
+      const deletedTag = await axios.delete('/api/v1/post/public-service/secondary-tag', {data: {tag: removedTag}} )
+      if(!deletedTag.data.data[0]) throw new Error();
+      const secondaryTags = this.state.secondaryTags.filter(tag => tag !== removedTag);
+      this.setState({ secondaryTags });
+      notification.success({
+        message: "Tag deleted successfully"
+      });
+    } catch (err){
+      notification.error({
+          message: "Sorry There is an error, try again"
+        });
+    }
+  }
 
   showInput = () => {
     this.setState({ inputVisible: true }, () => this.input.focus());
@@ -404,18 +424,28 @@ class PublicSecondaryTags extends React.Component {
     this.setState({ inputValue: e.target.value });
   };
 
-  handleInputConfirm = () => {
-    const { inputValue } = this.state;
-    let { secondaryTags } = this.state;
-    if (inputValue && secondaryTags.indexOf(inputValue) === -1) {
-      secondaryTags = [...secondaryTags, inputValue];
+  handleInputConfirm = async () => {
+    try {
+      const { inputValue } = this.state;
+      const addedTag = await axios.post('/api/v1/post/public-service/secondary-tag', {tag: inputValue})
+      if (!addedTag.data.data[0]) throw new Error();
+      let { secondaryTags } = this.state;
+      if (inputValue && secondaryTags.indexOf(inputValue) === -1) {
+        secondaryTags = [...secondaryTags, inputValue];
+      }
+      this.setState({
+        secondaryTags,
+        inputVisible: false,
+        inputValue: '',
+      });
+      notification.success({
+        message: "New Primary tag added successfully"
+      });
+    } catch {
+      notification.error({
+        message: "Sorry There is an error, try again"
+      });
     }
-    console.log(secondaryTags);
-    this.setState({
-      secondaryTags,
-      inputVisible: false,
-      inputValue: '',
-    });
   };
 
   saveInputRef = input => (this.input = input);
@@ -475,7 +505,7 @@ class PublicSecondaryTags extends React.Component {
         )}
         {!inputVisible && (
           <Tag onClick={this.showInput} style={{ background: '#fff', borderStyle: 'dashed' }}>
-            <Icon type="plus" /> New Tag
+            <Icon type="plus" /> New secondary Tag
           </Tag>
         )}
       </div>
