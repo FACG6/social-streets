@@ -15,6 +15,7 @@ export default function Post({ onClick, title, id, type, link }) {
       </Link>
       <div className='post-row-container--icons'>
         <Popconfirm
+          className='post--pop-confirm'
           title="Are you sure？"
           icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
           onConfirm={() => onClick(id, type)}
@@ -24,7 +25,7 @@ export default function Post({ onClick, title, id, type, link }) {
             type="delete"
           />
         </Popconfirm>
-        <Link to={`/posts/ ${id}/edit`} >
+        <Link to={`/posts/${id}/edit`} >
           <Icon
             className='post-row-container--icon post-row-container--edit'
             type="edit"
