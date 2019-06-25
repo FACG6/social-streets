@@ -14,7 +14,7 @@ import {
 import {
   AdminPosts,
   Tags,
-  pendingUsersAccounts,
+  PendingUsersAccounts,
   UsersAccounts
 } from "./admin";
 
@@ -32,6 +32,6 @@ export {
   PublicService,
   AdminPosts,
   Tags,
-  pendingUsersAccounts,
+  PendingUsersAccounts,
   UsersAccounts
 };
