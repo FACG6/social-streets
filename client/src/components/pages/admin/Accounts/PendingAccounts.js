@@ -3,7 +3,7 @@ import { Button, notification, Modal, Typography, Row, Col, Input } from "antd";
 import axios from "axios";
 
 import AccountsTable from "components/utils/AccountsTable";
-
+import "./index.css";
 const { Title } = Typography;
 
 export default class PendingAccounts extends Component {
@@ -58,16 +58,16 @@ export default class PendingAccounts extends Component {
   confirmActionOnUser = (userId, message, focusButton, onOk) => {
     const { confirm } = Modal;
     confirm({
+      className: "pending-accounts-model",
       title: "Sure?",
       content: message,
-      okText: "Yes",
+      cancelText: "Cancel",
+      okText: "Confirm",
       okType: "danger",
-      cancelText: "No",
       autoFocusButton: focusButton,
       keyboard: true,
       centered: true,
       maskClosable: true,
-      width: 620,
       onOk: () => onOk(userId),
       onCancel() {
         Modal.destroyAll();
@@ -80,7 +80,8 @@ export default class PendingAccounts extends Component {
       const res = await axios.get(`/api/v1/admin/accept-user/${userId}`);
       const acceptedUser = res.data.data;
       await this.setState({
-        users: this.state.users.filter(user => user.id !== acceptedUser.id)
+        users: this.state.users.filter(user => user.id !== acceptedUser.id),
+        result: this.state.result.filter(user => user.id !== acceptedUser.id)
       });
       notification.success({
         message: "Sucess",
@@ -106,7 +107,8 @@ export default class PendingAccounts extends Component {
       const res = await axios.get(`/api/v1/admin/reject-user/${userId}`);
       const rejectedUser = res.data.data;
       await this.setState({
-        users: this.state.users.filter(user => user.id !== rejectedUser.id)
+        users: this.state.users.filter(user => user.id !== rejectedUser.id),
+        result: this.state.result.filter(user => user.id !== rejectedUser.id)
       });
       notification.success({
         message: "Sucess",
