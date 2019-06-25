@@ -4,7 +4,7 @@ const updateUserPic = require('./../../../database/queries/updateUserPic');
 
 module.exports = async (req, res, next) => {
   const { id: userId } = req.user;
-  if (!(req.files || req.files.image)) return res.status(400).send({ error: 'You need to provide an image', statusCode: 400 });
+  if (!(req.files && req.files.image)) return res.status(400).send({ error: 'You need to provide an image', statusCode: 400 });
 
   const { image } = req.files;
   const imageName = Date.now() + image.name;
