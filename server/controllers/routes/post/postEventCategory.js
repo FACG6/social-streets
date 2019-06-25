@@ -1,14 +1,14 @@
-const insertEventCategory = require('../../../database/queries/addEventCategory')
+const insertEventCategory = require('../../../database/queries/addEventCategory');
 
 module.exports = async (req, res, next) => {
-  const { category } = req.body
+  const { tag } = req.body;
   try {
-    const addedCategory = await insertEventCategory(category)
+    const addedCategory = await insertEventCategory(tag);
     res.send({
       data: addedCategory.rows,
-      statusCode: 200
-    })
+      statusCode: 200,
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };

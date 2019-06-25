@@ -5,19 +5,17 @@ const put = require('./put');
 const livePosts = require('./getLivePosts');
 const deletePost = require('./delete');
 const post = require('./post');
-const {
-  get
-} = require('./get');
+const { get } = require('./get');
 const eventStatic = require('./eventStatic');
 const publicServiceStatic = require('./publicServiceStatic');
-const postEventCategory = require('./postEventCategory')
-const deleteEventCategory = require('./deleteEventCategory')
-const deleteEeventTopic = require('./deleteEventTopic')
-const postEventTopic = require('./postEventTopic')
-const deletePublicPrimary= require('./deletePublicServicePrimary')
-const deletePublicSecondary = require('./deletePublicServicePSecondary')
-const postPublicServicePrimary = require('./postPublicServicePrimary')
-const postPublicServiceSecondary = require('./postPublicServicePSecondary')
+const postEventCategory = require('./postEventCategory');
+const deleteEventCategory = require('./deleteEventCategory');
+const deleteEeventTopic = require('./deleteEventTopic');
+const postEventTopic = require('./postEventTopic');
+const deletePublicPrimary = require('./deletePublicServicePrimary');
+const deletePublicSecondary = require('./deletePublicServicePSecondary');
+const postPublicServicePrimary = require('./postPublicServicePrimary');
+const postPublicServiceSecondary = require('./postPublicServicePSecondary');
 
 router.post('/', post);
 
@@ -37,17 +35,17 @@ router
 router
   .route('/event/topic')
   .post(postEventTopic)
-  .delete(deleteEeventTopic)
+  .delete(deleteEeventTopic);
 
 router
   .route('/public-service/primary-tag')
   .post(postPublicServicePrimary)
-  .delete(deletePublicPrimary)
+  .delete(deletePublicPrimary);
 
 router
   .route('/public-service/secondary-tag')
   .post(postPublicServiceSecondary)
-  .delete(deletePublicSecondary)
+  .delete(deletePublicSecondary);
 
 router
   .route('/:postId')

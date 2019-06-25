@@ -1,15 +1,15 @@
-const deleteEventTopic = require('../../../database/queries/deleteEventTopic')
+const deleteEventTopic = require('../../../database/queries/deleteEventTopic');
 
 module.exports = async (req, res, next) => {
   try {
-  const {topic} = req.body
-    const deletedTopic = await deleteEventTopic(topic)
+    const { tag } = req.body;
+    const deletedTopic = await deleteEventTopic(tag);
     res.send({
       data: deletedTopic.rows,
-      statusCode: 200
-    })
+      statusCode: 200,
+    });
   } catch (err) {
-    console.log(err)
-    next(err)
+    console.log(err);
+    next(err);
   }
 };
