@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = (reciver, message) =>
   transporter.sendMail({
-    subject: " Social Streets Application",
-    from: `"Social Streets" ${process.env.NODEMAILER_EMAIL}`,
+    subject: " Roman Road London Application",
+    from: `"Roman Road London" ${process.env.NODEMAILER_EMAIL}`,
     to: reciver,
     html: message // in html
   });
