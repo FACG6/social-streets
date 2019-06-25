@@ -3,4 +3,4 @@ const { sign } = require('jsonwebtoken');
 
 exports.hashPassword = password => bcrypt.hash(password, 10);
 
-exports.genCookie = ({ id, email }) => sign({ id, email }, process.env.SECRET);
+exports.genCookie = ({ id, email, role }) => sign({ id, email, role }, process.env.SECRET);

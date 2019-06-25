@@ -1,11 +1,10 @@
-import React, { Children } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Icon } from "antd";
 
-import Tags from "components/pages/admin/Tags";
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 
-export default ({ Children }) => (
+export default ({ children }) => (
   <Layout>
     <Sider
       style={{
@@ -18,9 +17,9 @@ export default ({ Children }) => (
       <div className="logo">
         <h1
           style={{
+            textAlign: "center",
             padding: "20px 0px",
             color: "white",
-            textAlign: "center",
             fontFamily: "lato",
             fontSize: "20px"
           }}
@@ -29,7 +28,7 @@ export default ({ Children }) => (
         </h1>
       </div>
 
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
         <Menu.Item key="1">
           <Icon type="user" />
           <span className="nav-text">Pending accounts</span>
@@ -55,30 +54,23 @@ export default ({ Children }) => (
           <span className="nav-text">Tags</span>
           <Link to="/admin/tags" />
         </Menu.Item>
+        <Menu.Item key="">
+          <Icon type="logout" />
+          <span className="nav-text">Logout</span>
+          <Link to="/logout" />
+        </Menu.Item>
       </Menu>
     </Sider>
     <Layout style={{ marginLeft: 200 }}>
-      <Header
+      <div
         style={{
+          padding: "24px 12px",
           background: "#fff",
-          padding: "10px",
-          margin: "0 auto"
+          maxHeight: "100vh"
         }}
       >
-        This is theHeader
-      </Header>
-      <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
-        <div
-          style={{
-            padding: 24,
-            background: "#fff",
-            textAlign: "center"
-          }}
-        >
-          {Children}
-        </div>
-      </Content>
-      <Footer style={{ textAlign: "center" }}>RRL © 2018 Created by GSG</Footer>
+        {children}
+      </div>
     </Layout>
   </Layout>
 );

@@ -1,4 +1,6 @@
-import Dummy from "./dummy";
-import Tags from './Tags'
+import AdminPosts from "./posts";
+import Tags from './Tags';
+import UsersAccounts from './Accounts/AllAccounts';
+import PenddingUsersAccounts from './Accounts/PendingAccounts';
 
-export default { Dummy, Tags };
+export { AdminPosts, Tags, UsersAccounts, PenddingUsersAccounts };

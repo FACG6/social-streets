@@ -11,6 +11,12 @@ import {
   Profile,
   PublicService
 } from "./member";
+import {
+  AdminPosts,
+  Tags,
+  PenddingUsersAccounts,
+  UsersAccounts
+} from "./admin";
 
 export {
   Login,
@@ -23,5 +29,9 @@ export {
   PostForm,
   Posts,
   Profile,
-  PublicService
+  PublicService,
+  AdminPosts,
+  Tags,
+  PenddingUsersAccounts,
+  UsersAccounts
 };
