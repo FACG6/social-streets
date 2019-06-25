@@ -25,7 +25,7 @@ const updateEvent = async (req, res, next) => {
     const schemaValidation = await eventSchema.isValid(req.body);
     if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
-    let imageName = '';
+    let imageName;
     if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;

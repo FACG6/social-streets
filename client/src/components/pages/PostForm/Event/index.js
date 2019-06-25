@@ -103,16 +103,19 @@ class EventForm extends React.Component {
           const formData = new FormData()
           const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
           if (!file && !this.props.id) return notification.error({ message: "Bad Request", description: 'Add an Image' });
-          const imageSize = file.size / 1024 / 1024;
-          if (imageSize < 500) {
-            formData.append('data', JSON.stringify(values))
-            formData.append('image', file)
-          } else {
-            return notification.warning({
-              message: "Sorry",
-              description: "Image size should be less than 500mg"
-            });
+          if (file) {
+            const imageSize = file.size / 1024 / 1024;
+            if (imageSize < 500) {
+              formData.append('data', JSON.stringify(values))
+              formData.append('image', file)
+            } else {
+              return notification.warning({
+                message: "Sorry",
+                description: "Image size should be less than 500mg"
+              });
+            }
           }
+          formData.append('data', JSON.stringify(values))
           const { id } = this.props;
           let resPost;
 

@@ -107,12 +107,6 @@ export default class PublicService extends Component {
                   );
                 })}
               </div>
-              <div className="public-service--organizer">
-                <h3 className="public-service--label">Organizer Website</h3>
-                <span className="public-service--website">
-                  {organizerWebsite}
-                </span>
-              </div>
               <div className="public-service--tags-container">
                 <h3 className="public-service--label">Tags</h3>
                 <div className="public-service--tags">
