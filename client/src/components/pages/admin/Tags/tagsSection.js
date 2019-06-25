@@ -8,7 +8,6 @@ export default class addTagSection extends React.Component {
 
   handleDeleteTag = async removedTag => {
     try {
-      console.log("removedtag", removedTag);
       const { axiosRoute } = this.props;
       const tags = this.props.tags.filter(tag => tag !== removedTag);
       await axios.delete(`/api/v1/post${axiosRoute}`, {
