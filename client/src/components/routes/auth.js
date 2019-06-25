@@ -12,9 +12,7 @@ export default (handleUnauth, handleLogout, user) =>
         <ProtectedRoute
           {...route}
           user={user}
-          component={props => (
-            <Component {...props} handleUnauth={handleUnauth} />
-          )}
+          render={props => <Component {...props} handleUnauth={handleUnauth} />}
         />
       );
     else if (path === "*")
@@ -22,7 +20,7 @@ export default (handleUnauth, handleLogout, user) =>
         <Route
           path="*"
           key={route.key}
-          component={() => (
+          render={() => (
             <Redirect
               to={user.role === "admin" ? "/admin/accounts" : "/posts"}
             />
@@ -35,7 +33,7 @@ export default (handleUnauth, handleLogout, user) =>
           path="/logout"
           exact
           key={route.key}
-          component={() => {
+          render={() => {
             handleLogout();
             return <Redirect to="/login" />;
           }}
