@@ -60,7 +60,7 @@ const updatePublicService = async (req, res, next) => {
     let imageName = '';
     if (req.files && req.files.image) {
       const { image } = req.files;
-      if (image.size >= 500) {
+      if (image.size >= (500 * 1024 * 1024)) {
         return res.send({ statusCode: 400, data: 'Bad Request' });
       }
       imageName = Date.now() + image.name;
@@ -70,9 +70,9 @@ const updatePublicService = async (req, res, next) => {
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('public_service', publicServiceId);
-      await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
-    }
+      if (imgDir) await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
 
+    }
     await updatePublicServiceQuery(publicServiceId, req.body, imageName);
     await deleteSecondaryTagQuery(publicServiceId);
     await Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag)));

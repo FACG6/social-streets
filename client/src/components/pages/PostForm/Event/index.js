@@ -106,7 +106,6 @@ class EventForm extends React.Component {
           if (file) {
             const imageSize = file.size / 1024 / 1024;
             if (imageSize < 500) {
-              formData.append('data', JSON.stringify(values))
               formData.append('image', file)
             } else {
               return notification.warning({

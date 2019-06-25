@@ -103,7 +103,6 @@ class PublicServicesForm extends React.Component {
           const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
           formData.append('data', JSON.stringify(values))
           formData.append('image', file)
-          // if (!file && !this.props.id) return notification.error({ message: "Bad Request", description: 'Add an Image' });
 
           let resPost;
 
@@ -146,7 +145,7 @@ class PublicServicesForm extends React.Component {
               })
             }
           }
-          const { id: postId, primary_tag } = resPost.data.data;
+          const { id: postId, primary_tag } = await resPost.data.data;
           const primaryTags = this.props.primaryTag;
           const tagId = primaryTags.findIndex(({ id }) => id === primary_tag);
           const tag = primaryTags[tagId].tag.toLowerCase().replace(' and ', '-');
