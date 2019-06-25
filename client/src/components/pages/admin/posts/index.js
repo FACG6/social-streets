@@ -54,13 +54,13 @@ class index extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div style={{ height: "100%" }}>
-        <Row>
-          <Col span={24}>
-            <Title> Posts : </Title>
+        <Row style={{ padding: "5rem 2rem 0 2rem" }}>
+          <Col span={20}>
+            <Title style={{ fontFamily: "lato" }}> Posts : </Title>
           </Col>
         </Row>
         <Row type="flex" justify="space-around">
-          <Col span={24}>
+          <Col span={20}>
             <Form>
               <Row type="flex" justify="space-around">
                 <Col span={15}>
@@ -109,68 +109,78 @@ class index extends Component {
             </Form>
           </Col>
         </Row>
-        <Row>
-          {type &&
-            (type === "event" ? (
-              <Table
-                dataSource={this.state.posts}
-                loading={this.state.isLoading}
-              >
-                <Table.Column title="Title" dataIndex="title" />
-                <Table.Column
-                  title="Type"
-                  render={(text, record, index) => "event"}
-                />
-                <Table.Column title="Category" dataIndex="category" />
-                <Table.Column title="Venue" dataIndex="venue" />
-                <Table.Column title="Start Date" dataIndex="start_date" />
-                <Table.Column title="End Date" dataIndex="publish_datetime" />
-                <Table.Column title="Webiste" dataIndex="website" />
-                <Table.Column
-                  title="topcis"
-                  dataIndex="topics"
-                  render={(text, record, index) => (
-                    <span>
-                      {record.topics.map(topic => (
-                        <Tag color="blue" key={topic}>
-                          {topic}
-                        </Tag>
-                      ))}
-                    </span>
-                  )}
-                />
-                <Table.Column title="Cost" dataIndex="cost" />
-              </Table>
-            ) : (
-              <Table
-                dataSource={this.state.posts}
-                loading={this.state.isLoading}
-              >
-                <Table.Column title="Title" dataIndex="title" />
-                <Table.Column
-                  title="Type"
-                  render={(text, record, index) => "event"}
-                />
-                <Table.Column title="Primary Tag" dataIndex="tag" />
-                <Table.Column
-                  title="Secondary Tags"
-                  dataIndex="secondaryTags"
-                  render={(text, record, index) => (
-                    <span>
-                      {record.secondaryTags.map(tag => (
-                        <Tag color="blue" key={tag}>
-                          {tag}
-                        </Tag>
-                      ))}
-                    </span>
-                  )}
-                />
-                <Table.Column
-                  title="Publish Date"
-                  dataIndex="publish_datetime"
-                />
-              </Table>
-            ))}
+        <Row type="flex" justify="center">
+          <Col span={20}>
+            {type &&
+              (type === "event" ? (
+                <Table
+                  dataSource={this.state.posts}
+                  loading={this.state.isLoading}
+                >
+                  <Table.Column
+                    title="Organisation"
+                    dataIndex="organisation_name"
+                  />
+                  <Table.Column title="Title" dataIndex="title" />
+                  <Table.Column
+                    title="Type"
+                    render={(text, record, index) => "event"}
+                  />
+                  <Table.Column title="Category" dataIndex="category" />
+                  <Table.Column title="Venue" dataIndex="venue" />
+                  <Table.Column title="Start Date" dataIndex="start_date" />
+                  <Table.Column title="End Date" dataIndex="publish_datetime" />
+                  <Table.Column title="Webiste" dataIndex="website" />
+                  <Table.Column
+                    title="topcis"
+                    dataIndex="topics"
+                    render={(text, record, index) => (
+                      <span>
+                        {record.topics.map(topic => (
+                          <Tag color="blue" key={topic}>
+                            {topic}
+                          </Tag>
+                        ))}
+                      </span>
+                    )}
+                  />
+                  <Table.Column title="Cost" dataIndex="cost" />
+                </Table>
+              ) : (
+                <Table
+                  dataSource={this.state.posts}
+                  loading={this.state.isLoading}
+                >
+                  <Table.Column
+                    title="Organisation"
+                    dataIndex="organisation_name"
+                  />{" "}
+                  <Table.Column title="Title" dataIndex="title" />
+                  <Table.Column
+                    title="Type"
+                    render={(text, record, index) => "event"}
+                  />
+                  <Table.Column title="Primary Tag" dataIndex="tag" />
+                  <Table.Column
+                    title="Secondary Tags"
+                    dataIndex="secondaryTags"
+                    render={(text, record, index) => (
+                      <span>
+                        {record.secondaryTags.map(tag => (
+                          <Tag color="blue" key={tag}>
+                            {tag}
+                          </Tag>
+                        ))}
+                      </span>
+                    )}
+                  />
+                  <Table.Column
+                    title="Publish Date"
+                    dataIndex="publish_datetime"
+                  />
+                </Table>
+              ))}
+          </Col>
         </Row>
       </div>
     );

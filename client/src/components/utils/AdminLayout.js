@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Icon } from "antd";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 
 export default ({ children }) => (
   <Layout>
@@ -17,6 +17,7 @@ export default ({ children }) => (
       <div className="logo">
         <h1
           style={{
+            textAlign: "center",
             padding: "20px 0px",
             color: "white",
             fontFamily: "lato",
@@ -27,7 +28,7 @@ export default ({ children }) => (
         </h1>
       </div>
 
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
         <Menu.Item key="1">
           <Icon type="user" />
           <span className="nav-text">Pending accounts</span>
@@ -53,21 +54,23 @@ export default ({ children }) => (
           <span className="nav-text">Tags</span>
           <Link to="/admin/tags" />
         </Menu.Item>
+        <Menu.Item key="">
+          <Icon type="logout" />
+          <span className="nav-text">Logout</span>
+          <Link to="/logout" />
+        </Menu.Item>
       </Menu>
     </Sider>
     <Layout style={{ marginLeft: 200 }}>
       <div
         style={{
-          padding: 24,
+          padding: "24px 12px",
           background: "#fff",
-          minHeight: "calc(100vh - 47.99px)"
+          maxHeight: "100vh"
         }}
       >
         {children}
       </div>
-      <Footer style={{ textAlign: "center", height: 40 }}>
-        RRL © 2018 Created by GSG
-      </Footer>
     </Layout>
   </Layout>
 );
