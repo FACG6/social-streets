@@ -31,11 +31,6 @@ class App extends Component {
             message: "Sorry There is an error",
             description: "Please try again later or try refreshing the page"
           });
-        else
-          notification.error({
-            message: "Sorry There is an error",
-            description: "We are sorry but you are allowed to enter this page"
-          });
       } else
         notification.error({
           message: "Sorry There is an error",
@@ -60,8 +55,8 @@ class App extends Component {
     }
   };
 
-  handleLogin = ({ role, email, id }) => {
-    this.setState({ isAuth: true, user: { role, email, id } });
+  handleLogin = ({ role, email, id, name }) => {
+    this.setState({ isAuth: true, user: { role, email, id, name } });
   };
 
   handleUnauth = () => {

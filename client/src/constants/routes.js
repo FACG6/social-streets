@@ -26,8 +26,7 @@ export const isNotAuthRoutes = [
   {
     key: 2,
     path: "/login",
-    exact: true,
-    component: null // because we need handle Login From Component itself
+    exact: true
   },
   {
     key: 3,
@@ -39,7 +38,7 @@ export const isNotAuthRoutes = [
     key: 4,
     path: "*",
     exact: true,
-    component: () => <Redirect to="/" />
+    render: () => <Redirect to="/" />
   }
 ];
 
