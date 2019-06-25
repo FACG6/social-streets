@@ -1,3 +1,3 @@
-import Dummy from "./dummy";
+import AdminPosts from "./posts";
 
-export default { Dummy };
+export { AdminPosts };

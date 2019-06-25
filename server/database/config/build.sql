@@ -1,7 +1,7 @@
 BEGIN;
 
     DROP TABLE IF EXISTS "user", event, public_service_tag, topic, event_topic, event_category,
-    primary_tag, secondary_tag, public_service CASCADE;
+    primary_tag, secondary_tag, public_service, tip CASCADE;
 
     CREATE TABLE "user" (
         id SERIAL PRIMARY KEY,
@@ -19,7 +19,7 @@ BEGIN;
         facebook TEXT,
         instagram TEXT,
         twitter TEXT,
-        avatar TEXT,
+        avatar TEXT
     );
 
     CREATE TABLE event_category (

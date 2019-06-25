@@ -19,7 +19,6 @@ export default ({ children }) => (
           style={{
             padding: "20px 0px",
             color: "white",
-            textAlign: "center",
             fontFamily: "lato",
             fontSize: "20px"
           }}
@@ -61,13 +60,14 @@ export default ({ children }) => (
         style={{
           padding: 24,
           background: "#fff",
-          textAlign: "center",
           minHeight: "calc(100vh - 47.99px)"
         }}
       >
         {children}
       </div>
-      <Footer style={{ textAlign: "center", height: 40 }}>RRL © 2018 Created by GSG</Footer>
+      <Footer style={{ textAlign: "center", height: 40 }}>
+        RRL © 2018 Created by GSG
+      </Footer>
     </Layout>
   </Layout>
 );
