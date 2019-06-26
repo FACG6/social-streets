@@ -16,6 +16,7 @@ const deletePublicPrimary = require('./deletePublicServicePrimary');
 const deletePublicSecondary = require('./deletePublicServicePSecondary');
 const postPublicServicePrimary = require('./postPublicServicePrimary');
 const postPublicServiceSecondary = require('./postPublicServicePSecondary');
+const getTips = require('./getTips');
 
 router.post('/', post);
 
@@ -52,5 +53,7 @@ router
   .get(get)
   .put(put)
   .delete(deletePost);
+
+router.get('/tips', getTips);
 
 module.exports = router;

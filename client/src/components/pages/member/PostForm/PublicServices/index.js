@@ -86,21 +86,12 @@ class PublicServicesForm extends React.Component {
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
-<<<<<<< HEAD:client/src/components/pages/member/PostForm/PublicServices/index.js
-    const publicServicesPrimaryTag = primaryTag.map(element => {
-      return { id: element.id, value: element.tag };
-    });
-    const publicServicesSecondaryTag = secondaryTags.map(element => {
-      return { id: element.id, value: element.tag };
-    });
-=======
     const publicServicesPrimaryTag = primaryTag.map((element) => {
       return { id: element.id, value: element.tag }
     })
     const publicServicesSecondaryTag = secondaryTags.map((element) => {
       return { id: element.id, value: element.tag }
     })
->>>>>>> 38023126233b2e2f22133f5ac71338d33dd48cdf:client/src/components/pages/PostForm/PublicServices/index.js
 
     const urlType = getFieldValue("primaryTag");
 
@@ -159,17 +150,6 @@ class PublicServicesForm extends React.Component {
             </span>
           }
         >
-<<<<<<< HEAD:client/src/components/pages/member/PostForm/PublicServices/index.js
-          {
-            <Upload
-              style={{ width: "100%" }}
-              customRequest={_ => _}
-              listType="picture"
-              ref={element => (this.uploadInput = element)}
-            >
-              <Button size="large">
-                <Icon type="upload" /> Click to upload
-=======
           {<Upload
             style={{ width: "100%" }}
             customRequest={_ => _}
@@ -178,7 +158,6 @@ class PublicServicesForm extends React.Component {
           >
             <Button size="large">
               <Icon type="upload" /> Click to upload
->>>>>>> 38023126233b2e2f22133f5ac71338d33dd48cdf:client/src/components/pages/PostForm/PublicServices/index.js
               </Button>
           </Upload>
           }

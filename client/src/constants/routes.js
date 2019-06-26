@@ -13,7 +13,8 @@ import {
   AdminPosts,
   PendingUsersAccounts,
   UsersAccounts,
-  Tags
+  Tags,
+  Tips
 } from "components/pages";
 
 export const isNotAuthRoutes = [
@@ -140,7 +141,7 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/seo-tips",
     exact: true,
-    component: props => <h1>SEO Tips</h1>,
+    component: Tips,
     tab: "4"
   },
   {

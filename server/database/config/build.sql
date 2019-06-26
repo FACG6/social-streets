@@ -89,7 +89,8 @@ BEGIN;
     CREATE TABLE tip (
         id SERIAL PRIMARY KEY,
         tip_title TEXT NOT NULL,
-        tip_description TEXT NOT NULL
+        tip_description TEXT NOT NULL,
+        post_type TEXT NOT NULL
     );
 
 COMMIT;
