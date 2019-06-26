@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
+
 import {
   Form,
   Tooltip,
@@ -189,27 +189,27 @@ class PublicServicesForm extends React.Component {
   render() {
     const {
       id,
+      tips = [],
       primaryTag,
       secondaryTags,
       form: { getFieldDecorator, getFieldValue }
     } = this.props;
-
     const publicServicesPrimaryTag = primaryTag.map(element => {
       return { id: element.id, value: element.tag };
     });
     const publicServicesSecondaryTag = secondaryTags.map(element => {
       return { id: element.id, value: element.tag };
     });
-
     const urlType = getFieldValue("primaryTag");
-
     return (
       <Form className="main--eventForm">
         <InputGroup size="large">
           <InputAntd
             withTip
             label="Title"
-            tipInfo="Title for Public Services"
+            tipInfo={
+              tips.filter(tip => tip.tip_title === "title")[0].tip_description
+            }
             getFieldDecorator={getFieldDecorator}
             name="title"
             validationMsg="Please input your Public Services"
@@ -240,6 +240,10 @@ class PublicServicesForm extends React.Component {
         />
         <TextAreaAntd
           withTip
+          tipInfo={
+            tips.filter(tip => tip.tip_title === "description")[0]
+              .tip_description
+          }
           label="Description"
           getFieldDecorator={getFieldDecorator}
           name="description"
@@ -252,8 +256,13 @@ class PublicServicesForm extends React.Component {
           label={
             <span>
               Image&nbsp;
-              <Tooltip title="Image for Public Services">
-                <Icon type="info-circle" />
+              <Tooltip
+                title={
+                  tips.filter(tip => tip.tip_title === "image")[0]
+                    .tip_description
+                }
+              >
+                <Icon type="info-circle" />{" "}
               </Tooltip>
             </span>
           }
@@ -274,7 +283,9 @@ class PublicServicesForm extends React.Component {
         <InputAntd
           withTip={false}
           label="Alt-Text"
-          tipInfo=""
+          tipInfo={
+            tips.filter(tip => tip.tip_title === "image")[0].tip_description
+          }
           getFieldDecorator={getFieldDecorator}
           name="altText"
           validationMsg="Please input Alt Text For Image!"

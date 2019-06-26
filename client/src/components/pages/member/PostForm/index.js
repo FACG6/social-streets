@@ -17,6 +17,7 @@ export default class CreatPostPage extends React.Component {
     eventTopicValues: [],
     primaryTag: [],
     secondaryTag: [],
+    tips: [],
     isLoading: true
   };
 
@@ -26,6 +27,7 @@ export default class CreatPostPage extends React.Component {
       const PublicServicesResponse = await axios.get(
         "/api/v1/post/public-service/static"
       );
+      const tips = (await axios.get("/api/v1/post/tips")).data.data;
       const { categories, topics } = eventRespons.data.data;
       const { primaryTags, secondaryTags } = PublicServicesResponse.data.data;
       await this.setState({
@@ -33,7 +35,8 @@ export default class CreatPostPage extends React.Component {
         eventTopicValues: topics,
         primaryTag: primaryTags,
         secondaryTag: secondaryTags,
-        isLoading: false
+        isLoading: false,
+        tips
       });
     } catch (err) {
       notification.error({
@@ -87,6 +90,9 @@ export default class CreatPostPage extends React.Component {
             <WrappedEventForm
               {...this.props}
               id={id}
+              tips={this.state.tips.filter(
+                tip => tip && tip.post_type === "event"
+              )}
               postType={postType}
               eventTopicValues={eventTopicValues}
               eventTypeValues={eventTypeValues}
@@ -95,6 +101,9 @@ export default class CreatPostPage extends React.Component {
             <WrappedPublicServices
               {...this.props}
               id={id}
+              tips={this.state.tips.filter(
+                tip => tip && tip.post_type === "publicService"
+              )}
               postType={postType}
               primaryTag={primaryTag}
               secondaryTags={secondaryTag}
