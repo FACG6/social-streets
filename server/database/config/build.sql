@@ -1,7 +1,7 @@
 BEGIN;
 
     DROP TABLE IF EXISTS "user", event, public_service_tag, topic, event_topic, event_category,
-    primary_tag, secondary_tag, public_service CASCADE;
+    primary_tag, secondary_tag, public_service, tip CASCADE;
 
     CREATE TABLE "user" (
         id SERIAL PRIMARY KEY,
@@ -86,6 +86,12 @@ BEGIN;
     CREATE TABLE event_topic (
         event_id INTEGER REFERENCES event(id) ON DELETE CASCADE,
         topic_id INTEGER REFERENCES topic(id) on DELETE CASCADE
+    );
+    CREATE TABLE tip (
+        id SERIAL PRIMARY KEY,
+        tip_title TEXT NOT NULL,
+        tip_description TEXT NOT NULL,
+        post_type TEXT NOT NULL
     );
 
 COMMIT;

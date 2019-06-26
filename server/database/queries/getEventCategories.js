@@ -1,4 +1,3 @@
-const connect = require("./../config/connection");
+const connect = require('./../config/connection');
 
-exports.getEventCategory = () =>
-  connect.query(`SELECT * FROM event_category`);
+exports.getEventCategory = () => connect.query('SELECT * FROM event_category');

@@ -1,12 +1,10 @@
 const router = require('express').Router();
 
 const {
-  user, post, login, admin,
+  user, post, login, logout, isAuth, admin,
 } = require('./routes');
 const { post: userPost } = require('./routes/user/post');
 const unlockCookie = require('./middlewares/unlockCookie');
-const logout = require('./routes/logout');
-const isAuth = require('./routes/isAuth');
 
 router.post('/login', login);
 router.post('/user', userPost);

@@ -28,4 +28,10 @@ BEGIN;
                ('Planning'),
                ('Education');
 
+    INSERT INTO tip (tip_title, tip_description) 
+        VALUES ('Titel Event', ''),
+               ('Description Event', ''),
+               ('Titel Public Service', ''),
+               ('Description Public Service', '');
+
 COMMIT;
