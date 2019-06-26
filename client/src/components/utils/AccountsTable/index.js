@@ -132,7 +132,7 @@ export default class AccountsTable extends Component {
           links &&
           links.map(({ type, href }) =>
             href ? (
-              <a
+              <a key={href}
                 href={!href.indexOf("http") ? href : `http://${href}`}
                 target="_blank"
                 rel="noopener noreferrer"
