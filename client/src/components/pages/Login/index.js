@@ -34,7 +34,7 @@ function LoginPage(props) {
               case 400:
                 notificationObj = {
                   message: "Bad Request",
-                  description: "Please Enter a valid email and/or password"
+                  description: error
                 };
                 break;
               case 401:
