@@ -43,7 +43,8 @@ exports.updateBusiness = (req, res, next) => {
     })
     .then((valid) => {
       if (valid) {
-        return updateBusinessDataQuery(organization,
+        return updateBusinessDataQuery(
+          organization,
           businessType,
           website,
           city,
@@ -53,7 +54,8 @@ exports.updateBusiness = (req, res, next) => {
           facebook,
           twitter,
           instagram,
-          id);
+          id,
+        );
       }
       const objError = new Error('Bad Request');
       objError.statusCode = 400;
@@ -72,7 +74,8 @@ exports.updateBusiness = (req, res, next) => {
       const { statusCode, message } = e;
       if (statusCode) {
         res.status(statusCode).send({
-          statusCode, error: message,
+          statusCode,
+          error: message,
         });
       } else {
         next(e);

@@ -5,7 +5,8 @@ const addEvent = ({
   description,
   category,
   imageName,
-  eventDatetime,
+  eventStartDatetime,
+  eventEndDatetime,
   venue,
   website,
   cost,
@@ -14,18 +15,19 @@ const addEvent = ({
   altText,
   isDraft,
   publisherId,
-  publishDatetime
+  publishDatetime,
 }) => connection.query(`
 	INSERT INTO event
-		(title, description, category, event_datetime, venue, website, image, cost, focus_key, meta, alt_text, is_draft, publisher_id, publish_datetime)
+		(title, description, category, event_start_datetime, event_end_datetime, venue, website, image, cost, focus_key, meta, alt_text, is_draft, publisher_id, publish_datetime)
 	VALUES 
-    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
+    ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) 
   RETURNING *;`,
   [
     title,
     description,
     category,
-    eventDatetime,
+    eventStartDatetime,
+    eventEndDatetime,
     venue,
     website,
     imageName,
@@ -35,7 +37,7 @@ const addEvent = ({
     altText,
     isDraft,
     publisherId,
-    publishDatetime
+    publishDatetime,
   ]
 );
 

@@ -5,7 +5,7 @@ const { getUserByEmail } = require('../../database/queries/getUser');
 const { loginSchema } = require('../utils/validationSchemes');
 
 module.exports = (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
   loginSchema
     .isValid({ email, password })
     .then((valid) => {
@@ -29,8 +29,21 @@ module.exports = (req, res, next) => {
             throw authErr;
           } else {
             const { password: pass, ...userResult } = user;
-            res.cookie('jwt', genCookie(user));
-            res.send({ data: userResult, statusCode: 200 });
+            const cookieOptions = rememberMe
+              ? { expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) }
+              : { maxAge: 1000 * 60 * 60 };
+            res.cookie(
+              'jwt',
+              genCookie({
+                ...userResult,
+                role: user.id === 1 ? 'admin' : 'member',
+              }),
+              cookieOptions,
+            );
+            res.send({
+              data: { ...userResult, role: user.id === 1 ? 'admin' : 'member' },
+              statusCode: 200,
+            });
           }
         });
       }

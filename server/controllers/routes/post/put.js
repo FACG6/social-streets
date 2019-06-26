@@ -25,25 +25,23 @@ const updateEvent = async (req, res, next) => {
     const schemaValidation = await eventSchema.isValid(req.body);
     if (!schemaValidation) return res.status(400).send({ error: 'Bad Request', statusCode: 400 });
 
-    let imageName = '';
+    let imageName;
     if (req.files && req.files.image) {
       const { image } = req.files;
       imageName = Date.now() + image.name;
 
       const moveImg = promisify(image.mv);
       const deleteImg = promisify(unlink);
-
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('event', eventId);
       await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
     }
-
     await updateEventQuery(eventId, req.body, imageName);
     await deleteTopicQuery(eventId);
     await Promise.all(eventTopic.map(topic => addTopic(eventId, topic)));
-    return res.send({ data: req.body, statusCode: 200 });
+    return res.send({ data: { ...req.body, id: eventId }, statusCode: 200 });
   } catch (e) {
-    if (e.message === 'Cannot read property \'publisher_id\' of undefined') res.status(400).send({ statusCode: 400, error: 'Bad Request' });
+    if (e.message === "Cannot read property 'publisher_id' of undefined") res.status(400).send({ statusCode: 400, error: 'Bad Request' });
     return next(e);
   }
 };
@@ -62,6 +60,9 @@ const updatePublicService = async (req, res, next) => {
     let imageName = '';
     if (req.files && req.files.image) {
       const { image } = req.files;
+      if (image.size >= (500 * 1024 * 1024)) {
+        return res.send({ statusCode: 400, data: 'Bad Request' });
+      }
       imageName = Date.now() + image.name;
 
       const moveImg = promisify(image.mv);
@@ -69,19 +70,21 @@ const updatePublicService = async (req, res, next) => {
 
       await moveImg(join(__dirname, '..', '..', '..', 'uploads', imageName));
       const imgDir = await getPostImg('public_service', publicServiceId);
-      await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
-    }
+      if (imgDir) await deleteImg(join(__dirname, '..', '..', '..', 'uploads', imgDir));
 
+    }
     await updatePublicServiceQuery(publicServiceId, req.body, imageName);
     await deleteSecondaryTagQuery(publicServiceId);
     await Promise.all(secondaryTag.map(tag => addSecondaryTag(publicServiceId, tag)));
-    return res.send({ data: req.body, statusCode: 200 });
+    req.body.primary_tag = req.body.primaryTag;
+    return res.send({ data: { ...req.body, id: publicServiceId }, statusCode: 200 });
   } catch (e) {
     return next(e);
   }
 };
 
 module.exports = (req, res, next) => {
+  req.body = JSON.parse(req.body.data);
   const { type } = req.body;
   if (type === 'event') updateEvent(req, res, next);
   else if (type === 'public_services') updatePublicService(req, res, next);

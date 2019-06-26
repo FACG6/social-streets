@@ -1,12 +1,11 @@
 import React from "react";
-import { Modal, notification, Form, Input, AutoComplete, Select } from "antd";
-import axios from 'axios';
+import { notification, Modal, Form, Input, AutoComplete, Select } from "antd";
+import axios from "axios";
 
 import Button from "components/utils/Button";
 import { BusinessTypeValues } from "./business-type";
 import countries from "./country.json";
 import "./style.css";
-import "../modal.css"
 
 const { Option } = Select;
 const InputGroup = Input.Group;
@@ -18,8 +17,8 @@ class BusinessForm extends React.Component {
     autoCompleteResultCountry: [],
     autoCompleteResultCity: [],
     country: "",
-    password: '',
     visible: false,
+    password: ""
   };
 
   componentDidMount = () => {
@@ -62,25 +61,25 @@ class BusinessForm extends React.Component {
     });
   };
 
-  handlePassword = (e) => {
-    this.setState({ password: e.target.value })
-  }
+  handlePassword = e => {
+    this.setState({ password: e.target.value });
+  };
 
   showModal = () => {
     this.setState({
-      visible: true,
+      visible: true
     });
   };
 
   hideModal = () => {
     this.setState({
-      visible: false,
+      visible: false
     });
-  }
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.props.location.pathname === '/signup') {
+    if (this.props.location.pathname === "/signup") {
       this.props.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           this.props.handleSubmit(values, e);
@@ -89,31 +88,38 @@ class BusinessForm extends React.Component {
     }
   };
 
-  handleBack = e => {
-    e.preventDefault();
-    const feildValues = this.props.form.getFieldsValue();
-    this.props.handleGoBack(feildValues, e);
-  };
-
   updateInfo = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        axios.put('/api/v1/user/business', { ...values, oldPassword: this.state.password })
+        axios
+          .put("/api/v1/user/business", {
+            ...values,
+            oldPassword: this.state.password
+          })
           .then(({ data: { data } }) => {
             if (data) {
-              notification.success({ message: 'Success', description: 'Updated Successfully!' });
+              notification.success({
+                message: "Success",
+                description: "Updated Successfully!"
+              });
               this.setState({ visible: false });
             }
           })
           .catch(({ response: { data } }) => {
             const { statusCode, error } = data;
             if (statusCode) {
-              notification.error({ message: 'ERROR', description: error });
+              notification.error({ message: "ERROR", description: error });
             }
           });
       }
     });
-  }
+  };
+
+  handleBack = e => {
+    e.preventDefault();
+    const feildValues = this.props.form.getFieldsValue();
+    this.props.handleGoBack(feildValues, e);
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -123,17 +129,18 @@ class BusinessForm extends React.Component {
       <AutoCompleteOption key={country}>{country}</AutoCompleteOption>
     ));
 
-    const cityOption = autoCompleteResultCity.map(city => (
+    const cityOption = autoCompleteResultCity.map((index, city) => (
       <AutoCompleteOption key={city}>{city}</AutoCompleteOption>
     ));
 
     return (
-      <Form onSubmit={this.handleSubmit} className='create-profile-form' >
-
-        <InputGroup size="large" >
-
-          <Form.Item label="Organization Name" className='create-profile-form--item'>
-            {getFieldDecorator('organization', {
+      <Form onSubmit={this.handleSubmit} className="create-profile-form">
+        <InputGroup size="large">
+          <Form.Item
+            label="Organization Name"
+            className="create-profile-form--item"
+          >
+            {getFieldDecorator("organization", {
               rules: [
                 {
                   type: "string",
@@ -156,7 +163,7 @@ class BusinessForm extends React.Component {
           </Form.Item>
 
           <Form.Item
-            label="Type of business"
+            label="Type of organisation"
             className="create-profile-form--item"
           >
             {getFieldDecorator("businessType", {
@@ -168,7 +175,7 @@ class BusinessForm extends React.Component {
               ]
             })(
               <Select
-                placeholder="Type of business"
+                placeholder="Type of organisation"
                 onChange={this.handleSelectChange}
                 style={{ width: "100%", fontSize: "16px" }}
               >
@@ -290,9 +297,10 @@ class BusinessForm extends React.Component {
                   whitespace: true,
                   message: "Delete the spaces!"
                 },
+
                 {
-                  min: 4,
-                  message: "Zip NaCodeme must be 4 charcter at least!"
+                  pattern: "^[0-9]{5}(?:-[0-9]{4})?$",
+                  message: "Please input a valid postal code"
                 },
                 {
                   required: true,
@@ -303,92 +311,107 @@ class BusinessForm extends React.Component {
           </Form.Item>
 
           <h3>Social Media</h3>
-          <div className='social-input' >
-            <img src='https://image.flaticon.com/icons/svg/174/174848.svg' alt="facebook logo" className='social-img' />
-            <Form.Item className='create-profile-form--item'>
-              {getFieldDecorator('facebook', {
+          <div className="social-input">
+            <img
+              src="https://image.flaticon.com/icons/svg/174/174848.svg"
+              alt="facebook logo"
+              className="social-img"
+            />
+            <Form.Item className="create-profile-form--item">
+              {getFieldDecorator("facebook", {
                 rules: [
                   {
                     whitespace: true,
-                    message: 'Delete the spaces!'
+                    message: "Delete the spaces!"
                   },
                   {
                     pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
                     message: "Please input a valied website"
                   }
-                ],
-              })(
-                <Input placeholder='Facebook page link...' />
-              )}
+                ]
+              })(<Input placeholder="Facebook page link..." />)}
             </Form.Item>
           </div>
 
-          <div className='social-input'>
-            <img src='https://image.flaticon.com/icons/svg/1409/1409946.svg' alt="instagram logo" className='social-img' />
-            <Form.Item className='create-profile-form--item'>
-              {getFieldDecorator('instagram', {
+          <div className="social-input">
+            <img
+              src="https://image.flaticon.com/icons/svg/1409/1409946.svg"
+              alt="instagram logo"
+              className="social-img"
+            />
+            <Form.Item className="create-profile-form--item">
+              {getFieldDecorator("instagram", {
                 rules: [
                   {
                     whitespace: true,
-                    message: 'Delete the spaces!'
+                    message: "Delete the spaces!"
                   },
                   {
                     pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
                     message: "Please input a valied website"
                   }
-                ],
-              })(
-                <Input placeholder='Instagram page link...' />
-              )}
+                ]
+              })(<Input placeholder="Instagram page link..." />)}
             </Form.Item>
           </div>
 
-          <div className='social-input' >
-            <img src='https://image.flaticon.com/icons/svg/124/124021.svg' alt="titter logo" className='social-img' />
-            <Form.Item className='create-profile-form--item'>
-              {getFieldDecorator('twitter', {
+          <div className="social-input">
+            <img
+              src="https://image.flaticon.com/icons/svg/124/124021.svg"
+              alt="titter logo"
+              className="social-img"
+            />
+            <Form.Item className="create-profile-form--item">
+              {getFieldDecorator("twitter", {
                 rules: [
                   {
                     whitespace: true,
-                    message: 'Delete the spaces!'
+                    message: "Delete the spaces!"
                   },
                   {
                     pattern: /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
                     message: "Please input a valied website"
                   }
-                ],
-              })(
-                <Input placeholder='Twitter page link...' />
-              )}
+                ]
+              })(<Input placeholder="Twitter page link..." />)}
             </Form.Item>
           </div>
-
         </InputGroup>
 
         <Form.Item>
-          {this.props.location.pathname === '/profile' &&
+          {this.props.location.pathname === "/profile" && (
             <Modal
-              className='profile--password-popup'
+              className="profile--password-popup"
               title="Confrim Password"
               visible={this.state.visible}
               onOk={this.updateInfo}
               onCancel={this.hideModal}
             >
               <label>Your Password</label>
-              <input className='profile--password-input' type='password' value={this.state.password} onChange={this.handlePassword} />
+              <input
+                className="profile--password-input"
+                type="password"
+                value={this.state.password}
+                onChange={this.handlePassword}
+              />
             </Modal>
-          }
+          )}
           <Button
-            onClick={this.props.location.pathname === '/profile' ? this.showModal : null}
-            type="submit" className="form--btn-save">
+            onClick={
+              this.props.location.pathname === "/profile"
+                ? this.showModal
+                : null
+            }
+            type="submit"
+            className="form--btn-save"
+          >
             Save
           </Button>
           <Button onClick={this.handleBack} className="form--btn-cancel">
             Back
           </Button>
         </Form.Item>
-
-      </Form >
+      </Form>
     );
   }
 }

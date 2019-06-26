@@ -9,18 +9,26 @@ import "./style.css";
 function LoginPage(props) {
   const handleSubmit = e => {
     e.preventDefault();
-    props.form.validateFields((err, { email, password }) => {
+    props.form.validateFields((err, { email, password, rememberMe }) => {
       if (!err) {
         axios
           .post("/api/v1/login", {
             email,
-            password
+            password,
+            rememberMe
           })
-          .then(() => {
-            props.handleLogin();
-            props.history.push("/");
+          .then(({ data: { data } }) => {
+            props.handleLogin(data);
+            data.role === "admin"
+              ? props.history.push("/admin")
+              : props.history.push("/posts");
           })
-          .catch(({ response: { data: { error, statusCode } } }) => {
+          .catch(err => {
+            const {
+              response: {
+                data: { error, statusCode }
+              }
+            } = err;
             let notificationObj = {};
             switch (statusCode) {
               case 400:

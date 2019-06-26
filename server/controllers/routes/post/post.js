@@ -1,19 +1,23 @@
 const { join } = require('path');
 
-const { addEvent, addTopic, addPublicServices, addSecondaryTag } = require('../../../database/queries/postEvent');
+const {
+  addEvent,
+  addTopic,
+  addPublicServices,
+  addSecondaryTag,
+} = require('../../../database/queries/postEvent');
 const { eventSchema, publicServiceSchema } = require('../../utils/postSchema');
 
 const post = async (req, res, next) => {
   try {
     const data = JSON.parse(req.body.data)
     const { type, eventTopic, secondaryTag } = data;
-    const { image } = req.files;
-    const publisherId = Number(req.user.id)
-
+    let image;
+    req.files ? image = req.files.image : null
+    const publisherId = Number(req.user.id);
     if (type === 'event') {
-      if (!image) throw new Error();
-      const valid = await eventSchema
-        .isValid(data)
+      if (!image || (image.size / 1024 / 1024) > 500) throw new Error();
+      const valid = await eventSchema.isValid(data)
       if (valid) {
         const imageName = Date.now() + image.name;
         const addedEvent = await addEvent({
@@ -45,22 +49,20 @@ const post = async (req, res, next) => {
         throw error;
       }
     } else if (type === 'public_services') {
-      const valid = await publicServiceSchema
-        .isValid(data)
+      const valid = await publicServiceSchema.validate(data);
       if (valid) {
-        const imageName = Date.now() + image.name;
+        let imageName;
+        image ? imageName = Date.now() + image.name : null;
         const addedPublicServices = await addPublicServices({
           ...data,
           publisherId,
           imageName,
         });
         await Promise.all(
-          secondaryTag
-            .map(secondaryTagId => addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)),
+          secondaryTag.map(secondaryTagId => addSecondaryTag(addedPublicServices.rows[0].id, secondaryTagId)),
         );
-        image.mv(
-          join(__dirname, '..', '..', '..', 'uploads', imageName),
-          (err) => {
+        if (image) {
+          image.mv(join(__dirname, '..', '..', '..', 'uploads', imageName), (err) => {
             if (err) {
               next(err);
             } else {
@@ -69,13 +71,22 @@ const post = async (req, res, next) => {
                   ...addedPublicServices.rows[0],
                 },
                 statusCode: 201,
+
               });
             }
-          },
-        );
+          });
+        } else {
+          res.status(201).send({
+            data: {
+              ...addedPublicServices.rows[0],
+            },
+            statusCode: 201,
+
+          });
+        }
       } else {
         const error = new Error('Unsupported post type');
-        error.statusCode = 400
+        error.statusCode = 400;
         throw error;
       }
     } else {

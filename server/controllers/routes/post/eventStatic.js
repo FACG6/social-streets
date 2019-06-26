@@ -3,16 +3,16 @@ const { getEventTopics } = require('../../../database/queries/getEventTopics');
 
 module.exports = async (req, res, next) => {
   try {
-    const categories = await getEventCategory()
-    const topics = await getEventTopics()
+    const categories = await getEventCategory();
+    const topics = await getEventTopics();
     res.send({
       data: {
         categories: categories.rows,
-        topics: topics.rows
+        topics: topics.rows,
       },
-      statusCode: 200
-    })
+      statusCode: 200,
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };

@@ -31,7 +31,7 @@ test('test post route | DELETE | normal path', (t) => {
       request(app)
         .delete('/api/v1/post/1')
         .set('Cookie', [cookieId3])
-        .send({ type: 'public_services' })
+        .send({ type: 'public-service' })
         .expect(200)
         .end((error, response) => {
           t.equal(response.body.data.id, 1, 'should be 1');
@@ -49,7 +49,7 @@ test('test post route | DELETE | post does not exist', (t) => {
       request(app)
         .delete('/api/v1/post/2')
         .set('Cookie', [cookieId3])
-        .send({ type: 'public_services' })
+        .send({ type: 'public-service' })
         .expect(400)
         .end((error, response) => {
           t.equal(response.body.error, 'Bad Request', 'bad request');
@@ -67,7 +67,7 @@ test('test post route | DELETE | cookie is invalid', (t) => {
       request(app)
         .delete('/api/v1/post/2')
         .set('Cookie', [invalidCookie])
-        .send({ type: 'public_services' })
+        .send({ type: 'public-service' })
         .expect(401)
         .end((error, response) => {
           t.equal(response.body.error, 'unauthorized', 'unauthorized');

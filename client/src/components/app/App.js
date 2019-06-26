@@ -1,52 +1,67 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { notification } from "antd";
 import axios from "axios";
 
-import {
-  Home,
-  Loading,
-  Login,
-  CreateProfile,
-  Posts,
-  Post,
-  PostForm,
-  PublicService,
-  PageNotFound,
-  Event,
-  Profile
-} from "components/pages";
+import { Loading } from "components/pages";
+import { isAuthRoutes, unAuthRoutes } from "../routes";
 import { Header, Footer } from "components/utils";
-import ProtectedRoute from "./../auth/protectedRoute";
 import "./App.css";
 
 class App extends Component {
-  state = { user: {}, isAuth: false, isLoading: true };
+  state = {
+    user: {},
+    isAuth: false,
+    isLoading: true
+  };
 
   componentDidMount = async () => {
     try {
       const user = (await axios.get("/api/v1/isAuth")).data;
-      notification.success({ message: "Welcome Back" });
-      this.setState({ isAuth: true, user, isLoading: false });
+      notification.success({ message: "Welcome Back", description: user.name });
+      this.setState({
+        isAuth: true,
+        user,
+        isLoading: false
+      });
     } catch (e) {
-      if (e.response.status !== 401)
+      if (e.response) {
+        if (e.response.status !== 401)
+          notification.error({
+            message: "Sorry There is an error",
+            description: "Please try again later or try refreshing the page"
+          });
+      } else
         notification.error({
-          message: "Sorry There is an error"
+          message: "Sorry There is an error",
+          description: (
+            <span>
+              There is an error with your internet connection please try again
+              later. If this error presists please contact us at{" "}
+              <a
+                href="mailto:example@example.com?subject=Bug%20Report"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "underline" }}
+              >
+                example@example.com
+              </a>
+            </span>
+          ),
+          onClose: () => (window.location.href = "/"),
+          duration: 0
         });
       this.setState({ isLoading: false });
     }
   };
 
-  handleLogin = () => this.setState({ isAuth: true });
+  handleLogin = ({ role, email, id, name }) => {
+    this.setState({ isAuth: true, user: { role, email, id, name } });
+  };
 
   handleUnauth = () => {
     this.setState({ isAuth: false, user: {} });
-  }
+  };
 
   handleLogout = async () => {
     this.setState({ isAuth: false, isLoading: true });
@@ -59,102 +74,29 @@ class App extends Component {
   };
 
   render() {
-    const { isAuth, isLoading } = this.state;
+    const { isAuth, isLoading, user } = this.state;
     return isLoading ? (
       <Loading />
     ) : (
-        <Router>
-          <Header />
-          <main className="container">
+      <Router>
+        <>
+          {(!user.role || user.role !== "admin") && (
+            <Header showHamburger={isAuth} />
+          )}
+          <main
+            className="container"
+            style={isAuth ? {} : { minHeight: "calc(100vh - (129px + 70px))" }}
+          >
             <Switch>
-              <Route
-                path="/logout"
-                component={() => {
-                  this.handleLogout();
-                  return <Redirect to="/login" />;
-                }}
-              />
-              <ProtectedRoute
-                exact
-                path="/profile"
-                isAuth={isAuth}
-                component={(props) =>
-                  <Profile
-                    {...props}
-                    handleUnauth={this.handleUnauth}
-                  />}
-              />
-              <ProtectedRoute
-                path="/posts/live"
-                isAuth={isAuth}
-                component={(props) =>
-                  <Post
-                    handleUnauth={this.handleUnauth}
-                    {...props} postType="live"
-                  />}
-              />
-              <ProtectedRoute
-                isAuth={isAuth}
-                path="/posts/draft"
-                component={(props) =>
-                  <Post
-                    handleUnauth={this.handleUnauth}
-                    {...props}
-                    postType="draft"
-                  />}
-
-              />
-              <ProtectedRoute
-                path="/posts/new"
-                isAuth={isAuth}
-                component={PostForm}
-              />
-              <ProtectedRoute
-                exact
-                path="/post/public-service/:id/edit"
-                isAuth={isAuth}
-                render={props => (
-                  <PostForm postFormType="public service" {...props} />
-                )}
-              />
-              <ProtectedRoute
-                exact
-                path="/post/event/:id/edit"
-                isAuth={isAuth}
-                render={props => <PostForm postFormType="event" {...props} />}
-              />
-              <ProtectedRoute
-                isAuth={isAuth}
-                path="/post/event/:category/:id"
-                render={props => <Event {...props} />}
-              />
-              <ProtectedRoute
-                isAuth={isAuth}
-                path="/post/public-service/:category/:id"
-                render={props => <PublicService {...props} />}
-              />
-              <ProtectedRoute isAuth={isAuth} path="/posts" component={Posts} />
-              {!isAuth ? (
-                <>
-                  <Route
-                    path="/login"
-                    component={props => (
-                      <Login {...props} handleLogin={this.handleLogin} />
-                    )}
-                  />
-                  <Route path="/signup" component={CreateProfile} />
-                  <Route exact path="/" component={Home} />
-                </>
-              ) : (
-                  <Redirect to={`/profile`} />
-                )}
-
-              <Route component={PageNotFound} />
+              {!isAuth
+                ? unAuthRoutes(this.handleLogin)
+                : isAuthRoutes(this.handleUnauth, this.handleLogout, user)}
             </Switch>
           </main>
-          <Footer />
-        </Router>
-      );
+          {(!user.role || user.role !== "admin") && <Footer />}
+        </>
+      </Router>
+    );
   }
 }
 

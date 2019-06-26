@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
       if (type === 'event') {
         return deleteEvent(postId, userId);
       }
-      if (type === 'public_services') {
+      if (type === 'public-service') {
         return deletePublicService(postId, userId);
       }
       throw Error('Bad Request');
