@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import {
   Form,
   Input,
@@ -214,6 +213,7 @@ class EventForm extends React.Component {
   render() {
     const {
       id,
+      tips = [],
       eventTypeValues,
       eventTopicValues,
       form: { getFieldDecorator, getFieldValue }
@@ -232,7 +232,9 @@ class EventForm extends React.Component {
           <InputAntd
             withTip
             label="Title"
-            tipInfo="Title for Event"
+            tipInfo={
+              tips.filter(tip => tip.tip_title === "title")[0].tip_description
+            }
             getFieldDecorator={getFieldDecorator}
             name="title"
             validationMsg="Please input your Event’s Title!"
@@ -266,6 +268,10 @@ class EventForm extends React.Component {
           label="Description"
           getFieldDecorator={getFieldDecorator}
           name="description"
+          tipInfo={
+            tips.filter(tip => tip.tip_title === "description")[0]
+              .tip_description
+          }
           validationMsg="Please input your description!"
           placeholder="Enter Event Description"
           min={10}
@@ -346,7 +352,12 @@ class EventForm extends React.Component {
           label={
             <span>
               Image&nbsp;
-              <Tooltip title="Image for event">
+              <Tooltip
+                title={
+                  tips.filter(tip => tip.tip_title === "image")[0]
+                    .tip_description
+                }
+              >
                 <Icon type="info-circle" />
               </Tooltip>
             </span>
@@ -370,7 +381,6 @@ class EventForm extends React.Component {
           <InputAntd
             withTip={false}
             label="Alt-Text"
-            tipInfo=""
             getFieldDecorator={getFieldDecorator}
             name="alt_text"
             validationMsg="Please input Alt Text For Image!"

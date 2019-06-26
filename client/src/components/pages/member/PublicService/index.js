@@ -53,7 +53,6 @@ export default class PublicService extends Component {
       tag,
       focus_key,
       description,
-      organizerWebsite,
       secondary_tag
     } = this.state;
 
