@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { notification } from "antd";
 
-import * as DefaultPic from "assets/default-profile-pic.jpg";
 import "./style.css";
 
 export default class ProfilePic extends Component {
@@ -43,7 +42,7 @@ export default class ProfilePic extends Component {
     return (
       <div className={`profile-pic ${className}`}>
         <img
-          src={`/${imgSrc || DefaultPic}`}
+          src={`/${imgSrc}`}
           alt="Profile Avatar"
           className="profile-pic--img"
         />

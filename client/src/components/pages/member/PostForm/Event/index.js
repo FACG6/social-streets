@@ -25,7 +25,8 @@ const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   state = {
-    isDraft: true
+    isDraft: true,
+    currentImg: ""
   };
   async componentDidMount() {
     try {
@@ -48,9 +49,12 @@ class EventForm extends React.Component {
         delete event.event_category;
         delete event.topic_id;
         event.publishDatetime = moment().format();
-        this.setState({ isDraft: event.is_draft }, () => {
-          setFieldsValue(event);
-        });
+        this.setState(
+          { isDraft: event.is_draft, currentImg: event.image },
+          () => {
+            setFieldsValue(event);
+          }
+        );
       }
     } catch (err) {
       if (Number(err.statusCode) === 400) {
@@ -222,7 +226,6 @@ class EventForm extends React.Component {
     });
 
     const urlType = getFieldValue("eventType");
-
     return (
       <Form className="main--eventForm">
         <InputGroup size="large">
@@ -351,6 +354,7 @@ class EventForm extends React.Component {
         >
           {
             <Upload
+              key={this.state.currentImg}
               style={{ width: "100%" }}
               customRequest={_ => _}
               listType="picture"

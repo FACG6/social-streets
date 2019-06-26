@@ -164,7 +164,7 @@ class Event extends Component {
               </span>
             </div>
             <Button
-              onClick={() => this.props.history.push("/posts")}
+              onClick={() => this.props.history.push("/posts/live")}
               className="event-btn--back"
             >
               Back

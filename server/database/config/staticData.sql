@@ -28,10 +28,14 @@ BEGIN;
                ('Planning'),
                ('Education');
 
-    INSERT INTO tip (tip_title, tip_description) 
-        VALUES ('Titel Event', ''),
-               ('Description Event', ''),
-               ('Titel Public Service', ''),
-               ('Description Public Service', '');
+INSERT INTO tip
+        (tip_title, tip_description, post_type)
+    VALUES
+        ('image', 'the image size should be less than 500 M.B', 'publicService'),
+        ('description', 'the description of the post should be short and comprehensive', 'publicService'),
+        ('title', 'make the title as short as possible ', 'publicService'),
+        ('image', 'the image size should be less than 500 M.B event', 'event'),
+        ('description', 'the description of the post should be short and comprehensive event', 'event'),
+        ('title', 'make the title as short as possible event', 'event');
 
 COMMIT;
