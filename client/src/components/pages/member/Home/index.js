@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "components/utils/Button";
 import "./style.css";
 
-function Home() {
+function Home(props) {
   return (
     <section className="home">
       <p className="home--desc">

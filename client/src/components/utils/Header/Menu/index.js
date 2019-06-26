@@ -9,23 +9,25 @@ export default function Menu({ show = false, handleMenuToggle }) {
     { target: "/profile", label: "Profile" },
     { target: "/posts/new", label: "Create Post" },
     { target: "/posts/live", label: "Live Posts" },
-    { target: "/posts/draft", label: "Draft Posts" },
+    { target: "/posts/draft", label: "Draft" },
+    { target: "/posts", label: "Posts" },
+
     { target: "/logout", label: "Logout" }
   ];
   if (show)
     return (
-        <div className="header--menu">
-          {links.map(({ target, label }, i) => (
-            <Link
-              key={`label_${i}`}
-              to={target}
-              onClick={handleMenuToggle}
-              className="header--menu-text"
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
+      <div className="header--menu">
+        {links.map(({ target, label }, i) => (
+          <Link
+            key={`label_${i}`}
+            to={target}
+            onClick={handleMenuToggle}
+            className="header--menu-text"
+          >
+            {label}
+          </Link>
+        ))}
+      </div>
     );
   else return null;
 }

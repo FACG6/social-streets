@@ -19,7 +19,8 @@ BEGIN;
         facebook TEXT,
         instagram TEXT,
         twitter TEXT,
-        avatar TEXT
+        avatar TEXT,
+        pending BOOLEAN NOT NULL
     );
 
     CREATE TABLE event_category (
@@ -39,20 +40,20 @@ BEGIN;
 
     CREATE TABLE public_service (
         id SERIAL PRIMARY KEY,
-        primary_tag INTEGER REFERENCES primary_tag(id),
+        primary_tag INTEGER REFERENCES primary_tag(id) on DELETE CASCADE,
         description TEXT NOT NULL,
         image TEXT,
         focus_key TEXT NOT NULL,
         alt_text TEXT NOT NULL,
         meta TEXT NOT NULL,
-        publisher_id INTEGER REFERENCES "user"(id),
+        publisher_id INTEGER REFERENCES "user"(id) on DELETE CASCADE,
         publish_datetime TEXT,
         title TEXT NOT NULL,
         is_draft BOOLEAN NOT NULL
     );
     
     CREATE TABLE public_service_tag (
-        secondary_tag INTEGER REFERENCES secondary_tag(id),
+        secondary_tag INTEGER REFERENCES secondary_tag(id) on DELETE CASCADE,
         public_service_id INTEGER REFERENCES public_service(id) on DELETE CASCADE
     );
     
@@ -72,7 +73,7 @@ BEGIN;
         meta TEXT NOT NULL,
         alt_text TEXT NOT NULL,
         is_draft BOOLEAN NOT NULL,
-        publisher_id INTEGER REFERENCES "user"(id),
+        publisher_id INTEGER REFERENCES "user"(id) ON DELETE CASCADE,
         publish_datetime TEXT NOT NULL
     );
 
@@ -84,7 +85,7 @@ BEGIN;
 
     CREATE TABLE event_topic (
         event_id INTEGER REFERENCES event(id) ON DELETE CASCADE,
-        topic_id INTEGER REFERENCES topic(id)
+        topic_id INTEGER REFERENCES topic(id) on DELETE CASCADE
     );
 
 COMMIT;

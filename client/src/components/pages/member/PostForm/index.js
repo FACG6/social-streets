@@ -2,22 +2,22 @@ import React from "react";
 import { Divider, Select, notification } from "antd";
 import axios from "axios";
 
-import WrappedEventForm from "components/pages/PostForm/Event";
-import WrappedPublicServices from "components/pages/PostForm/PublicServices";
-import Spin from 'components/pages/Loading'
+import WrappedEventForm from "components/pages/member/PostForm/Event";
+import WrappedPublicServices from "components/pages/member/PostForm/PublicServices";
+import Spin from "components/pages/Loading";
 
 import "./style.css";
 
 const { Option } = Select;
 
-class CreatPostPage extends React.Component {
+export default class CreatPostPage extends React.Component {
   state = {
     postType: this.props.postFormType || "event",
     eventTypeValues: [],
     eventTopicValues: [],
     primaryTag: [],
     secondaryTag: [],
-    isLoading: true,
+    isLoading: true
   };
 
   async componentDidMount() {
@@ -33,7 +33,7 @@ class CreatPostPage extends React.Component {
         eventTopicValues: topics,
         primaryTag: primaryTags,
         secondaryTag: secondaryTags,
-        isLoading: false,
+        isLoading: false
       });
     } catch (err) {
       notification.error({
@@ -80,7 +80,7 @@ class CreatPostPage extends React.Component {
           ))}
         </Select>
         <Divider style={{ margin: "20px 0" }} />
-        {!this.state.isLoading ?
+        {!this.state.isLoading ? (
           postType === "event" ? (
             <WrappedEventForm
               {...this.props}
@@ -90,20 +90,18 @@ class CreatPostPage extends React.Component {
               eventTypeValues={eventTypeValues}
             />
           ) : (
-              <WrappedPublicServices
-                {...this.props}
-                id={id}
-                postType={postType}
-                primaryTag={primaryTag}
-                secondaryTags={secondaryTag}
-              />
-            )
-          :
+            <WrappedPublicServices
+              {...this.props}
+              id={id}
+              postType={postType}
+              primaryTag={primaryTag}
+              secondaryTags={secondaryTag}
+            />
+          )
+        ) : (
           <Spin />
-        }
+        )}
       </section>
     );
   }
 }
-
-export default CreatPostPage;

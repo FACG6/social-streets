@@ -8,6 +8,14 @@ const post = require('./post');
 const { get } = require('./get');
 const eventStatic = require('./eventStatic');
 const publicServiceStatic = require('./publicServiceStatic');
+const postEventCategory = require('./postEventCategory');
+const deleteEventCategory = require('./deleteEventCategory');
+const deleteEeventTopic = require('./deleteEventTopic');
+const postEventTopic = require('./postEventTopic');
+const deletePublicPrimary = require('./deletePublicServicePrimary');
+const deletePublicSecondary = require('./deletePublicServicePSecondary');
+const postPublicServicePrimary = require('./postPublicServicePrimary');
+const postPublicServiceSecondary = require('./postPublicServicePSecondary');
 
 router.post('/', post);
 
@@ -18,6 +26,26 @@ router.get('/live', livePosts);
 router.get('/event/static', eventStatic);
 
 router.get('/public-service/static', publicServiceStatic);
+
+router
+  .route('/event/category')
+  .post(postEventCategory)
+  .delete(deleteEventCategory);
+
+router
+  .route('/event/topic')
+  .post(postEventTopic)
+  .delete(deleteEeventTopic);
+
+router
+  .route('/public-service/primary-tag')
+  .post(postPublicServicePrimary)
+  .delete(deletePublicPrimary);
+
+router
+  .route('/public-service/secondary-tag')
+  .post(postPublicServiceSecondary)
+  .delete(deletePublicSecondary);
 
 router
   .route('/:postId')

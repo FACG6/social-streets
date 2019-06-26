@@ -6,4 +6,8 @@ exports.getUserByEmail = email => dbConnection
 
 const connection = require('../config/connection');
 
-exports.getUserById = id => connection.query('select * from "user" where id = $1', [id]);
+exports.getUserById = id => connection.query('SELECT * FROM "user" WHERE id = $1', [id]);
+
+exports.getAllUsers = () => connection.query('SELECT * FROM "user" WHERE id != 1 AND pending = \'false\'');
+
+exports.getAllPendingUsers = () => connection.query('SELECT * FROM "user" WHERE id != 1 AND pending = \'true\'');

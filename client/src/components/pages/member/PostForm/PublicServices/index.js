@@ -23,7 +23,7 @@ const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
   state = {
-    isDraft: true,
+    isDraft: true
   };
 
   async componentDidMount() {
@@ -82,6 +82,7 @@ class PublicServicesForm extends React.Component {
       this.props.history.push("/");
     }
   }
+
   handleSubmit = e => {
     e.preventDefault();
     const { textContent } = e.target;
@@ -96,62 +97,73 @@ class PublicServicesForm extends React.Component {
           const { id } = this.props;
           values.type = "public_services";
           values.publishDatetime = moment().format();
-          if (textContent === 'Publish') values.isDraft = 'false';
-          if (textContent === 'Preview' || textContent === 'Save Draft') values.isDraft = 'true';
-          if (textContent === 'Save') values.isDraft = this.state.isDraft;
+          if (textContent === "Publish") values.isDraft = "false";
+          if (textContent === "Preview" || textContent === "Save Draft")
+            values.isDraft = "true";
+          if (textContent === "Save") values.isDraft = this.state.isDraft;
           const formData = new FormData();
-          const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
-          formData.append('data', JSON.stringify(values))
-          formData.append('image', file)
+          const file = this.uploadInput.state.fileList.length
+            ? this.uploadInput.state.fileList[0].originFileObj
+            : null;
+          formData.append("data", JSON.stringify(values));
+          formData.append("image", file);
 
           let resPost;
 
           //Edit Post//
-          if ((id && textContent === 'Save') || (id && textContent === 'Publish')) {
+          if (
+            (id && textContent === "Save") ||
+            (id && textContent === "Publish")
+          ) {
             resPost = await axios.put(`/api/v1/post/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data"
               }
             });
-            if (resPost.data.data.id && textContent === 'Publish')
+            if (resPost.data.data.id && textContent === "Publish")
               notification.success({
                 message: "Successfully",
                 description: "Post was published successfully"
-              })
+              });
             else if (resPost.data.data.id)
               notification.success({
                 message: "Successfully",
                 description: "Post updated successfully"
-              })
+              });
           }
 
           //Post New Post: Draft or Live//
-          if ((!id && textContent === 'Publish') || (textContent === 'Save Draft') || (textContent === 'Preview')) {
-
-            resPost = await axios.post('/api/v1/post', formData, {
+          if (
+            (!id && textContent === "Publish") ||
+            textContent === "Save Draft" ||
+            textContent === "Preview"
+          ) {
+            resPost = await axios.post("/api/v1/post", formData, {
               headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+                "Content-Type": "multipart/form-data"
+              }
             });
             if (resPost.data.data.is_draft)
               notification.success({
                 message: "Successfully",
-                description: "Post saved successfully as a draft"
-              })
-            if (!resPost.data.data.is_draft) {
+                description: "Post saved as a draft"
+              });
+            else {
               notification.success({
                 message: "Successfully",
                 description: "Post was published successfully!"
-              })
+              });
             }
           }
           const { id: postId, primary_tag } = await resPost.data.data;
           const primaryTags = this.props.primaryTag;
           const tagId = primaryTags.findIndex(({ id }) => id === primary_tag);
-          const tag = primaryTags[tagId].tag.toLowerCase().replace(' and ', '-');
+          const tag = primaryTags[tagId].tag
+            .toLowerCase()
+            .replace(" and ", "-");
 
           //Redirect
-          this.props.history.push(`/post/public-service/${tag}/${postId}`)
+          this.props.history.push(`/post/public-service/${tag}/${postId}`);
         }
       } catch (err) {
         if (Number(err.statusCode) === 400) {
@@ -305,25 +317,43 @@ class PublicServicesForm extends React.Component {
           />
         </Card>
         <Form.Item>
-          {!id || (id && this.state.isDraft) ?
-            < Btn className='main--form-btn' name='publish' type="primary" htmlType="submit" onClick={this.handleSubmit}>
+          {!id || (id && this.state.isDraft) ? (
+            <Btn
+              className="main--form-btn"
+              name="publish"
+              type="primary"
+              htmlType="submit"
+              onClick={this.handleSubmit}
+            >
               Publish
-          </Btn>
-            : ''}
-          <Btn className='main--form-btn' name='save' type="primary" htmlType="submit" onClick={this.handleSubmit}>
-            {!id && this.state.isDraft ? 'Save Draft' : 'Save'}
-          </Btn>
-          {!id ? <Btn
-            className="main--form-btn-gradient main--form-btn"
+            </Btn>
+          ) : (
+            ""
+          )}
+          <Btn
+            className="main--form-btn"
+            name="save"
             type="primary"
             htmlType="submit"
             onClick={this.handleSubmit}
           >
-            Preview
-          </Btn> : ''}
+            {!id && this.state.isDraft ? "Save Draft" : "Save"}
+          </Btn>
+          {!id ? (
+            <Btn
+              className="main--form-btn-gradient main--form-btn"
+              type="primary"
+              htmlType="submit"
+              onClick={this.handleSubmit}
+            >
+              Preview
+            </Btn>
+          ) : (
+            ""
+          )}
           <Btn
             className="main--form-btn-black main--form-btn"
-            onClick={() => this.history.push('/posts')}
+            onClick={() => this.history.push("/posts")}
             type="primary"
             htmlType="submit"
           >
