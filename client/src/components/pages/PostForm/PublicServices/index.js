@@ -83,6 +83,7 @@ class PublicServicesForm extends React.Component {
       this.props.redirectTo("/");
     }
   }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll(async (err, values) => {
@@ -102,7 +103,6 @@ class PublicServicesForm extends React.Component {
             }
             formData.append("data", JSON.stringify(values));
 
-            console.log("new public Service", values);
             await axios.put(`/api/v1/post/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data"

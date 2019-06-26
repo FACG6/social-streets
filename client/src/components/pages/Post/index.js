@@ -31,7 +31,7 @@ export default class Post extends Component {
               message: "ERROR",
               description: "Sorry, there is error"
             });
-        if (statusCode === 401) this.props.history.push("/login");
+        if (statusCode === 401) this.props.handleUnauth();
       });
   }
 
@@ -62,7 +62,7 @@ export default class Post extends Component {
               description: "Sorry, there is error"
             });
 
-        if (statusCode === 401) this.props.history.push("/login");
+        if (statusCode === 401) this.props.handleUnauth();
       });
   };
 
@@ -75,9 +75,13 @@ export default class Post extends Component {
         <span className="post-page--error">{notification}</span>
         {posts.map(post => (
           <PostRow
-            link={post.tag.toLowerCase().replace(" and ", "-")}
+            link={
+              post.type === "event"
+                ? post.category.toLowerCase().replace(" and ", "-")
+                : post.tag.toLowerCase().replace(" and ", "-")
+            }
             {...post}
-            key={post.id}
+            key={post.id + post.type}
             onClick={this.handleDelete}
           />
         ))}
