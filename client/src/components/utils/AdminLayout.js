@@ -4,7 +4,7 @@ import { Layout, Menu, Icon } from "antd";
 
 const { Sider } = Layout;
 
-export default ({ children }) => (
+export default ({ children, tab }) => (
   <Layout>
     <Sider
       style={{
@@ -28,7 +28,7 @@ export default ({ children }) => (
         </h1>
       </div>
 
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[tab]}>
         <Menu.Item key="1">
           <Icon type="user" />
           <span className="nav-text">Pending accounts</span>

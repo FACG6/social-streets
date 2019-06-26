@@ -11,7 +11,7 @@ import {
   Event,
   Profile,
   AdminPosts,
-  pendingUsersAccounts,
+  PendingUsersAccounts,
   UsersAccounts,
   Tags
 } from "components/pages";
@@ -113,7 +113,8 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/pending-accounts",
     exact: true,
-    component: pendingUsersAccounts
+    component: PendingUsersAccounts,
+    tab: "1"
   },
   {
     key: 12,
@@ -121,7 +122,8 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/accounts",
     exact: true,
-    component: UsersAccounts
+    component: UsersAccounts,
+    tab: "2"
   },
   {
     key: 13,
@@ -129,7 +131,8 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/posts",
     exact: true,
-    component: AdminPosts
+    component: AdminPosts,
+    tab: "3"
   },
   {
     key: 14,
@@ -137,7 +140,8 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/seo-tips",
     exact: true,
-    component: props => <h1>SEO Tips</h1>
+    component: props => <h1>SEO Tips</h1>,
+    tab: "4"
   },
   {
     key: 15,
@@ -145,7 +149,8 @@ export const isAuthRoutes = [
     isProtected: true,
     path: "/admin/tags",
     exact: true,
-    component: Tags
+    component: Tags,
+    tab: "5"
   },
   {
     key: 16,
