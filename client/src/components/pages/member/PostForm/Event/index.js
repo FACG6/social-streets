@@ -25,7 +25,7 @@ const InputGroup = Input.Group;
 
 class EventForm extends React.Component {
   state = {
-    isDraft: true,
+    isDraft: true
   };
   async componentDidMount() {
     try {
@@ -50,7 +50,7 @@ class EventForm extends React.Component {
         event.publishDatetime = moment().format();
         this.setState({ isDraft: event.is_draft }, () => {
           setFieldsValue(event);
-        })
+        });
       }
     } catch (err) {
       if (Number(err.statusCode) === 400) {
@@ -74,7 +74,7 @@ class EventForm extends React.Component {
           description: "Something went wrong please try again later"
         });
       }
-      this.props.history.push('/');
+      this.props.history.push("/");
     }
   }
 
@@ -89,24 +89,31 @@ class EventForm extends React.Component {
             description: "Validation Error"
           });
         } else {
-          values.type = 'event'
+          values.type = "event";
           values.publishDatetime = moment().format();
-          if (textContent === 'Publish') values.isDraft = 'false';
-          if (textContent === 'Preview' || textContent === 'Save Draft') values.isDraft = 'true';
-          if (textContent === 'Save') values.isDraft = this.state.isDraft;
+          if (textContent === "Publish") values.isDraft = "false";
+          if (textContent === "Preview" || textContent === "Save Draft")
+            values.isDraft = "true";
+          if (textContent === "Save") values.isDraft = this.state.isDraft;
           values.eventStartDatetime = values.event_start_datetime;
           values.eventEndDatetime = values.event_end_datetime;
           values.eventTopic = values.topic;
           values.altText = values.alt_text;
           values.focusKey = values.focus_key;
 
-          const formData = new FormData()
-          const file = this.uploadInput.state.fileList.length ? this.uploadInput.state.fileList[0].originFileObj : null;
-          if (!file && !this.props.id) return notification.error({ message: "Bad Request", description: 'Add an Image' });
+          const formData = new FormData();
+          const file = this.uploadInput.state.fileList.length
+            ? this.uploadInput.state.fileList[0].originFileObj
+            : null;
+          if (!file && !this.props.id)
+            return notification.error({
+              message: "Bad Request",
+              description: "Add an Image"
+            });
           if (file) {
             const imageSize = file.size / 1024 / 1024;
             if (imageSize < 500) {
-              formData.append('image', file)
+              formData.append("image", file);
             } else {
               return notification.warning({
                 message: "Sorry",
@@ -114,60 +121,66 @@ class EventForm extends React.Component {
               });
             }
           }
-          formData.append('data', JSON.stringify(values))
+          formData.append("data", JSON.stringify(values));
           const { id } = this.props;
           let resPost;
 
           //Edit Post//
-          if (id && textContent === 'Save' || (id && textContent === 'Publish')) {
+          if (
+            (id && textContent === "Save") ||
+            (id && textContent === "Publish")
+          ) {
             resPost = await axios.put(`/api/v1/post/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data"
               }
             });
-            if (resPost.data.data.id && textContent === 'Publish')
+            if (resPost.data.data.id && textContent === "Publish")
               notification.success({
                 message: "Successfully",
                 description: "Post was published successfully"
-              })
+              });
             else if (resPost.data.data.id)
               notification.success({
                 message: "Successfully",
                 description: "Post updated successfully"
-              })
-
+              });
           }
 
           //Post New Post: Draft or Live//
-          if ((!id && textContent === 'Publish') || (textContent === 'Save Draft') || (textContent === 'Preview')) {
-
-            resPost = await axios.post('/api/v1/post', formData, {
+          if (
+            (!id && textContent === "Publish") ||
+            textContent === "Save Draft" ||
+            textContent === "Preview"
+          ) {
+            resPost = await axios.post("/api/v1/post", formData, {
               headers: {
-                'Content-Type': 'multipart/form-data',
-              },
+                "Content-Type": "multipart/form-data"
+              }
             });
             if (resPost.data.data.is_draft)
               notification.success({
                 message: "Successfully",
                 description: "Post saved successfully as a draft"
-              })
+              });
             if (!resPost.data.data.is_draft) {
               notification.success({
                 message: "Successfully",
                 description: "Post was published successfully!"
-              })
+              });
             }
           }
 
           const { id: postId, category } = resPost.data.data;
           const categories = this.props.eventTypeValues;
           const catId = categories.findIndex(({ id }) => id === category);
-          const postCategory = categories[catId].category.toLowerCase().replace(' and ', '-');
+          const postCategory = categories[catId].category
+            .toLowerCase()
+            .replace(" and ", "-");
 
           // redirect
-          this.props.history.push(`/post/event/${postCategory}/${postId}`)
+          this.props.history.push(`/post/event/${postCategory}/${postId}`);
         }
-
       } catch (err) {
         if (Number(err.statusCode) === 400) {
           notification.error({
@@ -398,33 +411,51 @@ class EventForm extends React.Component {
           />
         </Card>
         <Form.Item>
-          {!id || (id && this.state.isDraft) ?
-            < Btn className='main--form-btn' name='publish' type="primary" htmlType="submit" onClick={this.handleSubmit}>
+          {!id || (id && this.state.isDraft) ? (
+            <Btn
+              className="main--form-btn"
+              name="publish"
+              type="primary"
+              htmlType="submit"
+              onClick={this.handleSubmit}
+            >
               Publish
-          </Btn>
-            : ''}
+            </Btn>
+          ) : (
+            ""
+          )}
 
-          <Btn className='main--form-btn' name='publish' type="primary" htmlType="submit" onClick={this.handleSubmit}>
-            {!id && this.state.isDraft ? 'Save Draft' : 'Save'}
-          </Btn>
-          {!id ? <Btn
-            className="main--form-btn-gradient main--form-btn"
+          <Btn
+            className="main--form-btn"
+            name="publish"
             type="primary"
             htmlType="submit"
             onClick={this.handleSubmit}
           >
-            Preview
-          </Btn> : ''}
+            {!id && this.state.isDraft ? "Save Draft" : "Save"}
+          </Btn>
+          {!id ? (
+            <Btn
+              className="main--form-btn-gradient main--form-btn"
+              type="primary"
+              htmlType="submit"
+              onClick={this.handleSubmit}
+            >
+              Preview
+            </Btn>
+          ) : (
+            ""
+          )}
           <Btn
             className="main--form-btn-black main--form-btn"
-            onClick={() => this.props.history.push('/posts')}
+            onClick={() => this.props.history.push("/posts")}
             type="primary"
             htmlType="submit"
           >
             Cancel
           </Btn>
         </Form.Item>
-      </Form >
+      </Form>
     );
   }
 }
@@ -436,4 +467,5 @@ WrappedEventForm.propTypes = {
   eventTypeValues: PropTypes.array.isRequired,
   event: PropTypes.object
 };
+
 export default WrappedEventForm;

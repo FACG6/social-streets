@@ -63,9 +63,11 @@ export default class CreatPostPage extends React.Component {
 
     return (
       <section className="create-post-page-main">
-        <h1 style={{ margin: 0 }}>Publish New Post</h1>
+        <h1 style={{ margin: 0, fontFamily: "Roboto", fontSize: 24 }}>
+          {id ? "Edit your Post" : "Publish New Post"}
+        </h1>
         <Divider style={{ margin: "0 0 30px 0" }} />
-        <h4>Post Type</h4>
+        <h4 style={{ fontFamily: "Roboto" }}>Post Type</h4>
         <Select
           defaultValue={postType}
           placeholder="Post Type"

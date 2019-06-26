@@ -11,8 +11,8 @@ router
   .route('/')
   .get(get)
   .post(post);
-router.route('/password').put(updatePassword);
-router.route('/business').put(updateBusiness);
+router.put('/password', updatePassword);
+router.put('/business', updateBusiness);
 router.post('/edit-pic', updateProfilePic);
 router.put('/personal', updatePersonal);
 

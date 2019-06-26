@@ -9,15 +9,16 @@
 }
 
 .event-title {
+  font-family: 'Lato';
+  text-transform: capitalize;
   padding-top: 10px;
   font-size: 36px;
-  text-transform: capitalize;
   color: #333333;
 }
 
 .event-icon {
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 .event-flex--col {
@@ -44,4 +45,8 @@
 
 .ant-spin-show-text.event-spin {
   color: #d65050;
+}
+
+.event--lable {
+  font-family: 'Lato'
 }

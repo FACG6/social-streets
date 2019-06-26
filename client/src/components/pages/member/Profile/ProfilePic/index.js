@@ -43,7 +43,7 @@ export default class ProfilePic extends Component {
     return (
       <div className={`profile-pic ${className}`}>
         <img
-          src={imgSrc || DefaultPic}
+          src={`/${imgSrc || DefaultPic}`}
           alt="Profile Avatar"
           className="profile-pic--img"
         />
