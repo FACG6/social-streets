@@ -51,7 +51,6 @@ export default class PublicService extends Component {
       publish_datetime,
       organisation_name,
       tag,
-      focus_key,
       description,
       secondary_tag
     } = this.state;
@@ -98,9 +97,19 @@ export default class PublicService extends Component {
                 </div>
                 <div className="post-header--item">
                   <Icon type="form" className="post-header--icon" />
-                  <h5 className="post-header--meta">{focus_key}</h5>
+                  <h5 className="post-header--meta">Public Service</h5>
                 </div>
               </div>
+                <div className="post-header--column">
+                  <div className="post-header--item">
+                    <Icon type="eye" className="post-header--icon" />
+                    <h5 className="post-header--meta">1000 views</h5>
+                  </div>
+                  <div className="post-header--item">
+                    <Icon type="pushpin" className="post-header--icon" />
+                    <h5 className="post-header--meta">1000 clicks</h5>
+                  </div>
+                </div>
             </div>
             <div className="public-service--content">
               {pargraphs.map((paragraph, index) => {
