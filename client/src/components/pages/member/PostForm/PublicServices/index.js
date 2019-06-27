@@ -269,6 +269,7 @@ class PublicServicesForm extends React.Component {
         >
           {
             <Upload
+              multiple={false}
               style={{ width: "100%" }}
               customRequest={_ => _}
               listType="picture"
@@ -339,8 +340,8 @@ class PublicServicesForm extends React.Component {
               Publish
             </Btn>
           ) : (
-            ""
-          )}
+              ""
+            )}
           <Btn
             className="main--form-btn"
             name="save"
@@ -360,8 +361,8 @@ class PublicServicesForm extends React.Component {
               Preview
             </Btn>
           ) : (
-            ""
-          )}
+              ""
+            )}
           <Btn
             className="main--form-btn-black main--form-btn"
             onClick={() => this.history.push("/posts")}

@@ -65,8 +65,7 @@ export default ({ children, tab }) => (
       <div
         style={{
           padding: "24px 12px",
-          background: "#fff",
-          maxHeight: "100vh"
+          background: "#fff"
         }}
       >
         {children}
