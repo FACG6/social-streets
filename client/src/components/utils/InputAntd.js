@@ -30,7 +30,7 @@ const InputAntd = ({
         {
           required: true,
           message: validationMsg,
-          whitespace: true
+          whitespace: true,
         },
         validation
       ]

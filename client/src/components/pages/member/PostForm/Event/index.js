@@ -366,8 +366,9 @@ class EventForm extends React.Component {
           {
             <Upload
               key={this.state.currentImg}
+              accept="image/*"
               style={{ width: "100%" }}
-              customRequest={_ => _}
+              customRequest={() => { }}
               listType="picture"
               ref={element => (this.uploadInput = element)}
             >
@@ -436,8 +437,8 @@ class EventForm extends React.Component {
               Publish
             </Btn>
           ) : (
-            ""
-          )}
+              ""
+            )}
 
           <Btn
             className="main--form-btn"
@@ -458,8 +459,8 @@ class EventForm extends React.Component {
               Preview
             </Btn>
           ) : (
-            ""
-          )}
+              ""
+            )}
           <Btn
             className="main--form-btn-black main--form-btn"
             onClick={() => this.props.history.push("/posts")}

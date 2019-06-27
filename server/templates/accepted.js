@@ -2,7 +2,7 @@ module.exports = username => ` <style>
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 </style>
 <div style="font-family: lato"">
-<h1 style=" color: #333;"> Social <span style="color:red;"> Streets </span></h1>
+<h1 style=" color: #333;"> Roman Road London </span></h1>
 <br>
 <h2>Hi ${username}</h2>
 
@@ -19,5 +19,5 @@ module.exports = username => ` <style>
 <br>
 <br>
 <p> Thank You</p>
-<h4>Social Street</h4>
+<h4>Roman Road London</h4>
 </div>`;
