@@ -23,7 +23,8 @@ const InputGroup = Input.Group;
 
 class PublicServicesForm extends React.Component {
   state = {
-    isDraft: true
+    isDraft: true, 
+    currentImg: '',
   };
 
   async componentDidMount() {
@@ -53,7 +54,7 @@ class PublicServicesForm extends React.Component {
         delete publicService.secondary_tag;
         delete publicService.alt_text;
         delete publicService.focus_key;
-        this.setState({ isDraft: publicService.is_draft }, () => {
+        this.setState({ isDraft: publicService.is_draft, currentImg: publicService.image }, () => {
           setFieldsValue(publicService);
         });
       }
@@ -269,9 +270,10 @@ class PublicServicesForm extends React.Component {
         >
           {
             <Upload
-              multiple={false}
+              key={this.state.currentImg}
+              accept="image/*"
               style={{ width: "100%" }}
-              customRequest={_ => _}
+              customRequest={() => { }}
               listType="picture"
               ref={element => (this.uploadInput = element)}
             >
