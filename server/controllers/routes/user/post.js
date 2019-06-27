@@ -7,7 +7,7 @@ const { hashPassword } = require('./../../utils/helper');
 exports.post = (req, res, next) => {
   const userInfo = { ...req.body };
   userPostSchema
-    .isValid(userInfo)
+    .validate(userInfo)
     .then((valid) => {
       if (!valid) {
         const validationErr = new Error('Please, Check the data you entered');
@@ -36,6 +36,7 @@ exports.post = (req, res, next) => {
       });
     })
     .catch((err) => {
+      console.log(err)
       const { statusCode } = err;
       switch (statusCode) {
         case 400:
